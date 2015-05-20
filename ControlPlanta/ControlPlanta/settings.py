@@ -42,6 +42,11 @@ INSTALLED_APPS = (
     'clientes',
     'cajeros',
     'ventas',
+    'proveedores',
+    'lotes',
+    'canales',
+
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -72,8 +77,11 @@ SUIT_CONFIG = {
         {'app': 'auth','label': 'Usuarios', 'icon':'icon-user'},
         {'app': 'productos', 'label': 'Productos', 'icon':'icon-gift'},
         {'app': 'clientes', 'label': 'Clientes', 'icon':'icon-briefcase'},
+        {'app': 'proveedores', 'label': 'Proveedores', 'icon':'icon-list'},
         {'app': 'cajeros', 'label': 'Cajeros', 'icon':'icon-th'},
-        {'app': 'ventas', 'label': 'Ventas', 'icon':'icon-th'},
+        {'app': 'ventas', 'label': 'Ventas', 'icon':'icon-bullhorn'},
+        {'app': 'lotes', 'label': 'Lotes', 'icon':'icon-barcode'},
+        {'app': 'canales', 'label': 'Canales', 'icon':'icon-tag'},
 
     ),
 
