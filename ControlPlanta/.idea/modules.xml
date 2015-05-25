@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ControlPlanta.iml" filepath="$PROJECT_DIR$/.idea/ControlPlanta.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../miniplataforma/.idea/miniplataforma.iml" filepath="$PROJECT_DIR$/../../miniplataforma/.idea/miniplataforma.iml" />
     </modules>
   </component>
 </project>

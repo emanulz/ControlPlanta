@@ -13,6 +13,12 @@ class Canal(models.Model):
     qualification=models.CharField(max_length=255,choices=((u'AA', u'AA'), (u'A', u'A'), (u'B', u'B'), (u'C', u'C') , (u'D', u'D') , (u'E', u'E')),verbose_name='Clasificación')
     fierro=models.ForeignKey(Proveedor, verbose_name='# de Fierro')
 
+    def fierronum(self):
+        return self.fierro.fierro
+
+    fierronum.short_description = "Fierro #"
+    fierronum.admin_order_field = 'fierro'
+
     def __unicode__(self):
         datestr=str(self.date)
         consecutivestr=str(self.consecutive)
