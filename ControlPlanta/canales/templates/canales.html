@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang=es>
+<head>
+    <meta charset="UTF-8">
+    <title>Ingreso de canales</title>
+
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css"/>
+
+  	<script src="/static/js/prefixfree.min.js"></script>
+	<script src="/static/bootstrap/js/bootstrap.js"></script>
+	<script src="/static/js/jquery-2.1.4.js"></script>
+       
+    </head>
+
+<body>
+<article id="clases">
+				<ul>
+					{% for canal in canales %}
+					<li>
+						<a  data-id="{{ canal.id }}">
+							<h1 class="glyphicon-blackboard">{{ canal.fierro.name }}</h1>
+                            <h1>{{ canal.date }}</h1>
+						</a>
+					</li>
+					{% endfor %}
+				</ul>
+			</article>
+</body>
+</html>
