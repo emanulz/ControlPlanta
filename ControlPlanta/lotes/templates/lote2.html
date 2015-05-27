@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form class="form-horizontal" action="" method="post">
+
+        {% csrf_token %}
+        <div class="control-group form-row">
+         {{ form.as_p }}
+        </div>
+
+        <input class="btn-primary btn-large" type="submit" value="Crear"  />
+{% endblock %}
+
+
+

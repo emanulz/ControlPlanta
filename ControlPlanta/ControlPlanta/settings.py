@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'proveedores',
     'lotes',
     'canales',
-    'prueba',
+
 
 
 )

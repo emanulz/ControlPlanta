@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="padding: 5%">
+
+        <form class="form-horizontal" action="" method="post">
+
+            {% csrf_token %}
+            <div class="form-group ">
+                 {{ form.lotenum.errors }}
+                 <label class="col-sm-2" for="id_lotenum">Número de lote:</label>
+                 <div class=col-sm-10">
+                      {{ form.lotenum }}
+                 </div>
+
+             </div>
+
+
+            <div class="form-group ">
+                 {{ form.fierro.errors }}
+                 <label class="col-sm-2" for="id_fierro">Fierro:</label>
+                 <div class=col-sm-10">
+                      {{ form.fierro }}
+                 </div>
+
+             </div>
+
+             <div class="form-group ">
+                 {{ form.canalesqty.errors }}
+                 <label class="col-sm-2" for="id_canalesqty">Cantidad de canales:</label>
+                 <div class=col-sm-10">
+                      {{ form.canalesqty }}
+                 </div>
+
+                  <div class="form-group ">
+                      <div class="error">
+                          {{ form.canales.errors }}
+                      </div>
+                </div>
+                 <label class="col-sm-2" for="id_canales">Canales:</label>
+                 <div class=col-sm-10">
+                      {{ form.canales }}
+                 </div>
+
+             </div>
+
+             <input class="btn btn-primary btn-large" type="submit" value="Crear" />
+
+        </form>
+
+
+
+    </div>
+
+{% endblock %}

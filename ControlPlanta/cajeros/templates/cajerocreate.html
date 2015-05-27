@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang=es>
+<head>
+    <meta charset="UTF-8">
+    <title>Canales</title>
+
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="/static/suit/bootstrap/css/bootstrap.min.css"/>
+
+    <script src="/static/js/jquery-2.1.4.js"></script>
+  	<script src= "/static/js/prefixfree.min.js"> </script>
+	<script src="/static/bootstrap/js/bootstrap.js"></script>
+
+
+</head>
+<body>
+    <div style="padding: 5%">
+    <form class="form-horizontal" action="" method="post">
+
+        {% csrf_token %}
+        <div class="control-group form-row">
+         {{ form.as_p }}
+        </div>
+
+        <input class="btn-primary btn-large" type="submit" value="Crear"  />
+
+    </form>
+    </div>
+</body>
+</html>
