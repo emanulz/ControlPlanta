@@ -20,10 +20,7 @@ from lotes.views import LoteCreate
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^canales/', 'canales.views.canales', name='canales'),
-    url(r'cajero/add/$', CajeroCreate.as_view(), name='cajero_add'),
-    url(r'lote/add/$', LoteCreate.as_view(), name='cajero_add'),
-    url(r'diosayudame/', 'lotes.views.loteform', name='lotes'),
+    url(r'addlote/', 'lotes.views.loteform', name='lotes'),
 
 
 ]

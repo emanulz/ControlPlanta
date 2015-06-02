@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 # Create your views here.
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, FormView
+from canales.models import Canal
 from lotes.forms import LoteForm2, LoteFormView
 
 from lotes.models import Lote
@@ -26,13 +27,14 @@ class LoteCreate(CreateView):
 
 @login_required(login_url='/admin/login/')
 def loteform(request):
+    canales=Canal.objects.all()
     if request.method == 'POST': # If the form has been submitted...
-        form = LoteForm2(request.POST) # A form bound to the POST data
+        form = LoteFormView(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
-            # Process the data in form.cleaned_data
-            # ...
+            model_instance = form.save(commit=False)
+            model_instance.save()
             return HttpResponseRedirect('/admin/') # Redirect after POST
     else:
         form = LoteFormView() # An unbound form
 
-    return render(request, 'lote2.html', {'form': form,})
+    return render(request, 'lotecreate.html', {'form': form,'canales':canales})

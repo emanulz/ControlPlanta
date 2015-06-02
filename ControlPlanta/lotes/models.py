@@ -7,7 +7,7 @@ from canales.models import Canal
 
 class Lote(models.Model):
 
-    lotenum=models.CharField(max_length=255,verbose_name='# de Lote')
+    lotenum=models.CharField(max_length=255,verbose_name='# de Lote', unique=True)
     fierro=models.CharField(max_length=255,verbose_name='# de Fierro')
     canalesqty=models.PositiveIntegerField(verbose_name='Cantidad de canales')
     canales=models.ManyToManyField(Canal,verbose_name='Canales')

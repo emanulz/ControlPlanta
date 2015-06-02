@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
     'productos',
     'clientes',
     'cajeros',
@@ -45,6 +46,8 @@ INSTALLED_APPS = (
     'proveedores',
     'lotes',
     'canales',
+
+
 
 
 

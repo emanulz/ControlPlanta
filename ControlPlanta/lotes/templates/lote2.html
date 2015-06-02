@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+        {{ form.media }}
 <form class="form-horizontal" action="" method="post">
 
         {% csrf_token %}
+
         <div class="control-group form-row">
          {{ form.as_p }}
         </div>
