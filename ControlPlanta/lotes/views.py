@@ -5,9 +5,9 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, FormView, TemplateView
 from canales.models import Canal
-from lotes.forms import LoteForm2, LoteFormView
+from lotes.forms import  LoteFormView
 
 from lotes.models import Lote
 
@@ -22,7 +22,7 @@ class LoteCreate(CreateView):
     model = Lote
     fields = ['lotenum', 'fierro', 'canalesqty', 'canales', 'totalweight']
     template_name = 'lotecreate.html'
-    success_url = '/admin/'
+    success_url = '/addlote/'
 
 
 @login_required(login_url='/admin/login/')
@@ -38,3 +38,6 @@ def loteform(request):
         form = LoteFormView() # An unbound form
 
     return render(request, 'lotecreate.html', {'form': form,'canales':canales})
+
+class LandingView(TemplateView):
+    template_name = "landing.html"

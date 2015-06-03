@@ -1,47 +1,50 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 {% block content %}
-
-    <div >
-        <h3 class="">Crear Lote:</h3>
+<div class="PaddingContent">
+    <h3>Crear Lote:</h3>
         <br/>
         <h4>Para Crear Un lote complete correctamente los siguientes espacios:</h4>
         <br/>
+    <div >
 
         <form class="form-horizontal col-sm-9 " action="" method="post">
+
+
+
         <div class="form-group">
             {% csrf_token %}
 
-            <div class="form-group">
+            <div class="form-group ">
                  {{ form.lotenum.errors }}
-                 <label class="col-sm-3" for="id_lotenum">Número de lote:</label>
+                 <label class="col-sm-2" for="id_lotenum">Número de lote:</label>
                  <div class="col-sm-6">
-                      {{ form.lotenum | add_class:" form-control input-lg"}}
+                      {{ form.lotenum | add_class:" form-control input-lg" | add_error_class:" errorlist2"}}
                  </div>
              </div>
 
 
             <div class="form-group">
                  {{ form.fierro.errors }}
-                 <label class="col-sm-3" for="id_fierro">Fierro:</label>
+                 <label class="col-sm-2" for="id_fierro">Fierro:</label>
                  <div class="col-sm-6">
-                      {{ form.fierro | add_class:" form-control input-lg"}}
+                      {{ form.fierro | add_class:" form-control input-lg" | add_error_class:" errorlist2"}}
                  </div>
              </div>
 
             <div class="form-group">
                  {{ form.canalesqty.errors }}
-                 <label class="col-sm-3" for="id_canalesqty">Cantidad de canales:</label>
+                 <label class="col-sm-2" for="id_canalesqty">Cantidad de canales:</label>
                  <div class="col-sm-6">
-                      {{ form.canalesqty | add_class:" form-control input-lg"}}
+                      {{ form.canalesqty | add_class:" form-control input-lg" | add_error_class:" errorlist2"}}
                  </div>
             </div>
 
             <div class="form-group">
                   {{ form.canales2.errors }}
-                 <label class="col-sm-3" for="id_canales2">Canales:</label>
+                 <label class="col-sm-2" for="id_canales2">Canales:</label>
                  <div class="col-sm-6">
-                      {{ form.canales2 | add_class:"vcheckboxfield"}}
+                      {{ form.canales2 | add_class:"vcheckboxfield" | add_error_class:" errorlist2"}}
                  </div>
             </div>
 
@@ -49,14 +52,14 @@
 
                 {{ form.totalweight.errors }}
 
-                <label class="col-sm-3" for="id_canales2">Peso Total (Kg):</label>
+                <label class="col-sm-2" for="id_canales2">Peso Total (Kg):</label>
 
                  <div class="col-sm-6">
-                      {{ form.totalweight | add_class:" form-control input-lg" }}
+                      {{ form.totalweight | add_class:" form-control input-lg" | add_error_class:" errorlist2"}}
                  </div>
             </div >
             <br/>
-            <div class="col-sm-3"></div>
+            <div class="col-sm-2"></div>
             <div class="col-sm-4">
                 <input class=" btn btn-primary  form-control" type="submit" value="Crear" />
             </div>
@@ -66,5 +69,5 @@
         </form>
 
     </div>
-
+</div>
 {% endblock %}

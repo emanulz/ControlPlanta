@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from cajeros.views import CajeroCreate
-from lotes.views import LoteCreate
+from lotes.views import LoteCreate, LandingView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
+    url(r'addcanal/', 'canales.views.canalform', name='canales'),
+    url(r'^', LandingView.as_view()),
 
 
 ]

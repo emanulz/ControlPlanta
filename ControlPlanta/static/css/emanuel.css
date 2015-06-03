@@ -1,0 +1,21 @@
+.errorlist {
+  color: red;
+}
+.errorlist2 {
+  border-color: red;
+}
+.PaddingContent{
+
+    padding: 30px 30px;
+}
+.WidthHome{
+
+    width: 200px;
+}
+
+@media (min-width: 768px) {
+   .errorlist {
+       margin-left: 16%;
+       color: red;
+}
+}

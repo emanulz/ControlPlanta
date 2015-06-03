@@ -1,4 +1,5 @@
 from django import forms
+from django.views.generic import TemplateView
 from canales.models import Canal
 from datetime import datetime
 from django.forms.fields import DateField, ChoiceField, MultipleChoiceField
@@ -9,16 +10,8 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 
 
 
-class LoteForm2(forms.Form):
-    #canalesdehoy=Canal.objects.all()
 
-    #opciones=canalesdehoy
 
-    lotenum=forms.CharField(max_length=255,)
-    fierro=forms.CharField(max_length=255)
-    canalesqty=forms.DecimalField()
-    #canales=forms.MultipleChoiceField(queryset=Canal.objects.all())
-    totalweight=forms.FloatField()
 
 class LoteFormView(forms.ModelForm):
 
