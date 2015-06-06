@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+     <script src="/static/js/lotes.js"></script>
+<div class="PaddingContent">
+    <h3>Crear Lote:</h3>
+        <br/>
+        <h4>Para Crear Un lote complete correctamente los siguientes espacios:</h4>
+        <br/>
+    <div >
+
+        <form class="form-horizontal col-sm-9 " action="" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+
+
+            <div class="form-group">
+                <label class="col-sm-2" for="numlote">Número de lote:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control input-lg" id="numlote" placeholder="Número de lote.">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2" for="fierronum">Fierro:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control input-lg" id="fierronum" placeholder="Número fierro">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2" for="cantcanales">Número canales:</label>
+                <div class="col-sm-6">
+                    <input type="number" class="form-control input-lg" id="cantcanales">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2" for="canaleslist">Canales:</label>
+                <div class="col-sm-6">
+                <ul id="canaleslist">
+                    {% for canal in canales %}
+                        <li>
+                            <label for="{{ canal.id }}">{{ canal }} </label>
+                            <input type="checkbox"  id="{{ canal.id }}"data-id="{{ canal.id }}"/>
+                        </li>
+                    {% endfor %}
+                </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2" for="pesototal">Peso total (Kg):</label>
+                <div class="col-sm-6">
+                    <input type="number" class="form-control input-lg" id="pesototal"value="0">
+                </div>
+            </div>
+
+            <br/>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-4">
+                <input class=" btn btn-primary  form-control" type="submit" value="Crear" id="btnSubmit" />
+            </div>
+
+
+        </div>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
