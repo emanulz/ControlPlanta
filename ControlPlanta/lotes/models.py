@@ -11,7 +11,8 @@ class Lote(models.Model):
     fierro=models.CharField(max_length=255,verbose_name='# de Fierro')
     canalesqty=models.PositiveIntegerField(verbose_name='Cantidad de canales')
     canales=models.ManyToManyField(Canal,verbose_name='Canales')
-    totalweight=models.FloatField(verbose_name='Peso total del lote Kg')
+    totalweight=models.FloatField(default=0, verbose_name='Peso total del lote Kg')
+    date=models.DateField(default='1988-05-10',verbose_name='Fecha')
 
     def __unicode__(self):
         return self.lotenum

@@ -26,13 +26,17 @@ def canalform(request):
 from rest_framework import routers, serializers, viewsets
 
 # Serializers define the API representation.
-class CanalSerializer(serializers.HyperlinkedModelSerializer):
+class CanalSerializer(serializers.ModelSerializer):
+    partial=True
     class Meta:
+
         model = Canal
-        fields =('date','consecutive','weight','qualification','fierro')
+        fields =('id','date','consecutive','weight','qualification','fierro','isonlote')
+
 
 # ViewSets define the view behavior.
 class CanalViewSet(viewsets.ModelViewSet):
-    #model=Lote
-    queryset = Canal.objects.all()
+
     serializer_class = CanalSerializer
+    queryset = Canal.objects.all()
+    lookup_field = 'id'

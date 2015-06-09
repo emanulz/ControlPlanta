@@ -9,6 +9,6 @@ class CanalFormView(forms.ModelForm):
     #canales3 = forms.ModelMultipleChoiceField(queryset=Canal.objects.all(),label=('Canales Selecionados'),required=False,widget=FilteredSelectMultiple(('Canales'),True,attrs={'class':'vSelectMultipleField'}))
     class Meta:
         model = Canal
-        fields =('date','consecutive','weight','qualification','fierro')
+        fields =('date','consecutive','weight','qualification','fierro','isonlote')
 
 

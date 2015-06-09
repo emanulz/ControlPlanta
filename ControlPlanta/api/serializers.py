@@ -7,5 +7,5 @@ class LoteSerializer(ModelSerializer):
     #canales = serializers.ListField(child=serializers.CharField)
     class Meta:
         model=Lote
-        fields =('id','lotenum','fierro','canalesqty','canales','totalweight')
+        fields =('date','lotenum','fierro','canalesqty','canales','totalweight')
 

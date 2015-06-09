@@ -1,9 +1,20 @@
+//variables globales
+lotescliked=[];
+var today = "";
+var today2 = "";
+
 $(document).on('ready', main);
 
 function main () {
         $.ajaxSetup({
 		beforeSend: function(xhr, settings) {
 			if(settings.type == "POST"){
+				xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
+			}
+            if(settings.type == "PUT"){
+				xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
+			}
+            if(settings.type == "PATCH"){
 				xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
 			}
 		}
@@ -18,17 +29,47 @@ function main () {
           var thisCheck = $(this);
             if (thisCheck.is (':checked')) {
                 var id = $(this).data('id');
+                lotescliked.push(id);
+
                 $.get('/getcanal/' + id, sumarPeso)
             }
            else{
                 var id = $(this).data('id');
+                lotescliked.splice( $.inArray(id,lotescliked) ,1 );
                 $.get('/getcanal/' + id, restarPeso)
             }
        });//eventos checkbox
 
-       $("#btnSubmit").on("click",guardarLote)
+        //botones
+
+       $("#btnSubmit").on("click",guardarLote);
+
+
+        //llenado de espacios
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+        today2=(day) +"/"+(month)+"/"+now.getFullYear();
+
+        $('#date').val(today);
+
+        $.get('/totallotes/', llenarnumlote);
+
+
+       // document.getElementById("date").valueAsDate = new Date()
+
 
     }//main
+
+function llenarnumlote(data){
+
+    var a=data.total+1;
+    var a2=today2+"-"+a;
+    $('#numlote').val(a2);
+
+
+}
 
 function sumarPeso (data){
     var pesocanal=parseFloat(data.peso);
@@ -47,17 +88,11 @@ function restarPeso (data){
     }//cargarPeso
 
 function guardarLote() {
-
-    info=[];
-    info[0]=15;
-    info[1]=16;
-
     event.preventDefault();
-	var numlote = $("#numlote").val();
+    var numlote = $("#numlote").val();
     var fierronum = $("#fierronum").val();
     var cantcanales = $("#cantcanales").val();
-   // var canalesprev=[16,17];
-    var canaleslist = ["16","17"];
+    var canaleslist = lotescliked;
     var pesototal = $("#pesototal").val();
 
     //var canal={numlote:numlote,fierronum:fierronum ,cantcanales:cantcanales,canaleslist:canaleslist,pesototal:pesototal};
@@ -72,24 +107,50 @@ function guardarLote() {
       url: "/lotes/",
 
       data: JSON.stringify({
-        "lotenum": "estasi30",
-        "fierro": "A055",
-        "canalesqty": 3,
-        "canales": [15,16],
-        "totalweight": 199.0
 
-    }),
-      contentType:"application/json; charset=utf-8",
-      dataType:"json"
-    })
-      .done(function( data ) {
-        console.log( data );
-  });
+        "date":today,
+        "lotenum": numlote,
+        "fierro": fierronum,
+        "canalesqty": cantcanales,
+        "canales": canaleslist,
+        "totalweight": pesototal
+
+        }),//JSON object
+          contentType:"application/json; charset=utf-8",
+          dataType:"json"
+
+        })
+
+      .done(patchcanal);
+
 
 }
+function patchcanal(){
+event.preventDefault();
 
-function unmacho(data){
+    for (index = 0; index < lotescliked.length; ++index) {
+    console.log(lotescliked[index]);
 
-    console.log(data);
+        $.ajax({
+      method: "PATCH",
+      url: "/api/canales/"+lotescliked[index]+"/",
+
+      data: JSON.stringify({
+
+        "isonlote": false
+
+        }),//JSON object
+          contentType:"application/json; charset=utf-8",
+          dataType:"json"
+
+        })
+
+      .done(function( data ) {
+        console.log( data.isonlote );
+        console.log( today );
+        console.log( today2 );
+        });
+    }
+
 
 }

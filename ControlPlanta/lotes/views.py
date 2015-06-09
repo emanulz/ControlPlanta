@@ -27,7 +27,7 @@ class LoteCreate(CreateView):
 
 
 @login_required(login_url='/admin/login/')
-def loteform(request):
+def loteform2(request):
     canales = Canal.objects.all()
     if request.method == 'POST':  # If the form has been submitted...
         form = LoteFormView(request.POST)  # A form bound to the POST data
@@ -45,19 +45,28 @@ def loteform(request):
 class LandingView(TemplateView):
     template_name = "landing.html"
 
-
-def loteform2(request):
+@login_required(login_url='/admin/login/')
+def loteform(request):
     canales = Canal.objects.filter(date=datetime.today())
     return render_to_response('crearlote.html', {'canales': canales}, context_instance=RequestContext(request))
 
 
 def cargar_canal(request, id):
     canal = Canal.objects.get(pk=id)
+    numerototal=Canal.objects.count()
     if request.is_ajax():
-        return JsonResponse({'id': canal.id, 'peso': canal.weight})
+        return JsonResponse({'id': canal.id, 'peso': canal.weight,'total':numerototal})
     else:
         raise Http404  # raise Http404
 
+def totallotes(request):
+    daylotes=Lote.objects.filter(date=datetime.today())
+    numerototal=daylotes.count()
+    if request.is_ajax():
+        return JsonResponse({'total':numerototal})
+    else:
+        return JsonResponse({'total':numerototal})
+        #raise Http404  # raise Http404
 
 def guardar_lote(request):
     #if request.is_ajax():
@@ -84,7 +93,5 @@ def guardar_lote(request):
 
     #else:
      #   raise Http404  # raise Http404
-def test_lote(request):
-    a=Lote.objects.get(pk=1)
-    return JsonResponse({'test1':a.canales})
+
 

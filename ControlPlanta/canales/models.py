@@ -12,6 +12,7 @@ class Canal(models.Model):
     weight=models.FloatField(verbose_name='Peso del canal Kg')
     qualification=models.CharField(max_length=255,choices=((u'AA', u'AA'), (u'A', u'A'), (u'B', u'B'), (u'C', u'C') , (u'D', u'D') , (u'E', u'E')),verbose_name='Clasificación')
     fierro=models.ForeignKey(Proveedor, verbose_name='# de Fierro')
+    isonlote=models.BooleanField(default=False,verbose_name='Pertenece a lote?')
 
     def fierronum(self):
         return self.fierro.fierro

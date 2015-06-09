@@ -22,24 +22,21 @@ from lotes.views import LoteCreate, LandingView
 from rest_framework import routers
 
 # Routers provide an easy way of automatically determining the URL conf.
+from proveedores.views import ProveedorViewSet
+
 router = routers.DefaultRouter()
 router.register(r'canales', CanalViewSet)
+router.register(r'proveedores', ProveedorViewSet)
 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'addlote/', 'lotes.views.loteform', name='lotes'),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
-    url(r'addlote2/', 'lotes.views.loteform2', name='lotes2'),
+    url(r'addlote/', 'lotes.views.loteform', name='lotes'),
     url(r'^getcanal/(?P<id>\d+)$', 'lotes.views.cargar_canal', name='cargar_canal'),
-    url(r'^savelote/$', 'lotes.views.guardar_lote', name='guardar_lote'),
-    url(r'^consulta/$', 'lotes.views.test_lote', name='test'),
+    url(r'^totallotes/', 'lotes.views.totallotes', name='totallotes'),
+    url(r'^lotes/', LoteApiView,name='lotes'),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^lotes/', LoteApiView,name='lotes'),
     url(r'^', LandingView.as_view()),
-
-
-
-
 ]

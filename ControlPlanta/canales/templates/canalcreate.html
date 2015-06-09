@@ -60,6 +60,18 @@
                       {{ form.fierro | add_class:" form-control input-lg"| add_error_class:" errorlist2" }}
                  </div>
             </div >
+
+            <div class="form-group">
+
+                {{ form.isonlote.errors }}
+
+                <label class="col-sm-2" for="id_isonlote">Pertenece a lote?</label>
+
+                 <div class="col-sm-6">
+                      {{ form.isonlote | add_class:"disable"| add_error_class:" errorlist2" }}
+                 </div>
+            </div >
+
             <br/>
             <div class="col-sm-2"></div>
             <div class="col-sm-4">

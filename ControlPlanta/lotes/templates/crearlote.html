@@ -13,6 +13,12 @@
 
         <div class="form-group">
 
+            <div class="form-group">
+                <label class="col-sm-2" for="date">Fecha:</label>
+                <div class="col-sm-6">
+                    <input type="date" class="form-control input-lg" id="date" >
+                </div>
+            </div>
 
             <div class="form-group">
                 <label class="col-sm-2" for="numlote">Número de lote:</label>
@@ -38,14 +44,31 @@
             <div class="form-group">
                 <label class="col-sm-2" for="canaleslist">Canales:</label>
                 <div class="col-sm-6">
-                <ul id="canaleslist">
-                    {% for canal in canales %}
-                        <li>
-                            <label for="{{ canal.id }}">{{ canal }} </label>
-                            <input type="checkbox"  id="{{ canal.id }}"data-id="{{ canal.id }}"/>
-                        </li>
-                    {% endfor %}
-                </ul>
+                <div id="canaleslist">
+                    {% if  canales.count != 0 %}
+
+                        {% for canal in canales %}
+                            {% if  canal.isonlote != True %}
+                                <li>
+                                    <label style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>
+                                    <input type="checkbox"  id="{{ canal.id }}" data-id="{{ canal.id }}"/>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <label style="color: #a9302a " for="{{ canal.id }}">{{ canal }} </label>
+                                    <input disabled style="color: #843534;" type="checkbox"  id="{{ canal.id }}" data-id="{{ canal.id }}"/>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                    {% else %}
+                            <p>
+                                <strong> No hay canales registrados hoy. </strong>
+                                <br/>
+                                <a href="/addcanal/" class="btn btn-primary margintop10px" role="button" >Crear Canal</a>
+                            </p>
+                    {% endif %}
+                </div>
                 </div>
             </div>
 
@@ -61,8 +84,7 @@
             <div class="col-sm-4">
                 <input class=" btn btn-primary  form-control" type="submit" value="Crear" id="btnSubmit" />
             </div>
-
-
+            
         </div>
         </form>
 
