@@ -3,17 +3,32 @@
      <script src="/static/js/lotes.js"></script>
 <div class="PaddingContent">
     <h3>Crear Lote:</h3>
-        <br/>
-        <h4>Para Crear Un lote complete correctamente los siguientes espacios:</h4>
-        <br/>
-    <div >
+    <br/>
+    <h4 id="titulohide">Para Crear Un lote complete correctamente los siguientes espacios: </h4>
+    <br/>
 
-        <form class="form-horizontal col-sm-9 " action="" method="post">
+         <div class="hideonload succesmessage">
+            <div class="col-sm-6 alert alert-success fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Completado!</strong> El lote fue creado correctamente.<br/> <br/>
+                <a href=""  class=" btn btn-success" role="button" >Crear Nuevo</a>
+            </div>
+        </div>
+        <div class="hideonload failmessage">
+            <div class="col-sm-6 alert alert-danger fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Error en formulario!</strong> Corrija los errores mostrados.
+            </div>
+        </div>
+
+       <div>
+        <form  class="form-horizontal col-sm-9" action="" method="post">
         {% csrf_token %}
 
         <div class="form-group">
 
             <div class="form-group">
+                <div class="col-sm-12 errorlist" id="dateerror"> </div>
                 <label class="col-sm-2" for="date">Fecha:</label>
                 <div class="col-sm-6">
                     <input type="date" class="form-control input-lg" id="date" >
@@ -21,13 +36,16 @@
             </div>
 
             <div class="form-group">
+                <div class="col-sm-12 errorlist" id="lotenumerror"> </div>
                 <label class="col-sm-2" for="numlote">Número de lote:</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control input-lg" id="numlote" placeholder="Número de lote.">
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group ">
+                <div class="col-sm-12 errorlist" id="fierronumerror"> </div>
+
                 <label class="col-sm-2" for="fierronum">Fierro:</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control input-lg" id="fierronum" placeholder="Número fierro">
@@ -35,13 +53,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2" for="cantcanales">Número canales:</label>
-                <div class="col-sm-6">
-                    <input type="number" class="form-control input-lg" id="cantcanales">
-                </div>
-            </div>
-
-            <div class="form-group">
+                <div class="col-sm-12 errorlist" id="canaleslisterror"> </div>
                 <label class="col-sm-2" for="canaleslist">Canales:</label>
                 <div class="col-sm-6">
                 <div id="canaleslist">
@@ -51,19 +63,16 @@
                             {% if  canal.isonlote != True %}
                                 <li>
                                     <label style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>
-                                    <input type="checkbox"  id="{{ canal.id }}" data-id="{{ canal.id }}"/>
-                                </li>
-                            {% else %}
-                                <li>
-                                    <label style="color: #a9302a " for="{{ canal.id }}">{{ canal }} </label>
-                                    <input disabled style="color: #843534;" type="checkbox"  id="{{ canal.id }}" data-id="{{ canal.id }}"/>
+                                    <input type="checkbox" class="checkboxdis" id="{{ canal.id }}" data-id="{{ canal.id }}"/>
+
                                 </li>
                             {% endif %}
+
                         {% endfor %}
 
                     {% else %}
                             <p>
-                                <strong> No hay canales registrados hoy. </strong>
+                                <strong> No hay canales registrados hoy, que no pertenezcan ya a un lote. </strong>
                                 <br/>
                                 <a href="/addcanal/" class="btn btn-primary margintop10px" role="button" >Crear Canal</a>
                             </p>
@@ -73,6 +82,15 @@
             </div>
 
             <div class="form-group">
+                <div class="col-sm-12 errorlist" id="cantcanaleserror"> </div>
+                <label class="col-sm-2" for="cantcanales">Número canales:</label>
+                <div class="col-sm-6">
+                    <input type="number" class="form-control input-lg" id="cantcanales">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12 errorlist" id="pesototalerror"> </div>
                 <label class="col-sm-2" for="pesototal">Peso total (Kg):</label>
                 <div class="col-sm-6">
                     <input type="number" class="form-control input-lg" id="pesototal"value="0">

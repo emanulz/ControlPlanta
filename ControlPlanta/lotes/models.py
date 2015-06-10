@@ -10,7 +10,7 @@ class Lote(models.Model):
     lotenum=models.CharField(max_length=255,verbose_name='# de Lote', unique=True)
     fierro=models.CharField(max_length=255,verbose_name='# de Fierro')
     canalesqty=models.PositiveIntegerField(verbose_name='Cantidad de canales')
-    canales=models.ManyToManyField(Canal,verbose_name='Canales')
+    canales=models.ManyToManyField(Canal,verbose_name='Canales',blank=False)
     totalweight=models.FloatField(default=0, verbose_name='Peso total del lote Kg')
     date=models.DateField(default='1988-05-10',verbose_name='Fecha')
 

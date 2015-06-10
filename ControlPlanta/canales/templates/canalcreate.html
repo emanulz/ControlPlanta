@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 {% block content %}
+    <script src="/static/js/canales.js"></script>
 <div class="PaddingContent">
     <h3>Crear Canal:</h3>
         <br/>
@@ -21,14 +22,14 @@
                  <label class="col-sm-2 datepicker" for="id_date">Fecha:</label>
                  <div class="col-sm-6">
 
-                     {{ form.date| attr:"type:date"|add_class:"form-control input-lg"| add_error_class:" errorlist2"}}
+                     {{ form.date| attr:"type:date"|add_class:"form-control input-lg date"| add_error_class:" errorlist2"}}
                  </div>
              </div>
 
 
             <div class="form-group">
                  {{ form.consecutive.errors  }}
-                 <label class="col-sm-2" for="id_consecutive">Consecutivo:</label>
+                 <label class="col-sm-2" for="id_consecutive">Consecutivo Matadero:</label>
                  <div class="col-sm-6 ">
                       {{ form.consecutive |add_class:"form-control input-lg" | add_error_class:" errorlist2"}}
                  </div>
@@ -68,7 +69,7 @@
                 <label class="col-sm-2" for="id_isonlote">Pertenece a lote?</label>
 
                  <div class="col-sm-6">
-                      {{ form.isonlote | add_class:"disable"| add_error_class:" errorlist2" }}
+                      {{ form.isonlote | add_class:"disablecheckbox"| add_error_class:" errorlist2" }}
                  </div>
             </div >
 

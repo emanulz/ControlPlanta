@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -15,7 +15,6 @@ class ApiLoteView(APIView):
 
 
     def get(self,request,id=None,format=None):
-
         lotes=Lote.objects.all()
         response = self.serializer_class(lotes,many=True)
         return Response(response.data)
@@ -24,9 +23,10 @@ class ApiLoteView(APIView):
         ret=request.DATA
         if lote.is_valid():
             lote.save()
-            return Response(lote.data)
+            return JsonResponse({'status': "Success"})
         else:
-            return Response(lote.errors)
+            #return Response(lote.errors)
+            return JsonResponse({'status': "Fail",'errores':lote.errors})
 
 
 

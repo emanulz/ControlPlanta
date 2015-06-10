@@ -19,12 +19,13 @@ class Canal(models.Model):
 
     fierronum.short_description = "Fierro #"
     fierronum.admin_order_field = 'fierro'
+    fierronumstr=str(fierronum)
 
     def __unicode__(self):
         datestr=str(self.date)
         consecutivestr=str(self.consecutive)
 
-        return datestr+consecutivestr
+        return datestr+" "+self.fierro.fierro+" "+consecutivestr
 
     class Meta:
         ordering=['id']

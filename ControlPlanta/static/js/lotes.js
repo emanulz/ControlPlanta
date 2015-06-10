@@ -44,31 +44,26 @@ function main () {
 
        $("#btnSubmit").on("click",guardarLote);
 
-
-        //llenado de espacios
+        //llenado de espacios e inicializacion
+        $(".hideonload").hide();
+        $("#cantcanales").prop("disabled",true);
+        $("#pesototal").prop("disabled",true);
+        //date
         var now = new Date();
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
         today = now.getFullYear()+"-"+(month)+"-"+(day) ;
         today2=(day) +"/"+(month)+"/"+now.getFullYear();
-
         $('#date').val(today);
 
+        //consigue la cantidad de lotes del dia y llama llenar numlote
         $.get('/totallotes/', llenarnumlote);
-
-
-       // document.getElementById("date").valueAsDate = new Date()
-
-
     }//main
 
 function llenarnumlote(data){
-
     var a=data.total+1;
     var a2=today2+"-"+a;
     $('#numlote').val(a2);
-
-
 }
 
 function sumarPeso (data){
@@ -77,7 +72,7 @@ function sumarPeso (data){
     var pesototal=pesoactual+pesocanal;
 
     $("#pesototal").val(pesototal);
-    }//cargarPeso
+    }//sumarPeso
 
 function restarPeso (data){
     var pesocanal=parseFloat(data.peso);
@@ -85,22 +80,16 @@ function restarPeso (data){
     var pesototal=pesoactual-pesocanal;
 
     $("#pesototal").val(pesototal);
-    }//cargarPeso
+    }//restarPeso
 
 function guardarLote() {
     event.preventDefault();
+    errorclean();
     var numlote = $("#numlote").val();
     var fierronum = $("#fierronum").val();
     var cantcanales = $("#cantcanales").val();
     var canaleslist = lotescliked;
     var pesototal = $("#pesototal").val();
-
-    //var canal={numlote:numlote,fierronum:fierronum ,cantcanales:cantcanales,canaleslist:canaleslist,pesototal:pesototal};
-	//console.log(canal);
-	//if(input.val() != ''){
-   // {"lotenum": "1245","fierro": "A055","canalesqty": 2,"canales": [3,4,5],"totalweight": 135.0}
-	//$.post('/lotes/', {"lotenum":numlote,"fierro":fierronum ,"canalesqty":cantcanales,"canales":[3,4,5],"totalweight":pesototal}, unmacho);
-	//}
 
     $.ajax({
       method: "POST",
@@ -118,13 +107,92 @@ function guardarLote() {
         }),//JSON object
           contentType:"application/json; charset=utf-8",
           dataType:"json"
-
         })
+      .done(function(data){
+            errorhandle(data)
+        });
+}
+function errorhandle (data){
 
-      .done(patchcanal);
+    console.log(data);
+        if (data.status=="Success"){
+            console.log(data.status);
+            patchcanal();
+        }
+        else{
+                $(".failmessage:hidden").show("slow");
+
+                if (typeof data.errores.date!=='undefined' ){
+
+                    $("#dateerror:hidden").show("slow");
+                    $("#dateerror").html(data.errores.date[0]);
+                    $("#date").addClass("errorlist2");
+                }
+                if (typeof data.errores.lotenum!=='undefined' ){
+
+                    $("#lotenumerror:hidden").show("slow");
+                    $("#lotenumerror").html(data.errores.lotenum[0]);
+                    $("#numlote").addClass("errorlist2");
+                }
+                if (typeof data.errores.fierro!=='undefined' ){
+
+                    $("#fierronumerror:hidden").show("slow");
+                    $("#fierronumerror").html(data.errores.fierro[0]);
+                    $("#fierronum").addClass("errorlist2");
+
+                }
+                if (typeof data.errores.canalesqty!=='undefined' ){
+
+                    $("#cantcanaleserror:hidden").show("slow");
+                    $("#cantcanaleserror").html(data.errores.canalesqty[0]);
+                    $("#cantcanales").addClass("errorlist2");
+                }
+                if (typeof data.errores.canales!=='undefined' ){
+
+                    $("#canaleserror:hidden").show("slow");
+                    $("#canaleserror").html(data.errores.canales[0]);
+                    $("#canales").addClass("errorlist2");
+                }
+                 if (typeof data.errores.totalweight!=='undefined' ){
+
+                    $("#pesototalerror:hidden").show("slow");
+                    $("#pesototalerror").html(data.errores.totalweight[0]);
+                    $("#pesototal").addClass("errorlist2");
+                }
+            }
 
 
 }
+function errorclean(){
+
+    $(".hideonload").hide();
+
+    $("#dateerror:hidden").hide();
+    $("#dateerror").html("");
+    $("#date").removeClass("errorlist2");
+
+    $("#lotenumerror:hidden").hide();
+    $("#lotenumerror").html("");
+    $("#numlote").removeClass("errorlist2");
+
+    $("#fierronumerror:hidden").hide();
+    $("#fierronumerror").html("");
+    $("#fierronum").removeClass("errorlist2");
+
+    $("#canaleserror:hidden").hide();
+    $("#canaleserror").html("");
+    $("#canales").removeClass("errorlist2");
+
+    $("#cantcanaleserror:hidden").hide();
+    $("#cantcanaleserror").html("");
+    $("#cantcanales").removeClass("errorlist2");
+
+    $("#pesototalerror:hidden").hide();
+    $("#pesototalerror").html("");
+    $("#pesototal").removeClass("errorlist2");
+
+}
+
 function patchcanal(){
 event.preventDefault();
 
@@ -137,7 +205,7 @@ event.preventDefault();
 
       data: JSON.stringify({
 
-        "isonlote": false
+        "isonlote": true
 
         }),//JSON object
           contentType:"application/json; charset=utf-8",
@@ -145,12 +213,14 @@ event.preventDefault();
 
         })
 
-      .done(function( data ) {
-        console.log( data.isonlote );
-        console.log( today );
-        console.log( today2 );
+      .done(function() {
+        $("#date").prop("disabled",true);
+        $("#numlote").prop("disabled",true);
+        $("#fierronum").prop("disabled",true);
+        $(".checkboxdis").prop("disabled",true);
+        $(".btn").prop("disabled",true);
+        $(".succesmessage:hidden").show("slow");
         });
     }
-
 
 }
