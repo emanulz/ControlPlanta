@@ -13,7 +13,6 @@ class ApiLoteView(APIView):
     serializer_class=LoteSerializer
     queryset=Lote.objects.all()
 
-
     def get(self,request,id=None,format=None):
         lotes=Lote.objects.all()
         response = self.serializer_class(lotes,many=True)
@@ -27,8 +26,6 @@ class ApiLoteView(APIView):
         else:
             #return Response(lote.errors)
             return JsonResponse({'status': "Fail",'errores':lote.errors})
-
-
 
 LoteApiView = ApiLoteView.as_view()
 

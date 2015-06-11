@@ -18,15 +18,22 @@ from django.contrib import admin
 from api.views import LoteApiView
 from cajeros.views import CajeroCreate
 from canales.views import CanalViewSet
+from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
 from lotes.views import LoteCreate, LandingView
 from rest_framework import routers
+from productos.views import ProductViewSet, FamiliaViewSet
+from proveedores.views import ProveedorViewSet
 
 # Routers provide an easy way of automatically determining the URL conf.
-from proveedores.views import ProveedorViewSet
 
 router = routers.DefaultRouter()
 router.register(r'canales', CanalViewSet)
 router.register(r'proveedores', ProveedorViewSet)
+router.register(r'productos', ProductViewSet)
+router.register(r'familias', FamiliaViewSet)
+router.register(r'deshuese', DeshueseViewSet)
+router.register(r'detalledeshuese', DetalleDeshueseViewSet)
+
 
 
 urlpatterns = [

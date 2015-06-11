@@ -47,6 +47,8 @@ INSTALLED_APPS = (
     'proveedores',
     'lotes',
     'canales',
+    'deshueses',
+    'inventarios',
 
 
 
@@ -87,6 +89,8 @@ SUIT_CONFIG = {
         {'app': 'ventas', 'label': 'Ventas', 'icon':'icon-bullhorn'},
         {'app': 'lotes', 'label': 'Lotes', 'icon':'icon-barcode'},
         {'app': 'canales', 'label': 'Canales', 'icon':'icon-tag'},
+        {'app': 'deshueses', 'label': 'Deshuese', 'icon':'icon-tag'},
+        {'app': 'inventarios', 'label': 'Inventarios', 'icon':'icon-tag'},
 
     ),
 
