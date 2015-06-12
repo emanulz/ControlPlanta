@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block content %}
+     <script src="/static/js/deshuese.js"></script>
+<div class="PaddingContent">
+    <h3>Deshuese:</h3>
+    <br/>
+    <h4 id="titulohide">Por favor complete los siguientes espacios: </h4>
+    <br/>
+
+         <div class="hideonload succesmessage">
+            <div class="col-sm-6 alert alert-success fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Completado!</strong> El deshuese fue registrado correctamente.<br/> <br/>
+                <a href=""  class=" btn btn-success" role="button" >Crear Nuevo</a>
+            </div>
+        </div>
+        <div class="hideonload failmessage">
+            <div class="col-sm-6 alert alert-danger fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Error en formulario!</strong> Corrija los errores mostrados.
+            </div>
+        </div>
+
+       <div>
+        <form  class="form-horizontal col-sm-8" action="" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+
+            <div class="form-group">
+                <label class="col-sm-1" for="tipo">Tipo:</label>
+                <div class="col-sm-5">
+                    <select class="form-control input-lg" name="tipo" id="tipo">
+                    <option value="Cerdo">Cerdo</option>
+                    <option value="Res">Res</option>
+                    </select>
+               </div>
+                <label class="col-sm-1" for="lote">Lote:</label>
+                <div class="col-sm-5">
+                    <select class="form-control input-lg" name="lote" id="lote">
+                     {% for lote in lotes %}
+                    <option value="{{ lote }}">{{ lote }}</option>
+                     {% endfor %}
+                    </select>
+               </div>
+            </div>
+             <div class="form-group">
+                <label class="col-sm-1" for="tipo">Corte:</label>
+                <div class="col-sm-5">
+                    <select class="form-control input-lg" name="tipo" id="tipo">
+                    <option value="Cerdo">Cerdo</option>
+                    <option value="Res">Res</option>
+                    </select>
+               </div>
+                <label class="col-sm-1" for="cantcanales">Número canales:</label>
+                <div class="col-sm-5">
+                    <input type="number" class="form-control input-lg" id="cantcanales">
+                </div>
+             </div>
+
+         <div class="form-group col-sm-12">
+             <div class="col-sm-9"></div>
+            <div class="col-sm-2">
+                <a href=""  class=" btn btn-success" role="button" >Agregar a la lista</a>
+            </div>
+        </div>
+
+
+            <div class=" form-group col-sm-12 ">
+            <table class="table table-bordered table-hover" data-toggle="table" data-url="" data-cache="false" data-height="299">
+                <thead>
+                    <tr class="success">
+                        <th>#</th>
+                        <th data-field="id">Corte</th>
+                        <th data-field="name">Peso en Kg</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Ir por</td>
+                    <td>8</td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+
+
+            <br/><br/><br/>
+         <div class="form-group col-sm-12">
+             <div class="col-sm-9" style="margin-right: 10px"></div>
+            <div class="col-sm-2" >
+                <a href="" id="BtnCrear" class=" btn btn-success" role="button" >Crear Deshuese</a>
+            </div>
+        </div>
+
+        </div>
+        </form>
+       <div class="col-sm-4">
+
+           <div class="col-sm-1"></div>
+           <div class="col-sm-11">
+
+
+
+
+           </div>
+
+       </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

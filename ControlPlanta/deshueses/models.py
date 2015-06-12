@@ -15,10 +15,12 @@ class Deshuese(models.Model):
     mermapor= models.PositiveIntegerField(verbose_name='Merma en %', blank=True, null=True ,)
     productos=models.ManyToManyField(Producto,verbose_name='Cortes',blank=False)
     detalle=models.ManyToManyField('DetalleDeshuese',verbose_name='Detalle',blank=False)
-    
+
 
     def __unicode__(self):
-        return self.lote.lotenum
+        ret= str(self.lote)
+        return ret or u''
+
     class Meta:
         ordering=['id']
         verbose_name='Deshuese'
@@ -30,12 +32,11 @@ class Deshuese(models.Model):
 
 class DetalleDeshuese(models.Model):
 
-    producto=models.ForeignKey(Producto,verbose_name='Corte',blank=False)
-    peso= models.FloatField(verbose_name='Peso en Kg', blank=True, null=True ,)
+    producto=models.ForeignKey(Producto,verbose_name='Corte',blank=False,default=1)
+    peso= models.FloatField(verbose_name='Peso en Kg',default=0)
     lote = models.ForeignKey(Lote, default=1,verbose_name='Número de Lote')
 
-    def __unicode__(self):
-        return self.id
+
     class Meta:
         ordering=['id']
         verbose_name='Detalle deshuese'

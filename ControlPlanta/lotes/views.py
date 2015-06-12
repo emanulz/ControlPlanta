@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonRespons
 from django.template import RequestContext
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, FormView, TemplateView
+from rest_framework import viewsets, serializers
 from canales.models import Canal
 from lotes.forms import LoteFormView
 
@@ -69,30 +70,18 @@ def totallotes(request):
         #return JsonResponse({'total':numerototal})
         raise Http404  # raise Http404
 
-def guardar_lote(request):
-    #if request.is_ajax():
-    #try:
-    lotenum=request.POST['numlote']
-    fierro=request.POST['fierronum']
-    canalesqty=request.POST['cantcanales']
-    canales=request.POST['canaleslist']
-    #totalweight=request.POST['pesototal']
-    #nuevo=Lote.objects.create(lotenum=lotenum,fierro=fierro,canalesqty=canalesqty,canales=canales,totalweight=totalweight)
-    #nuevo.save()
-    return JsonResponse({'test1': lotenum, 'test2': fierro, 'test3': canalesqty, 'test4': canales})
-    #except Exception as e:
-     #   return e
-    #Lote.objects.create(id=65,lotenum=request.POST['lotenum'],fierro=request.POST['fierronum'],canalesqty=request.POST['cantcanales'],canales=request.POST['canaleslist'],totalweight=request.POST['pesototal'])
-    #lote = Lote(lotenum=request.POST['lotenum'],fierro=request.POST['fierronum'],canalesqty=request.POST['cantcanales'],canales=request.POST['canaleslist'],totalweight=request.POST['pesototal'])
-    #lote.save()
+class LoteSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Lote
+        fields =('id','lotenum','fierro','canalesqty','canales','totalweight','date','isondeshuese')
 
 
+# ViewroductSets define the view behavior.
+class LoteViewSet(viewsets.ModelViewSet):
 
-    #if request.POST['numlote']:
-
-
-
-    #else:
-     #   raise Http404  # raise Http404
+    serializer_class = LoteSerializer
+    queryset = Lote.objects.all()
+    lookup_field = 'id'
 
 

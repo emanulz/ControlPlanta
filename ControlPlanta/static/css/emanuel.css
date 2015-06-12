@@ -20,5 +20,8 @@
    .errorlist {
        margin-left: 17%;
        color: red;
+   .paddingBtnAdd{
+       padding-left: 60%;
+   }
 }
 }

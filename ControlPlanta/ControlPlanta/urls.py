@@ -19,7 +19,7 @@ from api.views import LoteApiView
 from cajeros.views import CajeroCreate
 from canales.views import CanalViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
-from lotes.views import LoteCreate, LandingView
+from lotes.views import LoteCreate, LandingView, LoteViewSet
 from rest_framework import routers
 from productos.views import ProductViewSet, FamiliaViewSet
 from proveedores.views import ProveedorViewSet
@@ -33,6 +33,8 @@ router.register(r'productos', ProductViewSet)
 router.register(r'familias', FamiliaViewSet)
 router.register(r'deshuese', DeshueseViewSet)
 router.register(r'detalledeshuese', DetalleDeshueseViewSet)
+router.register(r'lotes', LoteViewSet)
+
 
 
 
@@ -40,6 +42,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
+    url(r'adddeshuese/', 'deshueses.views.deshueseform', name='deshueses'),
     url(r'^getcanal/(?P<id>\d+)$', 'lotes.views.cargar_canal', name='cargar_canal'),
     url(r'^totallotes/', 'lotes.views.totallotes', name='totallotes'),
     url(r'^lotes/', LoteApiView,name='lotes'),
