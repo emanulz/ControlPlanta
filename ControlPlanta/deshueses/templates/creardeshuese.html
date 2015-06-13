@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {% block content %}
      <script src="/static/js/deshuese.js"></script>
 <div class="PaddingContent">
@@ -21,53 +21,68 @@
             </div>
         </div>
 
-       <div>
-        <form  class="form-horizontal col-sm-8" action="" method="post">
+       <div class="container-fluid">
+        <form  class="form-horizontal col-sm-11" action="" method="post">
         {% csrf_token %}
 
         <div class="form-group">
 
             <div class="form-group">
                 <label class="col-sm-1" for="tipo">Tipo:</label>
-                <div class="col-sm-5">
+                <div class="col-sm-2">
                     <select class="form-control input-lg" name="tipo" id="tipo">
-                    <option value="Cerdo">Cerdo</option>
-                    <option value="Res">Res</option>
+                    <option value="Carne de cerdo">Cerdo</option>
+                    <option value="Carne de res">Res</option>
                     </select>
                </div>
                 <label class="col-sm-1" for="lote">Lote:</label>
-                <div class="col-sm-5">
+                <div class="col-sm-4">
                     <select class="form-control input-lg" name="lote" id="lote">
-                     {% for lote in lotes %}
-                    <option value="{{ lote }}">{{ lote }}</option>
-                     {% endfor %}
+
+                        {% if lotes.count == 0 %}
+                            <option value="vacio">No hay elementos</option>
+                        {% else %}
+                            {% for lote in lotes %}
+                            <option value="{{ lote }}">{{ lote }}</option>
+                            {% endfor %}
+                        {% endif %}
                     </select>
                </div>
+             <div class=" col-sm-1">
+                    <a href="" id="Btnlote" class="  btn btn-success pull-right "  role="button"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                </div>
             </div>
              <div class="form-group">
+                 <label class="col-sm-1" for="codigo">Código:</label>
+                <div class="col-sm-2 ">
+                    <input type="number" class="form-control input-lg" id="codigo">
+
+                </div>
+
                 <label class="col-sm-1" for="tipo">Corte:</label>
                 <div class="col-sm-5">
-                    <select class="form-control input-lg" name="tipo" id="tipo">
-                    <option value="Cerdo">Cerdo</option>
-                    <option value="Res">Res</option>
+                    <select class="form-control input-lg" name="corte" id="corte">
+
                     </select>
                </div>
-                <label class="col-sm-1" for="cantcanales">Número canales:</label>
-                <div class="col-sm-5">
-                    <input type="number" class="form-control input-lg" id="cantcanales">
+                <label class="col-sm-1" for="peso">Peso Kg:</label>
+                <div class="col-sm-2">
+                    <input type="number" class="form-control input-lg" id="peso">
                 </div>
              </div>
 
          <div class="form-group col-sm-12">
-             <div class="col-sm-9"></div>
-            <div class="col-sm-2">
-                <a href=""  class=" btn btn-success" role="button" >Agregar a la lista</a>
-            </div>
+             <div class="pull-right">
+                <a href=""  class="btn btn-success marginBtnAdd" role="button" id="BtnAdd" style="width: 145px" >Agregar a la lista</a>
+             </div>
         </div>
 
+        </div>
+        </form>
 
-            <div class=" form-group col-sm-12 ">
-            <table class="table table-bordered table-hover" data-toggle="table" data-url="" data-cache="false" data-height="299">
+        <form class="col-sm-8" action="">
+         <div class=" form-group col-sm-12 ">
+            <table class="table table-bordered table-hover" data-toggle="table" id="tabla" data-url="" data-cache="false" data-height="299">
                 <thead>
                     <tr class="success">
                         <th>#</th>
@@ -76,33 +91,61 @@
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Ir por</td>
-                    <td>8</td>
-                </tr>
+
                 </tbody>
             </table>
-            </div>
-
-
-            <br/><br/><br/>
-         <div class="form-group col-sm-12">
-             <div class="col-sm-9" style="margin-right: 10px"></div>
-            <div class="col-sm-2" >
-                <a href="" id="BtnCrear" class=" btn btn-success" role="button" >Crear Deshuese</a>
-            </div>
         </div>
+           </form>
+           <form class="col-sm-4 form-horizontal" action="">
 
-        </div>
-        </form>
-       <div class="col-sm-4">
+               <div class="form-group">
+                   <div class="col-sm-1"></div>
+                   <div class="col-sm-11">
+                        <label for="pesolote">Peso del lote Kg:</label>
+                        <div>
+                            <input type="number" class="form-control input-lg" id="pesolote">
+                        </div>
+                   </div>
+               </div>
+               <div class="form-group">
+                   <div class="col-sm-1"></div>
+                   <div class="col-sm-11">
+                        <label for="pesodesh">Peso del deshuese Kg:</label>
+                        <div>
+                            <input type="number" class="form-control input-lg" id="pesodesh">
+                        </div>
+                   </div>
+               </div>
+               <div class="form-group">
+                   <div class="col-sm-1"></div>
+                   <div class="col-sm-11">
+                        <label for="mermakg">Merma en Kg:</label>
+                        <div>
+                            <input type="text" class="form-control input-lg" id="mermakg">
+                        </div>
+                   </div>
+               </div>
+               <div class="form-group">
+                   <div class="col-sm-1"></div>
+                   <div class="col-sm-11">
+                        <label for="mermaporc">Merma en %:</label>
+                        <div>
+                            <input type="text" class="form-control input-lg" id="mermaporc">
+                        </div>
+                   </div>
+               </div>
+              <div class="form-group col-sm-12">
+                <div class=" pull-right">
+                    <a href="" id="BtnConfirmar" class=" btn btn-success marginBtnAdd2 " role="button" style="width: 160px">Confirmar Datos</a>
+                </div>
+             </div>
 
-           <div class="col-sm-1"></div>
-           <div class="col-sm-11">
-
-
-
+               <div class="form-group col-sm-12">
+                    <div class=" pull-right">
+                        <input  class=" btn btn-success  form-control marginBtnAdd2" type="submit" value="Registar deshuese" id="BtnCrear" style="width: 160px"/>
+                    </div>
+               </div>
+           </form>
 
            </div>
 

@@ -2,6 +2,10 @@
 lotescliked=[];
 var today = "";
 var today2 = "";
+var pesodesh=0;
+var pesolote;
+var mermakg;
+var mermaporc;
 
 $(document).on('ready', main);
 
@@ -40,14 +44,48 @@ function main () {
             }
        });//eventos checkbox
 
+    //evento enter buscar
+    $('#codigo').on('keypress', function (event) {
+         if(event.which === 13){
+           var a = $('#codigo').val();
+           $.get('/api/productos/?product_code='+a,ResultadoBusqueda);
+         }
+   });
+
+    //evento enter peso
+    $('#peso').on('keypress', function (event) {
+         if(event.which === 13){
+           AgregarATabla();
+         }
+   });
+
+    //cambio en el corte pone codigo
+    $( "#corte" ).change(function() {
+        var a =$( "#corte").val();
+        $.get('/api/productos/?description='+a,SetCodigo);
+    });
+
+    //cambio en el corte pone codigo
+    $( "#lote" ).change(function() {
+        var a =$( "#lote").val();
+        $.get('/api/lotes/?lotenum='+a,SetPesoLote);
+    });
+
         //botones
 
-       $("#btnSubmit").on("click",guardarLote);
+        $("#btnSubmit").on("click",guardarLote);
+        $("#BtnAdd").on("click",AgregarATabla);
 
         //llenado de espacios e inicializacion
         $(".hideonload").hide();
-        $("#cantcanales").prop("disabled",true);
-        $("#pesototal").prop("disabled",true);
+        $("#pesolote").prop("disabled",true);
+        $("#pesodesh").prop("disabled",true);
+        $("#mermakg").prop("disabled",true);
+        $("#mermaporc").prop("disabled",true);
+        $("#BtnCrear").prop("disabled",true);
+
+   // BtnCrear
+
         //date
         var now = new Date();
         var day = ("0" + now.getDate()).slice(-2);
@@ -56,14 +94,54 @@ function main () {
         today2=(day) +"/"+(month)+"/"+now.getFullYear();
         $('#date').val(today);
 
+    //eventos iniciales:
         //consigue la cantidad de lotes del dia y llama llenar numlote
-        $.get('/totallotes/', llenarnumlote);
+        $.get('/api/productos/?category=1', llenarproductos);
+        var pesoloteini =$( "#lote").val();
+        $.get('/api/lotes/?lotenum='+pesoloteini,SetPesoLote);
+        $('#codigo').val(1001);
+
+
     }//main
 
-function llenarnumlote(data){
-    var a=data.total+1;
-    var a2=today2+"-"+a;
-    $('#numlote').val(a2);
+function llenarproductos(data){
+
+    $.each( data, function(index){
+        $("#corte").append(new Option(data[index].description, data[index].description));
+
+    });
+
+}
+function ResultadoBusqueda(data){
+
+    $("#corte").val(data[0].description);
+
+}
+function SetCodigo(data){
+    console.log(data);
+    $("#codigo").val(data[0].product_code);
+}
+
+function SetPesoLote(data){
+    pesolote=data[0].totalweight;
+    $("#pesolote").val(data[0].totalweight);
+}
+
+function AgregarATabla(){
+
+    event.preventDefault();
+    var r=$('#tabla tr').length; /* Obtener el numero de elementos */
+    $('#tabla > tbody:last').append('<tr><th scope="row">'+r+'</th><td>'+$('#corte').val()+'</td><td>'+$('#peso').val()+'</td></tr>');
+    var peso = parseFloat($("#peso").val());
+    pesodesh=pesodesh+peso;
+    $("#pesodesh").val(pesodesh);
+    //calcular merma en KG
+    mermakg=Math.round((pesolote-pesodesh) * 100) / 100;
+    $("#mermakg").val(mermakg);
+    //calcular merma en %
+    mermaporc=Math.round(((mermakg*100)/pesolote) * 100) / 100;
+    $("#mermaporc").val(mermaporc);
+
 }
 
 function sumarPeso (data){

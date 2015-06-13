@@ -45,8 +45,11 @@ urlpatterns = [
     url(r'adddeshuese/', 'deshueses.views.deshueseform', name='deshueses'),
     url(r'^getcanal/(?P<id>\d+)$', 'lotes.views.cargar_canal', name='cargar_canal'),
     url(r'^totallotes/', 'lotes.views.totallotes', name='totallotes'),
+    url(r'^productoscerdo/', 'productos.views.ProdDeCerdo', name='productoscerdo'),
     url(r'^lotes/', LoteApiView,name='lotes'),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^', LandingView.as_view()),
+
+
 ]

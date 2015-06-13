@@ -7,7 +7,7 @@ from lotes.models import Lote
 @admin.register(Lote)
 class lotesadmin(admin.ModelAdmin):
     list_display = ('id', 'lotenum', 'fierro', 'canalesqty', 'totalweight','date')
-    search_fields = ('date', 'consecutive', 'fierro','date')
+    search_fields = ('id','lotenum','fierro','date')
     filter_horizontal = ('canales',)
 
 

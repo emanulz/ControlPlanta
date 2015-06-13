@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, Http404
 from django.shortcuts import render
 
 # Create your views here.
@@ -5,6 +7,17 @@ from django.shortcuts import render
 from rest_framework import serializers, viewsets
 from productos.models import Producto, FamiliaDelProducto
 
+
+def ProdDeCerdo(request):
+    Pcerdo=Producto.objects.filter(category__name="Carne de Cerdo")
+
+
+
+    if request.is_ajax():
+        return JsonResponse({'Cerdos':Pcerdo})
+    else:
+        return JsonResponse({'Cerdos':Pcerdo})
+       # raise Http404  # raise Http404
 
 class ProductSerializer(serializers.ModelSerializer):
 
@@ -19,6 +32,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Producto.objects.all()
     lookup_field = 'id'
+    filter_fields= ('id','category','product_code','description')
 
 
 class FamiliaSerializer(serializers.ModelSerializer):

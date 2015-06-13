@@ -83,5 +83,6 @@ class LoteViewSet(viewsets.ModelViewSet):
     serializer_class = LoteSerializer
     queryset = Lote.objects.all()
     lookup_field = 'id'
+    filter_fields= ('id','lotenum','date')
 
 

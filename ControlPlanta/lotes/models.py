@@ -13,6 +13,7 @@ class Lote(models.Model):
     canales=models.ManyToManyField(Canal,verbose_name='Canales',blank=False)
     totalweight=models.FloatField(default=0, verbose_name='Peso total del lote Kg')
     date=models.DateField(default='2015-06-11',verbose_name='Fecha')
+
     isondeshuese=models.BooleanField(default=0,verbose_name='Se ha deshuesado?')
 
     def __unicode__(self):
