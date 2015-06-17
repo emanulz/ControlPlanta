@@ -1,14 +1,13 @@
 //variables globales
-lotescliked=[];
-var today = "";
-var today2 = "";
+var pesolote=0;
 var pesodesh=0;
-var pesolote;
-var mermakg;
-var mermaporc;
+var mermakg=0;
+var mermaporc=0;
+var enteronpeso = false;
+var matrixdetalle=[];
+var detalle=[];
 
 $(document).on('ready', main);
-
 function main () {
         $.ajaxSetup({
 		beforeSend: function(xhr, settings) {
@@ -24,172 +23,352 @@ function main () {
 		}
 	});
 
-      //eventos checkbox
-       $( "input[type=checkbox]" ).on( "click", function(){
 
-         var n = parseInt($( "input:checked" ).length);
-         $("#cantcanales").val(n);
+        //remove row
+        $('html').on('click','.removerow', function () {
+            event.preventDefault();
+            var row=$(this).closest("tr");
+            var rowIndex = row.index();
+            matrixdetalle.splice( rowIndex,1 );
+            console.log(matrixdetalle);
+            $(this).parent().parent().remove();
+        });
 
-          var thisCheck = $(this);
-            if (thisCheck.is (':checked')) {
-                var id = $(this).data('id');
-                lotescliked.push(id);
+        //evento enter buscar
+        $('#codigo').on('keypress', function (event) {
+             if(event.which === 13){
+               var a = $('#codigo').val();
+               $.get('/api/productos/?product_code='+a,ResultadoBusqueda);
+             }
+       });
 
-                $.get('/getcanal/' + id, sumarPeso)
-            }
-           else{
-                var id = $(this).data('id');
-                lotescliked.splice( $.inArray(id,lotescliked) ,1 );
-                $.get('/getcanal/' + id, restarPeso)
-            }
-       });//eventos checkbox
+        //evento enter peso
+        $('#peso').on('keypress', function (event) {
+             if(event.which === 13 && enteronpeso){
+               AgregarATabla();
+             }
+       });
 
-    //evento enter buscar
-    $('#codigo').on('keypress', function (event) {
-         if(event.which === 13){
-           var a = $('#codigo').val();
-           $.get('/api/productos/?product_code='+a,ResultadoBusqueda);
-         }
-   });
+        //cambio en el corte pone codigo
+        $( "#corte" ).change(function() {
+            var a =$( "#corte").val();
+            $.get('/api/productos/?id='+a,SetCodigo);
+        });
 
-    //evento enter peso
-    $('#peso').on('keypress', function (event) {
-         if(event.which === 13){
-           AgregarATabla();
-         }
-   });
+        //cambio en el corte pone codigo
+        $( "#lote" ).change(function() {
+            var a =$( "#lote").val();
+            $.get('/api/lotes/?id='+a,SetPesoLote);
+        });
 
-    //cambio en el corte pone codigo
-    $( "#corte" ).change(function() {
-        var a =$( "#corte").val();
-        $.get('/api/productos/?description='+a,SetCodigo);
-    });
 
-    //cambio en el corte pone codigo
-    $( "#lote" ).change(function() {
-        var a =$( "#lote").val();
-        $.get('/api/lotes/?lotenum='+a,SetPesoLote);
-    });
+        $("#peso").bind("change paste keyup", function() {
+            var a =$( "#peso").val();
+            var aa=parseFloat(a);
+            var aaa=isNaN(aa);
+                 if (!aaa){
+                    $("#BtnAdd").prop("disabled",false);
+                     enteronpeso=true;
+                 }
+                 else{
+                     $("#BtnAdd").prop("disabled",true);
+                     enteronpeso=false;
+                 }
+        });
 
         //botones
 
-        $("#btnSubmit").on("click",guardarLote);
+
         $("#BtnAdd").on("click",AgregarATabla);
+        $("#Btnlote").on("click",LoteListo);
+        $("#Btnquitlote").on("click",Lotequit);
+        $("#BtnConfirmar").on("click",ConfirmarDatos);
+        $("#BtnNoConfirmar").on("click",NoConfirmarDatos);
+        $("#BtnCrear").on("click",guardarDetalle);
+
+
 
         //llenado de espacios e inicializacion
         $(".hideonload").hide();
+        $("#Btnquitlote").hide();
+        $("#BtnNoConfirmar").hide();
+       // $("#tipo").prop("disabled",true);
+        $("#codigo").prop("disabled",true);
+        $("#corte").prop("disabled",true);
+        $("#peso").prop("disabled",true);
         $("#pesolote").prop("disabled",true);
         $("#pesodesh").prop("disabled",true);
         $("#mermakg").prop("disabled",true);
         $("#mermaporc").prop("disabled",true);
         $("#BtnCrear").prop("disabled",true);
+        $("#BtnConfirmar").prop("disabled",true);
+        $("#BtnAdd").prop("disabled",true);
 
-   // BtnCrear
-
-        //date
-        var now = new Date();
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-        today = now.getFullYear()+"-"+(month)+"-"+(day) ;
-        today2=(day) +"/"+(month)+"/"+now.getFullYear();
-        $('#date').val(today);
 
     //eventos iniciales:
-        //consigue la cantidad de lotes del dia y llama llenar numlote
-        $.get('/api/productos/?category=1', llenarproductos);
         var pesoloteini =$( "#lote").val();
-        $.get('/api/lotes/?lotenum='+pesoloteini,SetPesoLote);
-        $('#codigo').val(1001);
-
+        $.get('/api/lotes/?id='+pesoloteini,SetPesoLote);
 
     }//main
 
+
+function LoteListo(){
+
+    if ($("#lote").val()!=="vacio"){
+        event.preventDefault();
+        $("#lote").prop("disabled",true);
+        $("#codigo").prop("disabled",false);
+        $("#corte").prop("disabled",false);
+        $("#peso").prop("disabled",false);
+        $("#tipo").prop("disabled",true);
+        $("#Btnlote").hide();
+        $("#Btnquitlote:hidden").show();
+
+            //console.log($("#tipo").val());
+
+        if ($("#tipo").val()==="Carne de cerdo"){
+            $('#codigo').val(1001);
+            $.get('/api/productos/?category=1', llenarproductos);
+        }
+        if ($("#tipo").val()==="Carne de res"){
+            $('#codigo').val(2001);
+            $.get('/api/productos/?category=2', llenarproductos);
+        }
+    }
+    else{
+
+        alert("No hay un lote seleccionado");
+    }
+}
+ function Lotequit(){
+    event.preventDefault();
+    $("#lote").prop("disabled",false);
+    $("#codigo").prop("disabled",true);
+    $("#corte").prop("disabled",true);
+    $("#peso").prop("disabled",true);
+    $("#tipo").prop("disabled",false);
+    $("#Btnquitlote").hide();
+    $("#Btnlote:hidden").show();
+    $('#codigo').val('');
+    $('#corte').html('');
+    $("#pesodesh").val("");
+    $("#peso").val("");
+    $("#mermakg").val("");
+    $("#mermaporc").val("");
+    $("#tabla > tbody").html("");
+    $("#BtnAdd").prop("disabled",true);
+    $("#BtnConfirmar").prop("disabled",true);
+    matrixdetalle=[];
+    pesodesh=0;
+    mermakg=0;
+    mermaporc=0;
+ }
+
+
 function llenarproductos(data){
 
+    $('#corte').html('');
     $.each( data, function(index){
-        $("#corte").append(new Option(data[index].description, data[index].description));
+        $("#corte").append(new Option(data[index].description, data[index].id));
 
     });
 
 }
+
 function ResultadoBusqueda(data){
 
-    $("#corte").val(data[0].description);
+    if (typeof data[0]!=='undefined' ){
 
+        if($("#corte option[value='" + data[0].id + "']").val() != undefined) {
+
+        $("#corte").val(data[0].id);
+        }
+        else{
+
+            alert('El Corte deseado no es válido, o ya se encuentra en la tabla');
+        }
+    }
+    else{
+        alert('El Elemento no existe');
+    }
 }
 function SetCodigo(data){
-    console.log(data);
+
+   // console.log(data);
     $("#codigo").val(data[0].product_code);
 }
 
 function SetPesoLote(data){
-    pesolote=data[0].totalweight;
-    $("#pesolote").val(data[0].totalweight);
-}
+
+    if (typeof data[0]!=='undefined' ){
+
+        if (typeof data[0]!=='undefined' ){
+        pesolote=data[0].totalweight;
+        $("#pesolote").val(data[0].totalweight);
+        }
+    }
+}//function
 
 function AgregarATabla(){
 
     event.preventDefault();
-    var r=$('#tabla tr').length; /* Obtener el numero de elementos */
-    $('#tabla > tbody:last').append('<tr><th scope="row">'+r+'</th><td>'+$('#corte').val()+'</td><td>'+$('#peso').val()+'</td></tr>');
     var peso = parseFloat($("#peso").val());
-    pesodesh=pesodesh+peso;
-    $("#pesodesh").val(pesodesh);
-    //calcular merma en KG
-    mermakg=Math.round((pesolote-pesodesh) * 100) / 100;
-    $("#mermakg").val(mermakg);
-    //calcular merma en %
-    mermaporc=Math.round(((mermakg*100)/pesolote) * 100) / 100;
-    $("#mermaporc").val(mermaporc);
+    var codigo=$('#corte').val();
+
+    var pesoTrue=isNaN(peso);
+
+        if (!pesoTrue && peso !==0){
+            var r=$('#tabla tr').length; /* Obtener el numero de elementos */
+            $('#tabla > tbody:last').append('<tr><th scope="row"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></th><td>'+$('#corte option:selected').text()+'</td><td>'+$('#peso').val()+
+            ' Kg <button type="button" class=" removerow btn btn-danger pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td></tr>');
+            //var Corteval =$('#corte').val();
+            matrixdetalle.push([codigo,peso]);
+            //console.log(matrixdetalle);
+
+            pesodesh=Math.round((pesodesh+peso) * 1000) / 1000;
+            $("#pesodesh").val(pesodesh);
+            //calcular merma en KG
+            mermakg=Math.round((pesolote-pesodesh) * 1000) / 1000;
+            $("#mermakg").val(mermakg);
+            //calcular merma en %
+            mermaporc=Math.round(((mermakg*100)/pesolote) * 1000) / 1000;
+            $("#mermaporc").val(mermaporc);
+            $("#corte option:selected").remove();
+            $("#codigo").val("");
+            $("#corte").val("");
+            $("#peso").val("");
+            $("#BtnConfirmar").prop("disabled",false);
+            $("#BtnAdd").prop("disabled",true);
+    }
+    else{
+
+        alert('Ingrese un peso válido y mayor que 0');
+    }
 
 }
 
-function sumarPeso (data){
-    var pesocanal=parseFloat(data.peso);
-    var pesoactual=parseFloat($("#pesototal").val());
-    var pesototal=pesoactual+pesocanal;
+function ConfirmarDatos(){
 
-    $("#pesototal").val(pesototal);
-    }//sumarPeso
+    $("#codigo").prop("disabled",true);
+    $("#corte").prop("disabled",true);
+    $("#peso").prop("disabled",true);
+    $("#Btnquitlote").prop("disabled",true);
+    $(".removerow").prop("disabled",true);
+    $("#BtnCrear").prop("disabled",false);
+    $("#BtnConfirmar").hide();
+    $("#BtnNoConfirmar:hidden").show();
 
-function restarPeso (data){
-    var pesocanal=parseFloat(data.peso);
-    var pesoactual=parseFloat($("#pesototal").val());
-    var pesototal=pesoactual-pesocanal;
+}
 
-    $("#pesototal").val(pesototal);
-    }//restarPeso
+function NoConfirmarDatos(){
 
-function guardarLote() {
+    $("#codigo").prop("disabled",false);
+    $("#corte").prop("disabled",false);
+    $("#peso").prop("disabled",false);
+    $("#Btnquitlote").prop("disabled",false);
+    $(".removerow").prop("disabled",false);
+    $("#BtnCrear").prop("disabled",true);
+    $("#BtnNoConfirmar").hide();
+    $("#BtnConfirmar:hidden").show();
+
+
+}
+
+
+function guardarDetalle() {
+
     event.preventDefault();
-    errorclean();
-    var numlote = $("#numlote").val();
-    var fierronum = $("#fierronum").val();
-    var cantcanales = $("#cantcanales").val();
-    var canaleslist = lotescliked;
-    var pesototal = $("#pesototal").val();
+    var lote =$("#lote").val();
+    var control=matrixdetalle.length;
+    //console.log(lote);
+
+    $.each( matrixdetalle, function(i){
+
+        $.ajax({
+          method: "POST",
+          url: "/api/detalledeshuese/",
+
+          data: JSON.stringify({
+            "producto": matrixdetalle[i][0],
+            "peso": matrixdetalle[i][1],
+            "lote": lote
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+            })
+            .success(function(data){
+                console.log(data);
+            });
+
+
+        if(i==control-1){
+
+            $.get('/api/detalledeshuese/?lote='+lote, function (data) {
+                $.each( data, function(index){
+                    detalle.push(data[index].id);
+               });
+               // console.log(detalle);
+                guardarDeshuese();
+            });
+
+            }//if
+    });
+
+
+    //guardarDeshuese();
+}//Guardar Detalle
+
+function test(){
+
+ var lote =parseInt($("#lote").val());
+    console.log(detalle);
+    var data2= JSON.stringify({
+        "lote": lote,
+        "pesototal": pesodesh,
+        "mermakg": mermakg,
+        "mermapor": mermaporc,
+        "detalle": detalle
+        });
+    console.log(data2);
+
+}
+
+function guardarDeshuese() {
+    console.log(detalle);
+    var lote =parseInt($("#lote").val());
+    //var mermaporc2=parseFloat(mermaporc);
+
+    event.preventDefault();
 
     $.ajax({
       method: "POST",
-      url: "/lotes/",
+      url: "/api/deshuese/",
 
       data: JSON.stringify({
-
-        "date":today,
-        "lotenum": numlote,
-        "fierro": fierronum,
-        "canalesqty": cantcanales,
-        "canales": canaleslist,
-        "totalweight": pesototal
-
+        "lote": lote,
+        "pesototal": pesodesh,
+        "mermakg": mermakg,
+        "mermapor": mermaporc,
+        "detalle": detalle
         }),//JSON object
           contentType:"application/json; charset=utf-8",
           dataType:"json"
         })
-      .done(function(data){
-            errorhandle(data)
+    .fail(function(data){
+            console.log(data.responseText);
+            alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+        })
+    .success(function(data){
+            console.log(data);
+            
         });
-}
+
+}//Guardar Deshuese
+
 function errorhandle (data){
 
     console.log(data);

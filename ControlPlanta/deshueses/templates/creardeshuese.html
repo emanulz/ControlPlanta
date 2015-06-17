@@ -43,13 +43,14 @@
                             <option value="vacio">No hay elementos</option>
                         {% else %}
                             {% for lote in lotes %}
-                            <option value="{{ lote }}">{{ lote }}</option>
+                            <option value="{{ lote.id }}">{{ lote }}</option>
                             {% endfor %}
                         {% endif %}
                     </select>
                </div>
              <div class=" col-sm-1">
-                    <a href="" id="Btnlote" class="  btn btn-success pull-right "  role="button"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                    <button type="button" id="Btnlote" class="btn btn-success pull-right"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+                    <button type="button" id="Btnquitlote" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
                 </div>
             </div>
              <div class="form-group">
@@ -73,7 +74,8 @@
 
          <div class="form-group col-sm-12">
              <div class="pull-right">
-                <a href=""  class="btn btn-success marginBtnAdd" role="button" id="BtnAdd" style="width: 145px" >Agregar a la lista</a>
+
+                 <button  type="button" class=" btn btn-success  form-control marginBtnAdd" id="BtnAdd" style="width: 145px">Agregar a la lista</button>
              </div>
         </div>
 
@@ -85,10 +87,11 @@
             <table class="table table-bordered table-hover" data-toggle="table" id="tabla" data-url="" data-cache="false" data-height="299">
                 <thead>
                     <tr class="success">
-                        <th>#</th>
+                        <th><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></th>
                         <th data-field="id">Corte</th>
                         <th data-field="name">Peso en Kg</th>
                     </tr>
+
                 </thead>
                 <tbody>
 
@@ -136,14 +139,17 @@
                </div>
               <div class="form-group col-sm-12">
                 <div class=" pull-right">
-                    <a href="" id="BtnConfirmar" class=" btn btn-success marginBtnAdd2 " role="button" style="width: 160px">Confirmar Datos</a>
+                    <button  type="button" class=" btn btn-success  form-control marginBtnAdd2" id="BtnConfirmar" style="width: 160px">Confirmar Datos</button>
+                    <button  type="button" class=" btn btn-danger  form-control marginBtnAdd2" id="BtnNoConfirmar" style="width: 160px">Editar Datos</button>
                 </div>
              </div>
 
                <div class="form-group col-sm-12">
                     <div class=" pull-right">
-                        <input  class=" btn btn-success  form-control marginBtnAdd2" type="submit" value="Registar deshuese" id="BtnCrear" style="width: 160px"/>
+
+                        <button  type="button" class=" btn btn-success  form-control marginBtnAdd2" id="BtnCrear" style="width: 160px">Registar deshuese</button>
                     </div>
+
                </div>
            </form>
 

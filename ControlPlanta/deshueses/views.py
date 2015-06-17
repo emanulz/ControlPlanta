@@ -21,7 +21,7 @@ class DeshueseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Deshuese
-        fields =('id','pesototal','mermakg','mermapor','productos','detalle',)
+        fields =('id','lote','pesototal','mermakg','mermapor','detalle',)
 
 
 # ViewroductSets define the view behavior.
@@ -30,6 +30,7 @@ class DeshueseViewSet(viewsets.ModelViewSet):
     serializer_class = DeshueseSerializer
     queryset = Deshuese.objects.all()
     lookup_field = 'id'
+    filter_fields=('id','lote')
 
 
 class DetalleDeshueseSerializer(serializers.ModelSerializer):
@@ -45,3 +46,4 @@ class DetalleDeshueseViewSet(viewsets.ModelViewSet):
     serializer_class = DetalleDeshueseSerializer
     queryset = DetalleDeshuese.objects.all()
     lookup_field = 'id'
+    filter_fields=('id','lote')

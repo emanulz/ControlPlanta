@@ -4,10 +4,10 @@ from deshueses.models import Deshuese, DetalleDeshuese
 # Register your models here.
 
 @admin.register(Deshuese)
-class lotesadmin(admin.ModelAdmin):
+class Deshueseadmin(admin.ModelAdmin):
     list_display = ('id', 'lote', 'pesototal', 'pesototallote', 'mermakg','mermapor' )
     search_fields = ('id', 'lote')
-    filter_horizontal = ('productos',)
+    filter_horizontal = ('detalle',)
 
 @admin.register(DetalleDeshuese)
 class DestalleAdmin(admin.ModelAdmin):

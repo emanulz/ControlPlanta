@@ -11,9 +11,9 @@ class Deshuese(models.Model):
 
     lote = models.ForeignKey(Lote, default=1,verbose_name='Número de Lote')
     pesototal=models.FloatField(default=0,verbose_name='Peso total')
-    mermakg= models.PositiveIntegerField(verbose_name='Merma en Kg', blank=True, null=True ,)
-    mermapor= models.PositiveIntegerField(verbose_name='Merma en %', blank=True, null=True ,)
-    productos=models.ManyToManyField(Producto,verbose_name='Cortes',blank=False)
+    mermakg= models.FloatField(verbose_name='Merma en Kg', blank=True, null=True ,)
+    mermapor= models.FloatField(verbose_name='Merma en %', blank=True, null=True ,)
+    #productos=models.ManyToManyField(Producto,verbose_name='Cortes',blank=False)
     detalle=models.ManyToManyField('DetalleDeshuese',verbose_name='Detalle',blank=False)
 
 
@@ -36,6 +36,9 @@ class DetalleDeshuese(models.Model):
     peso= models.FloatField(verbose_name='Peso en Kg',default=0)
     lote = models.ForeignKey(Lote, default=1,verbose_name='Número de Lote')
 
+    def __unicode__(self):
+            ret= str(self.id)
+            return ret or u''
 
     class Meta:
         ordering=['id']
