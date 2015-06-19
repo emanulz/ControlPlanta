@@ -8,7 +8,7 @@
     <br/>
 
          <div class="hideonload succesmessage">
-            <div class="col-sm-6 alert alert-success fade in ">
+            <div class="col-sm-11 alert alert-success fade in ">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <strong>Completado!</strong> El deshuese fue registrado correctamente.<br/> <br/>
                 <a href=""  class=" btn btn-success" role="button" >Crear Nuevo</a>
@@ -33,6 +33,7 @@
                     <select class="form-control input-lg" name="tipo" id="tipo">
                     <option value="Carne de cerdo">Cerdo</option>
                     <option value="Carne de res">Res</option>
+                    <option disabled value="Pollo">Pollo</option>
                     </select>
                </div>
                 <label class="col-sm-1" for="lote">Lote:</label>
@@ -41,10 +42,7 @@
 
                         {% if lotes.count == 0 %}
                             <option value="vacio">No hay elementos</option>
-                        {% else %}
-                            {% for lote in lotes %}
-                            <option value="{{ lote.id }}">{{ lote }}</option>
-                            {% endfor %}
+
                         {% endif %}
                     </select>
                </div>

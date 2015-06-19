@@ -40,6 +40,45 @@ function main () {
             }
        });//eventos checkbox
 
+        $(".Cerdo").hide();
+        $(".Res").hide();
+        $(".Pollo").hide();
+        $(".Cerdo:hidden").show();
+
+        $( "#tipo" ).change(function() {
+
+            $("#pesototal").val(0);
+            $("#cantcanales").val(0);
+            lotescliked=[];
+            $('.Cerdo').attr('checked', false);
+            $('.Res').attr('checked', false);
+
+            if($("#tipo" ).val()==1){
+
+                $(".Res:hidden").hide();
+                $(".Pollo:hidden").hide();
+                $(".Res").hide();
+                $(".Pollo").hide();
+                $(".Cerdo:hidden").show();
+            }
+            if($("#tipo" ).val()==2){
+
+                $(".Cerdo:hidden").hide();
+                $(".Pollo:hidden").hide();
+                $(".Cerdo").hide();
+                $(".Pollo").hide();
+                $(".Res:hidden").show();
+            }
+            if($("#tipo" ).val()==3){
+
+                $(".Cerdo:hidden").hide();
+                $(".Res:hidden").hide();
+                $(".Cerdo").hide();
+                $(".Res").hide();
+                $(".Pollo:hidden").show();
+            }
+        });//cambios en tipo
+
         //botones
 
        $("#btnSubmit").on("click",guardarLote);
@@ -70,16 +109,16 @@ function sumarPeso (data){
     var pesocanal=parseFloat(data.peso);
     var pesoactual=parseFloat($("#pesototal").val());
     var pesototal=pesoactual+pesocanal;
-
-    $("#pesototal").val(pesototal);
+    var pesototal2=Math.round(pesototal* 1000) / 1000;
+    $("#pesototal").val(pesototal2);
     }//sumarPeso
 
 function restarPeso (data){
     var pesocanal=parseFloat(data.peso);
     var pesoactual=parseFloat($("#pesototal").val());
     var pesototal=pesoactual-pesocanal;
-
-    $("#pesototal").val(pesototal);
+    var pesototal2=Math.round(pesototal* 1000) / 1000;
+    $("#pesototal").val(pesototal2);
     }//restarPeso
 
 function guardarLote() {
@@ -90,6 +129,8 @@ function guardarLote() {
     var cantcanales = $("#cantcanales").val();
     var canaleslist = lotescliked;
     var pesototal = $("#pesototal").val();
+    var tipo=parseInt($("#tipo").val());
+
 
     $.ajax({
       method: "POST",
@@ -102,14 +143,15 @@ function guardarLote() {
         "fierro": fierronum,
         "canalesqty": cantcanales,
         "canales": canaleslist,
-        "totalweight": pesototal
+        "totalweight": pesototal,
+        "tipo": tipo
 
         }),//JSON object
           contentType:"application/json; charset=utf-8",
           dataType:"json"
         })
       .done(function(data){
-            errorhandle(data)
+         errorhandle(data)
         });
 }
 function errorhandle (data){

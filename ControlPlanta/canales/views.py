@@ -31,7 +31,7 @@ class CanalSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Canal
-        fields =('id','date','consecutive','weight','qualification','fierro','isonlote')
+        fields =('id','date','consecutive','weight','qualification','fierro','isonlote','tipo')
 
 
 # ViewSets define the view behavior.
@@ -40,3 +40,4 @@ class CanalViewSet(viewsets.ModelViewSet):
     serializer_class = CanalSerializer
     queryset = Canal.objects.all()
     lookup_field = 'id'
+    filter_fields=('id','date','consecutive','weight','qualification','fierro','isonlote','tipo')

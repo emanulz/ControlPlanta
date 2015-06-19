@@ -19,6 +19,7 @@ from api.views import LoteApiView
 from cajeros.views import CajeroCreate
 from canales.views import CanalViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
+from inventarios.views import InventarioTotalViewSet
 from lotes.views import LoteCreate, LandingView, LoteViewSet
 from rest_framework import routers
 from productos.views import ProductViewSet, FamiliaViewSet
@@ -34,7 +35,7 @@ router.register(r'familias', FamiliaViewSet)
 router.register(r'deshuese', DeshueseViewSet)
 router.register(r'detalledeshuese', DetalleDeshueseViewSet)
 router.register(r'lotes', LoteViewSet)
-
+router.register(r'inventariototal', InventarioTotalViewSet)
 
 
 

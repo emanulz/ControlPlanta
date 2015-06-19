@@ -88,9 +88,9 @@ SUIT_CONFIG = {
         {'app': 'cajeros', 'label': 'Cajeros', 'icon':'icon-th'},
         {'app': 'ventas', 'label': 'Ventas', 'icon':'icon-bullhorn'},
         {'app': 'lotes', 'label': 'Lotes', 'icon':'icon-barcode'},
-        {'app': 'canales', 'label': 'Canales', 'icon':'icon-tag'},
-        {'app': 'deshueses', 'label': 'Deshuese', 'icon':'icon-tag'},
-        {'app': 'inventarios', 'label': 'Inventarios', 'icon':'icon-tag'},
+        {'app': 'canales', 'label': 'Canales', 'icon':'icon-filter'},
+        {'app': 'deshueses', 'label': 'Deshuese', 'icon':'icon-tasks'},
+        {'app': 'inventarios', 'label': 'Inventarios', 'icon':'icon-hdd'},
 
     ),
 

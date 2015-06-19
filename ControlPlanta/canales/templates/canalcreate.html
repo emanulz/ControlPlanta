@@ -26,6 +26,17 @@
                  </div>
              </div>
 
+             <div class="form-group">
+
+                {{ form.tipo.errors }}
+
+                <label class="col-sm-2" for="id_tipo">Tipo:</label>
+
+                 <div class="col-sm-6">
+                      {{ form.tipo | add_class:" form-control input-lg"| add_error_class:" errorlist2" }}
+                 </div>
+            </div >
+
 
             <div class="form-group">
                  {{ form.consecutive.errors  }}
@@ -62,16 +73,7 @@
                  </div>
             </div >
 
-            <div class="form-group">
 
-                {{ form.isonlote.errors }}
-
-                <label class="col-sm-2" for="id_isonlote">Pertenece a lote?</label>
-
-                 <div class="col-sm-6">
-                      {{ form.isonlote | add_class:"disablecheckbox"| add_error_class:" errorlist2" }}
-                 </div>
-            </div >
 
             <br/>
             <div class="col-sm-2"></div>

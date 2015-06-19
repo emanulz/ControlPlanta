@@ -74,7 +74,7 @@ class LoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lote
-        fields =('id','lotenum','fierro','canalesqty','canales','totalweight','date','isondeshuese')
+        fields =('id','lotenum','fierro','canalesqty','canales','totalweight','date','tipo','isondeshuese')
 
 
 # ViewroductSets define the view behavior.
@@ -83,6 +83,6 @@ class LoteViewSet(viewsets.ModelViewSet):
     serializer_class = LoteSerializer
     queryset = Lote.objects.all()
     lookup_field = 'id'
-    filter_fields= ('id','lotenum','date')
+    filter_fields= ('id','lotenum','date','tipo','isondeshuese')
 
 

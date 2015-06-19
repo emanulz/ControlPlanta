@@ -43,6 +43,18 @@
                 </div>
             </div>
 
+             <div class="form-group">
+                <div class="col-sm-12 errorlist" id="tipoerror"> </div>
+                <label class="col-sm-2" for="tipo">Tipo:</label>
+               <div class="col-sm-6">
+                    <select class="form-control input-lg" name="tipo" id="tipo">
+                    <option value="1">Cerdo</option>
+                    <option value="2">Res</option>
+                    <option disabled value="3">Pollo</option>
+                    </select>
+               </div>
+            </div>
+
             <div class="form-group ">
                 <div class="col-sm-12 errorlist" id="fierronumerror"> </div>
 
@@ -61,11 +73,27 @@
 
                         {% for canal in canales %}
                             {% if  canal.isonlote != True %}
-                                <li>
-                                    <label style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>
-                                    <input type="checkbox" class="checkboxdis" id="{{ canal.id }}" data-id="{{ canal.id }}"/>
-
+                                {% if  canal.tipo.id == 1 %}
+                                <li class="Cerdo" >
+                                    <label class="Cerdo" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>
+                                    <input  type="checkbox" class="checkboxdis Cerdo" id="{{ canal.id }}" data-id="{{ canal.id }}"/>
                                 </li>
+                                {% endif %}
+
+                                 {% if  canal.tipo.id == 2%}
+                                <li class="Res">
+                                    <label class="Res" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>
+                                    <input  type="checkbox" class="checkboxdis Res" id="{{ canal.id }}" data-id="{{ canal.id }}"/>
+                                </li>
+                                {% endif %}
+
+                                 {% if  canal.tipo.id == 3 %}
+                                <li class="Pollo">
+                                    <label class="Pollo" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>
+                                    <input  type="checkbox" class="checkboxdis Pollo " id="{{ canal.id }}" data-id="{{ canal.id }}"/>
+                                </li>
+                                {% endif %}
+
                             {% endif %}
 
                         {% endfor %}

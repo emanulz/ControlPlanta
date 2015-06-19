@@ -6,9 +6,13 @@ var mermaporc=0;
 var enteronpeso = false;
 var matrixdetalle=[];
 var detalle=[];
+var vencimiento;
+var tipo;
+jQuery.ajaxSetup({async:false});
 
 $(document).on('ready', main);
 function main () {
+
         $.ajaxSetup({
 		beforeSend: function(xhr, settings) {
 			if(settings.type == "POST"){
@@ -29,10 +33,46 @@ function main () {
             event.preventDefault();
             var row=$(this).closest("tr");
             var rowIndex = row.index();
+            var pesoquitar = matrixdetalle[rowIndex][1];
+            pesodesh=Math.round((pesodesh-pesoquitar) * 1000) / 1000;
+            $("#pesodesh").val(pesodesh);
+            //calcular merma en KG
+            mermakg=Math.round((pesolote-pesodesh) * 1000) / 1000;
+            $("#mermakg").val(mermakg);
+            //calcular merma en %
+            mermaporc=Math.round(((mermakg*100)/pesolote) * 1000) / 1000;
+            $("#mermaporc").val(mermaporc);
             matrixdetalle.splice( rowIndex,1 );
             console.log(matrixdetalle);
             $(this).parent().parent().remove();
         });
+
+            //cambios en tipo
+
+         $( "#tipo" ).change(function() {
+
+            if($("#tipo" ).val()=="Carne de cerdo"){
+                $("#lote" ).html('');
+                $("#pesolote").val(0);
+                $.get('/api/lotes/?tipo=1&isondeshuese=False', llenarlotes);
+                var pesoloteini =$( "#lote").val();
+                $.get('/api/lotes/?id='+pesoloteini,SetPesoLote);
+            }
+            if($("#tipo" ).val()=="Carne de res"){
+                $("#lote" ).html('');
+                $("#pesolote" ).val(0);
+                $.get('/api/lotes/?tipo=2&isondeshuese=False', llenarlotes);
+                var pesoloteini =$( "#lote").val();
+                $.get('/api/lotes/?id='+pesoloteini,SetPesoLote);
+            }
+            if($("#tipo" ).val()=="Pollo"){
+                $("#lote" ).html('');
+                $("#pesolote" ).val(0);
+                $.get('/api/lotes/?tipo=3&isondeshuese=False', llenarlotes);
+                var pesoloteini =$( "#lote").val();
+                $.get('/api/lotes/?id='+pesoloteini,SetPesoLote);
+            }
+        });//cambios en tipo
 
         //evento enter buscar
         $('#codigo').on('keypress', function (event) {
@@ -106,8 +146,24 @@ function main () {
 
 
     //eventos iniciales:
+
+
+        $.get('/api/lotes/?tipo=1&isondeshuese=False', llenarlotes);
         var pesoloteini =$( "#lote").val();
         $.get('/api/lotes/?id='+pesoloteini,SetPesoLote);
+
+    //valor vencimiento
+
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 2)).slice(-2);
+        var year=now.getFullYear();
+        if (month>12){
+            month=month-12;
+            year=year+1;
+        }
+        vencimiento = (year)+"-"+(month)+"-"+(day) ;
+        //console.log(vencimiento);
 
     }//main
 
@@ -127,10 +183,12 @@ function LoteListo(){
             //console.log($("#tipo").val());
 
         if ($("#tipo").val()==="Carne de cerdo"){
+            tipo=1;
             $('#codigo').val(1001);
             $.get('/api/productos/?category=1', llenarproductos);
         }
         if ($("#tipo").val()==="Carne de res"){
+            tipo=2;
             $('#codigo').val(2001);
             $.get('/api/productos/?category=2', llenarproductos);
         }
@@ -163,6 +221,20 @@ function LoteListo(){
     mermakg=0;
     mermaporc=0;
  }
+
+function llenarlotes(data){
+    console.log(data.length);
+    $("#lote").html('');
+
+    if(data.length!=0){
+    $.each( data, function(index){
+        $("#lote").append(new Option(data[index].lotenum, data[index].id));
+    });
+    }
+    else{
+       $("#lote").append(new Option("No hay elementos", "vacio"));
+    }
+}
 
 
 function llenarproductos(data){
@@ -199,6 +271,7 @@ function SetCodigo(data){
 }
 
 function SetPesoLote(data){
+   // console.log(data);
 
     if (typeof data[0]!=='undefined' ){
 
@@ -287,6 +360,7 @@ function guardarDetalle() {
         $.ajax({
           method: "POST",
           url: "/api/detalledeshuese/",
+          async: false,
 
           data: JSON.stringify({
             "producto": matrixdetalle[i][0],
@@ -304,8 +378,34 @@ function guardarDetalle() {
                 console.log(data);
             });
 
+        $.ajax({
+          method: "POST",
+          url: "/api/inventariototal/",
+          async: false,
 
-        if(i==control-1){
+          data: JSON.stringify({
+            "producto": matrixdetalle[i][0],
+            "peso": matrixdetalle[i][1],
+            "lote": lote,
+            "vencimiento": vencimiento,
+            "tipo":tipo
+
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alert("Hubo un problema al crear el inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+            })
+            .success(function(data){
+                console.log(data);
+            });
+
+
+        if(i==(control-1)){
+            console.log(control);
+            console.log(i);
 
             $.get('/api/detalledeshuese/?lote='+lote, function (data) {
                 $.each( data, function(index){
@@ -347,6 +447,7 @@ function guardarDeshuese() {
     $.ajax({
       method: "POST",
       url: "/api/deshuese/",
+      async: false,
 
       data: JSON.stringify({
         "lote": lote,
@@ -364,6 +465,7 @@ function guardarDeshuese() {
         })
     .success(function(data){
             console.log(data);
+            patchlote();
             
         });
 
@@ -450,19 +552,18 @@ function errorclean(){
 
 }
 
-function patchcanal(){
+function patchlote(){
 event.preventDefault();
+    var lote =parseInt($("#lote").val());
 
-    for (index = 0; index < lotescliked.length; ++index) {
-    console.log(lotescliked[index]);
 
         $.ajax({
       method: "PATCH",
-      url: "/api/canales/"+lotescliked[index]+"/",
+      url: "/api/lotes/"+lote+"/",
 
       data: JSON.stringify({
 
-        "isonlote": true
+        "isondeshuese": true
 
         }),//JSON object
           contentType:"application/json; charset=utf-8",
@@ -470,14 +571,15 @@ event.preventDefault();
 
         })
 
-      .done(function() {
-        $("#date").prop("disabled",true);
-        $("#numlote").prop("disabled",true);
-        $("#fierronum").prop("disabled",true);
-        $(".checkboxdis").prop("disabled",true);
-        $(".btn").prop("disabled",true);
+      .success(function() {
+        $("#BtnCrear").prop("disabled",true);
+        $("#BtnNoConfirmar").prop("disabled",true);
         $(".succesmessage:hidden").show("slow");
+        })
+        .fail(function() {
+        //$("#BtnCrear").prop("disabled",true);
+        $(".failmessage:hidden").show("slow");
         });
-    }
+
 
 }
