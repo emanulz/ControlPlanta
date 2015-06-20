@@ -1,0 +1,154 @@
+{% extends 'base2.html' %}
+{% block content %}
+     <script src="/static/js/trazabilidad.js"></script>
+<div class="PaddingContent">
+    <h3>Consultar Trazabilidad:</h3>
+    <br/>
+    <h4 id="titulohide">Por Favor ingrese el número de lote: </h4>
+    <br/>
+
+         <div class="hideonload succesmessage">
+            <div class="col-sm-9 alert alert-success fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Completado!</strong> El lote fue creado correctamente.<br/> <br/>
+                <a href=""  class=" btn btn-success" role="button" >Crear Nuevo</a>
+            </div>
+        </div>
+        <div class="hideonload failmessage">
+            <div class="col-sm-9 alert alert-danger fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Error en formulario!</strong> Corrija los errores mostrados.
+            </div>
+        </div>
+        <div class="hideonload failmessage2">
+            <div class="col-sm-9 alert alert-danger fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Error!</strong> Por favor introduzca un valor de lote válido.
+            </div>
+        </div>
+
+       <div>
+        <form  class="form-horizontal col-sm-9" action="" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+
+            <div class="form-group">
+                <label class="col-sm-2" for="lotemun">Número de lote:</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control input-lg" id="lotenum" placeholder="Número de lote.">
+                </div>
+                <div class=" col-sm-3">
+                   <button  type="button" class=" btn btn-success  form-control marginTop15px2" id="BtnConsultar" style="width: 125px ">Consultar <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                   <button  type="button" class=" btn btn-danger  form-control marginTop15px2" id="BtnLimpiar" style="width: 125px ">Limpiar <span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                </div>
+            </div>
+        </div>
+
+        </form>
+
+
+
+
+        <form  class="hideform form-horizontal col-sm-10" action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-group">
+                    <h4 class="col-sm-10" id="titulohide">Detalles del Lote: </h4>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label class="col-sm-2" for="fierro">Fierro:</label>
+                    <div class="col-sm-4">
+                        <input disabled type="text" class="form-control input-lg disini" id="fierro">
+                    </div>
+                    <label class="col-sm-2" for="nombre">Nombre:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control input-lg disini" id="nombre">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="tipo">Tipo:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control input-lg disini" id="tipo">
+                    </div>
+                    <label class="col-sm-2" for="peso">Peso Kg:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control input-lg disini" id="peso" >
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-sm-2" for="fecha">Empaque:</label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control input-lg disini" id="fecha">
+                    </div>
+                    <label class="col-sm-2" for="canalesnum"># De Canales:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control input-lg disini" id="canalesnum">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h4 class="col-sm-10" id="titulohide">Resumen de Canales: </h4>
+                </div>
+                <div class=" form-group col-sm-12 ">
+                    <table class="table table-bordered table-hover " data-toggle="table" id="tablacanales" data-url="" data-cache="false" data-height="299">
+                        <thead>
+                        <tr class="danger">
+                            <th><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></th>
+                            <th data-field="id">Canal</th>
+                            <th data-field="name">Consecutivo</th>
+                            <th data-field="name">Peso en Kg</th>
+                            <th data-field="name">Calificación</th>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <h4 class="col-sm-10" id="titulohide">Detalles del deshuese: </h4>
+                </div>
+                <div class=" form-group col-sm-12 ">
+                    <table class="table table-bordered table-hover " data-toggle="table" id="tabladeshuese" data-url="" data-cache="false" data-height="299">
+                        <thead>
+                        <tr class="danger">
+                            <th><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></th>
+                            <th data-field="id">Corte</th>
+                            <th data-field="name">Peso en Kg</th>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <div class="nodeshuese">
+                        <div class="col-sm-12 alert alert-warning fade in ">
+                            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                            <strong>Advertencia!</strong> El lote seleccionado no está registrado como deshuesado.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group detalles ">
+                    <label class="col-sm-2" for="pesodesh">Deshuese Kg:</label>
+                    <div class="col-sm-3">
+                        <input disabled type="text" class="form-control input-lg disini " id="pesodesh">
+                    </div>
+                    <label class="col-sm-2" for="merma">Merma %:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control input-lg disini " id="merma">
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+
+
+    </div>
+
+</div>
+
+{% endblock %}

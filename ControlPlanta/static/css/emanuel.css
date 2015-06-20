@@ -17,6 +17,10 @@
     margin-top: 10px;
 }
 
+.marginTop15px2{
+
+      margin-top:15px;
+   }
 
 @media (min-width: 768px) {
    .errorlist {
@@ -30,6 +34,10 @@
    .marginTop15px{
 
       margin-top:15px;
+   }
+   .marginTop15px2{
+
+      margin-top:0;
    }
 }
 

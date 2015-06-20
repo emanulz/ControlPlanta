@@ -20,7 +20,6 @@ class LoteCreate(CreateView):
     def dispatch(self, request, *args, **kwargs):
         return super(LoteCreate, self).dispatch(request, *args, **kwargs)
 
-
     model = Lote
     fields = ['lotenum', 'fierro', 'canalesqty', 'canales', 'totalweight']
     template_name = 'lotecreate.html'
@@ -43,8 +42,7 @@ def loteform2(request):
                   context_instance=RequestContext(request))
 
 
-class LandingView(TemplateView):
-    template_name = "landing.html"
+
 
 @login_required(login_url='/admin/login/')
 def loteform(request):

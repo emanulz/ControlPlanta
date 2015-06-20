@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'canales',
     'deshueses',
     'inventarios',
+    'frontend',
 
 
 

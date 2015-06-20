@@ -9,7 +9,7 @@ from proveedores.models import Proveedor
 class CanalSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Proveedor
-        fields = ('name', 'lastname', 'identification', 'provcode', 'fierro')
+        fields = ('id','name', 'lastname', 'identification', 'provcode', 'fierro')
 
 
 # ViewSets define the view behavior.
@@ -17,3 +17,4 @@ class ProveedorViewSet(viewsets.ModelViewSet):
     # model=Lote
     queryset = Proveedor.objects.all()
     serializer_class = CanalSerializer
+    filter_fields=('id','name', 'lastname', 'identification', 'provcode', 'fierro')
