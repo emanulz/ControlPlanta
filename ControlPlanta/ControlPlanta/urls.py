@@ -20,6 +20,7 @@ from cajeros.views import CajeroCreate
 from canales.views import CanalViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
 from inventarios.views import InventarioTotalViewSet
+from ventas.views import VentasView
 from lotes.views import LoteCreate, LoteViewSet
 from frontend.views import LandingView, TrazabilidadView
 from rest_framework import routers
@@ -43,6 +44,7 @@ router.register(r'inventariototal', InventarioTotalViewSet)
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^trazabilidad/', TrazabilidadView.as_view()),
+    url(r'^ventas/', VentasView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
     url(r'adddeshuese/', 'deshueses.views.deshueseform', name='deshueses'),
@@ -53,7 +55,4 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^', LandingView.as_view()),
-
-
-
 ]
