@@ -5,6 +5,7 @@ from django.shortcuts import render
 # Create your views here.
 # Serializers define the API representation.
 from rest_framework import serializers, viewsets
+from productos.filters import ProductFilter
 from productos.models import Producto, FamiliaDelProducto
 
 
@@ -32,8 +33,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Producto.objects.all()
     lookup_field = 'id'
-    filter_fields= ('id','category','product_code','description')
-
+    #filter_fields= ('id','category','product_code','description')
+    filter_class=ProductFilter
 
 class FamiliaSerializer(serializers.ModelSerializer):
 

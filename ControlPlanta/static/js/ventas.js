@@ -1,11 +1,12 @@
 //variables globales
-var pesolote=0;
-var pesodesh=0;
-var mermakg=0;
-var mermaporc=0;
+
 var enteronpeso = false;
 var matrixdetalle=[];
 var detalle=[];
+var codigobusqueda=[];
+var matrixventa=[];
+var totalventa=0;
+
 var vencimiento;
 var tipo;
 jQuery.ajaxSetup({async:false});
@@ -28,20 +29,44 @@ function main () {
 	});
 
 
-            $('.cd-btn').on('click', function(event){
+            $('.btnpagar').on('click', function(event){
                 event.preventDefault();
-                $('.cd-panel').addClass('is-visible');
+                $('.cd-panelpagar').addClass('is-visible');
+                blurElement('.blurlines',2);
             });
                 //clode the lateral panel
-            $('.cd-panel').on('click', function(event){
+            $('.cd-panelpagar').on('click', function(event){
                 if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                    $('.cd-panel').removeClass('is-visible');
+                    $('.cd-panelpagar').removeClass('is-visible');
+                    blurElement('.blurlines',0);
                     event.preventDefault();
                 }
             });
             $('.btntest').on('click', function(event){
                 //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                    $('.cd-panel').removeClass('is-visible');
+                    $('.cd-panelpagar').removeClass('is-visible');
+                    blurElement('.blurlines',0);
+                    event.preventDefault();
+               // }
+            });
+
+            $('.btnbuscar').on('click', function(event){
+                event.preventDefault();
+                $('.cd-panelbuscar').addClass('is-visible');
+                blurElement('.blurlines',2);
+            });
+                //clode the lateral panel
+            $('.cd-panelbuscar').on('click', function(event){
+                if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                    $('.cd-panelbuscar').removeClass('is-visible');
+                    blurElement('.blurlines',0);
+                    event.preventDefault();
+                }
+            });
+            $('#btncerrarbuscar').on('click', function(event){
+                //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                    $('.cd-panelbuscar').removeClass('is-visible');
+                    blurElement('.blurlines',0);
                     event.preventDefault();
                // }
             });
@@ -54,18 +79,33 @@ function main () {
             event.preventDefault();
             var row=$(this).closest("tr");
             var rowIndex = row.index();
-            var pesoquitar = matrixdetalle[rowIndex][1];
-            pesodesh=Math.round((pesodesh-pesoquitar) * 1000) / 1000;
+            var totalquitar = matrixventa[rowIndex][4];
+            totalventa=Math.round((totalventa-totalquitar) * 1000) / 1000;
+            /*pesodesh=Math.round((pesodesh-pesoquitar) * 1000) / 1000;
             $("#pesodesh").val(pesodesh);
             //calcular merma en KG
             mermakg=Math.round((pesolote-pesodesh) * 1000) / 1000;
             $("#mermakg").val(mermakg);
             //calcular merma en %
             mermaporc=Math.round(((mermakg*100)/pesolote) * 1000) / 1000;
-            $("#mermaporc").val(mermaporc);
-            matrixdetalle.splice( rowIndex,1 );
-            console.log(matrixdetalle);
+            $("#mermaporc").val(mermaporc);*/
+            $('.totalventa').html('₡ '+totalventa);
+            matrixventa.splice( rowIndex,1 );
+            console.log(matrixventa);
             $(this).parent().parent().remove();
+        });
+
+        //selectrow
+        $('html').on('click','.selectrow', function () {
+            event.preventDefault();
+            var row=$(this).closest("tr");
+            var rowIndex = row.index();
+            var codigo = codigobusqueda[rowIndex];
+            $("#tablabusqueda > tbody").html("");
+            $('#producto').val(codigo);
+            $('.cd-panelbuscar').removeClass('is-visible');
+            blurElement('.blurlines',0);
+
         });
 
             //cambios en tipo
@@ -103,10 +143,23 @@ function main () {
              }
        });
 
+        $('#busqueda').on('keypress', function (event) {
+             if(event.which === 13){
+                event.preventDefault();
+
+                BuscarProducto();
+             }
+       });
+
         //evento enter peso
         $('#peso').on('keypress', function (event) {
              if(event.which === 13 && enteronpeso){
                AgregarATabla();
+             }
+       });
+         $('#cantidad').on('keypress', function (event) {
+             if(event.which === 13 ){
+               getProducto();
              }
        });
 
@@ -140,7 +193,8 @@ function main () {
         //botones
 
 
-        $("#BtnAdd").on("click",AgregarATabla);
+        $("#btnbusqueda").on("click",BuscarProducto);
+        $("#Btnproducto").on("click",getProducto);
         $("#Btnlote").on("click",LoteListo);
         $("#Btnquitlote").on("click",Lotequit);
         $("#BtnConfirmar").on("click",ConfirmarDatos);
@@ -178,7 +232,9 @@ function main () {
 
         var now = new Date();
         var day = ("0" + now.getDate()).slice(-2);
+        var month2 = ("0" + (now.getMonth() + 1)).slice(-2);
         var month = ("0" + (now.getMonth() + 2)).slice(-2);
+        var year2=now.getFullYear();
         var year=now.getFullYear();
         if (month>12){
             month=month-12;
@@ -186,9 +242,86 @@ function main () {
         }
         vencimiento = (year)+"-"+(month)+"-"+(day) ;
         //console.log(vencimiento);
+        today = (year2)+"-"+(month2)+"-"+(day) ;
+        //console.log(today);
+        $("#date").val(today);
+        $("#cantidad").val(1);
+        $("#date").prop("disabled",true);
+        $.get('/api/clientes/',llenarClientes);
 
     }//main
 
+function blurElement(element, size){
+            var filterVal = 'blur('+size+'px)';
+            $(element)
+              .css('filter',filterVal)
+              .css('webkitFilter',filterVal)
+              .css('mozFilter',filterVal)
+              .css('oFilter',filterVal)
+              .css('msFilter',filterVal);
+        }
+
+function llenarClientes(data){
+
+    $("#codigo").val('0000');
+    $.each( data, function(i){
+        $("#cliente").append(new Option(data[i].name+' '+data[i].last_name, data[i].code));
+    });
+
+}
+
+function getProducto(){
+    var a=$('#producto').val();
+    $.get('/api/productos/?product_code='+a,llenartablaProductos);
+}
+
+function BuscarProducto(){
+    codigobusqueda=[];
+    $("#tablabusqueda > tbody").html("");
+    var a=$('#busqueda').val();
+    console.log(a);
+    if ($('#tipobusqueda').val()=='1'){
+        console.log('desc');
+        $.get('/api/productos/?description='+a,llenarTablaBusqueda);
+    }
+    else{
+        console.log('code');
+        $.get('/api/productos/?product_code='+a,llenarTablaBusqueda);
+    }
+
+}
+
+function llenarTablaBusqueda(data){
+    console.log(data);
+        $.each( data, function(i){
+            codigobusqueda.push(data[i].product_code);
+            $('#tablabusqueda > tbody:last').append('<tr><td>' + data[i].product_code + '</td><td>' + data[i].description +
+            '</td><td>' + data[i].price + '</td><td><button  type="button" class=" btn btn-success form-control selectrow " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
+        });
+}
+
+function llenartablaProductos(data){
+
+    var cantidad =$('#cantidad').val();
+    var price=(data[0].price*cantidad);
+    var pricer=Math.round((price) * 1000) / 1000;
+    totalventa=totalventa+pricer;
+    var totalventa2=totalventa.toFixed(2);
+
+    $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td>₡ ' +data[0].price + '</td><td>' + $('#cantidad').val() + '</td>' +
+    '<td> ₡ ' + pricer +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+
+    matrixventa.push([data[0].product_code, data[0].description,data[0].price ,$('#cantidad').val(),pricer]);
+
+
+    $('.totalventa').html(totalventa2);
+
+    $('.totalventa').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+}
 
 function LoteListo(){
 
@@ -245,7 +378,7 @@ function LoteListo(){
  }
 
 function llenarlotes(data){
-    console.log(data.length);
+  //  console.log(data.length);
     $("#lote").html('');
 
     if(data.length!=0){

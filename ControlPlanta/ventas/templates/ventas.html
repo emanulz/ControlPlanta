@@ -5,25 +5,24 @@
 	<link rel="stylesheet" href="/static/panel/css/reset.css"> <!-- CSS reset -->
 	<link rel="stylesheet" href="/static/panel/css/style.css"> <!-- Resource style -->
 	<script src="/static/panel/js/modernizr.js"></script> <!-- Modernizr -->
+    <script src="/static/js/PriceFormat.js"></script>
+    <script src="/static/js/ventas.js"></script>
 
-     <script src="/static/js/ventas.js"></script>
-
-<div class="PaddingContent">
-         <div class="hideonload succesmessage">
+<div class="PaddingContent blurlines">
+    <div class="hideonload succesmessage">
             <div class="col-sm-11 alert alert-success fade in ">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <strong>Completado!</strong> El deshuese fue registrado correctamente.<br/> <br/>
                 <a href=""  class=" btn btn-success" role="button" >Crear Nuevo</a>
             </div>
-        </div>
-        <div class="hideonload failmessage">
+        </div><!-- Mensage success -->
+    <div class="hideonload failmessage">
             <div class="col-sm-6 alert alert-danger fade in ">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <strong>Error en formulario!</strong> Corrija los errores mostrados.
             </div>
-        </div>
-
-<div class="container-fluid form-group" >
+        </div><!-- Mensaje Error -->
+    <div class="container-fluid form-group" >
     <form class="form-horizontal col-sm-12" action="">
         {% csrf_token %}
         <div class="form-group">
@@ -36,10 +35,7 @@
                 <div class="col-sm-4">
                     <input type="text" class="form-control input-lg" id="cajero">
                 </div>
-         <div class=" col-sm-1">
-                <button type="button" id="Btnlote" class="btn btn-success marginTop15px2"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-                <button type="button" id="Btnquitlote" class="btn btn-danger marginTop15px2"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-            </div>
+
         </div> <!-- Fecha y cajero -->
             <div class="form-group">
             <label class="col-sm-1" for="codigo">Cliente:</label>
@@ -49,14 +45,16 @@
 
             <label class="col-sm-1" for="tipo">Nombre:</label>
             <div class="col-sm-4">
-                <select class="form-control input-lg" name="corte" id="corte">
+                <select class="form-control input-lg" name="cliente" id="cliente">
 
                 </select>
             </div>
-            <div class=" col-sm-1">
-                <button type="button" id="Btnlote2" class="btn btn-success marginTop15px2"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-                <button type="button" id="Btnquitlote2" class="btn btn-danger marginTop15px2"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+            <div class=" col-sm-2">
+                <button type="button" id="btnclientready" class="btn btn-success marginTop15px2"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+                <button type="button" id="btnclientsearch" class="btn btn-success marginTop15px2"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+
             </div>
+
 
          </div><!-- cliente cod y nombre -->
         </div>
@@ -65,28 +63,34 @@
         <div class="form-group">
             <div class="form-group col sm-12" >
             <label class="col-sm-1" for="producto">Producto:</label>
-            <div class="col-sm-8">
+            <div class="col-sm-3">
                 <input type="text" class="form-control input-lg" id="producto">
             </div>
-            <div class=" col-sm-1">
-                <button type="button" id="Btnlote" class="btn btn-success marginTop15px2"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            <label class="col-sm-1" for="cantidad">Cantidad:</label>
+            <div class="col-sm-4">
+                <input type="number" class="form-control input-lg" id="cantidad">
+            </div>
+            <div class=" col-sm-2">
+                <button type="button" id="Btnproducto" class="btn btn-success marginTop15px2"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                <button type="button" id="Btnbuscarproducto" class="btn btn-success marginTop15px2 btnbuscar"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                 <!--<button type="button" id="Btnquitlote" class="btn btn-danger marginTop15px2"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> -->
             </div>
 
             </div><!-- peoductos y boton -->
         </div>
     </form><!-- productos y buscar -->
-    <form class="form-horizontal col-sm-8" action="">
+    <form class="form-horizontal col-sm-9" action="">
         <div class="form-group">
             <div class=" form-group col-sm-12 ">
-            <table class="table table-bordered table-hover" data-toggle="table" id="tabla" data-url="" data-cache="false" data-height="299">
+            <table class="table table-bordered table-hover" data-toggle="table" id="tablaproductos" data-url="" data-cache="false" data-height="299">
                 <thead>
                     <tr class="danger">
-                        <th><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></th>
                         <th data-field="id">Código</th>
                         <th data-field="name">Descripción</th>
-                        <th data-field="name">Cantidad</th>
-                        <th data-field="name">Precio</th>
+                        <th data-field="name">P/U</th>
+                        <th data-field="name">Cant</th>
+                        <th data-field="name">Total</th>
+                        <th data-field="name">X</th>
                     </tr>
 
                 </thead>
@@ -98,70 +102,71 @@
         </div><!-- tabla -->
         </div>
     </form><!-- tabla de productods -->
-    <form class="form-horizontal col-sm-4" action="">
-        <div class="form-group">
+    <form class="form-horizontal col-sm-3" action="">
+        <div class="col-sm-1"></div>
+        <div class="form-group col-sm-11 ">
             <div class="form-group">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-11">
-                    <label for="pesolote">Peso del lote Kg:</label>
+                <div class="col-sm-12">
+                    <label for="pesolote">Total de Kilogramos:</label>
                     <div>
-                        <input type="number" class="form-control input-lg" id="pesolote">
+                        <br/>
+                        <span class="sidePanelData">0 Kg</span>
                     </div>
                 </div>
-            </div><!-- peso del lote -->
+            </div><!-- total de kilogramos-->
             <div class="form-group">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-11">
-                    <label for="pesodesh">Peso del deshuese Kg:</label>
+                <div class="col-sm-12">
+                    <label for="totalart">Total de Artículos:</label>
                     <div>
-                        <input type="number" class="form-control input-lg" id="pesodesh">
+                        <br/>
+                        <span class="sidePanelData">0</span>
                     </div>
                 </div>
-            </div><!-- peso deshuese -->
+            </div><!-- Total de artículos -->
             <div class="form-group">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-11">
-                    <label for="mermakg">Merma en Kg:</label>
+                <div class="col-sm-12">
+                    <label for="mermakg">Sub Total:</label>
                     <div>
-                        <input type="text" class="form-control input-lg" id="mermakg">
+                        <br/>
+                        <span class="sidePanelData">₡ 0</span>
                     </div>
                 </div>
-            </div><!-- merma kg -->
+            </div><!-- Sub total -->
             <div class="form-group">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-11">
-                    <label for="mermaporc">Merma en %:</label>
+                <div class="col-sm-12">
+                    <label for="mermaporc">I.V</label>
                     <div>
-                        <input type="text" class="form-control input-lg" id="mermaporc">
+                        <br/>
+                        <span class="sidePanelData">₡ 0</span>
+
                     </div>
                 </div>
-            </div><!-- merma porcentaje -->
-            <div class="form-group col-sm-12">
-                <div class=" pull-right">
-                    <button  type="button" class=" btn btn-success  form-control marginBtnAdd2 cd-btn" id="BtnConfirmar" style="width: 160px">Confirmar Datos</button>
-                    <button  type="button" class=" btn btn-danger  form-control marginBtnAdd2" id="BtnNoConfirmar" style="width: 160px">Editar Datos</button>
+            </div><!-- Iv -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label>Total:</label>
+                    <div>
+                        <br/>
+                        <div class="sidePanelData2 totalventa">₡ 0</div>
+
+                    </div>
+                </div>
+            </div><!-- Total -->
+            <div class="form-group " style="margin-top: 15px">
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-success  form-control  btnpagar" id="BtnConfirmar" style="width: 160px">Pagar</button>
+                    <button  type="button" class=" btn btn-danger  form-control " id="BtnNoConfirmar" style="width: 160px">Editar Datos</button>
                 </div>
             </div><!-- btnconfirmar -->
-            <div class="form-group col-sm-12">
-                <div class=" pull-right">
-
-                    <button  type="button" class=" btn btn-success form-control marginBtnAdd2" id="BtnCrear" style="width: 160px">Registar deshuese</button>
-                </div>
-            </div><!-- btn submit -->
-
         </div>
     </form><!-- Side bar -->
-
+</div><!-- Pagina principal -->
 </div>
 
-</div>
-
-
-<div class="cd-panel from-right">
+<div class="cd-panel cd-panelpagar from-right">
 		<header class="cd-panel-header">
-			<h1>Title Goes Here</h1>
-			<a href="#" class="cd-panel-close">Close</a>
-		</header>
+			<h1>Datos del Pago</h1>
+        </header>
 
 		<div class="cd-panel-container">
 			<div class="cd-panel-content">
@@ -221,7 +226,73 @@
            </form>
             </div> <!-- cd-panel-content -->
 		</div> <!-- cd-panel-container -->
-	</div> <!-- cd-panel -->
+	</div> <!-- Panel de pagar -->
 
+<div class="cd-panel cd-panelbuscar from-left">
+		<header class="cd-panel-header">
+			<h1>Búsqueda de Producto</h1>
+        </header>
+
+        <div class="cd-panel-container">
+            <div class="cd-panel-content">
+                <div class="form-group">
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="tipobusqueda">Tipo de búsqueda:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select class="form-control input-lg" name="" id="tipobusqueda">
+                                <option value="1">Descripción</option>
+                                <option value="2">Código</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="busqueda">Búsqueda:</label>
+                        </div>
+                        <div class="col-sm-9">
+                        <div>
+                        <input type="text" class="form-control input-lg" id="busqueda">
+                        </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class=" pull-right">
+                        <button  type="button" class=" btn btn-success  form-control marginBtnAdd2 " id="btnbusqueda" style="width: 160px">Buscar <span class="glyphicon glyphicon-search"> </span></button>
+                        </div>
+                    </div>
+                 </form>
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-hover" data-toggle="table" id="tablabusqueda" data-url="" data-cache="false" data-height="299">
+                                <thead>
+                                    <tr class="danger">
+                                    <th data-field="id">Código</th>
+                                    <th data-field="descripcion">Descripción</th>
+                                    <th data-field="precio">Precio</th>
+                                    <th data-field="agregar">Agregar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class=" pull-right">
+                        <button  type="button" class=" btn btn-danger  form-control marginBtnAdd2 btntest" id="btncerrarbuscar" style="width: 160px"><span class="glyphicon glyphicon-menu-left"></span> Regresar</button>
+                        </div>
+                    </div>
+
+                </form>
+                </div>
+            </div> <!-- cd-panel-content -->
+        </div> <!-- cd-panel-container -->
+	</div> <!-- Panel de Buscar -->
 
 {% endblock %}

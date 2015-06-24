@@ -7,9 +7,9 @@ from models import Cliente
 
 @admin.register(Cliente)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'last_name', 'identification', 'adress', 'email', 'phone_number', 'isassociated', 'hascredit')
+    list_display = ('code', 'name', 'last_name', 'identification', 'adress', 'email', 'phone_number', 'isassociated', 'hascredit')
     # list_filter = ('name','identification')
-    search_fields = ('name', 'identification', 'last_name', )
+    search_fields = ('name', 'identification', 'last_name', 'code' )
 
     def hascredit(self, obj):
         return obj.credit

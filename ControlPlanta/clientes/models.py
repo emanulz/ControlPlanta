@@ -11,6 +11,7 @@ def phone_default():
 # Cliente = Client
 
 class Cliente(models.Model):
+    code=models.PositiveIntegerField(default=0000,verbose_name='Codigo de Cliente')
     name = models.CharField(max_length=255, verbose_name='Nombre')
     last_name = models.CharField(max_length=255, verbose_name='Apellidos', null=True)
     phone_number = models.CharField(max_length=9, blank=True, null=True, default=phone_default,verbose_name='Número de teléfono')

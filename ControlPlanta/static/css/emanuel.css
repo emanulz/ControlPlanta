@@ -22,6 +22,21 @@
       margin-top:15px;
    }
 
+.sidePanelData{
+
+    padding-left: 0;
+    font-size: 20px ;
+    color: #e38e09;
+    font-family: sans-serif
+}
+.sidePanelData2{
+
+    padding-left: 0;
+    font-size: 30px ;
+    color: #e38e09;
+    font-family: sans-serif
+}
+
 @media (min-width: 768px) {
    .errorlist {
        margin-left: 17%;
