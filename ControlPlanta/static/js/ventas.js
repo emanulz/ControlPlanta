@@ -1,10 +1,16 @@
 //variables globales
 
 var enteronpeso = false;
+var enteronaddproducto = false;
 var matrixdetalle=[];
 var detalle=[];
 var codigobusqueda=[];
+var codigobusquedacliente=[];
 var matrixventa=[];
+var totalkg=0;
+var totalart=0;
+var subtotal=0;
+var totaliv=0;
 var totalventa=0;
 
 var vencimiento;
@@ -28,74 +34,126 @@ function main () {
 		}
 	});
 
+        //PANEL DE PAGAR
 
-            $('.btnpagar').on('click', function(event){
+        $('.btnpagar').on('click', function(event){
+            event.preventDefault();
+            $('.cd-panelpagar').addClass('is-visible');
+            blurElement('.blurlines',2);
+        });
+        $('.cd-panelpagar').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelpagar').removeClass('is-visible');
+                blurElement('.blurlines',0);
                 event.preventDefault();
-                $('.cd-panelpagar').addClass('is-visible');
-                blurElement('.blurlines',2);
-            });
-                //clode the lateral panel
-            $('.cd-panelpagar').on('click', function(event){
-                if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                    $('.cd-panelpagar').removeClass('is-visible');
-                    blurElement('.blurlines',0);
-                    event.preventDefault();
-                }
-            });
-            $('.btntest').on('click', function(event){
-                //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                    $('.cd-panelpagar').removeClass('is-visible');
-                    blurElement('.blurlines',0);
-                    event.preventDefault();
-               // }
-            });
-
-            $('.btnbuscar').on('click', function(event){
+            }
+        });
+        $('.btntest').on('click', function(event){
+            //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelpagar').removeClass('is-visible');
+                blurElement('.blurlines',0);
                 event.preventDefault();
-                $('.cd-panelbuscar').addClass('is-visible');
-                blurElement('.blurlines',2);
-            });
-                //clode the lateral panel
-            $('.cd-panelbuscar').on('click', function(event){
-                if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                    $('.cd-panelbuscar').removeClass('is-visible');
-                    blurElement('.blurlines',0);
-                    event.preventDefault();
-                }
-            });
-            $('#btncerrarbuscar').on('click', function(event){
-                //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                    $('.cd-panelbuscar').removeClass('is-visible');
-                    blurElement('.blurlines',0);
-                    event.preventDefault();
-               // }
-            });
+           // }
+        });
 
+        //PANEL DE BUSCAR PRODUCTO
+
+        $('.btnbuscar').on('click', function(event){
+            event.preventDefault();
+            $('.cd-panelbuscar').addClass('is-visible');
+            blurElement('.blurlines',2);
+        });
+        $('.cd-panelbuscar').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelbuscar').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                event.preventDefault();
+            }
+        });
+        $('#btncerrarbuscar').on('click', function(event){
+            //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelbuscar').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                event.preventDefault();
+           // }
+        });
+
+        //PANEL DE BUSCAR CLIENTE
+
+        $('.btnbuscarcliente').on('click', function(event){
+        event.preventDefault();
+        $('.cd-panelbuscarcliente').addClass('is-visible');
+        blurElement('.blurlines',2);
+        });
+        $('.cd-panelbuscarcliente').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelbuscarcliente').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                event.preventDefault();
+            }
+        });
+        $('#btncerrarbuscarcliente').on('click', function(event){
+            //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelbuscarcliente').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                event.preventDefault();
+           // }
+        });
 
 
 
         //remove row
+
         $('html').on('click','.removerow', function () {
             event.preventDefault();
             var row=$(this).closest("tr");
             var rowIndex = row.index();
-            var totalquitar = matrixventa[rowIndex][4];
+
+            var totalsubquitar= matrixventa[rowIndex][4];
+            var totalivquitar= matrixventa[rowIndex][5];
+            var totalquitar = matrixventa[rowIndex][6];
+            var cantidadquitar=matrixventa[rowIndex][3];
+
+            totalkg=totalkg-cantidadquitar;
+            totalart=totalart-1;
             totalventa=Math.round((totalventa-totalquitar) * 1000) / 1000;
-            /*pesodesh=Math.round((pesodesh-pesoquitar) * 1000) / 1000;
-            $("#pesodesh").val(pesodesh);
-            //calcular merma en KG
-            mermakg=Math.round((pesolote-pesodesh) * 1000) / 1000;
-            $("#mermakg").val(mermakg);
-            //calcular merma en %
-            mermaporc=Math.round(((mermakg*100)/pesolote) * 1000) / 1000;
-            $("#mermaporc").val(mermaporc);*/
-            $('.totalventa').html('₡ '+totalventa);
+            totaliv=Math.round((totaliv-totalivquitar) * 1000) / 1000;
+            subtotal=Math.round((subtotal-totalsubquitar) * 1000) / 1000;
+
+            var totalventa2=totalventa.toFixed(2);
+            var totaliv2=totaliv.toFixed(2);
+            var subtotal2=subtotal.toFixed(2);
+
+
+            $('.totalventa').html(totalventa2);
+            $('.totaliv').html(totaliv2);
+            $('.subtotal').html(subtotal2);
+            $('.totalart').html(totalart);
+            $('.totalkg').html(totalkg+' Kg');
+
+            $('.totalventa').priceFormat({
+                prefix: '₡ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+            });
+            $('.totaliv').priceFormat({
+                prefix: '₡ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+            });
+            $('.subtotal').priceFormat({
+                prefix: '₡ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+            });
+
             matrixventa.splice( rowIndex,1 );
             console.log(matrixventa);
             $(this).parent().parent().remove();
         });
 
-        //selectrow
+        //selectrow buscar producto
+
         $('html').on('click','.selectrow', function () {
             event.preventDefault();
             var row=$(this).closest("tr");
@@ -108,34 +166,26 @@ function main () {
 
         });
 
-            //cambios en tipo
+        //selectrow buscar cliente
 
-         $( "#tipo" ).change(function() {
+        $('html').on('click','.selectrowcliente', function () {
+            event.preventDefault();
+            var row=$(this).closest("tr");
+            var rowIndex = row.index();
 
-            if($("#tipo" ).val()=="Carne de cerdo"){
-                $("#lote" ).html('');
-                $("#pesolote").val(0);
-                $.get('/api/lotes/?tipo=1&isondeshuese=False', llenarlotes);
-                var pesoloteini =$( "#lote").val();
-                $.get('/api/lotes/?id='+pesoloteini,SetPesoLote);
-            }
-            if($("#tipo" ).val()=="Carne de res"){
-                $("#lote" ).html('');
-                $("#pesolote" ).val(0);
-                $.get('/api/lotes/?tipo=2&isondeshuese=False', llenarlotes);
-                var pesoloteini =$( "#lote").val();
-                $.get('/api/lotes/?id='+pesoloteini,SetPesoLote);
-            }
-            if($("#tipo" ).val()=="Pollo"){
-                $("#lote" ).html('');
-                $("#pesolote" ).val(0);
-                $.get('/api/lotes/?tipo=3&isondeshuese=False', llenarlotes);
-                var pesoloteini =$( "#lote").val();
-                $.get('/api/lotes/?id='+pesoloteini,SetPesoLote);
-            }
-        });//cambios en tipo
+            var codigo = codigobusquedacliente[rowIndex][0];
+            var nombre = codigobusquedacliente[rowIndex][1];
+            var apellido = codigobusquedacliente[rowIndex][2];
+            $("#tablabusquedacliente > tbody").html("");
+            $('#codigocliente').val(codigo);
+            $('#nombrecliente').val(nombre+' '+apellido);
+            $("#cliente").val($("#nombrecliente").val());
+            $('.cd-panelbuscarcliente').removeClass('is-visible');
+            blurElement('.blurlines',0);
 
-        //evento enter buscar
+        });
+
+        //eventos enter
         $('#codigo').on('keypress', function (event) {
              if(event.which === 13){
                var a = $('#codigo').val();
@@ -146,20 +196,63 @@ function main () {
         $('#busqueda').on('keypress', function (event) {
              if(event.which === 13){
                 event.preventDefault();
-
                 BuscarProducto();
              }
        });
 
-        //evento enter peso
-        $('#peso').on('keypress', function (event) {
-             if(event.which === 13 && enteronpeso){
-               AgregarATabla();
+        $('#nombreclientebuscar').on('keypress', function (event) {
+             if(event.which === 13){
+                event.preventDefault();
+                BuscarCliente();
              }
        });
-         $('#cantidad').on('keypress', function (event) {
+
+        // Check si cantidad tiene un número
+        $("#cantidad").bind("change paste keyup", function() {
+                var a =$("#cantidad").val();
+                var aa=parseFloat(a);
+                var aaa=isNaN(aa);
+                enteronaddproducto = !aaa;
+            });
+
+        $('#codigocliente').on('keypress', function (event) {
+            if(event.which === 13){
+                event.preventDefault();
+                getcliente();
+            }
+
+        });
+
+        $('#producto').on('keypress', function (event) {
+                 if(event.which === 13){
+                    event.preventDefault();
+                      if ($('#producto').val()!=='' && enteronaddproducto){
+                           if($('#cantidad').val()>0){
+                               getProducto();
+                           }
+                           else{
+                               alert('la cantidad NO puede ser 0 o menor.');
+                           }
+                     }
+                     else{
+                         alert('Ingrese un valor de código y cantidad válidos.');
+                     }
+                 }
+           });
+
+        $('#cantidad').on('keypress', function (event) {
              if(event.which === 13 ){
-               getProducto();
+               if ($('#producto').val()!=='' && enteronaddproducto){
+                       if($('#cantidad').val()>0){
+                           getProducto();
+                       }
+                       else{
+                           alert('la cantidad NO puede ser 0 o menor.');
+                       }
+                 }
+                 else{
+                     alert('Ingrese un valor de código y cantidad válidos.');
+                 }
              }
        });
 
@@ -190,11 +283,21 @@ function main () {
                  }
         });
 
+
+
         //botones
 
 
         $("#btnbusqueda").on("click",BuscarProducto);
         $("#Btnproducto").on("click",getProducto);
+
+        $("#btnconfirmarcliente").on("click",function(){
+            $("#cliente").val($("#nombrecliente").val());
+            $('.cd-panelbuscarcliente').removeClass('is-visible');
+            blurElement('.blurlines',0);
+        });
+        $("#Btnbuscarcliente").on("click",BuscarCliente);
+
         $("#Btnlote").on("click",LoteListo);
         $("#Btnquitlote").on("click",Lotequit);
         $("#BtnConfirmar").on("click",ConfirmarDatos);
@@ -246,8 +349,16 @@ function main () {
         //console.log(today);
         $("#date").val(today);
         $("#cantidad").val(1);
+        enteronaddproducto=true;
         $("#date").prop("disabled",true);
-        $.get('/api/clientes/',llenarClientes);
+        $("#cliente").val('Estimado Cliente');
+        $("#codigocliente").val('0001');
+        $("#nombrecliente").val('Estimado Cliente');
+        $("#nombrecliente").prop("disabled",true);
+
+
+
+        //$.get('/api/clientes/',llenarClientes);
 
     }//main
 
@@ -261,14 +372,29 @@ function blurElement(element, size){
               .css('msFilter',filterVal);
         }
 
-function llenarClientes(data){
-
-    $("#codigo").val('0000');
-    $.each( data, function(i){
-        $("#cliente").append(new Option(data[i].name+' '+data[i].last_name, data[i].code));
+function getcliente(){
+    var a =$("#codigocliente").val();
+    console.log(a);
+    $.get('/api/clientes/?code='+a,function(data){
+        if(data.length!=0){
+        $("#nombrecliente").val(data[0].name+' '+data[0].last_name);
+        }
+        else{
+            alert('No hay cliente con ee código');
+        }
     });
 
 }
+
+function BuscarCliente(){
+    codigobusquedacliente=[];
+    $("#tablabusquedacliente > tbody").html("");
+    var a=$('#nombreclientebuscar').val();
+    console.log(a);
+    $.get('/api/clientes/?name='+a,llenarTablaBusquedaCliente);
+}
+
+
 
 function getProducto(){
     var a=$('#producto').val();
@@ -284,10 +410,7 @@ function BuscarProducto(){
         console.log('desc');
         $.get('/api/productos/?description='+a,llenarTablaBusqueda);
     }
-    else{
-        console.log('code');
-        $.get('/api/productos/?product_code='+a,llenarTablaBusqueda);
-    }
+
 
 }
 
@@ -300,23 +423,77 @@ function llenarTablaBusqueda(data){
         });
 }
 
-function llenartablaProductos(data){
+function llenarTablaBusquedaCliente(data){
+    console.log(data);
+        $.each( data, function(i){
+            codigobusquedacliente.push([data[i].code,data[i].name,data[i].last_name]);
+            $('#tablabusquedacliente > tbody:last').append('<tr><td>' + data[i].code + '</td><td>' + data[i].name +' '+data[i].last_name+
+            '</td><td><button  type="button" class=" btn btn-success form-control selectrowcliente " id="btnelegircliente"><span class="glyphicon glyphicon-ok"></span></button></td></tr>');
+        });
+}
 
-    var cantidad =$('#cantidad').val();
-    var price=(data[0].price*cantidad);
+function llenartablaProductos(data){
+    var usaimpuestos=data[0].taxes;
+    var montoimpuesto=((data[0].taxes_amount)/100)+1;
+    var price;
+    var cantidad =parseFloat($('#cantidad').val());
+    var iv=0;
+    var impentabla;
+    var pricesub=(data[0].price*cantidad);
+    var ivr=0;
+
+    if(usaimpuestos){
+        impentabla='G'; $("#cliente").append(new Option(data[i].name+' '+data[i].last_name, data[i].code));
+        iv=(data[0].price*cantidad)*((data[0].taxes_amount)/100);
+        ivr=Math.round((iv) * 1000) / 1000;
+        price=(data[0].price*cantidad)*montoimpuesto;
+        totaliv=totaliv+ivr;
+    }
+    else{
+        impentabla='E';
+        price=(data[0].price*cantidad);
+    }
+    var pricesubr=Math.round((pricesub) * 1000) / 1000;
     var pricer=Math.round((price) * 1000) / 1000;
+
+    subtotal=subtotal+pricesubr;
     totalventa=totalventa+pricer;
+
+    totalkg=Math.round((totalkg+cantidad)*1000)/1000;
+
+    totalart=totalart+1;
+
+
+    var subtotal2=subtotal.toFixed(2);
+    var totaliv2=totaliv.toFixed(2);
     var totalventa2=totalventa.toFixed(2);
 
+
     $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td>₡ ' +data[0].price + '</td><td>' + $('#cantidad').val() + '</td>' +
-    '<td> ₡ ' + pricer +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+    '<td>'+impentabla+'</td><td> ₡ ' + pricesubr +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
 
-    matrixventa.push([data[0].product_code, data[0].description,data[0].price ,$('#cantidad').val(),pricer]);
+    matrixventa.push([data[0].product_code, data[0].description,data[0].price ,$('#cantidad').val(),pricesubr,ivr,pricer]);
 
+    $('#cantidad').val(1);
 
+    $('.subtotal').html(subtotal2);
     $('.totalventa').html(totalventa2);
+    $('.totaliv').html(totaliv2);
+    $('.totalart').html(totalart);
+    $('.totalkg').html(totalkg+' Kg');
+
 
     $('.totalventa').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+    $('.totaliv').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+    $('.subtotal').priceFormat({
         prefix: '₡ ',
         centsSeparator: ',',
         thousandsSeparator: '.'
