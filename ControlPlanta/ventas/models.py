@@ -10,10 +10,12 @@ from productos.models import Producto
 
 class Venta(models.Model):
 
+
     ticketnum  = models.PositiveIntegerField(unique=True, verbose_name='Factura #')
     client = models.ForeignKey(Cliente, verbose_name='Cliente')
-    cashier = models.ForeignKey(Cajero, verbose_name='Cajero')
-    products = models.ManyToManyField(Producto, verbose_name='Productos')
+    cashier = models.ForeignKey(Cajero, verbose_name='Cajeros')
+    productos = models.ManyToManyField(Producto, verbose_name='Productos')
+
 
 
     def __unicode__(self):

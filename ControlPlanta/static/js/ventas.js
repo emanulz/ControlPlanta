@@ -1,12 +1,13 @@
 //variables globales
 
-var enteronpeso = false;
 var enteronaddproducto = false;
+var cantidad=0;
 var matrixdetalle=[];
 var detalle=[];
 var codigobusqueda=[];
 var codigobusquedacliente=[];
 var matrixventa=[];
+var cliente=1;
 var totalkg=0;
 var totalart=0;
 var subtotal=0;
@@ -120,28 +121,13 @@ function main () {
             totaliv=Math.round((totaliv-totalivquitar) * 1000) / 1000;
             subtotal=Math.round((subtotal-totalsubquitar) * 1000) / 1000;
 
-            var totalventa2=totalventa.toFixed(2);
-            var totaliv2=totaliv.toFixed(2);
-            var subtotal2=subtotal.toFixed(2);
-
-
-            $('.totalventa').html(totalventa2);
-            $('.totaliv').html(totaliv2);
-            $('.subtotal').html(subtotal2);
+            $('.totalventa').html(totalventa.toFixed(2));
+            $('.totaliv').html(totaliv.toFixed(2));
+            $('.subtotal').html(subtotal.toFixed(2));
             $('.totalart').html(totalart);
             $('.totalkg').html(totalkg+' Kg');
 
-            $('.totalventa').priceFormat({
-                prefix: '₡ ',
-                centsSeparator: ',',
-                thousandsSeparator: '.'
-            });
-            $('.totaliv').priceFormat({
-                prefix: '₡ ',
-                centsSeparator: ',',
-                thousandsSeparator: '.'
-            });
-            $('.subtotal').priceFormat({
+            $('.precio').priceFormat({
                 prefix: '₡ ',
                 centsSeparator: ',',
                 thousandsSeparator: '.'
@@ -176,10 +162,15 @@ function main () {
             var codigo = codigobusquedacliente[rowIndex][0];
             var nombre = codigobusquedacliente[rowIndex][1];
             var apellido = codigobusquedacliente[rowIndex][2];
+            cliente=codigobusquedacliente[rowIndex][3];
             $("#tablabusquedacliente > tbody").html("");
             $('#codigocliente').val(codigo);
             $('#nombrecliente').val(nombre+' '+apellido);
             $("#cliente").val($("#nombrecliente").val());
+            $("#nombrecliente").val('Cliente Contado');
+            $("#codigocliente").val('0001');
+            $("#btnconfirmarcliente").prop('disabled',true);
+            $("#codigocliente").prop('disabled',false);
             $('.cd-panelbuscarcliente').removeClass('is-visible');
             blurElement('.blurlines',0);
 
@@ -207,13 +198,6 @@ function main () {
              }
        });
 
-        // Check si cantidad tiene un número
-        $("#cantidad").bind("change paste keyup", function() {
-                var a =$("#cantidad").val();
-                var aa=parseFloat(a);
-                var aaa=isNaN(aa);
-                enteronaddproducto = !aaa;
-            });
 
         $('#codigocliente').on('keypress', function (event) {
             if(event.which === 13){
@@ -222,6 +206,14 @@ function main () {
             }
 
         });
+
+        // Check si cantidad tiene un número
+        $("#cantidad").bind("change paste keyup", function() {
+                var a =$("#cantidad").val();
+                var aa=parseFloat(a);
+                var aaa=isNaN(aa);
+                enteronaddproducto = !aaa;
+            });
 
         $('#producto').on('keypress', function (event) {
                  if(event.which === 13){
@@ -256,46 +248,56 @@ function main () {
              }
        });
 
-        //cambio en el corte pone codigo
-        $( "#corte" ).change(function() {
-            var a =$( "#corte").val();
-            $.get('/api/productos/?id='+a,SetCodigo);
-        });
-
-        //cambio en el corte pone codigo
-        $( "#lote" ).change(function() {
-            var a =$( "#lote").val();
-            $.get('/api/lotes/?id='+a,SetPesoLote);
-        });
-
-
-        $("#peso").bind("change paste keyup", function() {
-            var a =$( "#peso").val();
-            var aa=parseFloat(a);
-            var aaa=isNaN(aa);
-                 if (!aaa){
-                    $("#BtnAdd").prop("disabled",false);
-                     enteronpeso=true;
-                 }
-                 else{
-                     $("#BtnAdd").prop("disabled",true);
-                     enteronpeso=false;
-                 }
-        });
-
 
 
         //botones
 
-
+        //boton de busqueda en panel de busqueda producto
         $("#btnbusqueda").on("click",BuscarProducto);
-        $("#Btnproducto").on("click",getProducto);
+
+
+        //botones de cliente
 
         $("#btnconfirmarcliente").on("click",function(){
             $("#cliente").val($("#nombrecliente").val());
             $('.cd-panelbuscarcliente').removeClass('is-visible');
             blurElement('.blurlines',0);
+            $("#nombrecliente").val('Cliente Contado');
+            var a = $("#codigocliente").val();
+            var cliente2=$.get('/api/clientes/?code='+a,function(){});
+            cliente=cliente2.responseJSON[0].id;
+            console.log(cliente);
+
+            $("#nombrecliente").val('Cliente Contado');
+            $("#codigocliente").val('0001');
+            $("#btnconfirmarcliente").prop('disabled',true);
+            $("#codigocliente").prop('disabled',false);
+            $("#tablabusquedacliente > tbody").html("");
+
+            recalculartablaproductos();
+
         });
+
+         $("#btnconfirmarclientecontado").on("click",function(){
+            if($("#nombreclientecontado").val()!==''){
+                $("#cliente").val($("#nombreclientecontado").val());
+                $('.cd-panelbuscarcliente').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                cliente=1;
+                $("#nombrecliente").val('Cliente Contado');
+                $("#codigocliente").val('0001');
+                $("#btnconfirmarcliente").prop('disabled',true);
+                $("#codigocliente").prop('disabled',false);
+                $("#tablabusquedacliente > tbody").html("");
+                recalculartablaproductos();
+            }
+             else{
+                alert('Debe introducir un nombre válido');
+            }
+
+        });
+
+        //boton de busqueda en panel de busqueda cliente
         $("#Btnbuscarcliente").on("click",BuscarCliente);
 
         $("#Btnlote").on("click",LoteListo);
@@ -311,17 +313,8 @@ function main () {
         $("#Btnquitlote").hide();
         $("#Btnquitlote2").hide();
         $("#BtnNoConfirmar").hide();
-       // $("#tipo").prop("disabled",true);
-        //$("#codigo").prop("disabled",true);
-        //$("#corte").prop("disabled",true);
-       // $("#peso").prop("disabled",true);
-        //$("#pesolote").prop("disabled",true);
-        //$("#pesodesh").prop("disabled",true);
-        //$("#mermakg").prop("disabled",true);
-        //$("#mermaporc").prop("disabled",true);
-       // $("#BtnCrear").prop("disabled",true);
-       // $("#BtnConfirmar").prop("disabled",true);
-        //$("#BtnAdd").prop("disabled",true);
+        $("#btnconfirmarcliente").prop('disabled',true);
+
 
 
     //eventos iniciales:
@@ -347,18 +340,12 @@ function main () {
         //console.log(vencimiento);
         today = (year2)+"-"+(month2)+"-"+(day) ;
         //console.log(today);
-        $("#date").val(today);
+        $("#date").val(today).prop("disabled",true);
         $("#cantidad").val(1);
         enteronaddproducto=true;
-        $("#date").prop("disabled",true);
-        $("#cliente").val('Estimado Cliente');
+        $("#cliente").val('Cliente Contado').prop("disabled",true);;
         $("#codigocliente").val('0001');
-        $("#nombrecliente").val('Estimado Cliente');
-        $("#nombrecliente").prop("disabled",true);
-
-
-
-        //$.get('/api/clientes/',llenarClientes);
+        $("#nombrecliente").val('Cliente Contado').prop("disabled",true);
 
     }//main
 
@@ -374,13 +361,16 @@ function blurElement(element, size){
 
 function getcliente(){
     var a =$("#codigocliente").val();
-    console.log(a);
+    //console.log(a);
     $.get('/api/clientes/?code='+a,function(data){
         if(data.length!=0){
         $("#nombrecliente").val(data[0].name+' '+data[0].last_name);
+        //cliente=data[0].id;
+        $("#btnconfirmarcliente").prop('disabled',false);
+        $("#codigocliente").prop('disabled',true);
         }
         else{
-            alert('No hay cliente con ee código');
+            alert('No existe un cliente con ese código');
         }
     });
 
@@ -390,14 +380,41 @@ function BuscarCliente(){
     codigobusquedacliente=[];
     $("#tablabusquedacliente > tbody").html("");
     var a=$('#nombreclientebuscar').val();
-    console.log(a);
-    $.get('/api/clientes/?name='+a,llenarTablaBusquedaCliente);
+    var b=$('#tipobusquedacliente').val();
+    if(b==1){
+        $.get('/api/clientes/?name='+a,llenarTablaBusquedaCliente);
+    }
+    if(b==2){
+        $.get('/api/clientes/?last_name='+a,llenarTablaBusquedaCliente);
+    }
+    if(b==3){
+        $.get('/api/clientes/?identification='+a,llenarTablaBusquedaCliente);
+    }
 }
 
+function recalculartablaproductos(){
+    //clonar matriz de venta
+    var matrixinterna=matrixventa;
+    //volver a valores iniciales
+    matrixventa=[];
+    totalkg=0;
+    totalart=0;
+    subtotal=0;
+    totaliv=0;
+    totalventa=0;
+    //reclacular toda la tabla
+    $("#tablaproductos > tbody").html("");
+    $.each( matrixinterna, function(i){
+        cantidad=matrixinterna[i][3];
+         $.get('/api/productos/?product_code='+matrixinterna[i][0],llenartablaProductos);
+    });
 
+
+}
 
 function getProducto(){
     var a=$('#producto').val();
+    cantidad =parseFloat($('#cantidad').val());
     $.get('/api/productos/?product_code='+a,llenartablaProductos);
 }
 
@@ -410,8 +427,6 @@ function BuscarProducto(){
         console.log('desc');
         $.get('/api/productos/?description='+a,llenarTablaBusqueda);
     }
-
-
 }
 
 function llenarTablaBusqueda(data){
@@ -424,80 +439,122 @@ function llenarTablaBusqueda(data){
 }
 
 function llenarTablaBusquedaCliente(data){
-    console.log(data);
         $.each( data, function(i){
-            codigobusquedacliente.push([data[i].code,data[i].name,data[i].last_name]);
+            codigobusquedacliente.push([data[i].code,data[i].name,data[i].last_name,data[i].id]);
             $('#tablabusquedacliente > tbody:last').append('<tr><td>' + data[i].code + '</td><td>' + data[i].name +' '+data[i].last_name+
             '</td><td><button  type="button" class=" btn btn-success form-control selectrowcliente " id="btnelegircliente"><span class="glyphicon glyphicon-ok"></span></button></td></tr>');
         });
 }
 
 function llenartablaProductos(data){
-    var usaimpuestos=data[0].taxes;
-    var montoimpuesto=((data[0].taxes_amount)/100)+1;
-    var price;
-    var cantidad =parseFloat($('#cantidad').val());
-    var iv=0;
-    var impentabla;
-    var pricesub=(data[0].price*cantidad);
-    var ivr=0;
 
-    if(usaimpuestos){
-        impentabla='G'; $("#cliente").append(new Option(data[i].name+' '+data[i].last_name, data[i].code));
-        iv=(data[0].price*cantidad)*((data[0].taxes_amount)/100);
-        ivr=Math.round((iv) * 1000) / 1000;
-        price=(data[0].price*cantidad)*montoimpuesto;
-        totaliv=totaliv+ivr;
+    if (data.length!==0){
+
+        var pricetouse=determinprice(data);
+        //console.log(pricetouse);
+        var usaimpuestos=data[0].taxes;
+        var montoimpuesto=((data[0].taxes_amount)/100)+1;
+        var price;
+        //var cantidad =parseFloat($('#cantidad').val());
+        var iv=0;
+        var impentabla;
+        var pricesub=(pricetouse*cantidad);
+        var ivr=0;
+
+        if(usaimpuestos){
+            impentabla='G';
+            iv=(pricetouse*cantidad)*((data[0].taxes_amount)/100);
+            ivr=Math.round((iv) * 1000) / 1000;
+            price=(pricetouse*cantidad)*montoimpuesto;
+            //variable global es afectada solo si usa impuestos
+            totaliv=totaliv+ivr;
+        }
+        else{
+            impentabla='E';
+            price=(pricetouse*cantidad);
+        }
+        var pricesubr=Math.round((pricesub) * 1000) / 1000;
+        var pricer=Math.round((price) * 1000) / 1000;
+
+        //variables globales
+        subtotal=subtotal+pricesubr;
+        totalventa=totalventa+pricer;
+        var totalkg2=parseFloat(totalkg);
+        console.log(totalkg);
+        console.log(totalkg2);
+        totalkg=Math.round((totalkg2+cantidad)*1000)/1000;
+        totalart=totalart+1;
+
+
+
+        $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td class="precio">' +pricetouse.toFixed(2) + '</td><td>' + cantidad + '</td>' +
+        '<td>'+impentabla+'</td><td class="precio">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+
+        matrixventa.push([data[0].product_code, data[0].description,data[0].price ,cantidad,pricesubr,ivr,pricer]);
+
+        $('#cantidad').val(1);
+        totalkg2=parseFloat(totalkg);
+        console.log(totalkg);
+        console.log(totalkg2);
+        //Actualizar etiquetas totales con valores nuevos
+
+        $('.subtotal').html(subtotal.toFixed(2));
+        $('.totalventa').html(totalventa.toFixed(2));
+        $('.totaliv').html(totaliv.toFixed(2));
+        $('.totalart').html(totalart);
+        $('.totalkg').html(totalkg2 +' Kg');
+
+        //formato de campos de precios
+        $('.precio').priceFormat({
+            prefix: '₡ ',
+            centsSeparator: ',',
+            thousandsSeparator: '.'
+        });
     }
     else{
-        impentabla='E';
-        price=(data[0].price*cantidad);
+        alert('El código de producto no es válido!');
+
     }
-    var pricesubr=Math.round((pricesub) * 1000) / 1000;
-    var pricer=Math.round((price) * 1000) / 1000;
+}
 
-    subtotal=subtotal+pricesubr;
-    totalventa=totalventa+pricer;
+function determinprice(data){
 
-    totalkg=Math.round((totalkg+cantidad)*1000)/1000;
+    var tipo=$.get('/api/clientes/'+cliente+'/',function(){});
+    var tipocliente=tipo.responseJSON.clienttype;
+    var conganancia;
+    var utilidad;
 
-    totalart=totalart+1;
+    if (data[0].autoprice==false){//si no es con autoprecio
+        //console.log('precio puesto');
+        if (tipocliente===1){
+           return data[0].price1;
+        }
+        if (tipocliente===2){
+            return data[0].price2;
+        }
+        if (tipocliente===3){
+            return data[0].price3;
+        }
+    }//if
+    else{//si es con autoprecio
+         //console.log('precio calculado');
+         if (tipocliente===1){
+            utilidad=(data[0].utility1/100)+1;
+            conganancia=data[0].cost*utilidad;
+            return conganancia;
+        }
+        if (tipocliente===2){
+            utilidad=(data[0].utility2/100)+1;
+            conganancia=data[0].cost*utilidad;
+            return conganancia;
+        }
+        if (tipocliente===3){
+            utilidad=(data[0].utility3/100)+1;
+            conganancia=data[0].cost*utilidad;
+            return conganancia;
+        }
 
-
-    var subtotal2=subtotal.toFixed(2);
-    var totaliv2=totaliv.toFixed(2);
-    var totalventa2=totalventa.toFixed(2);
-
-
-    $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td>₡ ' +data[0].price + '</td><td>' + $('#cantidad').val() + '</td>' +
-    '<td>'+impentabla+'</td><td> ₡ ' + pricesubr +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
-
-    matrixventa.push([data[0].product_code, data[0].description,data[0].price ,$('#cantidad').val(),pricesubr,ivr,pricer]);
-
-    $('#cantidad').val(1);
-
-    $('.subtotal').html(subtotal2);
-    $('.totalventa').html(totalventa2);
-    $('.totaliv').html(totaliv2);
-    $('.totalart').html(totalart);
-    $('.totalkg').html(totalkg+' Kg');
-
-
-    $('.totalventa').priceFormat({
-        prefix: '₡ ',
-        centsSeparator: ',',
-        thousandsSeparator: '.'
-    });
-    $('.totaliv').priceFormat({
-        prefix: '₡ ',
-        centsSeparator: ',',
-        thousandsSeparator: '.'
-    });
-    $('.subtotal').priceFormat({
-        prefix: '₡ ',
-        centsSeparator: ',',
-        thousandsSeparator: '.'
-    });
+    }//else
 }
 
 function LoteListo(){

@@ -15,6 +15,7 @@ class Migration(migrations.Migration):
             name='Cliente',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('code', models.CharField(unique=True, max_length=255, verbose_name=b'Codigo de Cliente')),
                 ('name', models.CharField(max_length=255, verbose_name=b'Nombre')),
                 ('last_name', models.CharField(max_length=255, null=True, verbose_name=b'Apellidos')),
                 ('phone_number', models.CharField(default=clientes.models.phone_default, max_length=9, null=True, verbose_name=b'N\xc3\xbamero de tel\xc3\xa9fono', blank=True)),
@@ -30,5 +31,21 @@ class Migration(migrations.Migration):
                 'ordering': ['id'],
                 'verbose_name_plural': '1. Clientes',
             },
+        ),
+        migrations.CreateModel(
+            name='ClientType',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=255, verbose_name=b'Tipo de Cliente')),
+            ],
+            options={
+                'ordering': ['id'],
+                'verbose_name_plural': '2. Tipos de Cliente',
+            },
+        ),
+        migrations.AddField(
+            model_name='cliente',
+            name='clienttype',
+            field=models.ForeignKey(default=1, verbose_name=b'Tipo de Cliente', to='clientes.ClientType'),
         ),
     ]

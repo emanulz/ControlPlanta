@@ -7,7 +7,7 @@ from models import FamiliaDelProducto, Producto
 
 @admin.register(Producto)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('product_code','description','bar_code','price','isfractioned','category')
+    list_display = ('product_code','description','bar_code','price1','isfractioned','category')
     search_fields = ('product_code', 'description', 'bar_code', 'category__name')
 
     def isfractioned(self, obj):

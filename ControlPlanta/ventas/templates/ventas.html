@@ -44,7 +44,7 @@
                         <input type="text" class="form-control" id="cliente">
                     </div>
                  <div class=" col-sm-2">
-                    <button type="button" id="Btnbuscarproducto" class="btn btn-success marginTop15px2 btnbuscarcliente"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    <button type="button" id="Btnbuscarclientemain" class="btn btn-success marginTop15px2 btnbuscarcliente"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
                 </div>
             </div> <!-- cajero cliente y buscar-->
         </div>
@@ -62,8 +62,6 @@
             </div>
             <div class=" col-sm-2">
                 <button type="button" id="Btnbuscarproducto" class="btn btn-success marginTop15px2 btnbuscar"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                {% comment %}<button type="button" id="Btnproducto" class="btn btn-success marginTop15px2"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>{% endcomment %}
-                <!--<button type="button" id="Btnquitlote" class="btn btn-danger marginTop15px2"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button> -->
             </div>
 
             </div><!-- peoductos y boton -->
@@ -119,7 +117,7 @@
                     <label for="mermakg">Sub Total:</label>
                     <div>
                         <br/>
-                        <span class="sidePanelData subtotal">₡ 0</span>
+                        <span class="sidePanelData subtotal precio">₡ 0</span>
                     </div>
                 </div>
             </div><!-- Sub total -->
@@ -128,7 +126,7 @@
                     <label for="mermaporc">I.V</label>
                     <div>
                         <br/>
-                        <span class="sidePanelData totaliv">₡ 0</span>
+                        <span class="sidePanelData totaliv precio">₡ 0</span>
 
                     </div>
                 </div>
@@ -138,7 +136,7 @@
                     <label>Total:</label>
                     <div>
                         <br/>
-                        <div class="sidePanelData2 totalventa">₡ 0</div>
+                        <div class="sidePanelData2 totalventa precio">₡ 0</div>
 
                     </div>
                 </div>
@@ -161,36 +159,45 @@
 		<div class="cd-panel-container">
 			<div class="cd-panel-content">
 				<form class="col-sm-12 form-horizontal" action="">
-                     <div class="tituloventa">
+                    <div class="tituloventa2">
+                        Cliente Contado:
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="nombreclientecontado" placeholder="Nombre del Cliente">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button  type="button" class=" btn btn-success form-control " id="btnconfirmarclientecontado" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+                     <div class="tituloventa2">
                         Cliente Existente:
                         <br/>
                         <br/>
                     </div>
                    <div class="form-group">
                         <div class="col-sm-12">
-                            <label for="codigocliente">Codigo de cliente:</label>
+                            <label for="codigocliente">Código de cliente:</label>
                             <br/>
                             <br/>
                         </div>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control input-lg" id="codigocliente">
+                            <input type="number" class="form-control " id="codigocliente">
                         </div>
 
                    </div>
                     <div class="form-group">
-                        <div class="col-sm-12">
-                            <label for="nombrecliente">Nombre del Cliente:</label>
-                            <br/>
-                            <br/>
-                        </div>
+
                         <div class="col-sm-10">
-                            <input type="text" class="form-control input-lg" id="nombrecliente">
+                            <input type="text" class="form-control " id="nombrecliente">
                         </div>
                         <div class="col-sm-2" >
                              <button  type="button" class=" btn btn-success form-control " id="btnconfirmarcliente" ><span class="glyphicon glyphicon-ok"></span></button>
                         </div>
                    </div>
-                    <div class="tituloventa">
+                    <div class="tituloventa2">
                         <br/>
                         Buscar Cliente:
                         <br/>
@@ -199,12 +206,21 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <label for="nombreclientebuscar">Buscar:</label>
+                            <label for="tipobusquedacliente">Búsqueda:</label>
                             <br/>
                             <br/>
                         </div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control input-lg" id="nombreclientebuscar">
+                        <div class="col-sm-4">
+                            <select class="form-control" name="tipobusquedacliente" id="tipobusquedacliente">
+                                <option value="1">Nombre</option>
+                                <option value="2">Apellido</option>
+                                <option value="3">Identificación</option>
+                            </select>
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="nombreclientebuscar" placeholder="Texto a buscar">
                         </div>
                         <div class="col-sm-2" >
                              <button  type="button" class=" btn btn-success form-control " id="Btnbuscarcliente" ><span class="glyphicon glyphicon-search"></span></button>

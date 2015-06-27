@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from models import Cliente
+from models import Cliente, ClientType, IdentificationType
 
 
 @admin.register(Cliente)
@@ -24,3 +24,11 @@ class ClientAdmin(admin.ModelAdmin):
     isassociated.boolean = True
     isassociated.short_description = "Es Asociado?"
 
+
+@admin.register(ClientType)
+class TipoClienteAdmin(admin.ModelAdmin):
+    list_display = ('id','name')
+
+@admin.register(IdentificationType)
+class TipoIdAdmin(admin.ModelAdmin):
+    list_display = ('id','name')
