@@ -17,7 +17,7 @@ import os,socket
 if socket.gethostname().startswith('Mac'):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 else:
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+	BASE_DIR = os.path.realpath(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -148,15 +148,15 @@ if socket.gethostname().startswith('Mac'):
 else:
 
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'ControlPlanta',
-            'USER': 'root',
-            'PASSWORD': 'root',
-            'HOST': '/Applications/MAMP/tmp/mysql/mysql.sock',  # Or an IP Address that your DB is hosted on
-            'PORT': '3306',
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'controlplanta',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
+}
 
 
 # Internationalization
