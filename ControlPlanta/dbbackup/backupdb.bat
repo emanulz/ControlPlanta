@@ -1,0 +1,2 @@
+C:\wamp\bin\mysql\mysql5.6.17\bin>mysqldump.exe -uroot -proot -hlocalhost controlplanta > C:\GITHUB\ControlPlanta\ControlPlanta\dbbackup\BACKUPS\backup%date:~6,8%%date:~3,2%%date:~0,2%%time:~0,2%%time:~3,2%.sql
+python C:\GITHUB\ControlPlanta\ControlPlanta\dbbackup\uploader.py
