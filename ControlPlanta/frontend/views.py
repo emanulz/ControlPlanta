@@ -22,8 +22,15 @@ def backupdbmine(request):
             os.system(BASE_DIR+'/dbbackup/backupdb.sh')
             return JsonResponse({'status': 'success','system':'MAC','dir':BASE_DIR})
         else:
-            #Aqui ejecuto .bat
             BASE_DIR = os.path.realpath(os.path.dirname(__file__))
+            os.system(BASE_DIR+'/dbbackup/backupdb.bat')
             return JsonResponse({'status': 'Success','system':'Windows','dir':BASE_DIR})
     else:
-        raise Http404  # raise Http404
+        if socket.gethostname().startswith('Mac'):
+            BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            os.system(BASE_DIR+'/dbbackup/backupdb.sh')
+            return JsonResponse({'status': 'success','system':'MAC','dir':BASE_DIR})
+        else:
+            BASE_DIR = os.path.realpath(os.path.dirname(__file__))
+            os.system(BASE_DIR+'/dbbackup/backupdb.bat')
+            return JsonResponse({'status': 'Success','system':'Windows','dir':BASE_DIR})
