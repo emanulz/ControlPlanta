@@ -11,13 +11,13 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os,socket
+import os, socket
 
 
 if socket.gethostname().startswith('Mac'):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 else:
-	BASE_DIR = os.path.realpath(os.path.dirname(__file__))
+    BASE_DIR = os.path.realpath(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -41,6 +41,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'dbbackup',
+    'dropbox',
     'widget_tweaks',
     'rest_framework',
     'productos',
@@ -55,6 +57,9 @@ INSTALLED_APPS = (
     'frontend',
 
 )
+
+DBBACKUP_STORAGE = 'dbbackup.storage.filesystem_storage'
+DBBACKUP_FILESYSTEM_DIRECTORY = '/Volumes/DATOS/Avanzando_Juntos/ControlPlanta/ControlPlanta/static/'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -81,21 +86,21 @@ SUIT_CONFIG = {
     'HEADER_TIME_FORMAT': 'h:i a',  # 18:42
 
     'MENU': (
-        {'app': 'auth','label': 'Usuarios', 'icon':'icon-user'},
-        {'app': 'productos', 'label': 'Productos', 'icon':'icon-gift'},
-        {'app': 'clientes', 'label': 'Clientes', 'icon':'icon-briefcase'},
-        {'app': 'proveedores', 'label': 'Proveedores', 'icon':'icon-list'},
-        {'app': 'cajeros', 'label': 'Cajeros', 'icon':'icon-th'},
-        {'app': 'ventas', 'label': 'Ventas', 'icon':'icon-bullhorn'},
-        {'app': 'lotes', 'label': 'Lotes', 'icon':'icon-barcode'},
-        {'app': 'canales', 'label': 'Canales', 'icon':'icon-filter'},
-        {'app': 'deshueses', 'label': 'Deshuese', 'icon':'icon-tasks'},
-        {'app': 'inventarios', 'label': 'Inventarios', 'icon':'icon-hdd'},
+        {'app': 'auth', 'label': 'Usuarios', 'icon': 'icon-user'},
+        {'app': 'productos', 'label': 'Productos', 'icon': 'icon-gift'},
+        {'app': 'clientes', 'label': 'Clientes', 'icon': 'icon-briefcase'},
+        {'app': 'proveedores', 'label': 'Proveedores', 'icon': 'icon-list'},
+        {'app': 'cajeros', 'label': 'Cajeros', 'icon': 'icon-th'},
+        {'app': 'ventas', 'label': 'Ventas', 'icon': 'icon-bullhorn'},
+        {'app': 'lotes', 'label': 'Lotes', 'icon': 'icon-barcode'},
+        {'app': 'canales', 'label': 'Canales', 'icon': 'icon-filter'},
+        {'app': 'deshueses', 'label': 'Deshuese', 'icon': 'icon-tasks'},
+        {'app': 'inventarios', 'label': 'Inventarios', 'icon': 'icon-hdd'},
 
     ),
 
     'MENU_OPEN_FIRST_CHILD': True,
-    }
+}
 
 ROOT_URLCONF = 'ControlPlanta.urls'
 
@@ -141,6 +146,7 @@ if socket.gethostname().startswith('Mac'):
             'NAME': 'ControlPlanta',
             'USER': 'root',
             'PASSWORD': 'root',
+            #'HOST': 'localhost',
             'HOST': '/Applications/MAMP/tmp/mysql/mysql.sock',  # Or an IP Address that your DB is hosted on
             'PORT': '3306',
         }
@@ -148,15 +154,15 @@ if socket.gethostname().startswith('Mac'):
 else:
 
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'controlplanta',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'controlplanta',
+            'USER': 'root',
+            'PASSWORD': 'root',
+            'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
+            'PORT': '3306',
+        }
     }
-}
 
 
 # Internationalization

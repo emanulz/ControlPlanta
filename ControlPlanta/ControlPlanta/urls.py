@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^ventas/', VentasView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
+    url(r'backupdb/', 'frontend.views.backupdbmine', name='backup'),
     url(r'adddeshuese/', 'deshueses.views.deshueseform', name='deshueses'),
     url(r'^getcanal/(?P<id>\d+)$', 'lotes.views.cargar_canal', name='cargar_canal'),
     url(r'^totallotes/', 'lotes.views.totallotes', name='totallotes'),
