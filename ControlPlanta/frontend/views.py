@@ -16,13 +16,14 @@ class TrazabilidadView(TemplateView):
 
 @login_required(login_url='/admin/login/')
 def backupdbmine(request):
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if request.is_ajax():
         if socket.gethostname().startswith('Mac'):
             BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             os.system(BASE_DIR+'/dbbackup/backupdb.sh')
             return JsonResponse({'status': 'success','system':'MAC','dir':BASE_DIR})
         else:
-            BASE_DIR = os.path.realpath(os.path.dirname(__file__))
+            #BASE_DIR = os.path.realpath(os.path.dirname(__file__))
             os.system(BASE_DIR+'/dbbackup/backupdb.bat')
             return JsonResponse({'status': 'Success','system':'Windows','dir':BASE_DIR})
     else:
@@ -31,6 +32,6 @@ def backupdbmine(request):
             os.system(BASE_DIR+'/dbbackup/backupdb.sh')
             return JsonResponse({'status': 'success','system':'MAC','dir':BASE_DIR})
         else:
-            BASE_DIR = os.path.realpath(os.path.dirname(__file__))
+            #BASE_DIR = os.path.realpath(os.path.dirname(__file__))
             os.system(BASE_DIR+'/dbbackup/backupdb.bat')
             return JsonResponse({'status': 'Success','system':'Windows','dir':BASE_DIR})
