@@ -171,8 +171,11 @@ function main () {
             $("#codigocliente").val('0001');
             $("#btnconfirmarcliente").prop('disabled',true);
             $("#codigocliente").prop('disabled',false);
+            $("#nombreclientecontado").val('');
+            $("#nombreclientebuscar").val('');
             $('.cd-panelbuscarcliente').removeClass('is-visible');
             blurElement('.blurlines',0);
+            recalculartablaproductos();
 
         });
 
@@ -248,8 +251,6 @@ function main () {
              }
        });
 
-
-
         //botones
 
         //boton de busqueda en panel de busqueda producto
@@ -270,6 +271,8 @@ function main () {
 
             $("#nombrecliente").val('Cliente Contado');
             $("#codigocliente").val('0001');
+            $("#nombreclientecontado").val('');
+            $("#nombreclientebuscar").val('');
             $("#btnconfirmarcliente").prop('disabled',true);
             $("#codigocliente").prop('disabled',false);
             $("#tablabusquedacliente > tbody").html("");
@@ -288,6 +291,8 @@ function main () {
                 $("#codigocliente").val('0001');
                 $("#btnconfirmarcliente").prop('disabled',true);
                 $("#codigocliente").prop('disabled',false);
+                $("#nombreclientecontado").val('');
+                $("#nombreclientebuscar").val('');
                 $("#tablabusquedacliente > tbody").html("");
                 recalculartablaproductos();
             }

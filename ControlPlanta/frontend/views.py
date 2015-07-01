@@ -25,9 +25,4 @@ def backupdbmine(request):
             os.system(BASE_DIR+'/dbbackup/backupdb.bat')
             return JsonResponse({'status': 'Success','system':'Windows','dir':BASE_DIR})
     else:
-        if socket.gethostname().startswith('Mac'):
-            os.system(BASE_DIR+'/dbbackup/backupdb.sh')
-            return JsonResponse({'status': 'success','system':'MAC','dir':BASE_DIR})
-        else:
-            os.system(BASE_DIR+'/dbbackup/backupdb.bat')
-            return JsonResponse({'status': 'Success','system':'Windows','dir':BASE_DIR})
+        raise Http404
