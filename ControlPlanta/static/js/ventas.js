@@ -8,6 +8,10 @@ var codigobusqueda=[];
 var codigobusquedacliente=[];
 var matrixventa=[];
 var cliente=1;
+var descuento=0;
+var descuentobool=false;
+var preciosindesc=0;
+var ivsindesc=0;
 var totalkg=0;
 var totalart=0;
 var subtotal=0;
@@ -39,6 +43,16 @@ function main () {
 
         $('.btnpagar').on('click', function(event){
             event.preventDefault();
+            $('.subtotalpagar').html(subtotal.toFixed(2));
+            $('.ivpagar').html(totaliv.toFixed(2));
+            $('.descuentopagar').html(descuento.toFixed(2));
+            $('.totalpagar').html(totalventa.toFixed(2));
+            $('.precio').priceFormat({
+            prefix: '₡ ',
+            centsSeparator: ',',
+            thousandsSeparator: '.'
+            });
+
             $('.cd-panelpagar').addClass('is-visible');
             blurElement('.blurlines',2);
         });
@@ -120,6 +134,8 @@ function main () {
             totalventa=Math.round((totalventa-totalquitar) * 1000) / 1000;
             totaliv=Math.round((totaliv-totalivquitar) * 1000) / 1000;
             subtotal=Math.round((subtotal-totalsubquitar) * 1000) / 1000;
+            preciosindesc=totalventa;
+            ivsindesc=totaliv;
 
             $('.totalventa').html(totalventa.toFixed(2));
             $('.totaliv').html(totaliv.toFixed(2));
@@ -136,6 +152,9 @@ function main () {
             matrixventa.splice( rowIndex,1 );
             console.log(matrixventa);
             $(this).parent().parent().remove();
+            if (matrixventa.length==0){
+                $("#BtnConfirmar").prop("disabled",true);
+            }
         });
 
         //selectrow buscar producto
@@ -180,8 +199,18 @@ function main () {
         });
 
         //eventos enter
+
+        $('#descuento').on('keypress', function (event) {
+             if(event.which === 13){
+               event.preventDefault();
+               Aplicardescuento();
+               vuelto();
+             }
+       });
+
         $('#codigo').on('keypress', function (event) {
              if(event.which === 13){
+               event.preventDefault();
                var a = $('#codigo').val();
                $.get('/api/productos/?product_code='+a,ResultadoBusqueda);
              }
@@ -208,6 +237,10 @@ function main () {
                 getcliente();
             }
 
+        });
+
+        $("#montoefectivo").bind("change paste keyup", function() {
+            vuelto();
         });
 
         // Check si cantidad tiene un número
@@ -304,9 +337,12 @@ function main () {
 
         //boton de busqueda en panel de busqueda cliente
         $("#Btnbuscarcliente").on("click",BuscarCliente);
+        //boton de descuento
+        $("#btndescuento").on("click",function(){
+            Aplicardescuento();
+            vuelto();
+        });
 
-        $("#Btnlote").on("click",LoteListo);
-        $("#Btnquitlote").on("click",Lotequit);
         $("#BtnConfirmar").on("click",ConfirmarDatos);
         $("#BtnNoConfirmar").on("click",NoConfirmarDatos);
         $("#BtnCrear").on("click",guardarDetalle);
@@ -315,19 +351,13 @@ function main () {
 
         //llenado de espacios e inicializacion
         $(".hideonload").hide();
-        $("#Btnquitlote").hide();
-        $("#Btnquitlote2").hide();
+        $(".pagotarjeta").hide();
+        $(".pagotarjeta").hide();
         $("#BtnNoConfirmar").hide();
         $("#btnconfirmarcliente").prop('disabled',true);
 
 
 
-    //eventos iniciales:
-
-
-        $.get('/api/lotes/?tipo=1&isondeshuese=False', llenarlotes);
-        var pesoloteini =$( "#lote").val();
-        $.get('/api/lotes/?id='+pesoloteini,SetPesoLote);
 
     //valor vencimiento
 
@@ -345,7 +375,12 @@ function main () {
         //console.log(vencimiento);
         today = (year2)+"-"+(month2)+"-"+(day) ;
         //console.log(today);
+
+    //valores iniciales
+
         $("#date").val(today).prop("disabled",true);
+        $("#BtnPagar").prop("disabled",true);
+        $("#BtnConfirmar").prop("disabled",true);
         $("#cantidad").val(1);
         enteronaddproducto=true;
         $("#cliente").val('Cliente Contado').prop("disabled",true);;
@@ -378,6 +413,49 @@ function getcliente(){
             alert('No existe un cliente con ese código');
         }
     });
+
+}
+
+function vuelto(){
+
+    var controlpagacon;
+            var a =$( "#montoefectivo").val();
+            var aa= parseFloat(a).toFixed(2);
+            //console.log(a);
+            var aaa=isNaN(a);
+            var vueltoint;
+            controlpagacon = !aaa;
+
+            if(controlpagacon){
+                $('.pagaconpagar').html(aa);
+                //console.log('IF');
+                $('.pagaconpagar').priceFormat({
+                prefix: '₡ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+                });
+                vueltoint=(aa-totalventa).toFixed(2);
+                if(vueltoint<0){
+                    $('#vuelto').val('FALTA EFECTIVO');
+                    $('.vueltopagar').html('-');
+                }
+                else{
+                $('#vuelto').val(vueltoint);
+                $('.vueltopagar').html(vueltoint);
+                $('.precio').priceFormat({
+                prefix: '₡ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+                });
+                }
+
+            }
+            else{
+                //console.log('ELSE');
+                $('.pagaconpagar').html('-');
+
+            }
+
 
 }
 
@@ -473,6 +551,7 @@ function llenartablaProductos(data){
             price=(pricetouse*cantidad)*montoimpuesto;
             //variable global es afectada solo si usa impuestos
             totaliv=totaliv+ivr;
+            ivsindesc=totaliv;
         }
         else{
             impentabla='E';
@@ -484,6 +563,7 @@ function llenartablaProductos(data){
         //variables globales
         subtotal=subtotal+pricesubr;
         totalventa=totalventa+pricer;
+        preciosindesc =totalventa;
         var totalkg2=parseFloat(totalkg);
         console.log(totalkg);
         console.log(totalkg2);
@@ -508,6 +588,7 @@ function llenartablaProductos(data){
         $('.totaliv').html(totaliv.toFixed(2));
         $('.totalart').html(totalart);
         $('.totalkg').html(totalkg2 +' Kg');
+        $("#BtnConfirmar").prop("disabled",false);
 
         //formato de campos de precios
         $('.precio').priceFormat({
@@ -562,59 +643,78 @@ function determinprice(data){
     }//else
 }
 
-function LoteListo(){
+function Aplicardescuento(){
 
-    if ($("#lote").val()!=="vacio"){
-        event.preventDefault();
-        $("#lote").prop("disabled",true);
-        $("#codigo").prop("disabled",false);
-        $("#corte").prop("disabled",false);
-        $("#peso").prop("disabled",false);
-        $("#tipo").prop("disabled",true);
-        $("#Btnlote").hide();
-        $("#Btnquitlote:hidden").show();
+    var desc=parseFloat($('#descuento').val());
+    var descTrue=isNaN(desc);
+    console.log(desc);
+    console.log(descTrue);
+    if (!descTrue){
+        if(desc>=0 && desc<=100){
+            totaliv=ivsindesc*(1-(desc/100));
+            descuento=subtotal*(desc/100);
+            totalventa=(subtotal-descuento)+totaliv;
+            $('.totalventa').html(totalventa.toFixed(2));
+            $('.totaliv').html(totaliv.toFixed(2));
+            $('.descuento').html(descuento.toFixed(2));
+            //formato de campos de precios
+            $('.precio').priceFormat({
+                prefix: '₡ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+            });
 
-            //console.log($("#tipo").val());
-
-        if ($("#tipo").val()==="Carne de cerdo"){
-            tipo=1;
-            $('#codigo').val(1001);
-            $.get('/api/productos/?category=1', llenarproductos);
         }
-        if ($("#tipo").val()==="Carne de res"){
-            tipo=2;
-            $('#codigo').val(2001);
-            $.get('/api/productos/?category=2', llenarproductos);
+        else{
+            alert("Por favor ingrese un valor de descuento válido");
         }
     }
     else{
-
-        alert("No hay un lote seleccionado");
+        alert("Por favor ingrese un valor de descuento numérico");
     }
 }
- function Lotequit(){
-    event.preventDefault();
-    $("#lote").prop("disabled",false);
-    $("#codigo").prop("disabled",true);
-    $("#corte").prop("disabled",true);
-    $("#peso").prop("disabled",true);
-    $("#tipo").prop("disabled",false);
-    $("#Btnquitlote").hide();
-    $("#Btnlote:hidden").show();
-    $('#codigo').val('');
-    $('#corte').html('');
-    $("#pesodesh").val("");
-    $("#peso").val("");
-    $("#mermakg").val("");
-    $("#mermaporc").val("");
-    $("#tabla > tbody").html("");
-    $("#BtnAdd").prop("disabled",true);
-    $("#BtnConfirmar").prop("disabled",true);
-    matrixdetalle=[];
-    pesodesh=0;
-    mermakg=0;
-    mermaporc=0;
- }
+
+function ConfirmarDatos(){
+$("#descuento").prop('disabled',false);
+$("#btndescuento").prop('disabled',false);
+$(".removerow").prop('disabled',true);
+$("#cantidad").prop('disabled',true);
+$("#producto").prop('disabled',true);
+$("#Btnbuscarclientemain").prop('disabled',true);
+$("#Btnbuscarproducto").prop('disabled',true);
+$("#BtnConfirmar").hide();
+$("#BtnNoConfirmar:hidden").show();
+$("#BtnPagar").prop('disabled',false);
+}
+
+function NoConfirmarDatos(){
+
+    $("#descuento").prop('disabled',true).val('');
+    $("#btndescuento").prop('disabled',true);
+    $(".removerow").prop('disabled',false);
+    $("#cantidad").prop('disabled',false);
+    $("#producto").prop('disabled',false);
+    $("#Btnbuscarclientemain").prop('disabled',false);
+    $("#Btnbuscarproducto").prop('disabled',false);
+    $("#BtnConfirmar:hidden").show();
+    $("#BtnNoConfirmar").hide();
+    $("#BtnPagar").prop('disabled',true);
+
+    totaliv=ivsindesc;
+    descuento=0;
+    totalventa=subtotal+totaliv;
+    $('.totalventa').html(totalventa.toFixed(2));
+    $('.totaliv').html(totaliv.toFixed(2));
+    $('.descuento').html(descuento.toFixed(2));
+    //formato de campos de precios
+    $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+}
+
+
 
 function llenarlotes(data){
   //  console.log(data.length);
@@ -714,32 +814,6 @@ function AgregarATabla(){
 
 }
 
-function ConfirmarDatos(){
-
-    $("#codigo").prop("disabled",true);
-    $("#corte").prop("disabled",true);
-    $("#peso").prop("disabled",true);
-    $("#Btnquitlote").prop("disabled",true);
-    $(".removerow").prop("disabled",true);
-    $("#BtnCrear").prop("disabled",false);
-    $("#BtnConfirmar").hide();
-    $("#BtnNoConfirmar:hidden").show();
-
-}
-
-function NoConfirmarDatos(){
-
-    $("#codigo").prop("disabled",false);
-    $("#corte").prop("disabled",false);
-    $("#peso").prop("disabled",false);
-    $("#Btnquitlote").prop("disabled",false);
-    $(".removerow").prop("disabled",false);
-    $("#BtnCrear").prop("disabled",true);
-    $("#BtnNoConfirmar").hide();
-    $("#BtnConfirmar:hidden").show();
-
-
-}
 
 
 function guardarDetalle() {

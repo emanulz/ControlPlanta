@@ -35,15 +35,28 @@
 
 .sidePanelData{
 
-    padding-left: 0;
     font-size: 20px ;
     color: #e38e09;
     font-family: sans-serif
 }
 .sidePanelData2{
 
-    padding-left: 0;
+
     font-size: 30px ;
+    color: #e38e09;
+    font-family: sans-serif
+}
+
+.totalesdata{
+
+    font-size: 30px ;
+    color: #e38e09;
+    font-family: sans-serif
+}
+.totalesdata2{
+
+
+    font-size: 40px ;
     color: #e38e09;
     font-family: sans-serif
 }

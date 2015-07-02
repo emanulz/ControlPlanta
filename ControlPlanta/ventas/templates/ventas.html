@@ -87,8 +87,22 @@
 
                 </tbody>
             </table>
+            </div><!-- tabla -->
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label for="descuento">Descuento %:</label>
+                </div>
+                <div class="col-sm-4">
+                    <input disabled type="text" class="form-control input-lg" id="descuento"/>
+                </div>
+                <div class="col-sm-2">
+                    <button disabled type="button" id="btndescuento" class="btn btn-success marginTop15px2 btndescuento" style="width: 120px">Aplicar <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+                    <button type="button" id="btndescuentoquitar" class="btn btn-danger marginTop15px2 btndescuentoquitar hideonload" style="width: 120px">Eliminar <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
 
-        </div><!-- tabla -->
         </div>
     </form><!-- tabla de productods -->
     <form class="form-horizontal col-sm-3" action="">
@@ -123,6 +137,15 @@
             </div><!-- Sub total -->
             <div class="form-group">
                 <div class="col-sm-12">
+                    <label for="mermakg">Descuento:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData descuento precio">₡ 0</span>
+                    </div>
+                </div>
+            </div><!-- descuento -->
+            <div class="form-group">
+                <div class="col-sm-12">
                     <label for="mermaporc">I.V</label>
                     <div>
                         <br/>
@@ -143,8 +166,10 @@
             </div><!-- Total -->
             <div class="form-group " style="margin-top: 15px">
                 <div class="col-sm-12">
-                    <button  type="button" class=" btn btn-success  form-control  btnpagar" id="BtnConfirmar" style="width: 160px">Pagar</button>
+                    <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnConfirmar" style="width: 160px">Confirmar</button>
                     <button  type="button" class=" btn btn-danger  form-control " id="BtnNoConfirmar" style="width: 160px">Editar Datos</button>
+                    <br/><br/>
+                    <button  type="button" class=" btn btn-success  form-control  btnpagar" id="BtnPagar" style="width: 160px">Pagar</button>
                 </div>
             </div><!-- btnconfirmar -->
         </div>
@@ -269,7 +294,32 @@
                                 <option value="3">Crédito</option>
                             </select>
                         </div>
-                   </div>
+                    </div>
+                    <div class="form-group pagoefectivo">
+                        <div class="col-sm-12">
+                            <label class="tituloventa2" for="montoefectivo">Datos efectivo:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <label for="montoefectivo">Monto efectivo:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control input-lg " name="montoefectivo" id="montoefectivo">
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <label for="vuelto">Vuelto:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-10">
+                            <input disabled type="text" class="form-control input-lg precio" name="vuelto" id="vuelto">
+                            <br/>
+                        </div>
+                    </div>
                      <div class="pagotarjeta form-group">
                          <div class="col-sm-12">
                             <label class="tituloventa2" for="pagacon">Datos de la tarjeta:</label>
@@ -292,76 +342,103 @@
                             <br/>
                         </div>
                      </div>
-                     <div class="pagotarjeta form-group ">
-                         <div class="col-sm-2">
-                            <label for="4digits">4 digitos:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control input-lg" name="4digits" id="pagacon">
-                        </div>
-                         <div class="col-sm-2">
-                            <label for="authtarjeta">Autorización:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control input-lg" name="authtarjeta" id="pagacon">
-                        </div>
+
+                     <div class="pagotarjeta form-group">
+                         <div class=" form-group col-sm-6">
+                             <div class="col-sm-11">
+                                <label for="4digits">Últimos 4 digitos:</label>
+                                <br/>
+                                <br/>
+                            </div>
+                            <div class="col-sm-11">
+                                <input type="text" class="form-control input-lg" name="4digits" id="pagacon">
+                            </div>
+                         </div>
+                         <div class="form-group col-sm-6">
+                             <div class="col-sm-11">
+                                <label for="authtarjeta">Autorización:</label>
+                                <br/>
+                                <br/>
+                            </div>
+                            <div class="col-sm-11">
+                                <input type="text" class="form-control input-lg" name="authtarjeta" id="pagacon">
+                            </div>
+                         </div>
                      </div>
-                     <div class="form-group" >
-                        <div class="col-sm-12">
+
+                     <div class="totalespago form-group" >
+                         <div class="col-sm-12">
                             <label class="tituloventa2" for="pagacon">Totales:</label>
                             <br/>
                             <br/>
                         </div>
-                         <div class="col-sm-2">
-                            <label for="4digits">Subtotal:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                         <div class="col-sm-3 sidePanelData" style="font-size: 30px">
-                            C 4250.54
-                        </div>
-                         <div class="col-sm-2">
-                            <label for="4digits">IV:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                         <div class="col-sm-4 sidePanelData " style="font-size: 30px">
-                            C 1250.54
-                        </div>
 
+                         <div class="form-group col-sm-6">
+                             <div class="col-sm-12">
+                                <label for="4digits">Subtotal:</label>
+                                 <br/><br/>
+                            </div>
+                             <div class="col-sm-12 totalesdata" >
+                                <span class="precio subtotalpagar">4250</span>
+                            </div>
+                         </div>
+                         <div class="form-group col-sm-6">
+                             <div class="col-sm-12">
+                                <label for="4digits">IV:</label>
+                                 <br/><br/>
+                            </div>
+                             <div class="col-sm-12 totalesdata " >
+                                <div class="precio ivpagar">4250</div>
+                            </div>
+                         </div>
+
+                         <div class="col-sm-12"><br/></div>
+
+                         <div class="form-group col-sm-6">
+                             <div class="col-sm-12">
+                                <label for="4digits">Paga Con:</label>
+                                 <br/><br/>
+                            </div>
+                             <div class="col-sm-12 totalesdata" >
+                                <span class="pagaconpagar">-</span>
+                            </div>
+                         </div>
+                         <div class="form-group col-sm-6">
+                             <div class="col-sm-12">
+                                <label for="4digits">Vuelto:</label>
+                                 <br/><br/>
+                            </div>
+                             <div class="col-sm-12 totalesdata " >
+                                <div class="precio vueltopagar">0</div>
+                            </div>
+                         </div>
+                         <div class="col-sm-12"><br/></div>
+                         <div class="form-group col-sm-12">
+                             <div class="col-sm-12">
+                                <label for="4digits">Descuento:</label>
+                                 <br/><br/>
+                            </div>
+                             <div class="col-sm-12 totalesdata" >
+                                <span class="precio descuentopagar">500</span>
+                            </div>
+                         </div>
+                         <div class="col-sm-12"><br/></div>
+                         <div class="form-group col-sm-12">
+                             <div class="col-sm-12">
+                                <label for="4digits">Total:</label>
+                                 <br/><br/>
+                            </div>
+                             <div class="col-sm-6 totalesdata2" >
+                                <span class="precio totalpagar">10000</span>
+                            </div>
+                             <div class="form-group col-sm-6">
+                                 <div class="col-sm-12">
+                                    <button  type="button" class=" btn btn-success  form-control  cd-btn" id="BtnConfirmar2" style="width: 160px">Registrar Venta</button>
+                                </div>
+                             </div>
+                         </div>
                      </div>
-                     <div class="form-group">
-                          <div class="col-sm-2">
-                            <label for="4digits">Total:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                         <div class="col-sm-10 sidePanelData2" style="font-size: 40px">
-                            C 6501.24
-                        </div>
 
-                     </div>
-
-
-
-              <div class="form-group col-sm-12">
-                <div class=" pull-right">
-                    <button  type="button" class=" btn btn-success  form-control hideonload marginBtnAdd2 cd-btn" id="BtnConfirmar2" style="width: 160px">Confirmar Datos</button>
-                    <button  type="button" class=" btn btn-danger  form-control marginBtnAdd2 btntest" id="BtnNoConfirmar2" style="width: 160px">Editar Datos</button>
-                </div>
-             </div>
-
-               <div class="form-group col-sm-12">
-                    <div class=" pull-right">
-
-                        <button  type="button" class=" btn btn-success form-control marginBtnAdd2" id="BtnCrear" style="width: 160px">Registar deshuese</button>
-                    </div>
-
-               </div>
            </form>
             </div> <!-- cd-panel-content -->
 		</div> <!-- cd-panel-container -->
