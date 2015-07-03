@@ -10,64 +10,65 @@
 
 <div class="PaddingContent blurlines">
     <div class="hideonload succesmessage">
-            <div class="col-sm-11 alert alert-success fade in ">
+            <div class="col-sm-9 alert alert-success fade in ">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <strong>Completado!</strong> El deshuese fue registrado correctamente.<br/> <br/>
                 <a href=""  class=" btn btn-success" role="button" >Crear Nuevo</a>
             </div>
         </div><!-- Mensage success -->
     <div class="hideonload failmessage">
-            <div class="col-sm-6 alert alert-danger fade in ">
+            <div class="col-sm-9 alert alert-danger fade in ">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <strong>Error en formulario!</strong> Corrija los errores mostrados.
             </div>
         </div><!-- Mensaje Error -->
     <div class="container-fluid form-group" >
-    <form class="form-horizontal col-sm-12" action="">
-        {% csrf_token %}
-        <div class="form-group">
+    <div class="col-sm-9" >
+        <form class="form-horizontal col-sm-12" action="">
+            {% csrf_token %}
             <div class="form-group">
-                <div class="col-sm-4 tituloventa">Factura de venta:</div>
-            <label class="col-sm-1" for="date">Fecha:</label>
-                <div class="col-sm-3">
-                  <input type="date" class="form-control " id="date">
-               </div>
-
-            </div> <!-- Fecha y titulo -->
-             <div class="form-group">
-                <label class="col-sm-1" for="cajero">Cajero:</label>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control " id="cajero">
+                <div class="form-group">
+                    <div class="col-sm-5 tituloventa">Factura de venta:</div>
+                <label class="col-sm-2" for="date">Fecha:</label>
+                    <div class="col-sm-4">
+                      <input type="date" class="form-control " id="date">
                    </div>
-                <label class="col-sm-1" for="cliente">Nombre:</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" id="cliente">
+
+                </div> <!-- Fecha y titulo -->
+                 <div class="form-group">
+                    <label class="col-sm-2" for="cajero">Cajero:</label>
+                        <div class="col-sm-3">
+                          <input type="text" class="form-control " id="cajero">
+                       </div>
+                    <label class="col-sm-2" for="cliente">Nombre:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="cliente">
+                        </div>
+                     <div class=" col-sm-1">
+                        <button type="button" id="Btnbuscarclientemain" class="btn btn-success marginTop15px2 btnbuscarcliente"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
                     </div>
-                 <div class=" col-sm-2">
-                    <button type="button" id="Btnbuscarclientemain" class="btn btn-success marginTop15px2 btnbuscarcliente"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
-                </div>
-            </div> <!-- cajero cliente y buscar-->
-        </div>
-    </form><!-- Fecha cajero y cliente -->
-    <form class="form-horizontal col-sm-12" action="">
+                </div> <!-- cajero cliente y buscar-->
+            </div>
+        </form><!-- Fecha cajero y cliente -->
+        <form class="form-horizontal col-sm-12" action="">
         <div class="form-group">
             <div class="form-group col sm-12" >
-            <label class="col-sm-1" for="cantidad">Cantidad:</label>
+            <label class="col-sm-2" for="cantidad">Cantidad:</label>
             <div class="col-sm-3">
-                <input type="number" class="form-control input-lg" id="cantidad">
+                <input type="number" class="form-control " id="cantidad">
             </div>
-            <label class="col-sm-1" for="producto">Producto:</label>
-            <div class="col-sm-3">
-                <input  type="text" class="form-control input-lg" id="producto">
+            <label class="col-sm-2" for="producto">Producto:</label>
+            <div class="col-sm-4">
+                <input  type="text" class="form-control " id="producto">
             </div>
-            <div class=" col-sm-2">
+            <div class=" col-sm-1">
                 <button type="button" id="Btnbuscarproducto" class="btn btn-success marginTop15px2 btnbuscar"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
             </div>
 
             </div><!-- peoductos y boton -->
         </div>
     </form><!-- productos y buscar -->
-    <form class="form-horizontal col-sm-9" action="">
+        <form class="form-horizontal col-sm-12" action="">
         <div class="form-group">
             <div class=" form-group col-sm-12 ">
             <table class="table table-bordered table-hover" data-toggle="table" id="tablaproductos" data-url="" data-cache="false" data-height="299">
@@ -92,8 +93,8 @@
                 <div class="col-sm-2">
                     <label for="descuento">Descuento %:</label>
                 </div>
-                <div class="col-sm-4">
-                    <input disabled type="text" class="form-control input-lg" id="descuento"/>
+                <div class="col-sm-3">
+                    <input disabled type="text" class="form-control" id="descuento"/>
                 </div>
                 <div class="col-sm-2">
                     <button disabled type="button" id="btndescuento" class="btn btn-success marginTop15px2 btndescuento" style="width: 120px">Aplicar <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
@@ -105,7 +106,9 @@
 
         </div>
     </form><!-- tabla de productods -->
-    <form class="form-horizontal col-sm-3" action="">
+    </div><!-- main content -->
+    <div class="col-sm-3" >
+        <form class="form-horizontal col-sm-12" action="">
         <div class="col-sm-1"></div>
         <div class="form-group col-sm-11 ">
             <div class="form-group">
@@ -173,7 +176,8 @@
                 </div>
             </div><!-- btnconfirmar -->
         </div>
-    </form><!-- Side bar -->
+    </form>
+    </div> <!-- Side bar -->
 </div><!-- Pagina principal -->
 </div>
 
@@ -372,24 +376,19 @@
                             <br/>
                             <br/>
                         </div>
-
-                         <div class="form-group col-sm-6">
+                          <div class="form-group col-sm-12">
                              <div class="col-sm-12">
-                                <label for="4digits">Subtotal:</label>
+                                <label for="4digits">Total:</label>
                                  <br/><br/>
                             </div>
-                             <div class="col-sm-12 totalesdata" >
-                                <span class="precio subtotalpagar">4250</span>
+                             <div class="col-sm-6 totalesdata2" >
+                                <span class="precio totalpagar">10000</span>
                             </div>
-                         </div>
-                         <div class="form-group col-sm-6">
-                             <div class="col-sm-12">
-                                <label for="4digits">IV:</label>
-                                 <br/><br/>
-                            </div>
-                             <div class="col-sm-12 totalesdata " >
-                                <div class="precio ivpagar">4250</div>
-                            </div>
+                             <div class="form-group col-sm-6">
+                                 <div class="col-sm-12">
+                                    <button  type="button" class=" btn btn-success  form-control" id="BtnConfirmar2" style="width: 160px">Registrar Venta</button>
+                                </div>
+                             </div>
                          </div>
 
                          <div class="col-sm-12"><br/></div>
@@ -412,31 +411,7 @@
                                 <div class="precio vueltopagar">0</div>
                             </div>
                          </div>
-                         <div class="col-sm-12"><br/></div>
-                         <div class="form-group col-sm-12">
-                             <div class="col-sm-12">
-                                <label for="4digits">Descuento:</label>
-                                 <br/><br/>
-                            </div>
-                             <div class="col-sm-12 totalesdata" >
-                                <span class="precio descuentopagar">500</span>
-                            </div>
-                         </div>
-                         <div class="col-sm-12"><br/></div>
-                         <div class="form-group col-sm-12">
-                             <div class="col-sm-12">
-                                <label for="4digits">Total:</label>
-                                 <br/><br/>
-                            </div>
-                             <div class="col-sm-6 totalesdata2" >
-                                <span class="precio totalpagar">10000</span>
-                            </div>
-                             <div class="form-group col-sm-6">
-                                 <div class="col-sm-12">
-                                    <button  type="button" class=" btn btn-success  form-control  cd-btn" id="BtnConfirmar2" style="width: 160px">Registrar Venta</button>
-                                </div>
-                             </div>
-                         </div>
+
                      </div>
 
            </form>

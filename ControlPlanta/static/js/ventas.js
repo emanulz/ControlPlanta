@@ -712,6 +712,7 @@ function NoConfirmarDatos(){
         centsSeparator: ',',
         thousandsSeparator: '.'
     });
+    vuelto();
 }
 
 
