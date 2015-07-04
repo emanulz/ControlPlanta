@@ -9,6 +9,7 @@
     <script src="/static/js/ventas.js"></script>
 
 <div class="PaddingContent blurlines">
+
     <div class="hideonload succesmessage">
             <div class="col-sm-9 alert alert-success fade in ">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -38,7 +39,9 @@
                  <div class="form-group">
                     <label class="col-sm-2" for="cajero">Cajero:</label>
                         <div class="col-sm-3">
-                          <input type="text" class="form-control " id="cajero">
+                            <select disabled class="form-control" name="cajero" id="cajero">
+                                <option value="{{ request.user.id }}"></option>
+                            </select>
                        </div>
                     <label class="col-sm-2" for="cliente">Nombre:</label>
                         <div class="col-sm-4">
@@ -140,7 +143,7 @@
             </div><!-- Sub total -->
             <div class="form-group">
                 <div class="col-sm-12">
-                    <label for="mermakg">Descuento:</label>
+                    <label for="mermakg">Descuento: <span class="descuentoside"></span> </label>
                     <div>
                         <br/>
                         <span class="sidePanelData descuento precio">₡ 0</span>
@@ -278,146 +281,145 @@
 	</div> <!-- Panel de buscar cliente -->
 
 <div class="cd-panel cd-panelpagar from-right">
-		<header class="cd-panel-header">
-			<H1>Datos del Pago</H1>
-        </header>
-
-		<div class="cd-panel-container">
-			<div class="cd-panel-content">
-				<form class="col-sm-12 form-horizontal" action="">
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <label class="tituloventa2" for="pagacon">Tipo de pago:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-10">
-                            <select class="form-control input-lg" name="pagacon" id="pagacon">
-                                <option value="1">Efectivo</option>
-                                <option value="2">Tarjeta</option>
-                                <option value="3">Crédito</option>
-                            </select>
-                        </div>
+    <header class="cd-panel-header">
+        <H1>Datos del Pago</H1>
+    </header>
+    <div class="cd-panel-container">
+        <div class="cd-panel-content">
+            <form class="col-sm-12 form-horizontal" action="">
+                 <div class="form-group tipodepago">
+                    <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacontipo">Tipo de pago:</label>
+                        <br/>
+                        <br/>
                     </div>
-                    <div class="form-group pagoefectivo">
-                        <div class="col-sm-12">
-                            <label class="tituloventa2" for="montoefectivo">Datos efectivo:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-12">
-                            <label for="montoefectivo">Monto efectivo:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control input-lg " name="montoefectivo" id="montoefectivo">
-                            <br/>
-                        </div>
-                        <div class="col-sm-12">
-                            <label for="vuelto">Vuelto:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-10">
-                            <input disabled type="text" class="form-control input-lg precio" name="vuelto" id="vuelto">
-                            <br/>
-                        </div>
+                    <div class="col-sm-10">
+                        <select class="form-control input-lg" name="pagacontipo" id="pagacontipo">
+                            <option value="1">Efectivo</option>
+                            <option value="2">Tarjeta</option>
+                            <option value="3">Crédito</option>
+                        </select>
                     </div>
-                     <div class="pagotarjeta form-group">
-                         <div class="col-sm-12">
-                            <label class="tituloventa2" for="pagacon">Datos de la tarjeta:</label>
+                </div>
+                 <div class="form-group pagoefectivo">
+                    <div class="col-sm-12">
+                        <label class="tituloventa2" for="montoefectivo">Datos efectivo:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="montoefectivo">Monto efectivo:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control input-lg " name="montoefectivo" id="montoefectivo">
+                        <br/>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="vuelto">Vuelto:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <input disabled type="text" class="form-control input-lg precio" name="vuelto" id="vuelto">
+                        <br/>
+                    </div>
+                </div>
+                 <div class="pagotarjeta form-group">
+                     <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Datos de la tarjeta:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="pagacon">Tipo:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <select class="form-control input-lg" name="pagacon" id="pagacon">
+                            <option value="1">Visa</option>
+                            <option value="2">Master Card</option>
+                            <option value="3">American Express</option>
+                            <option value="4">Discover</option>
+                            <option value="5">Otra</option>
+                        </select>
+                        <br/>
+                    </div>
+                 </div>
+                 <div class="pagotarjeta form-group">
+                     <div class=" form-group col-sm-6">
+                         <div class="col-sm-11">
+                            <label for="4digits">Últimos 4 digitos:</label>
                             <br/>
                             <br/>
                         </div>
-                        <div class="col-sm-12">
-                            <label for="pagacon">Tipo:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-10">
-                            <select class="form-control input-lg" name="pagacon" id="pagacon">
-                                <option value="1">Visa</option>
-                                <option value="2">Master Card</option>
-                                <option value="3">American Express</option>
-                                <option value="4">Discover</option>
-                                <option value="5">Otra</option>
-                            </select>
-                            <br/>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control input-lg" name="4digits" id="pagacon">
                         </div>
                      </div>
-
-                     <div class="pagotarjeta form-group">
-                         <div class=" form-group col-sm-6">
-                             <div class="col-sm-11">
-                                <label for="4digits">Últimos 4 digitos:</label>
-                                <br/>
-                                <br/>
-                            </div>
-                            <div class="col-sm-11">
-                                <input type="text" class="form-control input-lg" name="4digits" id="pagacon">
-                            </div>
-                         </div>
-                         <div class="form-group col-sm-6">
-                             <div class="col-sm-11">
-                                <label for="authtarjeta">Autorización:</label>
-                                <br/>
-                                <br/>
-                            </div>
-                            <div class="col-sm-11">
-                                <input type="text" class="form-control input-lg" name="authtarjeta" id="pagacon">
-                            </div>
-                         </div>
-                     </div>
-
-                     <div class="totalespago form-group" >
-                         <div class="col-sm-12">
-                            <label class="tituloventa2" for="pagacon">Totales:</label>
+                     <div class="form-group col-sm-6">
+                         <div class="col-sm-11">
+                            <label for="authtarjeta">Autorización:</label>
                             <br/>
                             <br/>
                         </div>
-                          <div class="form-group col-sm-12">
-                             <div class="col-sm-12">
-                                <label for="4digits">Total:</label>
-                                 <br/><br/>
-                            </div>
-                             <div class="col-sm-6 totalesdata2" >
-                                <span class="precio totalpagar">10000</span>
-                            </div>
-                             <div class="form-group col-sm-6">
-                                 <div class="col-sm-12">
-                                    <button  type="button" class=" btn btn-success  form-control" id="BtnConfirmar2" style="width: 160px">Registrar Venta</button>
-                                </div>
-                             </div>
-                         </div>
-
-                         <div class="col-sm-12"><br/></div>
-
-                         <div class="form-group col-sm-6">
-                             <div class="col-sm-12">
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control input-lg" name="authtarjeta" id="pagacon">
+                        </div>
+                     </div>
+                 </div>
+                 <div class="totalespago form-group" >
+                     <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Totales:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                      <div class="form-group col-sm-6">
+                         <div class="col-sm-12">
+                            <label for="4digits">Total:</label>
+                             <br/><br/>
+                        </div>
+                         <div class="col-sm-12 totalesdata2" >
+                            <span class="precio totalpagar">10000</span>
+                        </div>
+                     </div>
+                      <div class="form-group col-sm-6">
+                            <div class="col-sm-12">
                                 <label for="4digits">Paga Con:</label>
                                  <br/><br/>
                             </div>
                              <div class="col-sm-12 totalesdata" >
                                 <span class="pagaconpagar">-</span>
                             </div>
-                         </div>
-                         <div class="form-group col-sm-6">
-                             <div class="col-sm-12">
-                                <label for="4digits">Vuelto:</label>
-                                 <br/><br/>
-                            </div>
-                             <div class="col-sm-12 totalesdata " >
-                                <div class="precio vueltopagar">0</div>
-                            </div>
-                         </div>
+                        </div>
+
+                     <div class="col-sm-12"><br/></div>
+
+
+                     <div class="form-group col-sm-6">
+                         <div class="col-sm-12">
+                            <label for="4digits">Vuelto:</label>
+                             <br/><br/>
+                        </div>
+                         <div class="col-sm-12 totalesdata " >
+                            <div class="precio vueltopagar">0</div>
+                        </div>
 
                      </div>
+                     <div class="form-group col-sm-6">
+                            <div class="col-sm-12"><br/><br/></div>
+                            <div class="col-sm-12">
+                                <button  type="button" class=" btn btn-success  form-control" id="BtnConfirmar2" style="width: 160px">Registrar Venta</button>
+                            </div>
+                     </div>
 
-           </form>
-            </div> <!-- cd-panel-content -->
-		</div> <!-- cd-panel-container -->
-	</div> <!-- Panel de pagar -->
+                 </div>
+            </form>
+        </div> <!-- cd-panel-content -->
+    </div> <!-- cd-panel-container -->
+</div> <!-- Panel de pagar -->
 
 <div class="cd-panel cd-panelbuscar from-left">
 		<header class="cd-panel-header">

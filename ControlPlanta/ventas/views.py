@@ -4,6 +4,7 @@ from django.shortcuts import render, render_to_response
 
 # Create your views here.
 from django.template import RequestContext
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from lotes.models import Lote
 
@@ -13,5 +14,9 @@ def Ventasform(request):
     lotes = Lote.objects.filter(date=datetime.today(),isondeshuese=False)
     return render_to_response('creardeshuese.html', {'lotes': lotes}, context_instance=RequestContext(request))
 
+
 class VentasView(TemplateView):
     template_name = 'ventas.html'
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(VentasView, self).dispatch(*args, **kwargs)

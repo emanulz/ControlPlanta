@@ -3,6 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView
+from rest_framework import serializers, viewsets
 from cajeros.models import Cajero
 from django.contrib.auth.decorators import login_required
 
@@ -20,3 +21,19 @@ class CajeroCreate(CreateView):
     success_url = '/admin/'
 
 
+# Serializers define the API representation.
+class CajeroSerializer(serializers.ModelSerializer):
+    partial=True
+    class Meta:
+
+        model = Cajero
+        fields =('id','name','last_name','identification','user')
+
+
+# ViewSets define the view behavior.
+class CajeroViewSet(viewsets.ModelViewSet):
+
+    serializer_class = CajeroSerializer
+    queryset = Cajero.objects.all()
+    lookup_field = 'id'
+    filter_fields=('id','name','last_name','identification','user')

@@ -27,6 +27,7 @@ from frontend.views import LandingView, TrazabilidadView
 from rest_framework import routers
 from productos.views import ProductViewSet, FamiliaViewSet
 from proveedores.views import ProveedorViewSet
+from cajeros.views import CajeroViewSet
 
 # Routers provide an easy way of automatically determining the URL conf.
 
@@ -40,7 +41,7 @@ router.register(r'detalledeshuese', DetalleDeshueseViewSet)
 router.register(r'lotes', LoteViewSet)
 router.register(r'inventariototal', InventarioTotalViewSet)
 router.register(r'clientes', ClientViewSet)
-
+router.register(r'cajeros', CajeroViewSet)
 
 
 urlpatterns = [

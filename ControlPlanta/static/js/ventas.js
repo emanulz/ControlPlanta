@@ -24,7 +24,7 @@ jQuery.ajaxSetup({async:false});
 
 $(document).on('ready', main);
 function main () {
-
+//console.log($('#cajero').val());
         $.ajaxSetup({
 		beforeSend: function(xhr, settings) {
 			if(settings.type == "POST"){
@@ -284,6 +284,17 @@ function main () {
              }
        });
 
+        $( "#pagacontipo" ).change(function() {
+            if( $("#pagacontipo").val()==1){
+                $(".pagotarjeta").hide();
+                $(".pagoefectivo:hidden").show();
+            }
+            if( $("#pagacontipo").val()==2){
+                $(".pagoefectivo").hide();
+                $(".pagotarjeta:hidden").show();
+            }
+        });
+
         //botones
 
         //boton de busqueda en panel de busqueda producto
@@ -352,12 +363,17 @@ function main () {
         //llenado de espacios e inicializacion
         $(".hideonload").hide();
         $(".pagotarjeta").hide();
-        $(".pagotarjeta").hide();
+        //$(".pagotarjeta").hide();
         $("#BtnNoConfirmar").hide();
         $("#btnconfirmarcliente").prop('disabled',true);
 
 
+    //set Cajero
 
+    $.get('/api/cajeros/?user='+$('#cajero').val(),function(data){
+        $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>')
+
+    });
 
     //valor vencimiento
 
@@ -657,6 +673,7 @@ function Aplicardescuento(){
             $('.totalventa').html(totalventa.toFixed(2));
             $('.totaliv').html(totaliv.toFixed(2));
             $('.descuento').html(descuento.toFixed(2));
+            $('.descuentoside').html(desc + '%');
             //formato de campos de precios
             $('.precio').priceFormat({
                 prefix: '₡ ',
@@ -699,6 +716,7 @@ function NoConfirmarDatos(){
     $("#BtnConfirmar:hidden").show();
     $("#BtnNoConfirmar").hide();
     $("#BtnPagar").prop('disabled',true);
+    $('.descuentoside').html('');
 
     totaliv=ivsindesc;
     descuento=0;
