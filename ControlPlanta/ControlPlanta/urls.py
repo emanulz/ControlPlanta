@@ -20,8 +20,8 @@ from cajeros.views import CajeroCreate
 from canales.views import CanalViewSet
 from clientes.views import ClientViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
-from inventarios.views import InventarioTotalViewSet
-from ventas.views import VentasView
+from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet
+from ventas.views import VentasView, DetallePagoViewSet, DetalleProductosViewSet, VentaViewSet
 from lotes.views import LoteCreate, LoteViewSet
 from frontend.views import LandingView, TrazabilidadView
 from rest_framework import routers
@@ -42,6 +42,15 @@ router.register(r'lotes', LoteViewSet)
 router.register(r'inventariototal', InventarioTotalViewSet)
 router.register(r'clientes', ClientViewSet)
 router.register(r'cajeros', CajeroViewSet)
+router.register(r'inventarioresumen', InventarioResumenViewSet)
+router.register(r'inventarioentrada', InventarioEntradasViewSet)
+router.register(r'inventariorsalida', InventarioSalidasViewSet)
+router.register(r'detallepago', DetallePagoViewSet)
+router.register(r'detalleproducto', DetalleProductosViewSet)
+router.register(r'venta', VentaViewSet)
+
+
+
 
 
 urlpatterns = [

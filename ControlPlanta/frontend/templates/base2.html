@@ -17,10 +17,30 @@
     <link rel="stylesheet" href="/static/css/emanuel.css"/>
 
 
+
     <script src="/static/js/jquery-2.1.4.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>
     <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+
+    <link rel="stylesheet" href="/static/alertifyjs/css/alertify.css"/>
+    <link rel="stylesheet" href="/static/alertifyjs/css/themes/semanticcopy.min.css"/>
+    <link rel="stylesheet" href="/static/alertifyjs/css/themes/semantic.min.css"/>
+    <script type="text/javascript" src="/static/alertifyjs/alertify.min.js"></script>
+
+  {% comment %}  <script type="text/javascript">
+    //override defaults
+        alertify.defaults.transition = "slide";
+        alertify.defaults.theme.ok = "btn btn-primary";
+        alertify.defaults.theme.cancel = "btn btn-danger";
+        alertify.defaults.theme.input = "form-control";
+    </script>{% endcomment %}
+    <script type="text/javascript">
+    //override defaults
+    alertify.defaults.transition = "zoom";
+    alertify.defaults.theme.ok = "ui positive button";
+    alertify.defaults.theme.cancel = "ui black button";
+    </script>
 
 
 

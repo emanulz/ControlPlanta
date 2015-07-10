@@ -17,6 +17,7 @@ class Producto(models.Model):
     price1 = models.FloatField(default=0, verbose_name='Precio Cliente ₡')
     price2 = models.FloatField(default=0, verbose_name='Precio Distribuidor ₡')
     price3 = models.FloatField(default=0, verbose_name='Precio Gobierno ₡')
+    ventaneg = models.BooleanField(default=0, blank=True, verbose_name='Venta en Negativo?')
     fractioned = models.BooleanField(default=0, blank=True, verbose_name='Fracionado?')
     taxes = models.BooleanField(default=0, verbose_name='Impuestos?')
     taxes_amount = models.FloatField(default=0, blank=True, verbose_name='% Impuestos')

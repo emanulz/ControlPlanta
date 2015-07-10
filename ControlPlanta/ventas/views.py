@@ -6,7 +6,9 @@ from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
+from rest_framework import serializers,viewsets
 from lotes.models import Lote
+from ventas.models import DetallesPago, DetalleProductos, Venta
 
 
 @login_required(login_url='/admin/login/')
@@ -20,3 +22,53 @@ class VentasView(TemplateView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(VentasView, self).dispatch(*args, **kwargs)
+
+#DETALLES DE PAGO API
+
+class DetallePagoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DetallesPago
+        fields =('id','tipopago','montoefectivo','vuelto','tarjeta','digitos','autorizacion')
+
+class DetallePagoViewSet(viewsets.ModelViewSet):
+
+    serializer_class = DetallePagoSerializer
+    queryset = DetallesPago.objects.all()
+    lookup_field = 'id'
+    filter_fields=('id','tipopago','montoefectivo','vuelto','tarjeta','digitos','autorizacion')
+
+#DETALLES DE PRODUCTOS API
+
+class DetalleProductosSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DetalleProductos
+        fields =('id','producto','preciouni','cantidad','iv','total')
+
+class DetalleProductosViewSet(viewsets.ModelViewSet):
+
+    serializer_class = DetalleProductosSerializer
+    queryset = DetalleProductos.objects.all()
+    lookup_field = 'id'
+    filter_fields=('id','producto','preciouni','cantidad','iv','total')
+
+#VENTA API
+
+class VentaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Venta
+        fields =('id','ticketnum','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago')
+
+class VentaViewSet(viewsets.ModelViewSet):
+
+    serializer_class = VentaSerializer
+    queryset = Venta.objects.all()
+    lookup_field = 'id'
+    filter_fields=('id','ticketnum','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago')
+
+
+
+
+

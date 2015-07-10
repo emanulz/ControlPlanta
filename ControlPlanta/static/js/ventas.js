@@ -7,6 +7,10 @@ var detalle=[];
 var codigobusqueda=[];
 var codigobusquedacliente=[];
 var matrixventa=[];
+var detallesventa=[];
+var detallepago=0;
+var vueltoguardar=0;
+var efectivoguardar=0;
 var cliente=1;
 var descuento=0;
 var descuentobool=false;
@@ -17,6 +21,7 @@ var totalart=0;
 var subtotal=0;
 var totaliv=0;
 var totalventa=0;
+var efectivolisto=false;
 
 var vencimiento;
 var tipo;
@@ -25,6 +30,8 @@ jQuery.ajaxSetup({async:false});
 $(document).on('ready', main);
 function main () {
 //console.log($('#cajero').val());
+
+
         $.ajaxSetup({
 		beforeSend: function(xhr, settings) {
 			if(settings.type == "POST"){
@@ -208,13 +215,13 @@ function main () {
              }
        });
 
-        $('#codigo').on('keypress', function (event) {
+       /* $('#codigo').on('keypress', function (event) {
              if(event.which === 13){
                event.preventDefault();
                var a = $('#codigo').val();
                $.get('/api/productos/?product_code='+a,ResultadoBusqueda);
              }
-       });
+       });*/
 
         $('#busqueda').on('keypress', function (event) {
              if(event.which === 13){
@@ -288,10 +295,18 @@ function main () {
             if( $("#pagacontipo").val()==1){
                 $(".pagotarjeta").hide();
                 $(".pagoefectivo:hidden").show();
+                $("#montoefectivo").val(0);
+                vuelto();
+                $(".pagaconpagar").html('₡ 0,00');
+                $(".vueltopagar").html('₡ 0,00');
             }
             if( $("#pagacontipo").val()==2){
                 $(".pagoefectivo").hide();
                 $(".pagotarjeta:hidden").show();
+                $("#montoefectivo").val(0);
+                vuelto();
+                $(".pagaconpagar").html('TARJETA');
+                $(".vueltopagar").html('₡ 0,00');
             }
         });
 
@@ -354,9 +369,11 @@ function main () {
             vuelto();
         });
 
+        $("#BtnRegistrarVenta").on("click",RegistarVenta);
+
         $("#BtnConfirmar").on("click",ConfirmarDatos);
         $("#BtnNoConfirmar").on("click",NoConfirmarDatos);
-        $("#BtnCrear").on("click",guardarDetalle);
+
 
 
 
@@ -399,7 +416,7 @@ function main () {
         $("#BtnConfirmar").prop("disabled",true);
         $("#cantidad").val(1);
         enteronaddproducto=true;
-        $("#cliente").val('Cliente Contado').prop("disabled",true);;
+        $("#cliente").val('Cliente Contado').prop("disabled",true);
         $("#codigocliente").val('0001');
         $("#nombrecliente").val('Cliente Contado').prop("disabled",true);
 
@@ -426,7 +443,8 @@ function getcliente(){
         $("#codigocliente").prop('disabled',true);
         }
         else{
-            alert('No existe un cliente con ese código');
+            //alert('No existe un cliente con ese código');
+            alertify.error('No existe un cliente con ese código');
         }
     });
 
@@ -452,10 +470,14 @@ function vuelto(){
                 });
                 vueltoint=(aa-totalventa).toFixed(2);
                 if(vueltoint<0){
+                    efectivolisto=false;
                     $('#vuelto').val('FALTA EFECTIVO');
                     $('.vueltopagar').html('-');
                 }
                 else{
+                efectivolisto=true;
+                vueltoguardar=vueltoint;
+                efectivoguardar=a;
                 $('#vuelto').val(vueltoint);
                 $('.vueltopagar').html(vueltoint);
                 $('.precio').priceFormat({
@@ -548,76 +570,98 @@ function llenarTablaBusquedaCliente(data){
 function llenartablaProductos(data){
 
     if (data.length!==0){
-
-        var pricetouse=determinprice(data);
-        //console.log(pricetouse);
-        var usaimpuestos=data[0].taxes;
+        var inarray= serachmatrix(data[0].product_code);
+        var prodinventario=$.get('/api/inventarioresumen/?producto='+data[0].id,function(){});
+        var existencia=prodinventario.responseJSON[0].cantidad;
         var montoimpuesto=((data[0].taxes_amount)/100)+1;
-        var price;
-        //var cantidad =parseFloat($('#cantidad').val());
-        var iv=0;
-        var impentabla;
-        var pricesub=(pricetouse*cantidad);
+        var usaimpuestos=data[0].taxes;
         var ivr=0;
+        var iv=0;
+        var price;
 
-        if(usaimpuestos){
-            impentabla='G';
-            iv=(pricetouse*cantidad)*((data[0].taxes_amount)/100);
-            ivr=Math.round((iv) * 1000) / 1000;
-            price=(pricetouse*cantidad)*montoimpuesto;
-            //variable global es afectada solo si usa impuestos
-            totaliv=totaliv+ivr;
-            ivsindesc=totaliv;
-        }
-        else{
-            impentabla='E';
-            price=(pricetouse*cantidad);
-        }
-        var pricesubr=Math.round((pricesub) * 1000) / 1000;
-        var pricer=Math.round((price) * 1000) / 1000;
+        if(inarray==-1){//no existe en la tabla
+            if (existencia>=cantidad || data[0].ventaneg==false ){
+                var pricetouse=determinprice(data);
+                //var cantidad =parseFloat($('#cantidad').val());
+                var impentabla;
+                var pricesub=(pricetouse*cantidad);
 
-        //variables globales
-        subtotal=subtotal+pricesubr;
-        totalventa=totalventa+pricer;
-        preciosindesc =totalventa;
-        var totalkg2=parseFloat(totalkg);
-        console.log(totalkg);
-        console.log(totalkg2);
-        totalkg=Math.round((totalkg2+cantidad)*1000)/1000;
-        totalart=totalart+1;
+                if(usaimpuestos){
+                    impentabla='G';
+                    iv=(pricetouse*cantidad)*((data[0].taxes_amount)/100);
+                    ivr=Math.round((iv) * 1000) / 1000;
+                    price=(pricetouse*cantidad)*montoimpuesto;
+                    //variable global es afectada solo si usa impuestos
+                    totaliv=totaliv+ivr;
+                    ivsindesc=totaliv;
+                }
+                else{
+                    impentabla='E';
+                    price=(pricetouse*cantidad);
+                }
+                var pricesubr=Math.round((pricesub) * 1000) / 1000;
+                var pricer=Math.round((price) * 1000) / 1000;
+
+                //variables globales
+                subtotal=subtotal+pricesubr;
+                totalventa=totalventa+pricer;
+                preciosindesc =totalventa;
+                var totalkg2=parseFloat(totalkg);
+                //console.log(totalkg);
+                //console.log(totalkg2);
+                totalkg=Math.round((totalkg2+cantidad)*1000)/1000;
+                totalart=totalart+1;
 
 
 
-        $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td class="precio">' +pricetouse.toFixed(2) + '</td><td>' + cantidad + '</td>' +
-        '<td>'+impentabla+'</td><td class="precio">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+                $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td class="precio">' +pricetouse.toFixed(2) + '</td><td class=cant'+data[0].product_code+'>' + cantidad + '</td>' +
+                '<td>'+impentabla+'</td><td class="precio total'+data[0].product_code+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
 
-        matrixventa.push([data[0].product_code, data[0].description,data[0].price ,cantidad,pricesubr,ivr,pricer]);
+                matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer]);
 
-        $('#cantidad').val(1);
-        totalkg2=parseFloat(totalkg);
-        console.log(totalkg);
-        console.log(totalkg2);
-        //Actualizar etiquetas totales con valores nuevos
+                $('#cantidad').val(1);
+                totalkg2=parseFloat(totalkg);
+                //console.log(totalkg);
+                //console.log(totalkg2);
+                //Actualizar etiquetas totales con valores nuevos
 
-        $('.subtotal').html(subtotal.toFixed(2));
-        $('.totalventa').html(totalventa.toFixed(2));
-        $('.totaliv').html(totaliv.toFixed(2));
-        $('.totalart').html(totalart);
-        $('.totalkg').html(totalkg2 +' Kg');
-        $("#BtnConfirmar").prop("disabled",false);
+                $('.subtotal').html(subtotal.toFixed(2));
+                $('.totalventa').html(totalventa.toFixed(2));
+                $('.totaliv').html(totaliv.toFixed(2));
+                $('.totalart').html(totalart);
+                $('.totalkg').html(totalkg2 +' Kg');
+                $("#BtnConfirmar").prop("disabled",false);
 
-        //formato de campos de precios
-        $('.precio').priceFormat({
-            prefix: '₡ ',
-            centsSeparator: ',',
-            thousandsSeparator: '.'
-        });
+                //formato de campos de precios
+                $('.precio').priceFormat({
+                    prefix: '₡ ',
+                    centsSeparator: ',',
+                    thousandsSeparator: '.'
+                });
+            }//if check inventario
+            else{
+                 alertify.alert('Bajo Inventario','No hay suficiente cantidad en inventario, la existencia actual es '+existencia+' Kg');
+            }//else check inventario no existe
+
+        }//no existe en la tabla
+
+        else{//ya existe en la tabla
+            var descontar=cantidad+matrixventa[inarray][3];
+            if (existencia>=descontar || data[0].ventaneg==false ){
+                matrixventa[inarray][3]=descontar;
+                recalculartablaproductos();
+            }
+            else{
+                alertify.alert('Bajo Inventario','No hay suficiente cantidad en inventario, la existencia actual es '+existencia+' Kg');
+            }//else check inventario ya existe
+        }//ya existe en la tabla
+
     }
     else{
-        alert('El código de producto no es válido!');
-
+         alertify.alert('Error de código','El código de producto no es válido!');
     }
 }
+
 
 function determinprice(data){
 
@@ -659,12 +703,26 @@ function determinprice(data){
     }//else
 }
 
+function serachmatrix(id){
+    var control = -1;
+    $.each(matrixventa, function(i) {
+        //console.log(id);
+        if (matrixventa[i][0]==id){
+            //console.log('i es igual a '+i);
+            //console.log(matrixventa[i][0]);
+            control =i;
+            return false;
+        }
+    });
+    return control;
+}
+
 function Aplicardescuento(){
 
     var desc=parseFloat($('#descuento').val());
     var descTrue=isNaN(desc);
-    console.log(desc);
-    console.log(descTrue);
+    //console.log(desc);
+    //console.log(descTrue);
     if (!descTrue){
         if(desc>=0 && desc<=100){
             totaliv=ivsindesc*(1-(desc/100));
@@ -733,107 +791,67 @@ function NoConfirmarDatos(){
     vuelto();
 }
 
+function RegistarVenta(){
 
-
-function llenarlotes(data){
-  //  console.log(data.length);
-    $("#lote").html('');
-
-    if(data.length!=0){
-    $.each( data, function(index){
-        $("#lote").append(new Option(data[index].lotenum, data[index].id));
-    });
-    }
-    else{
-       $("#lote").append(new Option("No hay elementos", "vacio"));
-    }
-}
-
-
-function llenarproductos(data){
-
-    $('#corte').html('');
-    $.each( data, function(index){
-        $("#corte").append(new Option(data[index].description, data[index].id));
-
-    });
+    guardardetallepago()
 
 }
 
-function ResultadoBusqueda(data){
+function guardardetallepago(){
+if($("#pagacontipo").val()==1){
+    $.ajax({
+          method: "POST",
+          url: "/api/detallepago/",
+          async: false,
 
-    if (typeof data[0]!=='undefined' ){
-
-        if($("#corte option[value='" + data[0].id + "']").val() != undefined) {
-
-        $("#corte").val(data[0].id);
-        }
-        else{
-
-            alert('El Corte deseado no es válido, o ya se encuentra en la tabla');
-        }
-    }
-    else{
-        alert('El Elemento no existe');
-    }
-}
-function SetCodigo(data){
-
-   // console.log(data);
-    $("#codigo").val(data[0].product_code);
-}
-
-function SetPesoLote(data){
-   // console.log(data);
-
-    if (typeof data[0]!=='undefined' ){
-
-        if (typeof data[0]!=='undefined' ){
-        pesolote=data[0].totalweight;
-        $("#pesolote").val(data[0].totalweight);
-        }
-    }
-}//function
-
-function AgregarATabla(){
-
-    event.preventDefault();
-    var peso = parseFloat($("#peso").val());
-    var codigo=$('#corte').val();
-
-    var pesoTrue=isNaN(peso);
-
-        if (!pesoTrue && peso !==0){
-            var r=$('#tabla tr').length; /* Obtener el numero de elementos */
-            $('#tabla > tbody:last').append('<tr><th scope="row"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></th><td>'+$('#corte option:selected').text()+'</td><td>'+$('#peso').val()+
-            ' Kg <button type="button" class=" removerow btn btn-danger pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td></tr>');
-            //var Corteval =$('#corte').val();
-            matrixdetalle.push([codigo,peso]);
-            //console.log(matrixdetalle);
-
-            pesodesh=Math.round((pesodesh+peso) * 1000) / 1000;
-            $("#pesodesh").val(pesodesh);
-            //calcular merma en KG
-            mermakg=Math.round((pesolote-pesodesh) * 1000) / 1000;
-            $("#mermakg").val(mermakg);
-            //calcular merma en %
-            mermaporc=Math.round(((mermakg*100)/pesolote) * 1000) / 1000;
-            $("#mermaporc").val(mermaporc);
-            $("#corte option:selected").remove();
-            $("#codigo").val("");
-            $("#corte").val("");
-            $("#peso").val("");
-            $("#BtnConfirmar").prop("disabled",false);
-            $("#BtnAdd").prop("disabled",true);
-    }
-    else{
-
-        alert('Ingrese un peso válido y mayor que 0');
-    }
-
+          data: JSON.stringify({
+            "tipopago": 1,
+            "montoefectivo": efectivoguardar,
+            "vuelto": vueltoguardar,
+            "tarjeta": 6,
+            "digitos": null,
+            "autorizacion": null
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function(data){
+                //console.log(data.id);
+                detallepago=data.id;
+            });
 }
 
+if($("#pagacontipo").val()==2){
+    $.ajax({
+          method: "POST",
+          url: "/api/detallepago/",
+          async: false,
 
+          data: JSON.stringify({
+            "tipopago": 2,
+            "montoefectivo": 0,
+            "vuelto": 0,
+            "tarjeta": $("#tipotarjeta").val(),
+            "digitos": $("#4digits").val(),
+            "autorizacion": $("#authtarjeta").val()
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function(data){
+                detallepago=data.id;
+            });
+}
+
+}
 
 function guardarDetalle() {
 

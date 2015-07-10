@@ -15,6 +15,7 @@ class Venta(models.Model):
     nombrecliente=models.CharField(max_length=255,verbose_name='Nombre en Factura')
     cashier = models.ForeignKey(Cajero, verbose_name='Cajeros')
     date=models.DateField(verbose_name='Fecha')
+    time=models.TimeField(verbose_name='Hora de la venta')
     totolkilogramos=models.FloatField(verbose_name='Total')
     cantidadarticulos=models.IntegerField(verbose_name='Cantidad de Artículos')
     subtotal=models.FloatField(verbose_name='Sub Total')
@@ -22,7 +23,7 @@ class Venta(models.Model):
     descopor=models.FloatField(verbose_name='Descuento %')
     desctocol=models.FloatField(verbose_name='Descuento')
     total=models.FloatField(verbose_name='Total')
-    detalleproductos = models.ManyToManyField('DetalleProductos', verbose_name='Detalle de Productos')
+    detalleproductos = models.ManyToManyField('DetalleProductos', verbose_name='Detalle de los Productos')
     datosdelpago = models.ForeignKey('DetallesPago', verbose_name='Detalle de Pago')
 
 
@@ -53,11 +54,11 @@ class DetalleProductos(models.Model):
 
 class DetallesPago(models.Model):
     tipopago=models.ForeignKey('TiposPago',verbose_name='Tipo de Pago')
-    montoefectivo=models.FloatField(verbose_name='Total de efectivo')
-    vuelto=models.FloatField(verbose_name='Vuelto')
+    montoefectivo=models.FloatField(null=True,verbose_name='Total de efectivo')
+    vuelto=models.FloatField(null=True,verbose_name='Vuelto')
     tarjeta=models.ForeignKey('Tipostarjeta',verbose_name='Tipo de Tarjeta')
-    digitos=models.IntegerField(verbose_name='Últimos 4 dígitos tarjeta')
-    autorizacion=models.IntegerField(verbose_name='Autorización Datafono')
+    digitos=models.IntegerField(null=True,verbose_name='Últimos 4 dígitos tarjeta')
+    autorizacion=models.IntegerField(null=True,verbose_name='Autorización Datafono')
 
     def __unicode__(self):
 
