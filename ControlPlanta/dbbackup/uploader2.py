@@ -16,7 +16,7 @@ except ImportError:
 
 def main():
 
-	client_secrets = json.loads(open("./client_secrets.json").read())
+	client_secrets = json.loads(open("/Volumes/DATOS/Avanzando_Juntos/ControlPlanta/ControlPlanta/dbbackup/client_secrets.json").read())
 	try:
 		if len(client_secrets["app_key"]) and len(client_secrets["app_secret"]):
 			# ready to go
@@ -24,7 +24,7 @@ def main():
 		else:
 			print "app_key and app_secret not provided\n\nCreate a app at https://www.dropbox.com/developers/apps/create and insert the app_key and app_secret in client_secrets.json\nAnd try again"
 			raw_input()
-			client_secrets = json.loads(open("./client_secrets.json").read())
+			client_secrets = json.loads(open("/Volumes/DATOS/Avanzando_Juntos/ControlPlanta/ControlPlanta/dbbackup/client_secrets.json").read())
 	except KeyError, e:
 		raise e
 
@@ -56,9 +56,9 @@ def main():
 	client = dropbox_client.DropboxClient(sess)
 
 	try:
-		with open ("./BACKUPS/"+'backup'+ datetime.datetime.today().strftime("%Y%m%d%H%M") + ".sql"): pass #check existance of while
+		with open ("/Volumes/DATOS/Avanzando_Juntos/ControlPlanta/ControlPlanta/dbbackup/BACKUPS/"+'backup'+ datetime.datetime.today().strftime("%Y%m%d%H%M") + ".sql"): pass #check existance of while
 		print "Uploading started..."
-		print client.put_file("./BACKUPS/"+'backup' + datetime.datetime.today().strftime("%Y%m%d%H%M") + ".sql", open ("./BACKUPS/"+'backup'+ datetime.datetime.today().strftime("%Y%m%d%H%M") + ".sql"))
+		print client.put_file("./BACKUPS/"+'backup' + datetime.datetime.today().strftime("%Y%m%d%H%M") + ".sql", open ("/Volumes/DATOS/Avanzando_Juntos/ControlPlanta/ControlPlanta/dbbackup/BACKUPS/"+'backup'+ datetime.datetime.today().strftime("%Y%m%d%H%M") + ".sql"))
 		print "Uploading completed..."
 	except IOError:
 		#print client.account_info()

@@ -19,7 +19,7 @@ def backupdbmine(request):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if request.is_ajax():
         if socket.gethostname().startswith('Mac'):
-            os.system(BASE_DIR+'/dbbackup/backupdb.sh')
+            os.system(BASE_DIR+'/dbbackup/backupdb.command')
             return JsonResponse({'status': 'success','system':'MAC','dir':BASE_DIR})
         else:
             os.system(BASE_DIR+'/dbbackup/backupdb.bat')
