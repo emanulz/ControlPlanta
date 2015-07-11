@@ -59,14 +59,14 @@ class VentaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Venta
-        fields =('id','ticketnum','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago')
+        fields =('id','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago')
 
 class VentaViewSet(viewsets.ModelViewSet):
 
     serializer_class = VentaSerializer
     queryset = Venta.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','ticketnum','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago')
+    filter_fields=('id','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago')
 
 
 

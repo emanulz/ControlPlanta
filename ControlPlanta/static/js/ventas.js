@@ -13,7 +13,7 @@ var vueltoguardar=0;
 var efectivoguardar=0;
 var cliente=1;
 var descuento=0;
-var descuentobool=false;
+var descuentoporc=0;
 var preciosindesc=0;
 var ivsindesc=0;
 var totalkg=0;
@@ -579,15 +579,16 @@ function llenartablaProductos(data){
         var iv=0;
         var price;
 
+
         if(inarray==-1){//no existe en la tabla
-            if (existencia>=cantidad || data[0].ventaneg==false ){
+            if (existencia>=cantidad || data[0].ventaneg==true ){
                 var pricetouse=determinprice(data);
                 //var cantidad =parseFloat($('#cantidad').val());
                 var impentabla;
                 var pricesub=(pricetouse*cantidad);
-
                 if(usaimpuestos){
                     impentabla='G';
+
                     iv=(pricetouse*cantidad)*((data[0].taxes_amount)/100);
                     ivr=Math.round((iv) * 1000) / 1000;
                     price=(pricetouse*cantidad)*montoimpuesto;
@@ -617,7 +618,7 @@ function llenartablaProductos(data){
                 $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td class="precio">' +pricetouse.toFixed(2) + '</td><td class=cant'+data[0].product_code+'>' + cantidad + '</td>' +
                 '<td>'+impentabla+'</td><td class="precio total'+data[0].product_code+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
 
-                matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer]);
+                matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer,data[0].id,usaimpuestos]);
 
                 $('#cantidad').val(1);
                 totalkg2=parseFloat(totalkg);
@@ -647,7 +648,8 @@ function llenartablaProductos(data){
 
         else{//ya existe en la tabla
             var descontar=cantidad+matrixventa[inarray][3];
-            if (existencia>=descontar || data[0].ventaneg==false ){
+            //console.log(data);
+            if (existencia>=descontar || data[0].ventaneg==true ){
                 matrixventa[inarray][3]=descontar;
                 recalculartablaproductos();
             }
@@ -720,6 +722,7 @@ function serachmatrix(id){
 function Aplicardescuento(){
 
     var desc=parseFloat($('#descuento').val());
+    descuentoporc = desc;
     var descTrue=isNaN(desc);
     //console.log(desc);
     //console.log(descTrue);
@@ -793,11 +796,16 @@ function NoConfirmarDatos(){
 
 function RegistarVenta(){
 
-    guardardetallepago()
+    guardardetallepago();
+    guardardetalleproducto();
+    //descontarinventarios();
+    guardarventa();
+
 
 }
 
 function guardardetallepago(){
+
 if($("#pagacontipo").val()==1){
     $.ajax({
           method: "POST",
@@ -822,8 +830,8 @@ if($("#pagacontipo").val()==1){
             .success(function(data){
                 //console.log(data.id);
                 detallepago=data.id;
-            });
-}
+            });//ajax
+    }//if
 
 if($("#pagacontipo").val()==2){
     $.ajax({
@@ -849,9 +857,76 @@ if($("#pagacontipo").val()==2){
             .success(function(data){
                 detallepago=data.id;
             });
-}
+    }//if
+}//function
+
+function guardardetalleproducto(){
+
+    //matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer,data[0].id,usaimpuestos]);
+    event.preventDefault();
+     $.each( matrixventa, function(i){
+
+        $.ajax({
+          method: "POST",
+          url: "/api/detalleproducto/",
+          async: false,
+
+          data: JSON.stringify({
+                "producto": matrixventa[i][7],
+                "preciouni": matrixventa[i][2],
+                "cantidad": matrixventa[i][3],
+                "iv": matrixventa[i][8],
+                "total": matrixventa[i][4]
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 "+data.responseText);
+            })
+            .success(function(data){
+               detallesventa.push(data.id);
+                console.log(detallesventa);
+            });
+    });
 
 }
+
+function guardarventa(){
+    $.ajax({
+          method: "POST",
+          url: "/api/detallepago/",
+          async: false,
+
+          data: JSON.stringify({
+            "client": null,
+            "nombrecliente": "",
+            "cashier": null,
+            "date": null,
+            "time": null,
+            "totolkilogramos": totalkg,
+            "cantidadarticulos": totalart,
+            "subtotal": subtotal,
+            "iv": totaliv,
+            "descopor": descuentoporc,
+            "desctocol": descuento,
+            "total": totalventa,
+            "detalleproductos": detallesventa,
+            "datosdelpago": detallepago
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function(data){
+                //detallepago=data.id;
+            });
+}
+
 
 function guardarDetalle() {
 

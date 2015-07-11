@@ -24,7 +24,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Producto
-        fields =('id','product_code','bar_code','description','cost','autoprice','utility1','utility2','utility3','price1','price2','price3','fractioned','taxes', 'taxes_amount', 'category')
+        fields =('id','product_code','bar_code','description','cost','autoprice','utility1','utility2','utility3','price1','price2','price3','ventaneg','fractioned','taxes', 'taxes_amount', 'category')
 
 
 # ViewroductSets define the view behavior.

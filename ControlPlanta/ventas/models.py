@@ -10,7 +10,7 @@ from productos.models import Producto
 
 class Venta(models.Model):
 
-    ticketnum  = models.PositiveIntegerField(unique=True, verbose_name='Factura #')
+    #ticketnum  = models.PositiveIntegerField(unique=True,verbose_name='Factura #')
     client = models.ForeignKey(Cliente, verbose_name='Cliente')
     nombrecliente=models.CharField(max_length=255,verbose_name='Nombre en Factura')
     cashier = models.ForeignKey(Cajero, verbose_name='Cajeros')
