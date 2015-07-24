@@ -20,7 +20,8 @@ from cajeros.views import CajeroCreate
 from canales.views import CanalViewSet
 from clientes.views import ClientViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
-from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet
+from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet, \
+    InventariosView
 from ventas.views import VentasView, DetallePagoViewSet, DetalleProductosViewSet, VentaViewSet
 from lotes.views import LoteCreate, LoteViewSet
 from frontend.views import LandingView, TrazabilidadView
@@ -57,6 +58,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^trazabilidad/', TrazabilidadView.as_view()),
     url(r'^ventas/', VentasView.as_view()),
+    url(r'^inventarios/', InventariosView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
     url(r'backupdb/', 'frontend.views.backupdbmine', name='backup'),

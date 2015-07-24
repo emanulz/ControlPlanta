@@ -21,7 +21,7 @@ class EntradasInvAdmin(admin.ModelAdmin):
 
 @admin.register(TiposEntradas)
 class TiposEntradasAdmin(admin.ModelAdmin):
-    list_display = ('nombre', )
+    list_display = ('id','nombre', )
     search_fields = ('nombre',)
 
 @admin.register(SalidasInventario)
@@ -31,5 +31,5 @@ class SalidasInvAdmin(admin.ModelAdmin):
 
 @admin.register(TiposSalidas)
 class TiposSalidasAdmin(admin.ModelAdmin):
-    list_display = ('nombre', )
+    list_display = ('id','nombre', )
     search_fields = ('nombre',)

@@ -2,11 +2,23 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
 from rest_framework import serializers, viewsets
 from inventarios.models import InventarioTotal, ResumenInventario, EntradasInventario, SalidasInventario
 
 # Create your views here.
 
+#INVENTARIOS TEMPLATE VIEW
+
+class InventariosView(TemplateView):
+    template_name = 'inventarios.html'
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(InventariosView, self).dispatch(*args, **kwargs)
+
+
+#INVENTARIO TOTAL API
 class InventarioTotalSerializer(serializers.ModelSerializer):
 
     class Meta:

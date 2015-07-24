@@ -9,6 +9,7 @@ class Producto(models.Model):
     bar_code= models.PositiveIntegerField(verbose_name='Código de barras', blank=True, null=True ,unique=True)
     description = models.CharField(max_length=255, verbose_name='Descripción')
     category = models.ForeignKey('FamiliaDelProducto', default=1,verbose_name='Familia')
+    inventory= models.FloatField(default=0,verbose_name='Existencia en Inventario')
     cost= models.FloatField(default=0, verbose_name='Costo Standard ₡')
     autoprice = models.BooleanField(default=0, verbose_name='Precio Auto?')
     utility1=models.FloatField(default=0, verbose_name='Utilidad Cliente %:')

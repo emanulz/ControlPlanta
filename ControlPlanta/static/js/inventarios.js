@@ -1,4 +1,10 @@
 //variables globales
+var tablamatrix=[];
+var existenciaactual;
+var identrada;
+var cantentrada;
+var idesalida;
+var cantsalida;
 
 var enteronaddproducto = false;
 var cantidad=0;
@@ -121,6 +127,17 @@ function main () {
                 event.preventDefault();
            // }
         });
+
+        //PANEL ENTRADA
+
+        $('.cd-panelentrada').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelentrada').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                event.preventDefault();
+            }
+        });
+
 
 
 
@@ -385,12 +402,124 @@ function main () {
         $("#btnconfirmarcliente").prop('disabled',true);
 
 
-    //set Cajero
 
+
+    /// INVENTARIOS DESDE AQUI
+    //set usuario
     $.get('/api/cajeros/?user='+$('#cajero').val(),function(data){
         $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>')
-
     });
+    //Llenar tabla de inventario total
+
+    $.get('/api/productos/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
+
+    $( "#tipoconsulta" ).change(function() {
+        $("#filtroinv").val('');
+        $("#tablainventario > tbody").html("");
+        $.get('/api/productos/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
+    });
+
+    //filtro
+    $("#filtroinv").bind("change paste keyup", function() {
+        if($("#filtroinv").val()!=''){
+            $("#tablainventario > tbody").html("");
+            $.get('/api/productos/?description='+$("#filtroinv").val()+'&category='+$('#tipoconsulta').val(),llenarTablaIventario);
+        }
+        else{
+            $("#tablainventario > tbody").html("");
+            $.get('/api/productos/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
+        }
+    });
+
+    //select row entrada
+    $('html').on('click','.selectrowentrada', function () {
+        event.preventDefault();
+        var row=$(this).closest("tr");
+        var rowIndex = row.index();
+        $("#codprodentrada").val(tablamatrix[rowIndex][1]);
+        $("#descprodentrada").val(tablamatrix[rowIndex][2]);
+        existenciaactual=tablamatrix[rowIndex][3];
+        $("#extactual").val(tablamatrix[rowIndex][3]);
+        identrada=tablamatrix[rowIndex][0];
+        $('.cd-panelentrada').addClass('is-visible');
+        blurElement('.blurlines',3);
+    });
+
+    $("#tipoentrada").change(function() {
+        if($( "#tipoentrada" ).val()==3){
+            $( ".changetipoent" ).html('Ajuste por toma Física: <br/> <br/>');
+            $(".produccion").hide();
+            $(".compradev").hide();
+            $(".tomafisica:hidden").show();
+        }
+        if($( "#tipoentrada" ).val()==4){
+            $( ".changetipoent" ).html('Entrada por devolución: <br/> <br/>');
+            $(".produccion").hide();
+            $(".compradev:hidden").show();
+            $(".tomafisica").hide();
+        }
+        if($( "#tipoentrada" ).val()==2){
+            $( ".changetipoent" ).html('Entrada por compras: <br/> <br/>');
+            $(".produccion").hide();
+            $(".compradev:hidden").show();
+            $(".tomafisica").hide();
+        }
+        if($( "#tipoentrada" ).val()==1){
+            $( ".changetipoent" ).html('Entrada por producción: <br/> <br/>');
+            $(".produccion:hidden").show();
+            $(".compradev").hide();
+            $(".tomafisica").hide();
+        }
+    });
+
+    $("#tomaf").bind("change paste keyup", function() {
+        var a =$("#tomaf").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        console.log(!aaa);
+        if(!aaa){
+            $("#btntomaf").prop('disabled',false);
+            cantentrada=aa;
+        }
+        else{
+            $("#btntomaf").prop('disabled',true);
+            cantentrada=0;
+        }
+    });
+
+    $("#entcompras").bind("change paste keyup", function() {
+        var a =$("#entcompras").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        console.log(!aaa);
+        if(!aaa){
+            $("#btnconfcompdev").prop('disabled',false);
+            cantentrada=aa+existenciaactual;
+        }
+        else{
+            $("#btnconfcompdev").prop('disabled',true);
+            cantentrada=0;
+        }
+    });
+
+    $("#produccionsum").bind("change paste keyup", function() {
+        var a =$("#produccionsum").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        console.log(!aaa);
+        if(!aaa){
+            $("#btnconfprod").prop('disabled',false);
+            cantentrada=aa+existenciaactual;
+        }
+        else{
+            $("#btnconfprod").prop('disabled',true);
+            cantentrada=0;
+        }
+    });
+
+    $("#btntomaf").on("click",RegistarEntToma);
+
+     /// INVENTARIOS HASTA AQUI
 
     //valor vencimiento
 
@@ -422,6 +551,21 @@ function main () {
 
     }//main
 
+function llenarTablaIventario(data){
+    tablamatrix=[];
+    //console.log(data);
+        $.each( data, function(i){
+            var existencia = data[i].inventory;
+            //console.log('TABLA '+existencia);
+            $('#tablainventario > tbody:last').append('<tr><td>' + data[i].product_code + '</td><td>' + data[i].description +
+            '</td><td>' + existencia + '</td><td><button  type="button" class=" btn btn-success form-control selectrowentrada btnanchoinv " id="btnentrada"><span class="glyphicon glyphicon-plus"></span></button></td>'+
+            '</td><td><button  type="button" class=" btn btn-danger form-control selectrowsalida btnanchoinv" id="btnsalida"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+            tablamatrix.push([data[i].id, data[i].product_code,data[i].description ,existencia]);
+        });
+}
+
+
+
 function blurElement(element, size){
             var filterVal = 'blur('+size+'px)';
             $(element)
@@ -430,7 +574,29 @@ function blurElement(element, size){
               .css('mozFilter',filterVal)
               .css('oFilter',filterVal)
               .css('msFilter',filterVal);
-        }
+}
+
+function RegistarEntToma(){
+    $.ajax({
+      method: "PATCH",
+      url: "/api/productos/"+identrada+"/",
+
+      data: JSON.stringify({
+
+        "inventory": cantentrada
+
+        }),//JSON object
+          contentType:"application/json; charset=utf-8",
+          dataType:"json"
+        })
+      .success(function(data) {
+        console.log(data);
+        })
+        .fail(function(data) {
+        console.log(data);
+        });
+
+}
 
 function getcliente(){
     var a =$("#codigocliente").val();

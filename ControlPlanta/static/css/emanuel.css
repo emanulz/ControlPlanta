@@ -61,6 +61,13 @@
     font-family: sans-serif
 }
 
+.btnanchoinv{
+    width: 65%;
+    margin-left: 17.5%;
+    margin-right: 17.5%;
+
+}
+
 @media (min-width: 768px) {
    .errorlist {
        margin-left: 17%;

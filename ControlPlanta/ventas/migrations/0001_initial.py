@@ -7,9 +7,9 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('productos', '0003_producto_ventaneg'),
         ('cajeros', '0001_initial'),
         ('clientes', '0001_initial'),
-        ('productos', '0002_auto_20150626_1002'),
     ]
 
     operations = [
@@ -33,10 +33,10 @@ class Migration(migrations.Migration):
             name='DetallesPago',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('montoefectivo', models.FloatField(verbose_name=b'Total de efectivo')),
-                ('vuelto', models.FloatField(verbose_name=b'Vuelto')),
-                ('digitos', models.IntegerField(verbose_name=b'\xc3\x9altimos 4 d\xc3\xadgitos tarjeta')),
-                ('autorizacion', models.IntegerField(verbose_name=b'Autorizaci\xc3\xb3n Datafono')),
+                ('montoefectivo', models.FloatField(null=True, verbose_name=b'Total de efectivo')),
+                ('vuelto', models.FloatField(null=True, verbose_name=b'Vuelto')),
+                ('digitos', models.IntegerField(null=True, verbose_name=b'\xc3\x9altimos 4 d\xc3\xadgitos tarjeta')),
+                ('autorizacion', models.IntegerField(null=True, verbose_name=b'Autorizaci\xc3\xb3n Datafono')),
             ],
             options={
                 'ordering': ['id'],
@@ -72,9 +72,9 @@ class Migration(migrations.Migration):
             name='Venta',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('ticketnum', models.PositiveIntegerField(unique=True, verbose_name=b'Factura #')),
                 ('nombrecliente', models.CharField(max_length=255, verbose_name=b'Nombre en Factura')),
                 ('date', models.DateField(verbose_name=b'Fecha')),
+                ('time', models.TimeField(verbose_name=b'Hora de la venta')),
                 ('totolkilogramos', models.FloatField(verbose_name=b'Total')),
                 ('cantidadarticulos', models.IntegerField(verbose_name=b'Cantidad de Art\xc3\xadculos')),
                 ('subtotal', models.FloatField(verbose_name=b'Sub Total')),
@@ -85,7 +85,7 @@ class Migration(migrations.Migration):
                 ('cashier', models.ForeignKey(verbose_name=b'Cajeros', to='cajeros.Cajero')),
                 ('client', models.ForeignKey(verbose_name=b'Cliente', to='clientes.Cliente')),
                 ('datosdelpago', models.ForeignKey(verbose_name=b'Detalle de Pago', to='ventas.DetallesPago')),
-                ('detalleproductos', models.ManyToManyField(to='ventas.DetalleProductos', verbose_name=b'Detalle de Productos')),
+                ('detalleproductos', models.ManyToManyField(to='ventas.DetalleProductos', verbose_name=b'Detalle de los Productos')),
             ],
             options={
                 'ordering': ['id'],

@@ -26,10 +26,8 @@ class Venta(models.Model):
     detalleproductos = models.ManyToManyField('DetalleProductos', verbose_name='Detalle de los Productos')
     datosdelpago = models.ForeignKey('DetallesPago', verbose_name='Detalle de Pago')
 
-
     def __unicode__(self):
-
-        return self.ticketnum
+        return unicode(self.id)
 
     class Meta:
         ordering = ['id']
