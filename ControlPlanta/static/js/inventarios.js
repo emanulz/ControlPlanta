@@ -9,7 +9,7 @@ var identrada;
 var cantentrada;
 var tipoentrada=3;
 //Variables salida
-var idesalida;
+var idsalida;
 var cantsalida;
 var tiposalida=3;
 
@@ -471,12 +471,12 @@ console.log($.now());
         $("#descprodsalida").val(tablamatrix[rowIndex][2]);
         existenciaactual=tablamatrix[rowIndex][3];
         $("#extactualsalida").val(tablamatrix[rowIndex][3]);
-        idesalida=tablamatrix[rowIndex][0];
+        idsalida=tablamatrix[rowIndex][0];
         $('.cd-panelsalida').addClass('is-visible');
         blurElement('.blurlines',3);
     });
 
-
+    //Cambio tipo entrada
     $("#tipoentrada").change(function() {
         if($( "#tipoentrada" ).val()==3){
             $( ".changetipoent" ).html('Ajuste por toma Física: <br/> <br/>');
@@ -508,6 +508,46 @@ console.log($.now());
         }
     });
 
+    //cambio tipo salida
+    $("#tiposalida").change(function() {
+        if($( "#tiposalida" ).val()==3){
+            $( ".changetiposal" ).html('Ajuste por toma Física: <br/> <br/>');
+            $(".salidageneral").hide();
+            $(".ventassal").hide();
+            $(".tomafisicasal:hidden").show();
+            tiposalida=3;
+        }
+        if($( "#tiposalida" ).val()==4){
+            $( ".changetiposal" ).html('Salida por por producto vencido: <br/> <br/>');
+            $(".tomafisicasal").hide();
+            $(".salidageneral:hidden").show();
+            $(".ventassal").hide();
+            tiposalida=4;
+        }
+        if($( "#tiposalida" ).val()==2){
+            $( ".changetiposal" ).html('Salida por desecho de productos: <br/> <br/>');
+            $(".tomafisicasal").hide();
+            $(".salidageneral:hidden").show();
+            $(".ventassal").hide();
+            tiposalida=2;
+        }
+        if($( "#tiposalida" ).val()==1){
+            $( ".changetiposal" ).html('Salida por Ventas: <br/> <br/>');
+            $(".ventassal:hidden").show();
+            $(".tomafisicasal").hide();
+            $(".salidageneral").hide();
+            tiposalida=1;
+        }
+        if($( "#tiposalida" ).val()==5){
+            $( ".changetiposal" ).html('Salida por Reproceso: <br/> <br/>');
+            $(".tomafisicasal").hide();
+            $(".salidageneral:hidden").show();
+            $(".ventassal").hide();
+            tiposalida=5;
+        }
+    });
+
+    //funciones de entrada
     $("#tomaf").bind("change paste keyup", function() {
         var a =$("#tomaf").val();
         var aa=parseFloat(a);
@@ -522,7 +562,6 @@ console.log($.now());
             cantentrada=0;
         }
     });
-
     $("#entcompras").bind("change paste keyup", function() {
         var a =$("#entcompras").val();
         var aa=parseFloat(a);
@@ -537,7 +576,6 @@ console.log($.now());
             cantentrada=0;
         }
     });
-
     $("#produccionsum").bind("change paste keyup", function() {
         var a =$("#produccionsum").val();
         var aa=parseFloat(a);
@@ -557,6 +595,53 @@ console.log($.now());
     $("#btnconfcompdev").on("click",RegistarEntrada);
     $("#btnconfprod").on("click",RegistarEntrada);
 
+    //funciones de Salida
+    $("#tomafsal").bind("change paste keyup", function() {
+        var a =$("#tomafsal").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        //console.log(!aaa);
+        if(!aaa){
+            $("#btntomafsal").prop('disabled',false);
+            cantsalida=aa;
+        }
+        else{
+            $("#btntomafsal").prop('disabled',true);
+            cantsalida=0;
+        }
+    });
+    $("#salidageneral").bind("change paste keyup", function() {
+        var a =$("#salidageneral").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        //console.log(!aaa);
+        if(!aaa){
+            $("#btnconfsalgen").prop('disabled',false);
+            cantsalida=existenciaactual-aa;
+        }
+        else{
+            $("#btnconfsalgen").prop('disabled',true);
+            cantsalida=0;
+        }
+    });
+    $("#salventas").bind("change paste keyup", function() {
+        var a =$("#salventas").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        //console.log(!aaa);
+        if(!aaa){
+            $("#btnconfventa").prop('disabled',false);
+            cantsalida=existenciaactual-aa;
+        }
+        else{
+            $("#btnconfventa").prop('disabled',true);
+            cantsalida=0;
+        }
+    });
+
+    $("#btntomafsal").on("click",RegistarSalida);
+    $("#btnconfsalgen").on("click",RegistarSalida);
+    $("#btnconfventa").on("click",RegistarSalida);
      /// INVENTARIOS HASTA AQUI
 
     //valor vencimiento
@@ -686,6 +771,86 @@ function crearentrada(datos,peso,nuevopeso){
         })
         .fail(function(data) {
         alertify.alert("Hubo un problema al crear la entrada, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        });
+}
+
+function RegistarSalida() {
+    console.log(cantsalida);
+    if ((existenciaactual- cantsalida) < 0||cantsalida<0) {
+    alertify.alert("Error","La cantidad de producto que desea descontar es mayor a la existencia actual, ingrese una nueva cantidad o realice una entrada de inventario.");
+    }
+    else {
+        $.ajax({
+            method: "PATCH",
+            url: "/api/productos/" + idsalida + "/",
+
+            data: JSON.stringify({
+
+                "inventory": cantsalida
+
+            }),//JSON object
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        })
+            .success(function () {
+                if (tiposalida == 3) {
+
+                    crearsalida('Salida por toma Física', 0, cantsalida);
+                }
+                if (tiposalida == 2) {
+
+                    crearsalida('Salida por desecho de producto', (existenciaactual - cantsalida), 0);
+                }
+                if (tiposalida == 4) {
+
+                    crearsalida('Salida por Producto vencido', (existenciaactual - cantsalida), 0);
+                }
+                if (tiposalida == 1) {
+
+                    crearsalida('Salida por venta, Factura # ' + $("#factsalventas").val(), existenciaactual - cantsalida, 0);
+                }
+                if (tiposalida == 5) {
+
+                    crearsalida('Salida por Reproceso ', existenciaactual - cantsalida, 0);
+                }
+            })
+            .fail(function (data) {
+                alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            });
+
+    }//else
+}//function
+
+function crearsalida(datos,peso,nuevopeso){
+
+    $.ajax({
+      method: "POST",
+      url: "/api/inventariosalida/",
+
+      data: JSON.stringify({
+            "tipo": tiposalida,
+            "datos": datos,
+            "producto": idsalida,
+            "peso": peso,
+            "nuevopeso": nuevopeso,
+            "date": today,
+            "time": tiempoahora(),
+            "usuario": usuario
+        }),//JSON object
+          contentType:"application/json; charset=utf-8",
+          dataType:"json"
+        })
+      .success(function() {
+        $("#tablainventario > tbody").html("");
+        $.get('/api/productos/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
+        alertify.alert('Salida exitosa',"Salida de inventario creada con exito");
+        $('.cd-panelsalida').removeClass('is-visible');
+        blurElement('.blurlines',0);
+        $("#filtroinv")
+
+        })
+        .fail(function(data) {
+        alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
         });
 }
 
