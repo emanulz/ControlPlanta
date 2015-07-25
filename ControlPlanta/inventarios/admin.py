@@ -16,8 +16,8 @@ class ResumenInvAdmin(admin.ModelAdmin):
 
 @admin.register(EntradasInventario)
 class EntradasInvAdmin(admin.ModelAdmin):
-    list_display = ('id','tipo','datos','producto', 'peso','date','time' )
-    search_fields = ('id','tipo','datos' 'producto', 'peso','date','time')
+    list_display = ('id','tipo','datos','producto', 'peso','nuevopeso','date','time','usuario' )
+    search_fields = ('id','tipo__nombre','datos' ,'producto__description', 'peso','date','time','usuario__name')
 
 @admin.register(TiposEntradas)
 class TiposEntradasAdmin(admin.ModelAdmin):
@@ -26,8 +26,8 @@ class TiposEntradasAdmin(admin.ModelAdmin):
 
 @admin.register(SalidasInventario)
 class SalidasInvAdmin(admin.ModelAdmin):
-    list_display = ('id','tipo','datos','producto', 'peso','date','time' )
-    search_fields = ('id','tipo','datos' 'producto', 'peso','date','time')
+    list_display = ('id','tipo','datos','producto', 'peso','nuevopeso','date','time','usuario' )
+    search_fields = ('id','tipo','datos' 'producto', 'peso','date','time','usuario')
 
 @admin.register(TiposSalidas)
 class TiposSalidasAdmin(admin.ModelAdmin):

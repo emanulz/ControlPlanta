@@ -2,6 +2,7 @@
 from django.db import models
 
 # Create your models here.
+from cajeros.models import Cajero
 from lotes.models import Lote
 from productos.models import Producto, FamiliaDelProducto
 
@@ -37,10 +38,12 @@ class EntradasInventario(models.Model):
     datos=models.CharField(max_length=255,verbose_name='Datos de la entrada')
     producto=models.ForeignKey(Producto,verbose_name='Corte')
     peso=models.FloatField(verbose_name='Cantidad Kilogramos')
+    nuevopeso=models.FloatField(verbose_name='Cantidad Kilogramos nueva')
     date=models.DateField(verbose_name='Fecha' )
     time=models.TimeField(verbose_name='Hora' )
+    usuario=models.ForeignKey(Cajero,verbose_name='usuario')
     def __unicode__(self):
-        return self.tipo
+        return self.tipo.nombre
     class Meta:
         ordering=['id']
         verbose_name='Entrada en Inventario'
@@ -60,8 +63,10 @@ class SalidasInventario(models.Model):
     datos=models.CharField(max_length=255,verbose_name='Datos de la salida')
     producto=models.ForeignKey(Producto,verbose_name='Corte')
     peso=models.FloatField(verbose_name='Cantidad Kilogramos')
+    nuevopeso=models.FloatField(verbose_name='Cantidad Kilogramos nueva')
     date=models.DateField(verbose_name='Fecha' )
     time=models.TimeField(verbose_name='Hora' )
+    usuario=models.ForeignKey(Cajero,verbose_name='Usuario')
 
     def __unicode__(self):
         return self.tipo

@@ -1,10 +1,17 @@
 //variables globales
 var tablamatrix=[];
 var existenciaactual;
+var today;
+var now;
+var usuario;
+//Variables entrada
 var identrada;
 var cantentrada;
+var tipoentrada=3;
+//Variables salida
 var idesalida;
 var cantsalida;
+var tiposalida=3;
 
 var enteronaddproducto = false;
 var cantidad=0;
@@ -35,7 +42,7 @@ jQuery.ajaxSetup({async:false});
 
 $(document).on('ready', main);
 function main () {
-//console.log($('#cajero').val());
+console.log($.now());
 
 
         $.ajaxSetup({
@@ -138,6 +145,15 @@ function main () {
             }
         });
 
+        //PANEL SALIDA
+
+        $('.cd-panelsalida').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelsalida').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                event.preventDefault();
+            }
+        });
 
 
 
@@ -408,6 +424,7 @@ function main () {
     //set usuario
     $.get('/api/cajeros/?user='+$('#cajero').val(),function(data){
         $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>')
+        usuario=data[0].user;
     });
     //Llenar tabla de inventario total
 
@@ -445,30 +462,49 @@ function main () {
         blurElement('.blurlines',3);
     });
 
+    //select row salida
+    $('html').on('click','.selectrowsalida', function () {
+        event.preventDefault();
+        var row=$(this).closest("tr");
+        var rowIndex = row.index();
+        $("#codprodsalida").val(tablamatrix[rowIndex][1]);
+        $("#descprodsalida").val(tablamatrix[rowIndex][2]);
+        existenciaactual=tablamatrix[rowIndex][3];
+        $("#extactualsalida").val(tablamatrix[rowIndex][3]);
+        idesalida=tablamatrix[rowIndex][0];
+        $('.cd-panelsalida').addClass('is-visible');
+        blurElement('.blurlines',3);
+    });
+
+
     $("#tipoentrada").change(function() {
         if($( "#tipoentrada" ).val()==3){
             $( ".changetipoent" ).html('Ajuste por toma Física: <br/> <br/>');
             $(".produccion").hide();
             $(".compradev").hide();
             $(".tomafisica:hidden").show();
+            tipoentrada=3;
         }
         if($( "#tipoentrada" ).val()==4){
             $( ".changetipoent" ).html('Entrada por devolución: <br/> <br/>');
             $(".produccion").hide();
             $(".compradev:hidden").show();
             $(".tomafisica").hide();
+            tipoentrada=4;
         }
         if($( "#tipoentrada" ).val()==2){
             $( ".changetipoent" ).html('Entrada por compras: <br/> <br/>');
             $(".produccion").hide();
             $(".compradev:hidden").show();
             $(".tomafisica").hide();
+            tipoentrada=2;
         }
         if($( "#tipoentrada" ).val()==1){
             $( ".changetipoent" ).html('Entrada por producción: <br/> <br/>');
             $(".produccion:hidden").show();
             $(".compradev").hide();
             $(".tomafisica").hide();
+            tipoentrada=1;
         }
     });
 
@@ -476,7 +512,7 @@ function main () {
         var a =$("#tomaf").val();
         var aa=parseFloat(a);
         var aaa=isNaN(aa);
-        console.log(!aaa);
+        //console.log(!aaa);
         if(!aaa){
             $("#btntomaf").prop('disabled',false);
             cantentrada=aa;
@@ -491,7 +527,7 @@ function main () {
         var a =$("#entcompras").val();
         var aa=parseFloat(a);
         var aaa=isNaN(aa);
-        console.log(!aaa);
+        //console.log(!aaa);
         if(!aaa){
             $("#btnconfcompdev").prop('disabled',false);
             cantentrada=aa+existenciaactual;
@@ -506,7 +542,7 @@ function main () {
         var a =$("#produccionsum").val();
         var aa=parseFloat(a);
         var aaa=isNaN(aa);
-        console.log(!aaa);
+        //console.log(!aaa);
         if(!aaa){
             $("#btnconfprod").prop('disabled',false);
             cantentrada=aa+existenciaactual;
@@ -517,7 +553,9 @@ function main () {
         }
     });
 
-    $("#btntomaf").on("click",RegistarEntToma);
+    $("#btntomaf").on("click",RegistarEntrada);
+    $("#btnconfcompdev").on("click",RegistarEntrada);
+    $("#btnconfprod").on("click",RegistarEntrada);
 
      /// INVENTARIOS HASTA AQUI
 
@@ -551,6 +589,11 @@ function main () {
 
     }//main
 
+function tiempoahora(){
+    var dt = new Date();
+    return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+}
+
 function llenarTablaIventario(data){
     tablamatrix=[];
     //console.log(data);
@@ -576,7 +619,7 @@ function blurElement(element, size){
               .css('msFilter',filterVal);
 }
 
-function RegistarEntToma(){
+function RegistarEntrada(){
     $.ajax({
       method: "PATCH",
       url: "/api/productos/"+identrada+"/",
@@ -589,13 +632,61 @@ function RegistarEntToma(){
           contentType:"application/json; charset=utf-8",
           dataType:"json"
         })
-      .success(function(data) {
-        console.log(data);
+      .success(function() {
+                if (tipoentrada==3){
+
+                    crearentrada('Entrada por toma Física',0,cantentrada);
+                }
+                if (tipoentrada==2){
+
+                    crearentrada('Entrada por compra de producto Factura # '+$("#factcompdev").val(),cantentrada-existenciaactual,0);
+                }
+                if (tipoentrada==4){
+
+                    crearentrada('Entrada por devolución Factura # '+$("#factcompdev").val(),cantentrada-existenciaactual,0);
+                }
+                if (tipoentrada==1){
+
+                    crearentrada('Entrada por Producción ',cantentrada-existenciaactual,0);
+                }
         })
         .fail(function(data) {
-        console.log(data);
+            alertify.alert("Hubo un problema al crear la entrada, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
         });
 
+}
+
+
+function crearentrada(datos,peso,nuevopeso){
+
+    $.ajax({
+      method: "POST",
+      url: "/api/inventarioentrada/",
+
+      data: JSON.stringify({
+            "tipo": tipoentrada,
+            "datos": datos,
+            "producto": identrada,
+            "peso": peso,
+            "nuevopeso": nuevopeso,
+            "date": today,
+            "time": tiempoahora(),
+            "usuario": usuario
+        }),//JSON object
+          contentType:"application/json; charset=utf-8",
+          dataType:"json"
+        })
+      .success(function() {
+        $("#tablainventario > tbody").html("");
+        $.get('/api/productos/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
+        alertify.alert('Entrada exitosa',"Entrada a inventario creada con exito");
+        $('.cd-panelentrada').removeClass('is-visible');
+        blurElement('.blurlines',0);
+
+        })
+        .fail(function(data) {
+        alertify.alert("Hubo un problema al crear la entrada, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        });
 }
 
 function getcliente(){

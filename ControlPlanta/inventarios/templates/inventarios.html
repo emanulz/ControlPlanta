@@ -202,6 +202,7 @@
                                         <option value="4">Devolución</option>
                                         <option value="2">Compras</option>
                                         <option value="1">Producción</option>
+                                        <option value="5">Reproceso</option>
                                     </select>
                                 </div>
                             </div>
@@ -241,7 +242,7 @@
                    </div>
                      <div hidden class="form-group compradev">
                         <div class="col-sm-12">
-                            <label for="entcompras">Unidades Compradas KG:</label>
+                            <label for="entcompras">Unidades Compradas/Devueltas KG:</label>
                             <br/>
                             <br/>
                         </div>
@@ -265,7 +266,119 @@
                 </form>
             </div> <!-- cd-panel-content -->
 		</div> <!-- cd-panel-container -->
-	</div> <!-- Panel de buscar cliente -->
+	</div> <!-- Panel de entrada de productos -->
+
+<div class="cd-panel cd-panelsalida from-left">
+		<header class="cd-panel-header">
+			<h1>Salida de Productos de inventario</h1>
+        </header>
+		<div class="cd-panel-container">
+			<div class="cd-panel-content">
+				<form class="col-sm-12 form-horizontal" action="">
+                    <div class="tituloventa2">
+                        Datos del Producto:
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            <input disabled type="text" class="form-control" id="codprodsalida" placeholder="Código del producto">
+                        </div>
+                        <div class="col-sm-5">
+                            <input disabled type="text" class="form-control" id="descprodsalida" placeholder="Descripción del producto">
+                        </div>
+                   </div><!-- codigo y descripcion -->
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                <label for="extactual">Existencia Actual:</label>
+                                <br/>
+                                <br/>
+                                </div>
+                                <div class="col-sm-12">
+                                <input disabled type="number" class="form-control " id="extactualsalida">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                <label for="tiposalida">Tipo de salida:</label>
+                                <br/>
+                                <br/>
+                                </div>
+                                <div class="col-sm-12">
+                                    <select class="form-control" name="tiposalida" id="tiposalida">
+                                        <option value="3">Ajuste Toma Física</option>
+                                        <option value="4">Produco Vencido</option>
+                                        <option value="2">Desecho</option>
+                                        <option value="1">Ventas</option>
+                                        <option value="5">Reproceso</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                   </div><!-- existencia y tipo -->
+                     <div class="tituloventa2 changetiposal">
+                        Ajuste por toma Física:
+                        <br/>
+                        <br/>
+                    </div>
+
+                    <div class="form-group tomafisicasal">
+                        <div class="col-sm-12">
+                            <label for="tomaf">Nueva existencia:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control numentrada " id="tomafsal">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button disabled type="button" class=" btn btn-success form-control confentrada" id="btntomafsal" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+                    <div hidden class="form-group produccion">
+                        <div class="col-sm-12">
+                            <label for="produccionsum">Cantidad Producida KG:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control numentrada" id="produccionsum">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button disabled type="button" class=" btn btn-success form-control confentrada" id="btnconfprod" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+                     <div hidden class="form-group compradev">
+                        <div class="col-sm-12">
+                            <label for="entcompras">Unidades Compradas/Devueltas KG:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control numentrada" id="entcompras">
+                        </div>
+                         <div class="col-sm-12">
+                            <br/>
+                            <label for="factcompdev">Factura Compra/Devolución:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                         <div class="col-sm-8">
+                            <input type="text" class="form-control numentrada2" id="factcompdev">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button disabled type="button" class=" btn btn-success form-control confentrada" id="btnconfcompdev" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+
+                </form>
+            </div> <!-- cd-panel-content -->
+		</div> <!-- cd-panel-container -->
+	</div> <!-- Panel de salida de productos -->
 
 <div class="cd-panel cd-panelpagar from-right">
     <header class="cd-panel-header">
