@@ -27,7 +27,7 @@ class TiposEntradasAdmin(admin.ModelAdmin):
 @admin.register(SalidasInventario)
 class SalidasInvAdmin(admin.ModelAdmin):
     list_display = ('id','tipo','datos','producto', 'peso','nuevopeso','date','time','usuario' )
-    search_fields = ('id','tipo','datos' 'producto', 'peso','date','time','usuario')
+    search_fields = ('id','tipo__nombre','datos', 'producto__description', 'peso','date','time','usuario__name')
 
 @admin.register(TiposSalidas)
 class TiposSalidasAdmin(admin.ModelAdmin):
