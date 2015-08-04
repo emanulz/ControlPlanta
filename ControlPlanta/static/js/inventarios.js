@@ -594,6 +594,7 @@ console.log($.now());
     $("#btntomaf").on("click",RegistarEntrada);
     $("#btnconfcompdev").on("click",RegistarEntrada);
     $("#btnconfprod").on("click",RegistarEntrada);
+    $("#BtnPrint").on("click",Imprimir);
 
     //funciones de Salida
     $("#tomafsal").bind("change paste keyup", function() {
@@ -673,6 +674,11 @@ console.log($.now());
         $("#nombrecliente").val('Cliente Contado').prop("disabled",true);
 
     }//main
+
+function Imprimir(){
+    event.preventDefault();
+    $( "#print").printArea();
+}
 
 function tiempoahora(){
     var dt = new Date();

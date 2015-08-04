@@ -7,6 +7,7 @@
 	<script src="/static/panel/js/modernizr.js"></script> <!-- Modernizr -->
     <script src="/static/js/PriceFormat.js"></script>
     <script src="/static/js/inventarios.js"></script>
+    <script src="/static/print/jquery.PrintArea.js"></script>
 
 <div class="PaddingContent blurlines">
 
@@ -57,7 +58,7 @@
             </div>
         </form><!-- Encabezado -->
         <form class="form-horizontal col-sm-12" action="">
-        <div class="form-group">
+        <div class="form-group"  id="print">
             <div class=" form-group col-sm-12 ">
             <table class="table table-bordered table-hover" data-toggle="table" id="tablainventario" data-url="" data-cache="false" data-height="299">
                 <thead>
@@ -82,10 +83,10 @@
         </div>
     </form><!-- tabla de productos -->
     </div><!-- main content -->
-    <div hidden class="col-sm-3" >
+    <div class="col-sm-3" >
         <form class="form-horizontal col-sm-12" action="">
         <div class="col-sm-1"></div>
-        <div class="form-group col-sm-11 ">
+        <div  class="form-group col-sm-11 ">
             <div class="form-group">
                 <div class="col-sm-12">
                     <label for="pesolote">Total de Kilogramos:</label>
@@ -147,7 +148,7 @@
                     <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnConfirmar" style="width: 160px">Confirmar</button>
                     <button  type="button" class=" btn btn-danger  form-control " id="BtnNoConfirmar" style="width: 160px">Editar Datos</button>
                     <br/><br/>
-                    <button  type="button" class=" btn btn-success  form-control  btnpagar" id="BtnPagar" style="width: 160px">Pagar</button>
+                    <button  type="button" class=" btn btn-success  form-control  btnprint" id="BtnPrint" style="width: 160px">Imprimir</button>
                 </div>
             </div><!-- btnconfirmar -->
         </div>
@@ -559,8 +560,8 @@
                  </form>
                 <form class="col-sm-12 form-horizontal" action="">
                     <div class="form-group">
-                        <div class="col-sm-12">
-                            <table class="table table-bordered table-hover" data-toggle="table" id="tablabusqueda" data-url="" data-cache="false" data-height="299">
+                        <div class="col-sm-12" >
+                            <table class="table table-bordered table-hover " data-toggle="table" id="tablabusqueda" data-url="" data-cache="false" data-height="299">
                                 <thead>
                                     <tr class="danger">
                                     <th data-field="id">Código</th>
