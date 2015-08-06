@@ -79,7 +79,7 @@
                     <tr class="danger">
                         <th data-field="id">Código</th>
                         <th data-field="name">Descripción</th>
-                        <th data-field="name">P/U</th>
+                        <th data-field="name">P/Kg</th>
                         <th data-field="name">Cant</th>
                         <th data-field="name">I.V</th>
                         <th data-field="name">Total</th>
@@ -486,5 +486,65 @@
             </div> <!-- cd-panel-content -->
         </div> <!-- cd-panel-container -->
 	</div> <!-- Panel de Buscar -->
+
+<div class="cd-panel cd-panelcanal from-left">
+		<header class="cd-panel-header">
+			<h1>Elección de Canal</h1>
+        </header>
+        <div class="cd-panel-container">
+            <div class="cd-panel-content">
+
+                <div class="form-group">
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-12 tituloventa2 tipodecanal">
+                            Canales de Cerdo Disponibles:
+                            <br/>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="preciocanalkilo">Precio por Kilo ₡:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="number" class="form-control " id="preciocanalkilo">
+                        </div>
+                   </div>
+
+                 </form>
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-hover" data-toggle="table" id="tablacanales" data-url="" data-cache="false" data-height="299">
+                                <thead>
+                                    <tr class="danger">
+                                    <th data-field="id"># Canal</th>
+                                    <th data-field="consecutivo">Consecutivo</th>
+                                    <th data-field="calificacion">Calificación</th>
+                                    <th data-field="peso">Peso Kg</th>
+                                    <th data-field="fierro">Fierro</th>
+                                    <th data-field="agregar">Agregar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class=" pull-right">
+                        <button  type="button" class=" btn btn-danger  form-control marginBtnAdd2 btntest" id="btncerrarcanal" style="width: 160px"><span class="glyphicon glyphicon-menu-left"></span> Regresar</button>
+                        </div>
+                    </div>
+
+                </form>
+                </div>
+            </div> <!-- cd-panel-content -->
+        </div> <!-- cd-panel-container -->
+	</div> <!-- Panel de canales -->
 
 {% endblock %}

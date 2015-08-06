@@ -1,5 +1,6 @@
 //variables globales
 jQuery.ajaxSetup({async:false});
+var fierros=[];
 var canales=[];
 var detalles=[];
 var today = "";
@@ -74,7 +75,8 @@ function cargarLote(data){
         $("#lotenum").removeClass("errorlist2");
         $(".failmessage2").hide('slow');
         $("#lotenum").prop("disabled",true);
-        $("#fierro").val(data[0].fierro);
+        fierros=data[0].fierro;
+        console.log(fierros);
         $("#peso").val(data[0].totalweight);
         $("#fecha").val(data[0].date);
         $("#canalesnum").val(data[0].canalesqty);
@@ -91,10 +93,20 @@ function cargarLote(data){
         var d = data[0].id;
 //console.log('canales= '+canales);
 //console.log('fierro= '+b);
-        $.get('/api/proveedores/?fierro='+b ,function(datos){
-//console.log(datos);
-            $("#nombre").val(datos[0].name+' '+datos[0].lastname);
+        $.each( fierros, function( posi, val ) {
+            console.log(val);
+            $.get('/api/proveedores/'+val+'/' ,function(datos){
+                console.log(datos);
+                var aux=$("#fierro").val();
+                var aux2=$("#nombre").val();
+
+                $("#fierro").val(aux+datos.fierro+',');
+                $("#nombre").val(aux2+datos.name+' '+datos.lastname+',');
+            });
         });
+
+//console.log(datos);
+
 
         if (c ==1){
           $("#tipo").val('Carne de Cerdo');

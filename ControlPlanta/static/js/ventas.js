@@ -5,6 +5,7 @@ var cantidad=0;
 var matrixdetalle=[];
 var detalle=[];
 var codigobusqueda=[];
+var canaleslist=[];
 var codigobusquedacliente=[];
 var matrixventa=[];
 var detallesventa=[];
@@ -28,6 +29,7 @@ var tipo;
 jQuery.ajaxSetup({async:false});
 
 $(document).on('ready', main);
+
 function main () {
 //console.log($('#cajero').val());
 
@@ -122,8 +124,26 @@ function main () {
            // }
         });
 
+        //PANEL DE BUSCAR CANAL
+        $('.cd-panelcanal').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelcanal').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                canaleslist=[];
+                $("#tablacanales > tbody").html("");
+                event.preventDefault();
+            }
+        });
 
-
+        $('#btncerrarcanal').on('click', function(event){
+            //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelcanal').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                canaleslist=[];
+                $("#tablacanales > tbody").html("");
+                event.preventDefault();
+           // }
+        });
         //remove row
 
         $('html').on('click','.removerow', function () {
@@ -205,6 +225,22 @@ function main () {
 
         });
 
+        //selectrow canal
+        $('html').on('click','.selectrowcanal', function () {
+            event.preventDefault();
+            var row=$(this).closest("tr");
+            var rowIndex = row.index();
+            var precio=$('#preciocanalkilo').val();
+            if(precio==''){
+                alertify.alert('Error','Ingrese un precio válido');
+            }
+            else{
+                //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
+                agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
+            }
+
+
+        });
         //eventos enter
 
         $('#descuento').on('keypress', function (event) {
@@ -526,8 +562,13 @@ function recalculartablaproductos(){
     //reclacular toda la tabla
     $("#tablaproductos > tbody").html("");
     $.each( matrixinterna, function(i){
-        cantidad=matrixinterna[i][3];
-         $.get('/api/productos/?product_code='+matrixinterna[i][0],llenartablaProductos);
+        if(matrixinterna[i][0]==4001||matrixinterna[i][0]==5001){
+            agregarcanalatabla(matrixinterna[i][10],matrixinterna[i][9],matrixinterna[i][2],matrixinterna[i][3]);
+        }
+        else{
+            cantidad=matrixinterna[i][3];
+             $.get('/api/productos/?product_code='+matrixinterna[i][0],llenartablaProductos);
+        }
     });
 
 
@@ -536,8 +577,40 @@ function recalculartablaproductos(){
 function getProducto(){
     var a=$('#producto').val();
     cantidad =parseFloat($('#cantidad').val());
-    $.get('/api/productos/?product_code='+a,llenartablaProductos);
+    if (a==4001||a==5001){
+        $('.cd-panelcanal').addClass('is-visible');
+        blurElement('.blurlines',2);
+        getcanales(a);
+    }
+    else{
+        $.get('/api/productos/?product_code='+a,llenartablaProductos);
+    }
 }
+
+function getcanales(a){
+    if(a==4001){//es canal de cerdo
+         $(".tipodecanal").html('Canales de Cerdo Disponibles');
+         $.get('/api/canales/?tipo=1&isonlote=False&vendido=False',llenartablacanales);
+    }
+    else{//es canal de res
+        $(".tipodecanal").html('Canales de Res Disponibles');
+        $.get('/api/canales/?tipo=2&isonlote=False&vendido=False',llenartablacanales);
+    }
+}
+function llenartablacanales(data){
+        $.each( data, function(i){
+            canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
+            var test= $.get('http://localhost:8888/api/proveedores/'+data[i].fierro+'/',function(){
+                return 1;
+            });
+
+            $('#tablacanales > tbody:last').append('<tr><td>' + data[i].id + '</td><td>' + data[i].consecutive +
+            '</td><td>' + data[i].qualification + '</td><td>' + data[i].weight +
+            '</td><td>' + test.responseJSON.fierro + '</td><td><button  type="button" class=" btn btn-success form-control selectrowcanal " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
+        });
+}
+
+
 
 function BuscarProducto(){
     codigobusqueda=[];
@@ -565,6 +638,57 @@ function llenarTablaBusquedaCliente(data){
             $('#tablabusquedacliente > tbody:last').append('<tr><td>' + data[i].code + '</td><td>' + data[i].name +' '+data[i].last_name+
             '</td><td><button  type="button" class=" btn btn-success form-control selectrowcliente " id="btnelegircliente"><span class="glyphicon glyphicon-ok"></span></button></td></tr>');
         });
+}
+
+function agregarcanalatabla(id,tipo,precio,peso) {
+    var canaliv=(precio*peso)*(13/100);
+    var canalivr=Math.round((canaliv) * 1000) / 1000;
+    var pricesubr=peso*precio;
+    var pricetot=(precio*peso)*1.13;
+    var price=Math.round((precio) * 1000) / 1000;
+    var pricetotr=Math.round((pricetot) * 1000) / 1000;
+    if(tipo==1){// canal de cerdo
+        $('#tablaproductos > tbody:last').append('<tr><td>' + 4001 + '</td><td>' + 'Canal Cerdo id# '+id+'</td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+4001+'>' + peso + '</td>' +
+        '<td>'+'G'+'</td><td class="precio total'+4001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+
+       matrixventa.push([4001, 'Canal Cerdo id# '+id,precio ,peso,pricesubr, canalivr,pricetotr,106,true,1,id]);//los dos ultimos son si es canal y tipo y el id
+
+    }
+    if(tipo==2){//canal de res
+        $('#tablaproductos > tbody:last').append('<tr><td>' + 5001 + '</td><td>' + 'Canal Res id# '+id+'</td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+5001+'>' + peso + '</td>' +
+        '<td>'+'G'+'</td><td class="precio total'+5001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+
+        matrixventa.push([5001, 'Canal Res id# '+id,precio ,peso,pricesubr,canalivr,pricetotr,107,true,2,id]);//los dos ultimos son si es canal y tipo y el id
+
+    }
+    var totalkg2=parseFloat(totalkg);
+    totalkg=Math.round((totalkg2+peso)*1000)/1000;
+    totalart=totalart+1;
+    subtotal=subtotal+pricesubr;
+    totaliv=totaliv+canalivr;
+    ivsindesc=totaliv;
+    totalventa=totalventa+pricetotr;
+    preciosindesc =totalventa;
+
+    $('.subtotal').html(subtotal.toFixed(2));
+    $('.totalventa').html(totalventa.toFixed(2));
+    $('.totaliv').html(totaliv.toFixed(2));
+    $('.totalart').html(totalart);
+    $('.totalkg').html(totalkg +' Kg');
+    $("#BtnConfirmar").prop("disabled",false);
+
+    $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+
+    $('.cd-panelcanal').removeClass('is-visible');
+    blurElement('.blurlines',0);
+    canaleslist=[];
+    $("#tablacanales > tbody").html("");
+    event.preventDefault();
+
 }
 
 function llenartablaProductos(data){
@@ -618,7 +742,7 @@ function llenartablaProductos(data){
                 $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td class="precio">' +pricetouse.toFixed(2) + '</td><td class=cant'+data[0].product_code+'>' + cantidad + '</td>' +
                 '<td>'+impentabla+'</td><td class="precio total'+data[0].product_code+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
 
-                matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer,data[0].id,usaimpuestos]);
+                matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer,data[0].id,usaimpuestos,0,0]);//los dos ultimos son si es canal y el id
 
                 $('#cantidad').val(1);
                 totalkg2=parseFloat(totalkg);

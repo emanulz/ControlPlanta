@@ -4,13 +4,14 @@ from django.db import models
 # Create your models here.
 from canales.models import Canal
 from productos.models import FamiliaDelProducto
+from proveedores.models import Proveedor
 
 
 class Lote(models.Model):
 
     lotenum=models.CharField(max_length=255,verbose_name='# de Lote', unique=True)
     tipo=models.ForeignKey(FamiliaDelProducto,verbose_name='Tipo de Carne')
-    fierro=models.CharField(max_length=255,verbose_name='# de Fierro')
+    fierro=models.ManyToManyField(Proveedor,verbose_name='Fierros')
     canalesqty=models.PositiveIntegerField(verbose_name='Cantidad de canales')
     canales=models.ManyToManyField(Canal,verbose_name='Canales',blank=False)
     totalweight=models.FloatField(default=0, verbose_name='Peso total del lote Kg')

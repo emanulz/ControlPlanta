@@ -55,12 +55,12 @@
                </div>
             </div>
 
-            <div class="form-group ">
+            <div hidden class="form-group ">
                 <div class="col-sm-12 errorlist" id="fierronumerror"> </div>
 
-                <label class="col-sm-2" for="fierronum">Fierro:</label>
+                <label class="col-sm-2" for="fierronum">Fierros:</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control input-lg" id="fierronum" placeholder="Número fierro">
+                    <input disabled type="text" class="form-control input-lg" id="fierronum" placeholder="Número fierro">
                 </div>
             </div>
 
@@ -80,7 +80,7 @@
                                 </li>
                                 {% endif %}
 
-                                 {% if  canal.tipo.id == 2%}
+                                 {% if  canal.tipo.id == 2 %}
                                 <li class="Res">
                                     <label class="Res" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>
                                     <input  type="checkbox" class="checkboxdis Res" id="{{ canal.id }}" data-id="{{ canal.id }}"/>

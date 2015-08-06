@@ -1,5 +1,7 @@
 //variables globales
 lotescliked=[];
+fierros=[];
+var n;
 var today = "";
 var today2 = "";
 
@@ -23,7 +25,7 @@ function main () {
       //eventos checkbox
        $( "input[type=checkbox]" ).on( "click", function(){
 
-         var n = parseInt($( "input:checked" ).length);
+         n = parseInt($( "input:checked" ).length);
          $("#cantcanales").val(n);
 
           var thisCheck = $(this);
@@ -31,12 +33,12 @@ function main () {
                 var id = $(this).data('id');
                 lotescliked.push(id);
 
-                $.get('/getcanal/' + id, sumarPeso)
+                $.get('/api/canales/' + id+'/', sumarPeso)
             }
            else{
                 var id = $(this).data('id');
                 lotescliked.splice( $.inArray(id,lotescliked) ,1 );
-                $.get('/getcanal/' + id, restarPeso)
+                $.get('/api/canales/' + id+'/', restarPeso)
             }
        });//eventos checkbox
 
@@ -67,7 +69,7 @@ function main () {
                 $(".Pollo:hidden").hide();
                 $(".Cerdo").hide();
                 $(".Pollo").hide();
-                $(".Res:hidden").show();
+
             }
             if($("#tipo" ).val()==3){
 
@@ -106,20 +108,35 @@ function llenarnumlote(data){
 }
 
 function sumarPeso (data){
-    var pesocanal=parseFloat(data.peso);
+
+    fierros.push(data.fierro);
+
+    var pesocanal=parseFloat(data.weight);
     var pesoactual=parseFloat($("#pesototal").val());
     var pesototal=pesoactual+pesocanal;
     var pesototal2=Math.round(pesototal* 1000) / 1000;
     $("#pesototal").val(pesototal2);
+
     }//sumarPeso
 
 function restarPeso (data){
-    var pesocanal=parseFloat(data.peso);
+
+    fierros.splice( $.inArray(data.fierro,fierros) ,1 );
+
+    var pesocanal=parseFloat(data.weight);
     var pesoactual=parseFloat($("#pesototal").val());
     var pesototal=pesoactual-pesocanal;
     var pesototal2=Math.round(pesototal* 1000) / 1000;
     $("#pesototal").val(pesototal2);
     }//restarPeso
+
+function unique(list) {
+  var result = [];
+  $.each(list, function(i, e) {
+    if ($.inArray(e, result) == -1) result.push(e);
+  });
+  return result;
+}
 
 function guardarLote() {
     event.preventDefault();
@@ -140,7 +157,7 @@ function guardarLote() {
 
         "date":today,
         "lotenum": numlote,
-        "fierro": fierronum,
+        "fierro": unique(fierros),
         "canalesqty": cantcanales,
         "canales": canaleslist,
         "totalweight": pesototal,

@@ -46,7 +46,7 @@ def loteform2(request):
 
 @login_required(login_url='/admin/login/')
 def loteform(request):
-    canales = Canal.objects.filter(date=datetime.today(),isonlote=False)
+    canales = Canal.objects.filter(date=datetime.today(),isonlote=False,vendido=False)
     return render_to_response('crearlote.html', {'canales': canales}, context_instance=RequestContext(request))
 
 @login_required(login_url='/admin/login/')
@@ -54,7 +54,7 @@ def cargar_canal(request, id):
     canal = Canal.objects.get(pk=id)
     numerototal=Canal.objects.count()
     if request.is_ajax():
-        return JsonResponse({'id': canal.id, 'peso': canal.weight,'total':numerototal})
+        return JsonResponse({'id': canal.id, 'peso': canal.weight,'total':numerototal,'fierro':canal.fierro})
     else:
         raise Http404  # raise Http404
 
