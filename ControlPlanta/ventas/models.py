@@ -27,7 +27,8 @@ class Venta(models.Model):
     datosdelpago = models.ForeignKey('DetallesPago', verbose_name='Detalle de Pago')
 
     def __unicode__(self):
-        return unicode(self.id)
+        ret=str(self.id)
+        return ret
 
     class Meta:
         ordering = ['id']
@@ -42,8 +43,9 @@ class DetalleProductos(models.Model):
     total=models.FloatField(verbose_name='Precio Total')
 
     def __unicode__(self):
+        ret=str(self.id)
+        return ret
 
-        return self.id
     class Meta:
         ordering = ['id']
         verbose_name = 'Detalle de Venta'
@@ -59,8 +61,8 @@ class DetallesPago(models.Model):
     autorizacion=models.IntegerField(null=True,verbose_name='Autorización Datafono')
 
     def __unicode__(self):
-
-        return self.id
+        ret=str(self.id)
+        return ret
 
     class Meta:
         ordering = ['id']
@@ -71,7 +73,7 @@ class TiposPago(models.Model):
     nombre=models.CharField(max_length=255,verbose_name='Nombre del Tipo de Pago')
 
     def __unicode__(self):
-
+        # ret=str(self.nombre)
         return self.nombre
 
     class Meta:
@@ -80,9 +82,9 @@ class TiposPago(models.Model):
         verbose_name_plural = '4. Tipos de Pago'
 
 class Tipostarjeta(models.Model):
-    nombre=models.CharField(max_length=255,verbose_name='Nombre del Tipo de Pago')
+    nombre=models.CharField(max_length=255,verbose_name='Nombre del Tipo de Tarjeta')
     def __unicode__(self):
-
+        # ret=str(self.nombre)
         return self.nombre
 
     class Meta:

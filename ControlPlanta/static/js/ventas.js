@@ -13,6 +13,7 @@ var detallepago=0;
 var vueltoguardar=0;
 var efectivoguardar=0;
 var cliente=1;
+var usuario=1;
 var descuento=0;
 var descuentoporc=0;
 var preciosindesc=0;
@@ -422,12 +423,17 @@ function main () {
 
 
     //set Cajero
+    //
+    //$.get('/api/cajeros/?user='+$('#cajero').val(),function(data){
+    //    $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>')
+    //    usuario=data[0].user;
+    //});
 
+    //set usuario
     $.get('/api/cajeros/?user='+$('#cajero').val(),function(data){
-        $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>')
-
+        $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>');
+        usuario=data[0].user;
     });
-
     //valor vencimiento
 
         var now = new Date();
@@ -456,7 +462,14 @@ function main () {
         $("#codigocliente").val('0001');
         $("#nombrecliente").val('Cliente Contado').prop("disabled",true);
 
+        $("#BtnPrint").on("click",Imprimir);
+
     }//main
+
+function Imprimir(){
+    event.preventDefault();
+    $( "#factura").printArea();
+}
 
 function blurElement(element, size){
             var filterVal = 'blur('+size+'px)';
@@ -917,7 +930,10 @@ function NoConfirmarDatos(){
     });
     vuelto();
 }
-
+function tiempoahora(){
+    var dt = new Date();
+    return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+}
 function RegistarVenta(){
 
     guardardetallepago();
@@ -958,29 +974,35 @@ if($("#pagacontipo").val()==1){
     }//if
 
 if($("#pagacontipo").val()==2){
-    $.ajax({
-          method: "POST",
-          url: "/api/detallepago/",
-          async: false,
+    console.log('TARJETA');
+    if($("#4digits").val()==''||$("#authtarjeta").val()==''){
+        alertify.alert('Error','Por Favor Complete los espacios en de los ultimos 4 digitos de la tarjeta y autorización.');
+    }
+    else{
+        $.ajax({
+              method: "POST",
+              url: "/api/detallepago/",
+              async: false,
 
-          data: JSON.stringify({
-            "tipopago": 2,
-            "montoefectivo": 0,
-            "vuelto": 0,
-            "tarjeta": $("#tipotarjeta").val(),
-            "digitos": $("#4digits").val(),
-            "autorizacion": $("#authtarjeta").val()
-            }),//JSON object
-              contentType:"application/json; charset=utf-8",
-              dataType:"json"
-            })
-            .fail(function(data){
-            console.log(data.responseText);
-            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-            })
-            .success(function(data){
-                detallepago=data.id;
-            });
+              data: JSON.stringify({
+                "tipopago": 2,
+                "montoefectivo": 0,
+                "vuelto": 0,
+                "tarjeta": $("#tipotarjeta").val(),
+                "digitos": $("#4digits").val(),
+                "autorizacion": $("#authtarjeta").val()
+                }),//JSON object
+                  contentType:"application/json; charset=utf-8",
+                  dataType:"json"
+                })
+                .fail(function(data){
+                console.log(data.responseText);
+                alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                })
+                .success(function(data){
+                    detallepago=data.id;
+                });
+    }
     }//if
 }//function
 
@@ -1020,15 +1042,15 @@ function guardardetalleproducto(){
 function guardarventa(){
     $.ajax({
           method: "POST",
-          url: "/api/detallepago/",
+          url: "/api/venta/",
           async: false,
 
           data: JSON.stringify({
-            "client": null,
-            "nombrecliente": "",
-            "cashier": null,
+            "client": cliente,
+            "nombrecliente": $('#cliente').val(),
+            "cashier": usuario,
             "date": today,
-            "time": null,
+            "time": tiempoahora(),
             "totolkilogramos": totalkg,
             "cantidadarticulos": totalart,
             "subtotal": subtotal,

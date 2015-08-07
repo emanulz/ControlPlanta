@@ -423,7 +423,7 @@ console.log($.now());
     /// INVENTARIOS DESDE AQUI
     //set usuario
     $.get('/api/cajeros/?user='+$('#cajero').val(),function(data){
-        $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>')
+        $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>');
         usuario=data[0].user;
     });
     //Llenar tabla de inventario total
