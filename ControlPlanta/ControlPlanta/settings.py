@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'inventarios',
     'frontend',
 
+
 )
 
 DBBACKUP_STORAGE = 'dbbackup.storage.filesystem_storage'

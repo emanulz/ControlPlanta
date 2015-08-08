@@ -9,8 +9,8 @@ class ventaadmin(admin.ModelAdmin):
     list_display = ('id','client','nombrecliente','cashier','date')
     #list_display = ('id', 'ticketnum','client','nombrecliente','cashier','date','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago')
     # list_filter = ('name','identification')
-    # search_fields = ('id','client','cashier','date' )
-    # filter_horizontal = ('detalleproductos',)
+    search_fields = ('id','client','cashier','date' )
+    filter_horizontal = ('detalleproductos',)
 
 @admin.register(DetalleProductos)
 class DetalleProductosAdmin(admin.ModelAdmin):

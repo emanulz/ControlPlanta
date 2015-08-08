@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-
+# from ventas.models import Venta
 # Create your models here.
 
 def phone_default():
@@ -19,18 +19,21 @@ class Cliente(models.Model):
     identificationtype=models.ForeignKey('IdentificationType',default=1,verbose_name='Tipo de Identificación')
     identification = models.CharField(max_length=255, blank=True, null=True, unique=True,verbose_name='Identificación')
     adress = models.CharField(max_length=255, blank=True, null=True, verbose_name='Dirección')
-    clienttype=models.ForeignKey('ClientType',default=1,verbose_name='Tipo de Cliente')
-    credit = models.BooleanField(default=0, verbose_name='Tiene crédito?')
-    credit_limit = models.FloatField(blank=True, default=0, verbose_name='Límite de crédito')
     email = models.EmailField(blank=True, null=True)
     associated=models.BooleanField(default=0, verbose_name='Es asociado?')
     associated_code=models.PositiveIntegerField( null=True, blank=True,unique=True,verbose_name='Número de asociado')
+    clienttype=models.ForeignKey('ClientType',default=1,verbose_name='Tipo de Cliente')
+    credit = models.BooleanField(default=0, verbose_name='Tiene crédito?')
+    credit_limit = models.FloatField(blank=True, default=0, verbose_name='Límite de crédito')
+    #total=models.FloatField(default=0,verbose_name='Total Pendiente Crédito')
+    #pending=models.ManyToManyField('Venta',verbose_name='Facturas Pendientes',blank=True)
 
     def __unicode__(self):
         return self.name + " " + self.last_name
     class Meta:
         ordering=['id']
         verbose_name_plural='1. Clientes'
+
 
 class ClientType(models.Model):
     name=models.CharField(max_length=255,verbose_name='Tipo de Cliente')

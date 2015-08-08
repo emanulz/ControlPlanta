@@ -5,6 +5,7 @@ from django.db import models
 # Create your models here.
 from cajeros.models import Cajero
 from clientes.models import Cliente
+
 from productos.models import Producto
 
 
@@ -25,6 +26,9 @@ class Venta(models.Model):
     total=models.FloatField(verbose_name='Total')
     detalleproductos = models.ManyToManyField('DetalleProductos', verbose_name='Detalle de los Productos')
     datosdelpago = models.ForeignKey('DetallesPago', verbose_name='Detalle de Pago')
+    saldo=models.FloatField(default=0,verbose_name='Saldo Crédito')
+
+
 
     def __unicode__(self):
         ret=str(self.id)
