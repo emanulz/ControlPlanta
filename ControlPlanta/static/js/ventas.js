@@ -25,9 +25,12 @@ var totaliv=0;
 var totalventa=0;
 var efectivolisto=false;
 var ventaid;
+var today;
+var todaynorm;
 
 var vencimiento;
 var tipo;
+
 jQuery.ajaxSetup({async:false});
 
 $(document).on('ready', main);
@@ -487,6 +490,7 @@ function main () {
         vencimiento = (year)+"-"+(month)+"-"+(day) ;
         //console.log(vencimiento);
         today = (year2)+"-"+(month2)+"-"+(day) ;
+        todaynorm = (day)+"-"+(month2)+"-"+(year2) ;
         //console.log(today);
 
     //valores iniciales
@@ -1175,9 +1179,19 @@ function patchcuentacobrar(){
 }
 
 function generarfactura(){
+    var clientefactura=$.get('/api/clientes/'+cliente+'/',function(){});
+    var cajerofactura=$.get('/api/cajeros/'+usuario+'/',function(){});
+    $('.facturanumfact').html(' '+ventaid);
+    $('.fechafact').html('  '+todaynorm +' '+tiempoahora());
+    $('.clientefact').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
+    $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
+
     $.each( matrixventa, function(i){
         $('#tablafactura > tbody:last').append('<tr><td> ' +matrixventa[i][3]+ ' </td><td>' + matrixventa[i][1]+ '</td><td class="precio">' +matrixventa[i][4].toFixed(2)+ '</td></tr>');
     });
+    if(descuento>0){
+        $('.descueentofactleft').html('DESCUENTO '+descuentoporc +'%');
+    }
 
     $('.subtotalfactright').html(subtotal.toFixed(2));
     $('.descueentofactright').html(descuento.toFixed(2));
