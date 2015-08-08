@@ -505,6 +505,7 @@ function main () {
     }//main
 
 function Imprimir(){
+    generarfactura();
     event.preventDefault();
     $( "#factura").printArea();
 }
@@ -978,6 +979,7 @@ function RegistarVenta(){
     guardardetalleproducto();
     //descontarinventarios();
     guardarventa();
+    generarfactura();
 
 
 }
@@ -1171,6 +1173,26 @@ function patchcuentacobrar(){
             //success fuction.
         });
 }
+
+function generarfactura(){
+    $.each( matrixventa, function(i){
+        $('#tablafactura > tbody:last').append('<tr><td> ' +matrixventa[i][3]+ ' </td><td>' + matrixventa[i][1]+ '</td><td class="precio">' +matrixventa[i][4].toFixed(2)+ '</td></tr>');
+    });
+
+    $('.subtotalfactright').html(subtotal.toFixed(2));
+    $('.descueentofactright').html(descuento.toFixed(2));
+    $('.ivfactright').html(totaliv.toFixed(2));
+    $('.totalfactright').html(totalventa.toFixed(2));
+
+    $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+
+
+}
+
 function guardarDetalle() {
 
     event.preventDefault();
