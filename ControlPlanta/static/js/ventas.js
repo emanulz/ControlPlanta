@@ -490,7 +490,7 @@ function main () {
         vencimiento = (year)+"-"+(month)+"-"+(day) ;
         //console.log(vencimiento);
         today = (year2)+"-"+(month2)+"-"+(day) ;
-        todaynorm = (day)+"-"+(month2)+"-"+(year2) ;
+        todaynorm = (day)+"/"+(month2)+"/"+(year2) ;
         //console.log(today);
 
     //valores iniciales
@@ -509,7 +509,7 @@ function main () {
     }//main
 
 function Imprimir(){
-    generarfactura();
+
     event.preventDefault();
     $( "#factura").printArea();
 }
@@ -656,7 +656,7 @@ function getcanales(a){
 function llenartablacanales(data){
         $.each( data, function(i){
             canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
-            var test= $.get('http://localhost:8888/api/proveedores/'+data[i].fierro+'/',function(){
+            var test= $.get('/api/proveedores/'+data[i].fierro+'/',function(){
                 return 1;
             });
 
@@ -981,9 +981,12 @@ function RegistarVenta(){
 
     guardardetallepago();
     guardardetalleproducto();
-    //descontarinventarios();
+    descontarinventarios();
     guardarventa();
     generarfactura();
+    Imprimir();
+    $('#maincontent').find(':input').prop('disabled', true);
+    $('#BtnPrint').prop('disabled', false);
 
 
 }
@@ -1109,6 +1112,11 @@ function guardardetalleproducto(){
 
 }
 
+function descontarinventarios(){
+
+    
+}
+
 function guardarventa(){
     var saldoguardar=0;
     if($("#pagacontipo").val()==3){
@@ -1203,242 +1211,8 @@ function generarfactura(){
         centsSeparator: ',',
         thousandsSeparator: '.'
     });
-
-
+    $('.sidetotales').hide();
+    $('.factura:hidden').show();
 }
 
-function guardarDetalle() {
 
-    event.preventDefault();
-    var lote =$("#lote").val();
-    var control=matrixdetalle.length;
-    //console.log(lote);
-
-    $.each( matrixdetalle, function(i){
-
-        $.ajax({
-          method: "POST",
-          url: "/api/detalledeshuese/",
-          async: false,
-
-          data: JSON.stringify({
-            "producto": matrixdetalle[i][0],
-            "peso": matrixdetalle[i][1],
-            "lote": lote
-            }),//JSON object
-              contentType:"application/json; charset=utf-8",
-              dataType:"json"
-            })
-            .fail(function(data){
-            console.log(data.responseText);
-            alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
-            })
-            .success(function(data){
-                console.log(data);
-            });
-
-        $.ajax({
-          method: "POST",
-          url: "/api/inventariototal/",
-          async: false,
-
-          data: JSON.stringify({
-            "producto": matrixdetalle[i][0],
-            "peso": matrixdetalle[i][1],
-            "lote": lote,
-            "vencimiento": vencimiento,
-            "tipo":tipo
-
-            }),//JSON object
-              contentType:"application/json; charset=utf-8",
-              dataType:"json"
-            })
-            .fail(function(data){
-            console.log(data.responseText);
-            alert("Hubo un problema al crear el inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964");
-            })
-            .success(function(data){
-                console.log(data);
-            });
-
-
-        if(i==(control-1)){
-            console.log(control);
-            console.log(i);
-
-            $.get('/api/detalledeshuese/?lote='+lote, function (data) {
-                $.each( data, function(index){
-                    detalle.push(data[index].id);
-               });
-               // console.log(detalle);
-                guardarDeshuese();
-            });
-
-            }//if
-    });
-
-
-    //guardarDeshuese();
-}//Guardar Detalle
-
-function test(){
-
- var lote =parseInt($("#lote").val());
-    console.log(detalle);
-    var data2= JSON.stringify({
-        "lote": lote,
-        "pesototal": pesodesh,
-        "mermakg": mermakg,
-        "mermapor": mermaporc,
-        "detalle": detalle
-        });
-    console.log(data2);
-
-}
-
-function guardarDeshuese() {
-    console.log(detalle);
-    var lote =parseInt($("#lote").val());
-    //var mermaporc2=parseFloat(mermaporc);
-
-    event.preventDefault();
-
-    $.ajax({
-      method: "POST",
-      url: "/api/deshuese/",
-      async: false,
-
-      data: JSON.stringify({
-        "lote": lote,
-        "pesototal": pesodesh,
-        "mermakg": mermakg,
-        "mermapor": mermaporc,
-        "detalle": detalle
-        }),//JSON object
-          contentType:"application/json; charset=utf-8",
-          dataType:"json"
-        })
-    .fail(function(data){
-            console.log(data.responseText);
-            alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
-        })
-    .success(function(data){
-            console.log(data);
-            patchlote();
-            
-        });
-
-}//Guardar Deshuese
-
-function errorhandle (data){
-
-    console.log(data);
-        if (data.status=="Success"){
-            console.log(data.status);
-            patchcanal();
-        }
-        else{
-                $(".failmessage:hidden").show("slow");
-
-                if (typeof data.errores.date!=='undefined' ){
-
-                    $("#dateerror:hidden").show("slow");
-                    $("#dateerror").html(data.errores.date[0]);
-                    $("#date").addClass("errorlist2");
-                }
-                if (typeof data.errores.lotenum!=='undefined' ){
-
-                    $("#lotenumerror:hidden").show("slow");
-                    $("#lotenumerror").html(data.errores.lotenum[0]);
-                    $("#numlote").addClass("errorlist2");
-                }
-                if (typeof data.errores.fierro!=='undefined' ){
-
-                    $("#fierronumerror:hidden").show("slow");
-                    $("#fierronumerror").html(data.errores.fierro[0]);
-                    $("#fierronum").addClass("errorlist2");
-
-                }
-                if (typeof data.errores.canalesqty!=='undefined' ){
-
-                    $("#cantcanaleserror:hidden").show("slow");
-                    $("#cantcanaleserror").html(data.errores.canalesqty[0]);
-                    $("#cantcanales").addClass("errorlist2");
-                }
-                if (typeof data.errores.canales!=='undefined' ){
-
-                    $("#canaleserror:hidden").show("slow");
-                    $("#canaleserror").html(data.errores.canales[0]);
-                    $("#canales").addClass("errorlist2");
-                }
-                 if (typeof data.errores.totalweight!=='undefined' ){
-
-                    $("#pesototalerror:hidden").show("slow");
-                    $("#pesototalerror").html(data.errores.totalweight[0]);
-                    $("#pesototal").addClass("errorlist2");
-                }
-            }
-
-
-}
-function errorclean(){
-
-    $(".hideonload").hide();
-
-    $("#dateerror:hidden").hide();
-    $("#dateerror").html("");
-    $("#date").removeClass("errorlist2");
-
-    $("#lotenumerror:hidden").hide();
-    $("#lotenumerror").html("");
-    $("#numlote").removeClass("errorlist2");
-
-    $("#fierronumerror:hidden").hide();
-    $("#fierronumerror").html("");
-    $("#fierronum").removeClass("errorlist2");
-
-    $("#canaleserror:hidden").hide();
-    $("#canaleserror").html("");
-    $("#canales").removeClass("errorlist2");
-
-    $("#cantcanaleserror:hidden").hide();
-    $("#cantcanaleserror").html("");
-    $("#cantcanales").removeClass("errorlist2");
-
-    $("#pesototalerror:hidden").hide();
-    $("#pesototalerror").html("");
-    $("#pesototal").removeClass("errorlist2");
-
-}
-
-function patchlote(){
-event.preventDefault();
-    var lote =parseInt($("#lote").val());
-
-
-        $.ajax({
-      method: "PATCH",
-      url: "/api/lotes/"+lote+"/",
-
-      data: JSON.stringify({
-
-        "isondeshuese": true
-
-        }),//JSON object
-          contentType:"application/json; charset=utf-8",
-          dataType:"json"
-
-        })
-
-      .success(function() {
-        $("#BtnCrear").prop("disabled",true);
-        $("#BtnNoConfirmar").prop("disabled",true);
-        $(".succesmessage:hidden").show("slow");
-        })
-        .fail(function() {
-        //$("#BtnCrear").prop("disabled",true);
-        $(".failmessage:hidden").show("slow");
-        });
-
-
-}
