@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'deshueses',
     'inventarios',
     'frontend',
+    'cuentasCobrar',
 
 
 )
@@ -90,6 +91,7 @@ SUIT_CONFIG = {
         {'app': 'auth', 'label': 'Usuarios', 'icon': 'icon-user'},
         {'app': 'productos', 'label': 'Productos', 'icon': 'icon-gift'},
         {'app': 'clientes', 'label': 'Clientes', 'icon': 'icon-briefcase'},
+        {'app': 'cuentascobrar', 'label': 'Cuentas por cobrar', 'icon': 'icon-hdd'},
         {'app': 'proveedores', 'label': 'Proveedores', 'icon': 'icon-list'},
         {'app': 'cajeros', 'label': 'Cajeros', 'icon': 'icon-th'},
         {'app': 'ventas', 'label': 'Ventas', 'icon': 'icon-bullhorn'},
@@ -100,7 +102,7 @@ SUIT_CONFIG = {
 
     ),
 
-    'MENU_OPEN_FIRST_CHILD': True,
+    'MENU_OPEN_FIRST_CHILD': False,
 }
 
 ROOT_URLCONF = 'ControlPlanta.urls'

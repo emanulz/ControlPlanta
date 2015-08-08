@@ -4,6 +4,8 @@ from django.db import models
 # from ventas.models import Venta
 # Create your models here.
 
+
+
 def phone_default():
     return '0000-0000'
 
@@ -25,8 +27,8 @@ class Cliente(models.Model):
     clienttype=models.ForeignKey('ClientType',default=1,verbose_name='Tipo de Cliente')
     credit = models.BooleanField(default=0, verbose_name='Tiene crédito?')
     credit_limit = models.FloatField(blank=True, default=0, verbose_name='Límite de crédito')
-    #total=models.FloatField(default=0,verbose_name='Total Pendiente Crédito')
-    #pending=models.ManyToManyField('Venta',verbose_name='Facturas Pendientes',blank=True)
+
+
 
     def __unicode__(self):
         return self.name + " " + self.last_name

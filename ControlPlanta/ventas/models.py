@@ -17,18 +17,17 @@ class Venta(models.Model):
     cashier = models.ForeignKey(Cajero, verbose_name='Cajeros')
     date=models.DateField(verbose_name='Fecha')
     time=models.TimeField(verbose_name='Hora de la venta')
-    totolkilogramos=models.FloatField(verbose_name='Total')
+    totolkilogramos=models.FloatField(verbose_name='Total Kg')
     cantidadarticulos=models.IntegerField(verbose_name='Cantidad de Artículos')
     subtotal=models.FloatField(verbose_name='Sub Total')
     iv=models.FloatField(verbose_name='I.V')
     descopor=models.FloatField(verbose_name='Descuento %')
-    desctocol=models.FloatField(verbose_name='Descuento')
-    total=models.FloatField(verbose_name='Total')
+    desctocol=models.FloatField(verbose_name='Descuento ₡')
+    total=models.FloatField(verbose_name='Total ₡')
     detalleproductos = models.ManyToManyField('DetalleProductos', verbose_name='Detalle de los Productos')
     datosdelpago = models.ForeignKey('DetallesPago', verbose_name='Detalle de Pago')
-    saldo=models.FloatField(default=0,verbose_name='Saldo Crédito')
-
-
+    saldo=models.FloatField(default=0,verbose_name='Saldo Crédito ₡')
+    anulada=models.BooleanField(default=0, verbose_name='Factura anulada?')
 
     def __unicode__(self):
         ret=str(self.id)
@@ -41,10 +40,10 @@ class Venta(models.Model):
 
 class DetalleProductos(models.Model):
     producto=models.ForeignKey(Producto,verbose_name='Producto')
-    preciouni=models.FloatField(verbose_name='Precio Unitario')
+    preciouni=models.FloatField(verbose_name='Precio Unitario ₡')
     cantidad=models.FloatField(verbose_name='Cantidad')
     iv=models.BooleanField(verbose_name='Usa Impuestos?')
-    total=models.FloatField(verbose_name='Precio Total')
+    total=models.FloatField(verbose_name='Precio Total ₡')
 
     def __unicode__(self):
         ret=str(self.id)
@@ -58,8 +57,8 @@ class DetalleProductos(models.Model):
 
 class DetallesPago(models.Model):
     tipopago=models.ForeignKey('TiposPago',verbose_name='Tipo de Pago')
-    montoefectivo=models.FloatField(null=True,verbose_name='Total de efectivo')
-    vuelto=models.FloatField(null=True,verbose_name='Vuelto')
+    montoefectivo=models.FloatField(null=True,verbose_name='Total de efectivo ₡')
+    vuelto=models.FloatField(null=True,verbose_name='Vuelto ₡')
     tarjeta=models.ForeignKey('Tipostarjeta',verbose_name='Tipo de Tarjeta')
     digitos=models.IntegerField(null=True,verbose_name='Últimos 4 dígitos tarjeta')
     autorizacion=models.IntegerField(null=True,verbose_name='Autorización Datafono')

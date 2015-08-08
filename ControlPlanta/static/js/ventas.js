@@ -24,6 +24,7 @@ var subtotal=0;
 var totaliv=0;
 var totalventa=0;
 var efectivolisto=false;
+var ventaid;
 
 var vencimiento;
 var tipo;
@@ -70,12 +71,21 @@ function main () {
             if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
                 $('.cd-panelpagar').removeClass('is-visible');
                 blurElement('.blurlines',0);
+                $("#pagacontipo").val(1);
+                $(".pagotarjeta").hide();
+                $(".credito").hide();
+                $(".pagoefectivo:hidden").show();
+                $("#montoefectivo").val(0);
+                vuelto();
+                $(".pagaconpagar").html('₡ 0,00');
+                $(".vueltopagar").html('₡ 0,00');
                 event.preventDefault();
             }
         });
         $('.btntest').on('click', function(event){
             //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
                 $('.cd-panelpagar').removeClass('is-visible');
+                $("#pagacontipo").val(1);
                 blurElement('.blurlines',0);
                 event.preventDefault();
            // }
@@ -331,6 +341,7 @@ function main () {
         $( "#pagacontipo" ).change(function() {
             if( $("#pagacontipo").val()==1){
                 $(".pagotarjeta").hide();
+                $(".credito").hide();
                 $(".pagoefectivo:hidden").show();
                 $("#montoefectivo").val(0);
                 vuelto();
@@ -339,10 +350,37 @@ function main () {
             }
             if( $("#pagacontipo").val()==2){
                 $(".pagoefectivo").hide();
+                $(".credito").hide();
                 $(".pagotarjeta:hidden").show();
                 $("#montoefectivo").val(0);
                 vuelto();
                 $(".pagaconpagar").html('TARJETA');
+                $(".vueltopagar").html('₡ 0,00');
+            }
+            if( $("#pagacontipo").val()==3){
+                $('.errorsaldoactual').hide();
+                $('.errornocredito').hide();
+                $(".pagoefectivo").hide();
+                $(".pagotarjeta").hide();
+                $(".credito:hidden").show();
+                $("#montoefectivo").val(0);
+                var cliente2=$.get('/api/clientes/'+cliente+'/',function(){});
+                //cliente=cliente2.responseJSON[0].id;
+                $("#nombreclientecred").val(cliente2.responseJSON.name+' '+cliente2.responseJSON.last_name);
+                $("#limitecred").val('₡'+cliente2.responseJSON.credit_limit);
+                var saldos = $.get('/api/saldocobrar/?cliente='+cliente,function(){});
+
+                $("#saldocred").val('₡'+saldos.responseJSON[0].total);
+
+                if((saldos.responseJSON[0].total+totalventa)>cliente2.responseJSON.credit_limit){
+                    $('.errorsaldoactual:hidden').show();
+                }
+                if(cliente2.responseJSON.credit==false){
+                    $('.errorsaldoactual').hide();
+                    $('.errornocredito:hidden').show();
+                }
+                vuelto();
+                $(".pagaconpagar").html('CRÉDITO');
                 $(".vueltopagar").html('₡ 0,00');
             }
         });
@@ -417,7 +455,7 @@ function main () {
         //llenado de espacios e inicializacion
         $(".hideonload").hide();
         $(".pagotarjeta").hide();
-        //$(".pagotarjeta").hide();
+        $(".credito").hide();
         $("#BtnNoConfirmar").hide();
         $("#btnconfirmarcliente").prop('disabled',true);
 
@@ -974,7 +1012,7 @@ if($("#pagacontipo").val()==1){
     }//if
 
 if($("#pagacontipo").val()==2){
-    console.log('TARJETA');
+    //console.log('TARJETA');
     if($("#4digits").val()==''||$("#authtarjeta").val()==''){
         alertify.alert('Error','Por Favor Complete los espacios en de los ultimos 4 digitos de la tarjeta y autorización.');
     }
@@ -1004,6 +1042,32 @@ if($("#pagacontipo").val()==2){
                 });
     }
     }//if
+    if($("#pagacontipo").val()==3){
+    $.ajax({
+          method: "POST",
+          url: "/api/detallepago/",
+          async: false,
+
+          data: JSON.stringify({
+            "tipopago": 3,
+            "montoefectivo": 0,
+            "vuelto": 0,
+            "tarjeta": 6,
+            "digitos": null,
+            "autorizacion": null
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function(data){
+                //console.log(data.id);
+                detallepago=data.id;
+            });//ajax
+    }//if
 }//function
 
 function guardardetalleproducto(){
@@ -1032,48 +1096,81 @@ function guardardetalleproducto(){
             alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 "+data.responseText);
             })
             .success(function(data){
-               detallesventa.push(data.id);
-                console.log(detallesventa);
+                detallesventa.push(data.id);
+                //console.log(detallesventa);
             });
     });
 
 }
 
 function guardarventa(){
+    var saldoguardar=0;
+    if($("#pagacontipo").val()==3){
+        saldoguardar=totalventa;
+    }
     $.ajax({
-          method: "POST",
-          url: "/api/venta/",
-          async: false,
+            method: "POST",
+            url: "/api/venta/",
+            async: false,
 
-          data: JSON.stringify({
-            "client": cliente,
-            "nombrecliente": $('#cliente').val(),
-            "cashier": usuario,
-            "date": today,
-            "time": tiempoahora(),
-            "totolkilogramos": totalkg,
-            "cantidadarticulos": totalart,
-            "subtotal": subtotal,
-            "iv": totaliv,
-            "descopor": descuentoporc,
-            "desctocol": descuento,
-            "total": totalventa,
-            "detalleproductos": detallesventa,
-            "datosdelpago": detallepago
+            data: JSON.stringify({
+                "client": cliente,
+                "nombrecliente": $('#cliente').val(),
+                "cashier": usuario,
+                "date": today,
+                "time": tiempoahora(),
+                "totolkilogramos": totalkg,
+                "cantidadarticulos": totalart,
+                "subtotal": subtotal,
+                "iv": totaliv,
+                "descopor": descuentoporc,
+                "desctocol": descuento,
+                "total": totalventa,
+                "detalleproductos": detallesventa,
+                "datosdelpago": detallepago,
+                "saldo": saldoguardar
             }),//JSON object
-              contentType:"application/json; charset=utf-8",
-              dataType:"json"
-            })
-            .fail(function(data){
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        })
+        .fail(function (data) {
             console.log(data.responseText);
             alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-            })
-            .success(function(data){
-                //detallepago=data.id;
-            });
+        })
+        .success(function (data) {
+            ventaid=data.id;
+        });
+    if($("#pagacontipo").val()==3){
+        patchcuentacobrar();
+    }
 }
 
+function patchcuentacobrar(){
+    var detallecuenta = $.get('/api/saldocobrar/?cliente='+cliente,function(){});
+    var matrixpendign=detallecuenta.responseJSON[0].pending;
+    var saldonuevo=detallecuenta.responseJSON[0].total+totalventa;
+    matrixpendign.push(ventaid);
+     $.ajax({
+      method: "PATCH",
+      url: "/api/saldocobrar/"+detallecuenta.responseJSON[0].id+"/",
 
+      data: JSON.stringify({
+        "total": saldonuevo,
+        "pending": matrixpendign
+
+        }),//JSON object
+          contentType:"application/json; charset=utf-8",
+          dataType:"json"
+
+        })
+      .fail(function (data) {
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        })
+        .success(function (data) {
+            //success fuction.
+        });
+}
 function guardarDetalle() {
 
     event.preventDefault();

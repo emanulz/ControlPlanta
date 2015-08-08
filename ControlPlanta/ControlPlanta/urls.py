@@ -29,6 +29,7 @@ from rest_framework import routers
 from productos.views import ProductViewSet, FamiliaViewSet
 from proveedores.views import ProveedorViewSet
 from cajeros.views import CajeroViewSet
+from cuentasCobrar.views import AbonosViewSet,DetalleCuentaViewSet
 
 # Routers provide an easy way of automatically determining the URL conf.
 
@@ -49,6 +50,8 @@ router.register(r'inventariosalida', InventarioSalidasViewSet)
 router.register(r'detallepago', DetallePagoViewSet)
 router.register(r'detalleproducto', DetalleProductosViewSet)
 router.register(r'venta', VentaViewSet)
+router.register(r'abonoscobrar', AbonosViewSet)
+router.register(r'saldocobrar', DetalleCuentaViewSet)
 
 
 

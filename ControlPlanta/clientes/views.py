@@ -12,8 +12,6 @@ class ClientSerializer(serializers.ModelSerializer):
         model = Cliente
         fields =('id','code','name','last_name','identification','credit','credit_limit','associated','associated_code','clienttype')
 
-        # fields =('id','code','name','last_name','identification','credit','credit_limit','associated','associated_code','clienttype','total','pending')
-
 
 # ViewroductSets define the view behavior.
 class ClientViewSet(viewsets.ModelViewSet):
