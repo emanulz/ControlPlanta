@@ -2,6 +2,7 @@
 
 var enteronaddproducto = false;
 var cantidad=0;
+var nuevaext;
 var matrixdetalle=[];
 var detalle=[];
 var codigobusqueda=[];
@@ -439,6 +440,10 @@ function main () {
 
         });
 
+        $('#BtnNuevaVenta').on("click",function(){
+            location.reload();
+        });
+
         //boton de busqueda en panel de busqueda cliente
         $("#Btnbuscarcliente").on("click",BuscarCliente);
         //boton de descuento
@@ -684,7 +689,7 @@ function llenarTablaBusqueda(data){
         $.each( data, function(i){
             codigobusqueda.push(data[i].product_code);
             $('#tablabusqueda > tbody:last').append('<tr><td>' + data[i].product_code + '</td><td>' + data[i].description +
-            '</td><td>' + data[i].price + '</td><td><button  type="button" class=" btn btn-success form-control selectrow " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
+            '</td><td>' + data[i].price1 + '</td><td><button  type="button" class=" btn btn-success form-control selectrow " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
         });
 }
 
@@ -981,13 +986,15 @@ function RegistarVenta(){
 
     guardardetallepago();
     guardardetalleproducto();
-    descontarinventarios();
     guardarventa();
+    descontarinventarios();
     generarfactura();
     Imprimir();
+    $('.cd-panelpagar').removeClass('is-visible');
+    blurElement('.blurlines',0);
     $('#maincontent').find(':input').prop('disabled', true);
     $('#BtnPrint').prop('disabled', false);
-
+    $('#BtnNuevaVenta').prop('disabled', false);
 
 }
 
@@ -1113,7 +1120,58 @@ function guardardetalleproducto(){
 }
 
 function descontarinventarios(){
+    $.each( matrixventa, function(i){
+        var productodatos = $.get('/api/productos/'+matrixventa[i][7]+'/',function(){});
+        console.log(productodatos.responseJSON.inventory);
+        console.log(matrixventa[i][3]);
+        nuevaext= productodatos.responseJSON.inventory-matrixventa[i][3];
+        console.log(nuevaext);
+        //patch al producto
+        $.ajax({
+          method: "PATCH",
+          url: "/api/productos/"+productodatos.responseJSON.id+"/",
 
+          data: JSON.stringify({
+
+            "inventory": nuevaext
+
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+        })
+        .fail(function (data) {
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        })
+        .success(function () {
+            //success fuction.
+            //crear la salida de inventario
+                $.ajax({
+                  method: "POST",
+                  url: "/api/inventariosalida/",
+
+                  data: JSON.stringify({
+                        "tipo": 1,
+                        "datos": 'Salida por venta, Factura # '+ventaid,
+                        "producto": matrixventa[i][7],
+                        "peso": matrixventa[i][3],
+                        "nuevopeso": nuevaext,
+                        "date": today,
+                        "time": tiempoahora(),
+                        "usuario": usuario
+                    }),//JSON object
+                      contentType:"application/json; charset=utf-8",
+                      dataType:"json"
+                    })
+                  .success(function() {
+
+                    })
+                    .fail(function(data) {
+                    alertify.alert("Hubo un problema al crear la salida de inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                    });
+
+        });//success func
+    });//each
     
 }
 
@@ -1189,7 +1247,12 @@ function patchcuentacobrar(){
 function generarfactura(){
     var clientefactura=$.get('/api/clientes/'+cliente+'/',function(){});
     var cajerofactura=$.get('/api/cajeros/'+usuario+'/',function(){});
+    var tipoventafact='CONTADO.';
+    if($("#pagacontipo").val()==3){
+        tipoventafact='CRÉDITO.';
+    }
     $('.facturanumfact').html(' '+ventaid);
+    $('.tipoventafact').html(' '+tipoventafact);
     $('.fechafact').html('  '+todaynorm +' '+tiempoahora());
     $('.clientefact').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
     $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
