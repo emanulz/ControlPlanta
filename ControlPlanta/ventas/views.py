@@ -23,6 +23,12 @@ class VentasView(TemplateView):
     def dispatch(self, *args, **kwargs):
         return super(VentasView, self).dispatch(*args, **kwargs)
 
+class CierreView(TemplateView):
+    template_name = 'cierrediario.html'
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CierreView, self).dispatch(*args, **kwargs)
+
 #DETALLES DE PAGO API
 
 class DetallePagoSerializer(serializers.ModelSerializer):

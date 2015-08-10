@@ -37,82 +37,7 @@
     <favorites_list name="ControlPlanta" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="creardeshuese.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deshueses/templates/creardeshuese.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="3173">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ventas.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/ventas.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.925926" vertical-offset="22063" max-vertical-offset="24852">
-              <caret line="1181" column="50" selection-start-line="1181" selection-start-column="50" selection-end-line="1181" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="deshuese.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/deshuese.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="28.481482" vertical-offset="9509" max-vertical-offset="11153">
-              <caret line="473" column="14" selection-start-line="473" selection-start-column="14" selection-end-line="473" selection-end-column="14" />
-              <folding>
-                <element signature="n#!!block;n#test#0" expanded="false" />
-                <element signature="n#!!block;n#errorhandle#0" expanded="false" />
-                <element signature="n#!!block;n#errorclean#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base2.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4353147" vertical-offset="1917" max-vertical-offset="2527">
-              <caret line="114" column="17" selection-start-line="114" selection-start-column="17" selection-end-line="114" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="landing.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/templates/landing.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="14.857142" vertical-offset="644" max-vertical-offset="1444">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="canalcreate.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/canales/templates/canalcreate.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.3571428" vertical-offset="0" max-vertical-offset="1805">
-              <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="crearlote.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lotes/templates/crearlote.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.7142856" vertical-offset="0" max-vertical-offset="2774">
-              <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../miniplataforma" />
@@ -120,8 +45,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/clients/filters.py" />
-        <option value="$PROJECT_DIR$/../venv/lib/python2.7/site-packages/dbbackup/__init__.py" />
         <option value="$PROJECT_DIR$/dbbackup/uploader.sh" />
         <option value="$PROJECT_DIR$/dbbackup/__init__.py" />
         <option value="$PROJECT_DIR$/dbbackup/uploader copia.py" />
@@ -150,13 +73,11 @@
         <option value="$PROJECT_DIR$/canales/views.py" />
         <option value="$PROJECT_DIR$/canales/admin.py" />
         <option value="$PROJECT_DIR$/lotes/views.py" />
-        <option value="$PROJECT_DIR$/ventas/views.py" />
         <option value="$PROJECT_DIR$/clientes/models.py" />
         <option value="$PROJECT_DIR$/clientes/filters.py" />
         <option value="$PROJECT_DIR$/clientes/views.py" />
         <option value="$PROJECT_DIR$/cuentasCobrar/views.py" />
         <option value="$PROJECT_DIR$/cuentasCobrar/admin.py" />
-        <option value="$PROJECT_DIR$/ControlPlanta/urls.py" />
         <option value="$PROJECT_DIR$/ControlPlanta/settings.py" />
         <option value="$PROJECT_DIR$/cuentasCobrar/models.py" />
         <option value="$PROJECT_DIR$/ventas/admin.py" />
@@ -170,7 +91,11 @@
         <option value="$PROJECT_DIR$/static/js/deshuese.js" />
         <option value="$PROJECT_DIR$/canales/templates/canalcreate.html" />
         <option value="$PROJECT_DIR$/lotes/templates/crearlote.html" />
+        <option value="$PROJECT_DIR$/ControlPlanta/urls.py" />
         <option value="$PROJECT_DIR$/frontend/templates/base2.html" />
+        <option value="$PROJECT_DIR$/ventas/views.py" />
+        <option value="$PROJECT_DIR$/ventas/templates/cierrediario.html" />
+        <option value="$PROJECT_DIR$/static/js/cierre.js" />
       </list>
     </option>
   </component>
@@ -281,6 +206,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="ventas" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -313,38 +252,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lotes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lotes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="frontend" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -377,57 +284,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="deshueses" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
               <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="deshueses" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canales" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canales" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -454,9 +311,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/static/js" />
+      <recent name="$PROJECT_DIR$/ventas/templates" />
       <recent name="$PROJECT_DIR$/inventarios/templates" />
       <recent name="$PROJECT_DIR$/ControlPlanta" />
-      <recent name="$PROJECT_DIR$/ventas/templates" />
       <recent name="$PROJECT_DIR$/frontend/templates" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -816,7 +673,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1917" height="977" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29039547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -824,20 +681,20 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14506666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14666666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35254237" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -857,9 +714,9 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1424" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -888,20 +745,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dbbackup/backupdb.command">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.08444444" vertical-offset="0" max-vertical-offset="675">
-          <caret line="3" column="85" selection-start-line="3" selection-start-column="85" selection-end-line="3" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/emanuel.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="1976">
-          <caret line="64" column="15" selection-start-line="64" selection-start-column="15" selection-end-line="64" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/productos/filters.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="304">
@@ -1000,14 +843,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deshueses/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.06240929" vertical-offset="204" max-vertical-offset="893">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/productos/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.9556213" vertical-offset="0" max-vertical-offset="1026">
@@ -1072,23 +907,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ventas/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4855196" vertical-offset="798" max-vertical-offset="1520">
-          <caret line="57" column="51" selection-start-line="57" selection-start-column="51" selection-end-line="57" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#29#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/clientes/filters.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.29131174" vertical-offset="0" max-vertical-offset="587">
           <caret line="9" column="114" selection-start-line="9" selection-start-column="114" selection-end-line="9" selection-end-column="114" />
-          <folding>
-            <element signature="e#0#21#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1104,7 +926,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.27166668" vertical-offset="141" max-vertical-offset="741">
           <caret line="16" column="42" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1122,17 +943,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="437">
           <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ControlPlanta/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="521" max-vertical-offset="1558">
-          <caret line="48" column="62" selection-start-line="48" selection-start-column="62" selection-end-line="48" selection-end-column="62" />
-          <folding>
-            <element signature="e#622#663#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1148,7 +958,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="114" max-vertical-offset="1159">
           <caret line="24" column="74" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="74" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1172,7 +981,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.24" vertical-offset="27" max-vertical-offset="722">
           <caret line="11" column="87" selection-start-line="7" selection-start-column="0" selection-end-line="11" selection-end-column="87" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1180,7 +988,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.49333334" vertical-offset="1053" max-vertical-offset="5529">
           <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1188,7 +995,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.12666667" vertical-offset="19" max-vertical-offset="798">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1204,7 +1010,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="635" max-vertical-offset="1729">
           <caret line="70" column="26" selection-start-line="70" selection-start-column="26" selection-end-line="70" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1226,19 +1031,19 @@
         <state vertical-scroll-proportion="0.2039356" vertical-offset="1976" max-vertical-offset="13243">
           <caret line="110" column="14" selection-start-line="110" selection-start-column="14" selection-end-line="110" selection-end-column="14" />
           <folding>
-            <element signature="e#6259#6302#0#HTML" expanded="true" />
-            <element signature="e#6507#6533#0#HTML" expanded="true" />
-            <element signature="e#7251#7270#0#HTML" expanded="true" />
-            <element signature="e#7368#7387#0#HTML" expanded="true" />
-            <element signature="e#7516#7535#0#HTML" expanded="true" />
-            <element signature="e#7653#7672#0#HTML" expanded="true" />
-            <element signature="e#7877#7912#0#HTML" expanded="true" />
-            <element signature="e#7942#7965#0#HTML" expanded="true" />
-            <element signature="e#9619#9662#0#HTML" expanded="true" />
-            <element signature="e#10168#10192#0#HTML" expanded="true" />
-            <element signature="e#10344#10365#0#HTML" expanded="true" />
-            <element signature="e#10492#10516#0#HTML" expanded="true" />
-            <element signature="e#10673#10694#0#HTML" expanded="true" />
+            <element signature="e#6259#6302#0#HTML" expanded="false" />
+            <element signature="e#6507#6533#0#HTML" expanded="false" />
+            <element signature="e#7251#7270#0#HTML" expanded="false" />
+            <element signature="e#7368#7387#0#HTML" expanded="false" />
+            <element signature="e#7516#7535#0#HTML" expanded="false" />
+            <element signature="e#7653#7672#0#HTML" expanded="false" />
+            <element signature="e#7877#7912#0#HTML" expanded="false" />
+            <element signature="e#7942#7965#0#HTML" expanded="false" />
+            <element signature="e#9619#9662#0#HTML" expanded="false" />
+            <element signature="e#10168#10192#0#HTML" expanded="false" />
+            <element signature="e#10344#10365#0#HTML" expanded="false" />
+            <element signature="e#10492#10516#0#HTML" expanded="false" />
+            <element signature="e#10673#10694#0#HTML" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1253,7 +1058,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/ventas.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.925926" vertical-offset="22063" max-vertical-offset="24852">
+        <state vertical-scroll-proportion="0.0" vertical-offset="22063" max-vertical-offset="24852">
           <caret line="1181" column="50" selection-start-line="1181" selection-start-column="50" selection-end-line="1181" selection-end-column="50" />
           <folding />
         </state>
@@ -1261,7 +1066,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/deshuese.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="28.481482" vertical-offset="9509" max-vertical-offset="11153">
+        <state vertical-scroll-proportion="0.0" vertical-offset="9509" max-vertical-offset="11153">
           <caret line="473" column="14" selection-start-line="473" selection-start-column="14" selection-end-line="473" selection-end-column="14" />
           <folding>
             <element signature="n#!!block;n#test#0" expanded="false" />
@@ -1271,9 +1076,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/templates/landing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="1444">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/canales/templates/canalcreate.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.3571428" vertical-offset="0" max-vertical-offset="1805">
+        <state vertical-scroll-proportion="0.0" vertical-offset="38" max-vertical-offset="1805">
           <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
           <folding />
         </state>
@@ -1281,25 +1094,88 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lotes/templates/crearlote.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.7142856" vertical-offset="0" max-vertical-offset="2774">
+        <state vertical-scroll-proportion="0.0" vertical-offset="76" max-vertical-offset="2774">
           <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/templates/landing.html">
+    <entry file="file://$PROJECT_DIR$/static/js/cierre.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="14.857142" vertical-offset="644" max-vertical-offset="1444">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.2642857" vertical-offset="7509" max-vertical-offset="26581">
+          <caret line="403" column="0" selection-start-line="403" selection-start-column="0" selection-end-line="403" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ventas/templates/cierrediario.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6386404" vertical-offset="2284" max-vertical-offset="3268">
+          <caret line="150" column="140" selection-start-line="150" selection-start-column="140" selection-end-line="150" selection-end-column="140" />
+          <folding>
+            <element signature="e#633#1026#0#HTML" expanded="false" />
+            <element signature="e#1055#1348#0#HTML" expanded="false" />
+            <element signature="e#3819#3862#0#HTML" expanded="true" />
+            <element signature="e#4068#4094#0#HTML" expanded="true" />
+            <element signature="e#4761#4803#0#HTML" expanded="true" />
+            <element signature="e#4831#4854#0#HTML" expanded="true" />
+            <element signature="e#4962#4985#0#HTML" expanded="true" />
+            <element signature="e#5047#5070#0#HTML" expanded="true" />
+            <element signature="e#5225#5267#0#HTML" expanded="true" />
+            <element signature="e#5295#5318#0#HTML" expanded="true" />
+            <element signature="e#5426#5449#0#HTML" expanded="true" />
+            <element signature="e#5519#5542#0#HTML" expanded="true" />
+            <element signature="e#7378#7401#0#HTML" expanded="true" />
+            <element signature="e#7536#7555#0#HTML" expanded="true" />
+            <element signature="e#7609#7630#0#HTML" expanded="true" />
+            <element signature="e#7698#7717#0#HTML" expanded="true" />
+            <element signature="e#7769#7790#0#HTML" expanded="true" />
+            <element signature="e#7831#7850#0#HTML" expanded="true" />
+            <element signature="e#7903#7924#0#HTML" expanded="true" />
+            <element signature="e#7965#7984#0#HTML" expanded="true" />
+            <element signature="e#8026#8047#0#HTML" expanded="true" />
+            <element signature="e#8088#8123#0#HTML" expanded="true" />
+            <element signature="e#8172#8208#0#HTML" expanded="true" />
+            <element signature="e#9062#11482#0#HTML" expanded="false" />
+            <element signature="e#11551#16000#0#HTML" expanded="false" />
+            <element signature="e#16035#25060#0#HTML" expanded="false" />
+            <element signature="e#25086#28264#0#HTML" expanded="false" />
+            <element signature="e#28291#31038#0#HTML" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ventas/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38841566" vertical-offset="228" max-vertical-offset="1596">
+          <caret line="26" column="38" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4353147" vertical-offset="1917" max-vertical-offset="2527">
-          <caret line="114" column="17" selection-start-line="114" selection-start-column="17" selection-end-line="114" selection-end-column="17" />
+        <state vertical-scroll-proportion="-12.785714" vertical-offset="1637" max-vertical-offset="2527">
+          <caret line="105" column="33" selection-start-line="105" selection-start-column="33" selection-end-line="105" selection-end-column="33" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deshueses/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41166666" vertical-offset="0" max-vertical-offset="893">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ControlPlanta/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41166666" vertical-offset="874" max-vertical-offset="1501">
+          <caret line="59" column="23" selection-start-line="59" selection-start-column="11" selection-end-line="59" selection-end-column="23" />
+          <folding>
+            <element signature="e#622#663#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
