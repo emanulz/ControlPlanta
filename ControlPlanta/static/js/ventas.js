@@ -1165,6 +1165,27 @@ function descontarinventarios(){
                     })
                   .success(function() {
 
+                            var prodinventario=$.get('/api/inventarioresumen/?producto='+matrixventa[i][7],function(){});
+
+                            $.ajax({
+                                    method: "PATCH",
+                                    url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
+
+                                    data: JSON.stringify({
+
+                                        "cantidad": nuevaext
+
+                                    }),//JSON object
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json"
+                            })
+                            .success(function () {
+
+                            })
+                            .fail(function (data) {
+                                alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                            });
+
                     })
                     .fail(function(data) {
                     alertify.alert("Hubo un problema al crear la salida de inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);

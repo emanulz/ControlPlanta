@@ -69,7 +69,7 @@ class SalidasInventario(models.Model):
     usuario=models.ForeignKey(Cajero,verbose_name='Usuario')
 
     def __unicode__(self):
-        return self.tipo
+        return self.tipo.nombre
     class Meta:
         ordering=['id']
         verbose_name='Salida en Inventario'

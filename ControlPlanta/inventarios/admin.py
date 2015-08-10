@@ -2,12 +2,14 @@ from django.contrib import admin
 
 # Register your models here.
 from inventarios.models import InventarioTotal,ResumenInventario,EntradasInventario,TiposEntradas,SalidasInventario,TiposSalidas
+from productos.models import Producto
 
 
 @admin.register(InventarioTotal)
 class InvTotalAdmin(admin.ModelAdmin):
     list_display = ('id', 'producto', 'peso', 'lote','vencimiento')
     search_fields = ('id', 'lote', 'vencimiento')
+
 
 @admin.register(ResumenInventario)
 class ResumenInvAdmin(admin.ModelAdmin):

@@ -38,45 +38,75 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ventas.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ventas/templates/ventas.html">
+      <file leaf-file-name="creardeshuese.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/deshueses/templates/creardeshuese.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.071429" vertical-offset="1976" max-vertical-offset="13243">
-              <caret line="110" column="14" selection-start-line="110" selection-start-column="14" selection-end-line="110" selection-end-column="14" />
-              <folding>
-                <element signature="e#6259#6302#0#HTML" expanded="true" />
-                <element signature="e#6507#6533#0#HTML" expanded="true" />
-                <element signature="e#7251#7270#0#HTML" expanded="true" />
-                <element signature="e#7368#7387#0#HTML" expanded="true" />
-                <element signature="e#7516#7535#0#HTML" expanded="true" />
-                <element signature="e#7653#7672#0#HTML" expanded="true" />
-                <element signature="e#7877#7912#0#HTML" expanded="true" />
-                <element signature="e#7942#7965#0#HTML" expanded="true" />
-                <element signature="e#9619#9662#0#HTML" expanded="true" />
-                <element signature="e#10168#10192#0#HTML" expanded="true" />
-                <element signature="e#10344#10365#0#HTML" expanded="true" />
-                <element signature="e#10492#10516#0#HTML" expanded="true" />
-                <element signature="e#10673#10694#0#HTML" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ventas.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/static/js/ventas.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.43392858" vertical-offset="14216" max-vertical-offset="24453">
-              <caret line="761" column="39" selection-start-line="761" selection-start-column="39" selection-end-line="761" selection-end-column="39" />
+            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="3173">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inventarios.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/inventarios.js">
+      <file leaf-file-name="ventas.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/js/ventas.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="35.333332" vertical-offset="19973" max-vertical-offset="30381">
-              <caret line="1001" column="56" selection-start-line="1001" selection-start-column="49" selection-end-line="1001" selection-end-column="56" />
+            <state vertical-scroll-proportion="-13.925926" vertical-offset="22063" max-vertical-offset="24852">
+              <caret line="1181" column="50" selection-start-line="1181" selection-start-column="50" selection-end-line="1181" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="deshuese.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/js/deshuese.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="28.481482" vertical-offset="9509" max-vertical-offset="11153">
+              <caret line="473" column="14" selection-start-line="473" selection-start-column="14" selection-end-line="473" selection-end-column="14" />
+              <folding>
+                <element signature="n#!!block;n#test#0" expanded="false" />
+                <element signature="n#!!block;n#errorhandle#0" expanded="false" />
+                <element signature="n#!!block;n#errorclean#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base2.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.4353147" vertical-offset="1917" max-vertical-offset="2527">
+              <caret line="114" column="17" selection-start-line="114" selection-start-column="17" selection-end-line="114" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="landing.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/templates/landing.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="14.857142" vertical-offset="644" max-vertical-offset="1444">
+              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="canalcreate.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/canales/templates/canalcreate.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-1.3571428" vertical-offset="0" max-vertical-offset="1805">
+              <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="crearlote.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lotes/templates/crearlote.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.7142856" vertical-offset="0" max-vertical-offset="2774">
+              <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -90,14 +120,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/sales/templates/ventas.html" />
         <option value="$PROJECT_DIR$/clients/filters.py" />
         <option value="$PROJECT_DIR$/../venv/lib/python2.7/site-packages/dbbackup/__init__.py" />
         <option value="$PROJECT_DIR$/dbbackup/uploader.sh" />
         <option value="$PROJECT_DIR$/dbbackup/__init__.py" />
         <option value="$PROJECT_DIR$/dbbackup/uploader copia.py" />
         <option value="$PROJECT_DIR$/dbbackup/backupdb.sh" />
-        <option value="$PROJECT_DIR$/static/js/deshuese.js" />
         <option value="$PROJECT_DIR$/cajeros/views.py" />
         <option value="$PROJECT_DIR$/static/alertifyjs/alertify.js" />
         <option value="$PROJECT_DIR$/static/alertifyjs/css/themes/semanticcopy.min.css" />
@@ -111,15 +139,10 @@
         <option value="$PROJECT_DIR$/productos/admin.py" />
         <option value="$PROJECT_DIR$/productos/views.py" />
         <option value="$PROJECT_DIR$/inventarios/views.py" />
-        <option value="$PROJECT_DIR$/inventarios/models.py" />
-        <option value="$PROJECT_DIR$/inventarios/admin.py" />
-        <option value="$PROJECT_DIR$/frontend/templates/base2.html" />
-        <option value="$PROJECT_DIR$/inventarios/templates/inventarios.html" />
         <option value="$PROJECT_DIR$/lotes/models.py" />
         <option value="$PROJECT_DIR$/proveedores/admin.py" />
         <option value="$PROJECT_DIR$/lotes/admin.py" />
         <option value="$PROJECT_DIR$/lotes/templates/lotecreate.html" />
-        <option value="$PROJECT_DIR$/lotes/templates/crearlote.html" />
         <option value="$PROJECT_DIR$/static/js/lotes.js" />
         <option value="$PROJECT_DIR$/static/js/trazabilidad.js" />
         <option value="$PROJECT_DIR$/frontend/templates/trazabilidad.html" />
@@ -127,7 +150,6 @@
         <option value="$PROJECT_DIR$/canales/views.py" />
         <option value="$PROJECT_DIR$/canales/admin.py" />
         <option value="$PROJECT_DIR$/lotes/views.py" />
-        <option value="$PROJECT_DIR$/static/js/inventarios.js" />
         <option value="$PROJECT_DIR$/ventas/views.py" />
         <option value="$PROJECT_DIR$/clientes/models.py" />
         <option value="$PROJECT_DIR$/clientes/filters.py" />
@@ -140,7 +162,15 @@
         <option value="$PROJECT_DIR$/ventas/admin.py" />
         <option value="$PROJECT_DIR$/ventas/models.py" />
         <option value="$PROJECT_DIR$/ventas/templates/ventas.html" />
+        <option value="$PROJECT_DIR$/inventarios/admin.py" />
+        <option value="$PROJECT_DIR$/inventarios/templates/inventarios.html" />
+        <option value="$PROJECT_DIR$/static/js/inventarios.js" />
         <option value="$PROJECT_DIR$/static/js/ventas.js" />
+        <option value="$PROJECT_DIR$/inventarios/models.py" />
+        <option value="$PROJECT_DIR$/static/js/deshuese.js" />
+        <option value="$PROJECT_DIR$/canales/templates/canalcreate.html" />
+        <option value="$PROJECT_DIR$/lotes/templates/crearlote.html" />
+        <option value="$PROJECT_DIR$/frontend/templates/base2.html" />
       </list>
     </option>
   </component>
@@ -251,38 +281,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ventas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ventas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -315,7 +313,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="cuentasCobrar" />
+              <option name="myItemId" value="lotes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -329,7 +327,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="clientes" />
+              <option name="myItemId" value="lotes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -343,7 +345,89 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
               <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="deshueses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="deshueses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="canales" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="canales" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -799,43 +883,15 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="25" />
+      <option name="time" value="26" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dbbackup/uploader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45037037" vertical-offset="228" max-vertical-offset="1387">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22093023" vertical-offset="0" max-vertical-offset="688">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dbbackup/uploader2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.83111113" vertical-offset="712" max-vertical-offset="1387">
-          <caret line="68" column="10" selection-start-line="68" selection-start-column="10" selection-end-line="68" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dbbackup/backupdb.command">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.08444444" vertical-offset="0" max-vertical-offset="675">
           <caret line="3" column="85" selection-start-line="3" selection-start-column="85" selection-end-line="3" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/templates/landing.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49845678" vertical-offset="513" max-vertical-offset="1444">
-          <caret line="44" column="29" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -864,20 +920,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="361">
           <caret line="9" column="8" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventarios/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="760">
-          <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="361" max-vertical-offset="2242">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -913,13 +955,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.7142856" vertical-offset="0" max-vertical-offset="1596">
           <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lotes/templates/crearlote.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.892858" vertical-offset="1385" max-vertical-offset="2774">
-          <caret line="86" column="37" selection-start-line="86" selection-start-column="37" selection-end-line="86" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -962,14 +997,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7588757" vertical-offset="1463" max-vertical-offset="7049">
           <caret line="104" column="15" selection-start-line="104" selection-start-column="15" selection-end-line="104" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventarios/templates/inventarios.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="171" max-vertical-offset="11324">
-          <caret line="9" column="61" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1035,14 +1062,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inventarios/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36666667" vertical-offset="483" max-vertical-offset="1729">
-          <caret line="37" column="9" selection-start-line="37" selection-start-column="4" selection-end-line="37" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1165,9 +1184,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/inventarios/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12666667" vertical-offset="19" max-vertical-offset="798">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/inventarios.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.407408" vertical-offset="16325" max-vertical-offset="31274">
+          <caret line="874" column="18" selection-start-line="863" selection-start-column="0" selection-end-line="884" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventarios/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="635" max-vertical-offset="1729">
+          <caret line="70" column="26" selection-start-line="70" selection-start-column="26" selection-end-line="70" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inventarios/templates/inventarios.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.09022556" vertical-offset="1377" max-vertical-offset="3173">
+          <caret line="75" column="24" selection-start-line="75" selection-start-column="24" selection-end-line="75" selection-end-column="24" />
+          <folding>
+            <element signature="e#4180#7213#0#HTML" expanded="false" />
+            <element signature="e#7272#13040#0#HTML" expanded="false" />
+            <element signature="e#13081#18791#0#HTML" expanded="false" />
+            <element signature="e#18831#25240#0#HTML" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ventas/templates/ventas.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.071429" vertical-offset="1976" max-vertical-offset="13243">
+        <state vertical-scroll-proportion="0.2039356" vertical-offset="1976" max-vertical-offset="13243">
           <caret line="110" column="14" selection-start-line="110" selection-start-column="14" selection-end-line="110" selection-end-column="14" />
           <folding>
             <element signature="e#6259#6302#0#HTML" expanded="true" />
@@ -1187,18 +1243,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/inventarios.js">
+    <entry file="file://$PROJECT_DIR$/deshueses/templates/creardeshuese.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="35.333332" vertical-offset="19973" max-vertical-offset="30381">
-          <caret line="1001" column="56" selection-start-line="1001" selection-start-column="49" selection-end-line="1001" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3173">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/ventas.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43392858" vertical-offset="14216" max-vertical-offset="24453">
-          <caret line="761" column="39" selection-start-line="761" selection-start-column="39" selection-end-line="761" selection-end-column="39" />
+        <state vertical-scroll-proportion="-13.925926" vertical-offset="22063" max-vertical-offset="24852">
+          <caret line="1181" column="50" selection-start-line="1181" selection-start-column="50" selection-end-line="1181" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/deshuese.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="28.481482" vertical-offset="9509" max-vertical-offset="11153">
+          <caret line="473" column="14" selection-start-line="473" selection-start-column="14" selection-end-line="473" selection-end-column="14" />
+          <folding>
+            <element signature="n#!!block;n#test#0" expanded="false" />
+            <element signature="n#!!block;n#errorhandle#0" expanded="false" />
+            <element signature="n#!!block;n#errorclean#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/canales/templates/canalcreate.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.3571428" vertical-offset="0" max-vertical-offset="1805">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lotes/templates/crearlote.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.7142856" vertical-offset="0" max-vertical-offset="2774">
+          <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/templates/landing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="14.857142" vertical-offset="644" max-vertical-offset="1444">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4353147" vertical-offset="1917" max-vertical-offset="2527">
+          <caret line="114" column="17" selection-start-line="114" selection-start-column="17" selection-end-line="114" selection-end-column="17" />
           <folding />
         </state>
       </provider>

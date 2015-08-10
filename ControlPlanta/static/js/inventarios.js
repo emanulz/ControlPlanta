@@ -42,7 +42,7 @@ jQuery.ajaxSetup({async:false});
 
 $(document).on('ready', main);
 function main () {
-console.log($.now());
+//console.log($.now());
 
 
         $.ajaxSetup({
@@ -768,6 +768,7 @@ function crearentrada(datos,peso,nuevopeso){
           dataType:"json"
         })
       .success(function() {
+        pacthresinvent();
         $("#tablainventario > tbody").html("");
         $.get('/api/productos/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
         alertify.alert('Entrada exitosa',"Entrada a inventario creada con exito");
@@ -847,6 +848,7 @@ function crearsalida(datos,peso,nuevopeso){
           dataType:"json"
         })
       .success(function() {
+        pacthresinvsal();
         $("#tablainventario > tbody").html("");
         $.get('/api/productos/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
         alertify.alert('Salida exitosa',"Salida de inventario creada con exito");
@@ -858,6 +860,51 @@ function crearsalida(datos,peso,nuevopeso){
         .fail(function(data) {
         alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
         });
+}
+function pacthresinvsal(){
+    var prodinventario=$.get('/api/inventarioresumen/?producto='+idsalida,function(){});
+
+    $.ajax({
+            method: "PATCH",
+            url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
+
+            data: JSON.stringify({
+
+                "cantidad": cantsalida
+
+            }),//JSON object
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        })
+            .success(function () {
+
+            })
+            .fail(function (data) {
+                alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            });
+}
+
+function pacthresinvent(){
+    var prodinventario=$.get('/api/inventarioresumen/?producto='+identrada,function(){});
+
+    $.ajax({
+            method: "PATCH",
+            url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
+
+            data: JSON.stringify({
+
+                "cantidad": cantentrada
+
+            }),//JSON object
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        })
+            .success(function () {
+
+            })
+            .fail(function (data) {
+                alertify.alert("Hubo un problema al crear la entrada, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            });
 }
 
 function getcliente(){

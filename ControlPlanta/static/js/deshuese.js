@@ -8,6 +8,10 @@ var matrixdetalle=[];
 var detalle=[];
 var vencimiento;
 var tipo;
+var pesoactual;
+var pesonuevo;
+var today;
+
 jQuery.ajaxSetup({async:false});
 
 $(document).on('ready', main);
@@ -156,6 +160,8 @@ function main () {
 
         var now = new Date();
         var day = ("0" + now.getDate()).slice(-2);
+        var month2 = ("0" + (now.getMonth() + 1)).slice(-2);
+        var year2=now.getFullYear();
         var month = ("0" + (now.getMonth() + 2)).slice(-2);
         var year=now.getFullYear();
         if (month>12){
@@ -163,6 +169,7 @@ function main () {
             year=year+1;
         }
         vencimiento = (year)+"-"+(month)+"-"+(day) ;
+        today = (year2)+"-"+(month2)+"-"+(day) ;
         //console.log(vencimiento);
 
     }//main
@@ -223,7 +230,7 @@ function LoteListo(){
  }
 
 function llenarlotes(data){
-    console.log(data.length);
+    //console.log(data.length);
     $("#lote").html('');
 
     if(data.length!=0){
@@ -371,11 +378,11 @@ function guardarDetalle() {
               dataType:"json"
             })
             .fail(function(data){
-            console.log(data.responseText);
-            alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+            //console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
             })
             .success(function(data){
-                console.log(data);
+               // console.log(data);
             });
 
         $.ajax({
@@ -395,17 +402,17 @@ function guardarDetalle() {
               dataType:"json"
             })
             .fail(function(data){
-            console.log(data.responseText);
-            alert("Hubo un problema al crear el inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+            //console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
             })
             .success(function(data){
-                console.log(data);
+                //console.log(data);
             });
 
 
         if(i==(control-1)){
-            console.log(control);
-            console.log(i);
+            //console.log(control);
+            //console.log(i);
 
             $.get('/api/detalledeshuese/?lote='+lote, function (data) {
                 $.each( data, function(index){
@@ -438,7 +445,7 @@ function test(){
 }
 
 function guardarDeshuese() {
-    console.log(detalle);
+    //console.log(detalle);
     var lote =parseInt($("#lote").val());
     //var mermaporc2=parseFloat(mermaporc);
 
@@ -460,11 +467,11 @@ function guardarDeshuese() {
           dataType:"json"
         })
     .fail(function(data){
-            console.log(data.responseText);
-            alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+            //console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
         })
     .success(function(data){
-            console.log(data);
+            //console.log(data);
             patchlote();
             
         });
@@ -572,6 +579,7 @@ event.preventDefault();
         })
 
       .success(function() {
+        Guardarinventario();
         $("#BtnCrear").prop("disabled",true);
         $("#BtnNoConfirmar").prop("disabled",true);
         $(".succesmessage:hidden").show("slow");
@@ -582,4 +590,84 @@ event.preventDefault();
         });
 
 
+}
+
+function Guardarinventario(){
+    var lote =parseInt($("#lote").val());
+    //each
+    $.each( matrixdetalle, function(i){
+        var productoguardar=$.get('/api/productos/'+matrixdetalle[i][0]+'/',function(){});
+        pesoactual=productoguardar.responseJSON.inventory;
+        pesonuevo=pesoactual+matrixdetalle[i][1];
+        $.ajax({//patch producto
+          method: "PATCH",
+          url: "/api/productos/"+matrixdetalle[i][0]+'/',
+          async: false,
+
+          data: JSON.stringify({
+            "inventory": pesonuevo
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function(){
+               $.ajax({//crear entrada por produccion
+                  method: "POST",
+                  url: "/api/inventarioentrada/",
+                  async: false,
+
+                  data: JSON.stringify({
+                    "tipo": 1,
+                    "datos": "Entrada por producción del lote "+lote,
+                    "producto": matrixdetalle[i][0],
+                    "peso": matrixdetalle[i][1],
+                    "nuevopeso": pesonuevo,
+                    "date": today,
+                    "time": tiempoahora(),
+                    "usuario": 1
+                    }),//JSON object
+                      contentType:"application/json; charset=utf-8",
+                      dataType:"json"
+                })
+                .fail(function(data){
+                console.log(data.responseText);
+                alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                })
+                .success(function(){//patch resumen inv
+                            var prodinventario=$.get('/api/inventarioresumen/?producto='+matrixdetalle[i][0],function(){});
+
+                            $.ajax({
+                                    method: "PATCH",
+                                    url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
+
+                                    data: JSON.stringify({
+
+                                        "cantidad": pesonuevo
+
+                                    }),//JSON object
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json"
+                            })
+                            .success(function () {
+
+                            })
+                            .fail(function (data) {
+                                alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                            });
+                });
+            });
+
+    });
+    //patch producto
+    //crear entrada por produccion
+    //patch resumen inv
+
+}
+function tiempoahora(){
+    var dt = new Date();
+    return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
 }
