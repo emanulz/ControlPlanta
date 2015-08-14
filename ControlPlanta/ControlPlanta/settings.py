@@ -57,7 +57,6 @@ INSTALLED_APPS = (
     'frontend',
     'cuentasCobrar',
 
-
 )
 
 DBBACKUP_STORAGE = 'dbbackup.storage.filesystem_storage'

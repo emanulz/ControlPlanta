@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="/static/panel/css/style.css"> <!-- Resource style -->
 	<script src="/static/panel/js/modernizr.js"></script> <!-- Modernizr -->
     <script src="/static/js/PriceFormat.js"></script>
-    <script src="/static/js/ventas.js"></script>
+    <script src="/static/js/cuentasPagar.js"></script>
     <script src="/static/print/jquery.PrintArea.js"></script>
 
 <div class="PaddingContent blurlines" id="maincontent">
@@ -30,7 +30,7 @@
             {% csrf_token %}
             <div class="form-group">
                 <div class="form-group">
-                    <div class="col-sm-5 tituloventa">Factura de venta:</div>
+                    <div class="col-sm-5 tituloventa">Detalle de Cuenta:</div>
                 <label class="col-sm-2" for="date">Fecha:</label>
                     <div class="col-sm-4">
                       <input type="date" class="form-control " id="date">
@@ -44,7 +44,7 @@
                                 <option value="{{ request.user.id }}"></option>
                             </select>
                        </div>
-                    <label class="col-sm-2" for="cliente">Nombre:</label>
+                    <label class="col-sm-2" for="cliente">Cliente:</label>
                         <div class="col-sm-4">
                             <input type="text" class="form-control" id="cliente">
                         </div>
@@ -52,39 +52,32 @@
                         <button type="button" id="Btnbuscarclientemain" class="btn btn-success marginTop15px2 btnbuscarcliente"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
                     </div>
                 </div> <!-- cajero cliente y buscar-->
+                <div class="form-group">
+
+                    <label class="col-sm-2" for="cliente">Saldo Total:</label>
+                        <div class="col-sm-3">
+                            <input disabled type="text" class="form-control precio" id="saldototal">
+                        </div>
+                    <label class="col-sm-2" for="cliente">Realizar abono:</label>
+                    <div class=" col-sm-1">
+                        <button type="button" id="BtnAbono" class="btn btn-success marginTop15px2 btnabono"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
+                    </div>
+                </div> <!-- cajero cliente y buscar-->
+
             </div>
         </form><!-- Fecha cajero y cliente -->
-        <form class="form-horizontal col-sm-12" action="">
-        <div class="form-group">
-            <div class="form-group col sm-12" >
-            <label class="col-sm-2" for="cantidad">Cantidad:</label>
-            <div class="col-sm-3">
-                <input type="number" class="form-control " id="cantidad">
-            </div>
-            <label class="col-sm-2" for="producto">Producto:</label>
-            <div class="col-sm-4">
-                <input  type="text" class="form-control " id="producto">
-            </div>
-            <div class=" col-sm-1">
-                <button type="button" id="Btnbuscarproducto" class="btn btn-success marginTop15px2 btnbuscar"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </div>
 
-            </div><!-- peoductos y boton -->
-        </div>
-    </form><!-- productos y buscar -->
         <form class="form-horizontal col-sm-12" action="">
         <div class="form-group">
             <div class=" form-group col-sm-12 ">
-            <table class="table table-bordered table-hover" data-toggle="table" id="tablaproductos" data-url="" data-cache="false" data-height="299">
+            <table class="table table-bordered table-hover" data-toggle="table" id="tablafacturaspend" data-url="" data-cache="false" data-height="299">
                 <thead>
                     <tr class="danger">
-                        <th data-field="id">Código</th>
-                        <th data-field="name">Descripción</th>
-                        <th data-field="name">P/Kg</th>
-                        <th data-field="name">Cant</th>
-                        <th data-field="name">I.V</th>
+                        <th data-field="id"># Fact</th>
+                        <th data-field="name">Fecha</th>
                         <th data-field="name">Total</th>
-                        <th data-field="name">X</th>
+                        <th data-field="name">Saldo</th>
+                        <th data-field="name"> Ver </th>
                     </tr>
 
                 </thead>
@@ -93,18 +86,7 @@
                 </tbody>
             </table>
             </div><!-- tabla -->
-            <div class="form-group">
-                <div class="col-sm-2">
-                    <label for="descuento">Descuento %:</label>
-                </div>
-                <div class="col-sm-3">
-                    <input disabled type="text" class="form-control" id="descuento"/>
-                </div>
-                <div class="col-sm-2">
-                    <button disabled type="button" id="btndescuento" class="btn btn-success marginTop15px2 btndescuento" style="width: 120px">Aplicar <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-                    <button type="button" id="btndescuentoquitar" class="btn btn-danger marginTop15px2 btndescuentoquitar hideonload" style="width: 120px">Eliminar <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                </div>
-            </div>
+
         </div>
         <div class="form-group">
 
@@ -112,13 +94,13 @@
     </form><!-- tabla de productods -->
     </div><!-- main content -->
 
-    <div hidden class="col-sm-3 factura" >
+    <div  class="col-sm-3 factura" >
         <form class="form-horizontal col-sm-12" action="" >
-        <div class="form-group col-sm-12 ">
-            <div class="form-group tituloventa2 ">
-                FACTURA:
-            </div>
-        </div>
+{#        <div class="form-group col-sm-12 ">#}
+{#            <div class="form-group tituloventa2 ">#}
+{#                FACTURA:#}
+{#            </div>#}
+{#        </div>#}
         <div class="form-group col-sm-12 " style="border: 1px solid #000000;border-radius: 10px" >
             <div class="form-group" id="factura" style="margin-left: 5px; margin-top: 5px">
                 <div class="col-sm-12 encabezado" style="font-size: 12px; text-align: center" >
@@ -200,78 +182,6 @@
         </div>
     </form>
     </div> <!-- Side bar FACTURA -->
-    <div hidden class="col-sm-9 factura"></div>
-    <div class="col-sm-3 sidetotales" >
-        <form class="form-horizontal col-sm-12" action="">
-        <div class="col-sm-1"></div>
-        <div class="form-group col-sm-11 ">
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <label for="pesolote">Total de Kilogramos:</label>
-                    <div>
-                        <br/>
-                        <span class="sidePanelData totalkg">0 Kg</span>
-                    </div>
-                </div>
-            </div><!-- total de kilogramos-->
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <label for="totalart">Total de Artículos:</label>
-                    <div>
-                        <br/>
-                        <span class="sidePanelData totalart">0</span>
-                    </div>
-                </div>
-            </div><!-- Total de artículos -->
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <label for="mermakg">Sub Total:</label>
-                    <div>
-                        <br/>
-                        <span class="sidePanelData subtotal precio">₡ 0</span>
-                    </div>
-                </div>
-            </div><!-- Sub total -->
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <label for="mermakg">Descuento: <span class="descuentoside"></span> </label>
-                    <div>
-                        <br/>
-                        <span class="sidePanelData descuento precio">₡ 0</span>
-                    </div>
-                </div>
-            </div><!-- descuento -->
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <label for="mermaporc">I.V</label>
-                    <div>
-                        <br/>
-                        <span class="sidePanelData totaliv precio">₡ 0</span>
-
-                    </div>
-                </div>
-            </div><!-- Iv -->
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <label>Total:</label>
-                    <div>
-                        <br/>
-                        <div class="sidePanelData2 totalventa precio">₡ 0</div>
-
-                    </div>
-                </div>
-            </div><!-- Total -->
-            <div class="form-group " style="margin-top: 15px">
-                <div class="col-sm-12">
-                    <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnConfirmar" style="width: 160px">Confirmar</button>
-                    <button  type="button" class=" btn btn-danger  form-control " id="BtnNoConfirmar" style="width: 160px">Editar Datos</button>
-                    <br/><br/>
-                    <button  type="button" class=" btn btn-success  form-control  btnpagar" id="BtnPagar" style="width: 160px">Pagar</button>
-                </div>
-            </div><!-- btnconfirmar -->
-        </div>
-    </form>
-    </div> <!-- Side bar -->
 
 </div><!-- Pagina principal -->
 </div>
@@ -283,19 +193,6 @@
 		<div class="cd-panel-container">
 			<div class="cd-panel-content">
 				<form class="col-sm-12 form-horizontal" action="">
-                    <div class="tituloventa2">
-                        Cliente Contado:
-                        <br/>
-                        <br/>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="nombreclientecontado" placeholder="Nombre del Cliente">
-                        </div>
-                        <div class="col-sm-2" >
-                             <button  type="button" class=" btn btn-success form-control " id="btnconfirmarclientecontado" ><span class="glyphicon glyphicon-ok"></span></button>
-                        </div>
-                   </div>
                      <div class="tituloventa2">
                         Cliente Existente:
                         <br/>

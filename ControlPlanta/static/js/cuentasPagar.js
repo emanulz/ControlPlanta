@@ -1,5 +1,13 @@
 //variables globales
 
+//vars de cuentas cobrar
+var cliente=1;
+var idcuentacobrar=1;
+var facturaspend=[];
+var totalsaldo;
+
+//
+
 var enteronaddproducto = false;
 var cantidad=0;
 var nuevaext;
@@ -13,7 +21,7 @@ var detallesventa=[];
 var detallepago=0;
 var vueltoguardar=0;
 var efectivoguardar=0;
-var cliente=1;
+
 var usuario=1;
 var descuento=0;
 var descuentoporc=0;
@@ -215,47 +223,20 @@ function main () {
 
         //selectrow buscar cliente
 
-        $('html').on('click','.selectrowcliente', function () {
-            event.preventDefault();
-            var row=$(this).closest("tr");
-            var rowIndex = row.index();
-
-            var codigo = codigobusquedacliente[rowIndex][0];
-            var nombre = codigobusquedacliente[rowIndex][1];
-            var apellido = codigobusquedacliente[rowIndex][2];
-            cliente=codigobusquedacliente[rowIndex][3];
-            $("#tablabusquedacliente > tbody").html("");
-            $('#codigocliente').val(codigo);
-            $('#nombrecliente').val(nombre+' '+apellido);
-            $("#cliente").val($("#nombrecliente").val());
-            $("#nombrecliente").val('Cliente Contado');
-            $("#codigocliente").val('0001');
-            $("#btnconfirmarcliente").prop('disabled',true);
-            $("#codigocliente").prop('disabled',false);
-            $("#nombreclientecontado").val('');
-            $("#nombreclientebuscar").val('');
-            $('.cd-panelbuscarcliente').removeClass('is-visible');
-            blurElement('.blurlines',0);
-            recalculartablaproductos();
-
-        });
-
         //selectrow canal
-        $('html').on('click','.selectrowcanal', function () {
-            event.preventDefault();
-            var row=$(this).closest("tr");
-            var rowIndex = row.index();
-            var precio=$('#preciocanalkilo').val();
-            if(precio==''){
-                alertify.alert('Error','Ingrese un precio válido');
-            }
-            else{
-                //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
-                agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
-            }
-
-
-        });
+        //$('html').on('click','.selectrowfactura', function () {
+        //    event.preventDefault();
+        //    var row=$(this).closest("tr");
+        //    var rowIndex = row.index();
+        //    var precio=$('#preciocanalkilo').val();
+        //    if(precio==''){
+        //        alertify.alert('Error','Ingrese un precio válido');
+        //    }
+        //    else{
+        //        //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
+        //        agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
+        //    }
+        //});
         //eventos enter
 
         $('#descuento').on('keypress', function (event) {
@@ -397,27 +378,7 @@ function main () {
 
         //botones de cliente
 
-        $("#btnconfirmarcliente").on("click",function(){
-            $("#cliente").val($("#nombrecliente").val());
-            $('.cd-panelbuscarcliente').removeClass('is-visible');
-            blurElement('.blurlines',0);
-            $("#nombrecliente").val('Cliente Contado');
-            var a = $("#codigocliente").val();
-            var cliente2=$.get('/api/clientes/?code='+a,function(){});
-            cliente=cliente2.responseJSON[0].id;
-            console.log(cliente);
 
-            $("#nombrecliente").val('Cliente Contado');
-            $("#codigocliente").val('0001');
-            $("#nombreclientecontado").val('');
-            $("#nombreclientebuscar").val('');
-            $("#btnconfirmarcliente").prop('disabled',true);
-            $("#codigocliente").prop('disabled',false);
-            $("#tablabusquedacliente > tbody").html("");
-
-            recalculartablaproductos();
-
-        });
 
          $("#btnconfirmarclientecontado").on("click",function(){
             if($("#nombreclientecontado").val()!==''){
@@ -508,8 +469,71 @@ function main () {
         $("#cliente").val('Cliente Contado').prop("disabled",true);
         $("#codigocliente").val('0001');
         $("#nombrecliente").val('Cliente Contado').prop("disabled",true);
-
         $("#BtnPrint").on("click",Imprimir);
+
+    //CUENTAS COBRAR
+
+    $("#btnconfirmarcliente").on("click",function(){
+            $("#cliente").val($("#nombrecliente").val());
+            $('.cd-panelbuscarcliente').removeClass('is-visible');
+            blurElement('.blurlines',0);
+            $("#nombrecliente").val('Cliente Contado');
+            var a = $("#codigocliente").val();
+            var cliente2=$.get('/api/clientes/?code='+a,function(){});
+            cliente=cliente2.responseJSON[0].id;
+            console.log(cliente);
+
+            $("#nombrecliente").val('Cliente Contado');
+            $("#codigocliente").val('0001');
+            $("#nombreclientecontado").val('');
+            $("#nombreclientebuscar").val('');
+            $("#btnconfirmarcliente").prop('disabled',true);
+            $("#codigocliente").prop('disabled',false);
+            $("#tablabusquedacliente > tbody").html("");
+
+            CargarSaldo();
+
+    });
+
+    //selectrow factura (desplegar factura)
+    $('html').on('click','.selectrowfactura', function () {
+        event.preventDefault();
+        var row=$(this).closest("tr");
+        var rowIndex = row.index();
+        //var precio=$('#preciocanalkilo').val();
+        //formato [id,fecha,total,saldo,cliente,cajero]
+        //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
+        //agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
+        CargarFactura(facturaspend[rowIndex][0],facturaspend[rowIndex][4],facturaspend[rowIndex][5]);
+    });
+
+
+    $('html').on('click','.selectrowcliente', function () {
+        event.preventDefault();
+        var row=$(this).closest("tr");
+        var rowIndex = row.index();
+
+        var codigo = codigobusquedacliente[rowIndex][0];
+        var nombre = codigobusquedacliente[rowIndex][1];
+        var apellido = codigobusquedacliente[rowIndex][2];
+        cliente=codigobusquedacliente[rowIndex][3];
+        $("#tablabusquedacliente > tbody").html("");
+        $('#codigocliente').val(codigo);
+        $('#nombrecliente').val(nombre+' '+apellido);
+        $("#cliente").val($("#nombrecliente").val());
+        $("#nombrecliente").val('Cliente Contado');
+        $("#codigocliente").val('0001');
+        $("#btnconfirmarcliente").prop('disabled',true);
+        $("#codigocliente").prop('disabled',false);
+        $("#nombreclientecontado").val('');
+        $("#nombreclientebuscar").val('');
+        $('.cd-panelbuscarcliente').removeClass('is-visible');
+        blurElement('.blurlines',0);
+        CargarSaldo();
+
+
+    });
+
 
     }//main
 
@@ -518,6 +542,81 @@ function Imprimir(){
     event.preventDefault();
     $( "#factura").printArea();
 }
+
+
+function CargarSaldo(){
+    $("#tablafacturaspend > tbody").html("");
+    facturaspend=[];
+    var cuentascobrar=$.get('/api/saldocobrar/?cliente='+cliente,function(){});
+    idcuentacobrar=cuentascobrar.responseJSON[0].id;
+    totalsaldo=cuentascobrar.responseJSON[0].total;
+
+    $('#saldototal').val(cuentascobrar.responseJSON[0].total.toFixed(2));
+    var matrixcobrar=cuentascobrar.responseJSON[0].pending;
+
+    $.each( matrixcobrar, function(i){
+        llenartablafacturas(matrixcobrar[i]);
+    });
+
+    $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+}
+
+function llenartablafacturas (factura){
+    var ventapend=$.get('/api/venta/'+factura+'/',function(){});
+    //console.log(ventapend);
+    //formato [id,fecha,total,saldo,cliente,cajero]
+    facturaspend.push([ventapend.responseJSON.id,ventapend.responseJSON.date,ventapend.responseJSON.total,ventapend.responseJSON.saldo,ventapend.responseJSON.client,ventapend.responseJSON.cashier]);
+    $('#tablafacturaspend > tbody:last').append('<tr><td>' + ventapend.responseJSON.id + '</td><td>' + ventapend.responseJSON.date +
+    '</td><td class=precio>' + ventapend.responseJSON.total.toFixed(2) + '</td><td class=precio >' + ventapend.responseJSON.saldo.toFixed(2) +
+    '</td><td><button  type="button" class=" btn btn-success form-control selectrowfactura " id="btnelegir"><span class="glyphicon glyphicon-menu-right"></span></button></td></tr>');
+
+}
+
+function CargarFactura(factura,cliente2,usuario2){
+    $("#tablafactura > tbody").html("");
+    var clientefactura=$.get('/api/clientes/'+cliente2+'/',function(){});
+    var cajerofactura=$.get('/api/cajeros/'+usuario2+'/',function(){});
+    var venta=$.get('/api/venta/'+factura+'/',function(){});
+    var matrixproductos=venta.responseJSON.detalleproductos;
+    var tipoventafact='CRÉDITO.';
+    //if($("#pagacontipo").val()==3){
+    //    tipoventafact='CRÉDITO.';
+    //}
+
+    $('.facturanumfact').html(' '+factura);
+    $('.tipoventafact').html(' '+tipoventafact);
+    $('.fechafact').html('  '+venta.responseJSON.date +' '+venta.responseJSON.time);
+    $('.clientefact').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
+    $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
+
+    $.each( matrixproductos, function(i){
+        var detalleint=$.get('/api/detalleproducto/'+matrixproductos[i]+'/',function(){});
+        var producto=$.get('/api/productos/'+detalleint.responseJSON.producto+'/',function(){});
+        $('#tablafactura > tbody:last').append('<tr><td> ' +detalleint.responseJSON.cantidad+ ' </td><td>' + producto.responseJSON.description+ '</td><td class="precio">' +detalleint.responseJSON.total.toFixed(2)+ '</td></tr>');
+    });
+    if(venta.responseJSON.descopor>0){
+        $('.descueentofactleft').html('DESCUENTO '+venta.responseJSON.descopor +'%');
+    }
+
+    $('.subtotalfactright').html(venta.responseJSON.subtotal.toFixed(2));
+    $('.descueentofactright').html(venta.responseJSON.desctocol.toFixed(2));
+    $('.ivfactright').html(venta.responseJSON.iv.toFixed(2));
+    $('.totalfactright').html(venta.responseJSON.total.toFixed(2));
+
+    $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+    //$('.sidetotales').hide();
+    //('.factura:hidden').show();
+}
+
+
 
 function blurElement(element, size){
             var filterVal = 'blur('+size+'px)';
@@ -988,7 +1087,7 @@ function RegistarVenta(){
     guardardetalleproducto();
     guardarventa();
     descontarinventarios();
-    generarfactura();
+    //generarfactura();
     Imprimir();
     $('.cd-panelpagar').removeClass('is-visible');
     blurElement('.blurlines',0);
@@ -1121,83 +1220,77 @@ function guardardetalleproducto(){
 
 function descontarinventarios(){
     $.each( matrixventa, function(i){
+        var productodatos = $.get('/api/productos/'+matrixventa[i][7]+'/',function(){});
+        console.log(productodatos.responseJSON.inventory);
+        console.log(matrixventa[i][3]);
+        nuevaext= productodatos.responseJSON.inventory-matrixventa[i][3];
+        console.log(nuevaext);
+        //patch al producto
+        $.ajax({
+          method: "PATCH",
+          url: "/api/productos/"+productodatos.responseJSON.id+"/",
 
-        if(matrixventa[i][0]==4001||matrixventa[i][0]==5001){
+          data: JSON.stringify({
 
-        }
-        else{
-            var productodatos = $.get('/api/productos/'+matrixventa[i][7]+'/',function(){});
-            console.log(productodatos.responseJSON.inventory);
-            console.log(matrixventa[i][3]);
-            nuevaext= productodatos.responseJSON.inventory-matrixventa[i][3];
-            console.log(nuevaext);
-            //patch al producto
-            $.ajax({
-              method: "PATCH",
-              url: "/api/productos/"+productodatos.responseJSON.id+"/",
+            "inventory": nuevaext
 
-              data: JSON.stringify({
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+        })
+        .fail(function (data) {
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        })
+        .success(function () {
+            //success fuction.
+            //crear la salida de inventario
+                $.ajax({
+                  method: "POST",
+                  url: "/api/inventariosalida/",
 
-                "inventory": nuevaext
+                  data: JSON.stringify({
+                        "tipo": 1,
+                        "datos": 'Salida por venta, Factura # '+ventaid,
+                        "producto": matrixventa[i][7],
+                        "peso": matrixventa[i][3],
+                        "nuevopeso": nuevaext,
+                        "date": today,
+                        "time": tiempoahora(),
+                        "usuario": usuario
+                    }),//JSON object
+                      contentType:"application/json; charset=utf-8",
+                      dataType:"json"
+                    })
+                  .success(function() {
 
-                }),//JSON object
-                  contentType:"application/json; charset=utf-8",
-                  dataType:"json"
-            })
-            .fail(function (data) {
-                console.log(data.responseText);
-                alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-            })
-            .success(function () {
-                //success fuction.
-                //crear la salida de inventario
-                    $.ajax({
-                      method: "POST",
-                      url: "/api/inventariosalida/",
+                            var prodinventario=$.get('/api/inventarioresumen/?producto='+matrixventa[i][7],function(){});
 
-                      data: JSON.stringify({
-                            "tipo": 1,
-                            "datos": 'Salida por venta, Factura # '+ventaid,
-                            "producto": matrixventa[i][7],
-                            "peso": matrixventa[i][3],
-                            "nuevopeso": nuevaext,
-                            "date": today,
-                            "time": tiempoahora(),
-                            "usuario": usuario
-                        }),//JSON object
-                          contentType:"application/json; charset=utf-8",
-                          dataType:"json"
-                        })
-                      .success(function() {
+                            $.ajax({
+                                    method: "PATCH",
+                                    url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
 
-                                var prodinventario=$.get('/api/inventarioresumen/?producto='+matrixventa[i][7],function(){});
+                                    data: JSON.stringify({
 
-                                $.ajax({
-                                        method: "PATCH",
-                                        url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
+                                        "cantidad": nuevaext
 
-                                        data: JSON.stringify({
+                                    }),//JSON object
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json"
+                            })
+                            .success(function () {
 
-                                            "cantidad": nuevaext
+                            })
+                            .fail(function (data) {
+                                alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                            });
 
-                                        }),//JSON object
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json"
-                                })
-                                .success(function () {
+                    })
+                    .fail(function(data) {
+                    alertify.alert("Hubo un problema al crear la salida de inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                    });
 
-                                })
-                                .fail(function (data) {
-                                    alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-                                });
-
-                        })
-                        .fail(function(data) {
-                        alertify.alert("Hubo un problema al crear la salida de inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-                        });
-
-            });//success func
-        }//else
+        });//success func
     });//each
     
 }
