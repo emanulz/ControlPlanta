@@ -5,6 +5,9 @@ var cliente=1;
 var idcuentacobrar=1;
 var facturaspend=[];
 var totalsaldo;
+var tipocambiodolares;
+var totalabono;
+var totalabonodolares;
 
 //
 
@@ -125,27 +128,7 @@ function main () {
            // }
         });
 
-        //PANEL DE BUSCAR CLIENTE
 
-        $('.btnbuscarcliente').on('click', function(event){
-        event.preventDefault();
-        $('.cd-panelbuscarcliente').addClass('is-visible');
-        blurElement('.blurlines',2);
-        });
-        $('.cd-panelbuscarcliente').on('click', function(event){
-            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                $('.cd-panelbuscarcliente').removeClass('is-visible');
-                blurElement('.blurlines',0);
-                event.preventDefault();
-            }
-        });
-        $('#btncerrarbuscarcliente').on('click', function(event){
-            //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                $('.cd-panelbuscarcliente').removeClass('is-visible');
-                blurElement('.blurlines',0);
-                event.preventDefault();
-           // }
-        });
 
         //PANEL DE BUSCAR CANAL
         $('.cd-panelcanal').on('click', function(event){
@@ -323,52 +306,6 @@ function main () {
              }
        });
 
-        $( "#pagacontipo" ).change(function() {
-            if( $("#pagacontipo").val()==1){
-                $(".pagotarjeta").hide();
-                $(".credito").hide();
-                $(".pagoefectivo:hidden").show();
-                $("#montoefectivo").val(0);
-                vuelto();
-                $(".pagaconpagar").html('₡ 0,00');
-                $(".vueltopagar").html('₡ 0,00');
-            }
-            if( $("#pagacontipo").val()==2){
-                $(".pagoefectivo").hide();
-                $(".credito").hide();
-                $(".pagotarjeta:hidden").show();
-                $("#montoefectivo").val(0);
-                vuelto();
-                $(".pagaconpagar").html('TARJETA');
-                $(".vueltopagar").html('₡ 0,00');
-            }
-            if( $("#pagacontipo").val()==3){
-                $('.errorsaldoactual').hide();
-                $('.errornocredito').hide();
-                $(".pagoefectivo").hide();
-                $(".pagotarjeta").hide();
-                $(".credito:hidden").show();
-                $("#montoefectivo").val(0);
-                var cliente2=$.get('/api/clientes/'+cliente+'/',function(){});
-                //cliente=cliente2.responseJSON[0].id;
-                $("#nombreclientecred").val(cliente2.responseJSON.name+' '+cliente2.responseJSON.last_name);
-                $("#limitecred").val('₡'+cliente2.responseJSON.credit_limit);
-                var saldos = $.get('/api/saldocobrar/?cliente='+cliente,function(){});
-
-                $("#saldocred").val('₡'+saldos.responseJSON[0].total);
-
-                if((saldos.responseJSON[0].total+totalventa)>cliente2.responseJSON.credit_limit){
-                    $('.errorsaldoactual:hidden').show();
-                }
-                if(cliente2.responseJSON.credit==false){
-                    $('.errorsaldoactual').hide();
-                    $('.errornocredito:hidden').show();
-                }
-                vuelto();
-                $(".pagaconpagar").html('CRÉDITO');
-                $(".vueltopagar").html('₡ 0,00');
-            }
-        });
 
         //botones
 
@@ -406,7 +343,7 @@ function main () {
         });
 
         //boton de busqueda en panel de busqueda cliente
-        $("#Btnbuscarcliente").on("click",BuscarCliente);
+
         //boton de descuento
         $("#btndescuento").on("click",function(){
             Aplicardescuento();
@@ -471,69 +408,173 @@ function main () {
         $("#nombrecliente").val('Cliente Contado').prop("disabled",true);
         $("#BtnPrint").on("click",Imprimir);
 
-    //CUENTAS COBRAR
+        //CUENTAS COBRAR #################
 
-    $("#btnconfirmarcliente").on("click",function(){
+        var tipocambiodolarget=$.get('/api/variableglobal/?nombre=cambiodolar',function(){});
+        tipocambiodolares=tipocambiodolarget.responseJSON[0].valornum;
+
+        //botones
+        $("#Btnbuscarcliente").on("click",BuscarCliente);
+        $("#btnconfirmarcliente").on("click",function(){
+                $("#cliente").val($("#nombrecliente").val());
+                $('.cd-panelbuscarcliente').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                $("#nombrecliente").val('Cliente Contado');
+                var a = $("#codigocliente").val();
+                var cliente2=$.get('/api/clientes/?code='+a,function(){});
+                cliente=cliente2.responseJSON[0].id;
+                //console.log(cliente);
+
+                $("#nombrecliente").val('Cliente Contado');
+                $("#codigocliente").val('0001');
+                $("#nombreclientecontado").val('');
+                $("#nombreclientebuscar").val('');
+                $("#btnconfirmarcliente").prop('disabled',true);
+                $("#codigocliente").prop('disabled',false);
+                $("#tablabusquedacliente > tbody").html("");
+
+                CargarSaldo();
+
+        });
+
+        //selectrow factura (desplegar factura)
+
+        $('html').on('click','.selectrowfactura', function () {
+            event.preventDefault();
+            var row=$(this).closest("tr");
+            var rowIndex = row.index();
+            //var precio=$('#preciocanalkilo').val();
+            //formato [id,fecha,total,saldo,cliente,cajero]
+            //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
+            //agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
+            $('.factura:hidden').show();
+            CargarFactura(facturaspend[rowIndex][0],facturaspend[rowIndex][4],facturaspend[rowIndex][5]);
+        });
+
+        //Eventos Change
+
+        $("#montoabono").bind("change paste keyup", function() {
+            TotalesAbono();
+        });
+
+        $( "#monedaabono" ).change(function() {
+            TotalesAbono();
+         });
+
+        $( "#pagacontipo" ).change(function() {
+                if( $("#pagacontipo").val()==1){
+                    $(".pagotarjeta").hide();
+                    $(".transferencia").hide();
+                    $(".cheque").hide();
+                }
+                if( $("#pagacontipo").val()==2){
+                    $(".pagoefectivo").hide();
+                    $(".pagotarjeta:hidden").show();
+                    $(".transferencia").hide();
+                    $(".cheque").hide();
+                }
+                if( $("#pagacontipo").val()==4){
+                    $(".pagoefectivo").hide();
+                    $(".pagotarjeta").hide();
+                    $(".transferencia:hidden").show();
+                    $(".cheque").hide();
+                }
+                if( $("#pagacontipo").val()==5){
+                    $(".pagoefectivo").hide();
+                    $(".pagotarjeta").hide();
+                    $(".transferencia").hide();
+                    $(".cheque:hidden").show();
+                }
+                if( $("#pagacontipo").val()==3){
+                    $('.errorsaldoactual').hide();
+                    $('.errornocredito').hide();
+                    $(".pagoefectivo").hide();
+                    $(".pagotarjeta").hide();
+                    $(".credito:hidden").show();
+                    $("#montoefectivo").val(0);
+                    var cliente2=$.get('/api/clientes/'+cliente+'/',function(){});
+                    //cliente=cliente2.responseJSON[0].id;
+                    $("#nombreclientecred").val(cliente2.responseJSON.name+' '+cliente2.responseJSON.last_name);
+                    $("#limitecred").val('₡'+cliente2.responseJSON.credit_limit);
+                    var saldos = $.get('/api/saldocobrar/?cliente='+cliente,function(){});
+
+                    $("#saldocred").val('₡'+saldos.responseJSON[0].total);
+
+                    if((saldos.responseJSON[0].total+totalventa)>cliente2.responseJSON.credit_limit){
+                        $('.errorsaldoactual:hidden').show();
+                    }
+                    if(cliente2.responseJSON.credit==false){
+                        $('.errorsaldoactual').hide();
+                        $('.errornocredito:hidden').show();
+                    }
+                    vuelto();
+                    $(".pagaconpagar").html('CRÉDITO');
+                    $(".vueltopagar").html('₡ 0,00');
+                }
+            });
+
+        $('html').on('click','.selectrowcliente', function () {
+            event.preventDefault();
+            var row=$(this).closest("tr");
+            var rowIndex = row.index();
+
+            var codigo = codigobusquedacliente[rowIndex][0];
+            var nombre = codigobusquedacliente[rowIndex][1];
+            var apellido = codigobusquedacliente[rowIndex][2];
+            cliente=codigobusquedacliente[rowIndex][3];
+            $("#tablabusquedacliente > tbody").html("");
+            $('#codigocliente').val(codigo);
+            $('#nombrecliente').val(nombre+' '+apellido);
             $("#cliente").val($("#nombrecliente").val());
-            $('.cd-panelbuscarcliente').removeClass('is-visible');
-            blurElement('.blurlines',0);
-            $("#nombrecliente").val('Cliente Contado');
-            var a = $("#codigocliente").val();
-            var cliente2=$.get('/api/clientes/?code='+a,function(){});
-            cliente=cliente2.responseJSON[0].id;
-            console.log(cliente);
-
             $("#nombrecliente").val('Cliente Contado');
             $("#codigocliente").val('0001');
-            $("#nombreclientecontado").val('');
-            $("#nombreclientebuscar").val('');
             $("#btnconfirmarcliente").prop('disabled',true);
             $("#codigocliente").prop('disabled',false);
-            $("#tablabusquedacliente > tbody").html("");
-
+            $("#nombreclientecontado").val('');
+            $("#nombreclientebuscar").val('');
+            $('.cd-panelbuscarcliente').removeClass('is-visible');
+            blurElement('.blurlines',0);
             CargarSaldo();
+        });
 
-    });
+        //PANEL DE ABONO
 
-    //selectrow factura (desplegar factura)
-    $('html').on('click','.selectrowfactura', function () {
+        $('.btnabono').on('click', function(event){
+            event.preventDefault();
+
+            $('.cd-panelabono').addClass('is-visible');
+            blurElement('.blurlines',2);
+        });
+        $('.cd-panelabono').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelabono').removeClass('is-visible');
+
+                blurElement('.blurlines',0);
+                event.preventDefault();
+            }
+        });
+
+        //PANEL DE BUSCAR CLIENTE
+
+        $('.btnbuscarcliente').on('click', function(event){
         event.preventDefault();
-        var row=$(this).closest("tr");
-        var rowIndex = row.index();
-        //var precio=$('#preciocanalkilo').val();
-        //formato [id,fecha,total,saldo,cliente,cajero]
-        //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
-        //agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
-        CargarFactura(facturaspend[rowIndex][0],facturaspend[rowIndex][4],facturaspend[rowIndex][5]);
-    });
-
-
-    $('html').on('click','.selectrowcliente', function () {
-        event.preventDefault();
-        var row=$(this).closest("tr");
-        var rowIndex = row.index();
-
-        var codigo = codigobusquedacliente[rowIndex][0];
-        var nombre = codigobusquedacliente[rowIndex][1];
-        var apellido = codigobusquedacliente[rowIndex][2];
-        cliente=codigobusquedacliente[rowIndex][3];
-        $("#tablabusquedacliente > tbody").html("");
-        $('#codigocliente').val(codigo);
-        $('#nombrecliente').val(nombre+' '+apellido);
-        $("#cliente").val($("#nombrecliente").val());
-        $("#nombrecliente").val('Cliente Contado');
-        $("#codigocliente").val('0001');
-        $("#btnconfirmarcliente").prop('disabled',true);
-        $("#codigocliente").prop('disabled',false);
-        $("#nombreclientecontado").val('');
-        $("#nombreclientebuscar").val('');
-        $('.cd-panelbuscarcliente').removeClass('is-visible');
-        blurElement('.blurlines',0);
-        CargarSaldo();
-
-
-    });
-
+        $('.cd-panelbuscarcliente').addClass('is-visible');
+        blurElement('.blurlines',2);
+        });
+        $('.cd-panelbuscarcliente').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelbuscarcliente').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                event.preventDefault();
+            }
+        });
+        $('#btncerrarbuscarcliente').on('click', function(event){
+            //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelbuscarcliente').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                event.preventDefault();
+           // }
+        });
 
     }//main
 
@@ -546,6 +587,9 @@ function Imprimir(){
 
 function CargarSaldo(){
     $("#tablafacturaspend > tbody").html("");
+    $('.nosaldo').hide();
+    $("#BtnAbono").prop('disabled',true);
+
     facturaspend=[];
     var cuentascobrar=$.get('/api/saldocobrar/?cliente='+cliente,function(){});
     idcuentacobrar=cuentascobrar.responseJSON[0].id;
@@ -563,6 +607,13 @@ function CargarSaldo(){
         centsSeparator: ',',
         thousandsSeparator: '.'
     });
+
+    if(totalsaldo==0){
+        $('.nosaldo:hidden').show();
+    }
+    else{
+        $("#BtnAbono").prop('disabled',false);
+    }
 }
 
 function llenartablafacturas (factura){
@@ -595,8 +646,8 @@ function CargarFactura(factura,cliente2,usuario2){
 
     $.each( matrixproductos, function(i){
         var detalleint=$.get('/api/detalleproducto/'+matrixproductos[i]+'/',function(){});
-        var producto=$.get('/api/productos/'+detalleint.responseJSON.producto+'/',function(){});
-        $('#tablafactura > tbody:last').append('<tr><td> ' +detalleint.responseJSON.cantidad+ ' </td><td>' + producto.responseJSON.description+ '</td><td class="precio">' +detalleint.responseJSON.total.toFixed(2)+ '</td></tr>');
+        //var producto=$.get('/api/productos/'+detalleint.responseJSON.producto+'/',function(){});
+        $('#tablafactura > tbody:last').append('<tr><td> ' +detalleint.responseJSON.cantidad+ ' </td><td>' + detalleint.responseJSON.description+ '</td><td class="precio">' +detalleint.responseJSON.total.toFixed(2)+ '</td></tr>');
     });
     if(venta.responseJSON.descopor>0){
         $('.descueentofactleft').html('DESCUENTO '+venta.responseJSON.descopor +'%');
@@ -646,10 +697,10 @@ function getcliente(){
 
 }
 
-function vuelto(){
-
+function TotalesAbono(){
     var controlpagacon;
-            var a =$( "#montoefectivo").val();
+            var moneda=$( "#monedaabono").val();
+            var a =$( "#montoabono").val();
             var aa= parseFloat(a).toFixed(2);
             //console.log(a);
             var aaa=isNaN(a);
@@ -657,40 +708,35 @@ function vuelto(){
             controlpagacon = !aaa;
 
             if(controlpagacon){
-                $('.pagaconpagar').html(aa);
-                //console.log('IF');
-                $('.pagaconpagar').priceFormat({
-                prefix: '₡ ',
-                centsSeparator: ',',
-                thousandsSeparator: '.'
-                });
-                vueltoint=(aa-totalventa).toFixed(2);
-                if(vueltoint<0){
-                    efectivolisto=false;
-                    $('#vuelto').val('FALTA EFECTIVO');
-                    $('.vueltopagar').html('-');
+                if(moneda==1){
+                    $('.totalabonocolones').html(aa);
+                    $('.totalabonodolares').html(0);
+                    totalabono=aa;
+                    totalabonodolares=0;
                 }
-                else{
-                efectivolisto=true;
-                vueltoguardar=vueltoint;
-                efectivoguardar=a;
-                $('#vuelto').val(vueltoint);
-                $('.vueltopagar').html(vueltoint);
+                if(moneda==2){
+                    $('.totalabonodolares').html(aa);
+                    $('.totalabonocolones').html((aa*tipocambiodolares).toFixed(2));
+                    totalabono=aa*tipocambiodolares;
+                    totalabonodolares=aa;
+                }
+
                 $('.precio').priceFormat({
                 prefix: '₡ ',
                 centsSeparator: ',',
                 thousandsSeparator: '.'
                 });
-                }
-
+                $('.preciodolar').priceFormat({
+                prefix: '$ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+                });
             }
             else{
                 //console.log('ELSE');
-                $('.pagaconpagar').html('-');
-
+                $('.totalabonodolares').html('-');
+                $('.totalabonocolones').html('-');
             }
-
-
 }
 
 function BuscarCliente(){

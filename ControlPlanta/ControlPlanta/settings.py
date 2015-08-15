@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'inventarios',
     'frontend',
     'cuentasCobrar',
+    'variablesGlobales',
 
 )
 
@@ -88,6 +89,7 @@ SUIT_CONFIG = {
 
     'MENU': (
         {'app': 'auth', 'label': 'Usuarios', 'icon': 'icon-user'},
+        {'app': 'variablesglobales', 'label': 'Variables del sistema', 'icon': 'icon-lock'},
         {'app': 'productos', 'label': 'Productos', 'icon': 'icon-gift'},
         {'app': 'clientes', 'label': 'Clientes', 'icon': 'icon-briefcase'},
         {'app': 'cuentascobrar', 'label': 'Cuentas por cobrar', 'icon': 'icon-hdd'},

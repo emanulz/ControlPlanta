@@ -14,7 +14,7 @@ class ventaadmin(admin.ModelAdmin):
 
 @admin.register(DetalleProductos)
 class DetalleProductosAdmin(admin.ModelAdmin):
-    list_display = ('id','producto','preciouni','cantidad','useiv','total',)
+    list_display = ('id','producto','description','preciouni','cantidad','useiv','total',)
     search_fields = ('producto','preciouni','cantidad')
 
     def useiv(self, obj):

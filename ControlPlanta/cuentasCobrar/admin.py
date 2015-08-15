@@ -14,4 +14,5 @@ class AbonosAdmin(admin.ModelAdmin):
 class DetalleCuentaAdmin(admin.ModelAdmin):
     list_display = ('id','cliente','total')
     search_fields = ('id','cliente','total')
+    filter_horizontal = ('pending', 'abonos')
 

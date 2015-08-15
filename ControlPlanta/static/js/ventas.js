@@ -405,7 +405,7 @@ function main () {
             var a = $("#codigocliente").val();
             var cliente2=$.get('/api/clientes/?code='+a,function(){});
             cliente=cliente2.responseJSON[0].id;
-            console.log(cliente);
+            //console.log(cliente);
 
             $("#nombrecliente").val('Cliente Contado');
             $("#codigocliente").val('0001');
@@ -1099,6 +1099,7 @@ function guardardetalleproducto(){
 
           data: JSON.stringify({
                 "producto": matrixventa[i][7],
+                "description": matrixventa[i][1],
                 "preciouni": matrixventa[i][2],
                 "cantidad": matrixventa[i][3],
                 "iv": matrixventa[i][8],
@@ -1121,16 +1122,58 @@ function guardardetalleproducto(){
 
 function descontarinventarios(){
     $.each( matrixventa, function(i){
+        var productodatos = $.get('/api/productos/'+matrixventa[i][7]+'/',function(){});
 
-        if(matrixventa[i][0]==4001||matrixventa[i][0]==5001){
+        if(matrixventa[i][0]==4001||matrixventa[i][0]==5001){ //SI ES CANAL
 
+            $.ajax({//patch canal
+             method: "PATCH",
+                url: "/api/canales/"+matrixventa[i][10]+"/",//es donde esta almacenado el id del canal
+
+                data: JSON.stringify({
+
+                "vendido": true
+
+                }),//JSON object
+                  contentType:"application/json; charset=utf-8",
+                  dataType:"json"
+            })
+                .fail(function (data) {
+                    console.log(data.responseText);
+                    alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                })
+                .success(function () {
+                //crear salida inventario
+                    $.ajax({
+                        method: "POST",
+                        url: "/api/inventariosalida/",
+
+                        data: JSON.stringify({
+                            "tipo": 1,
+                            "datos": 'Salida por venta, Factura # '+ventaid,
+                            "producto": matrixventa[i][7],
+                            "peso": matrixventa[i][3],
+                            "nuevopeso": 0,
+                            "date": today,
+                            "time": tiempoahora(),
+                            "usuario": usuario
+                        }),//JSON object
+                          contentType:"application/json; charset=utf-8",
+                          dataType:"json"
+                        })
+                        .success(function() {
+
+                        })
+                        .fail(function(data) {
+                        alertify.alert("Hubo un problema al crear la salida de inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                        });
+            });//sucess
         }
-        else{
-            var productodatos = $.get('/api/productos/'+matrixventa[i][7]+'/',function(){});
-            console.log(productodatos.responseJSON.inventory);
-            console.log(matrixventa[i][3]);
+        else{// SI NO ES CANAL
+            //console.log(productodatos.responseJSON.inventory);
+            //console.log(matrixventa[i][3]);
             nuevaext= productodatos.responseJSON.inventory-matrixventa[i][3];
-            console.log(nuevaext);
+            //console.log(nuevaext);
             //patch al producto
             $.ajax({
               method: "PATCH",

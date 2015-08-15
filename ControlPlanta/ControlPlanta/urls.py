@@ -22,6 +22,7 @@ from clientes.views import ClientViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
 from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet, \
     InventariosView
+from variablesGlobales.views import VariableGlobalViewSet
 from ventas.views import VentasView, DetallePagoViewSet, DetalleProductosViewSet, VentaViewSet, CierreView
 from lotes.views import LoteCreate, LoteViewSet
 from frontend.views import LandingView, TrazabilidadView
@@ -52,6 +53,8 @@ router.register(r'detalleproducto', DetalleProductosViewSet)
 router.register(r'venta', VentaViewSet)
 router.register(r'abonoscobrar', AbonosViewSet)
 router.register(r'saldocobrar', DetalleCuentaViewSet)
+router.register(r'variableglobal', VariableGlobalViewSet)
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),

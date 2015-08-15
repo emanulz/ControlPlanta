@@ -50,14 +50,14 @@ class DetalleProductosSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DetalleProductos
-        fields =('id','producto','preciouni','cantidad','iv','total')
+        fields =('id','producto','description','preciouni','cantidad','iv','total')
 
 class DetalleProductosViewSet(viewsets.ModelViewSet):
 
     serializer_class = DetalleProductosSerializer
     queryset = DetalleProductos.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','producto','preciouni','cantidad','iv','total')
+    filter_fields=('id','producto','description','preciouni','cantidad','iv','total')
 
 #VENTA API
 
