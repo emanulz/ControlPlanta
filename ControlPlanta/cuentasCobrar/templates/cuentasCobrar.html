@@ -418,17 +418,21 @@
                 </div>
                 <div class="totalespago form-group" >
                      <div class="col-sm-12">
-                        <label class="tituloventa2" for="tituloventa">Totales:</label>
-                        <br/>
-                        <br/>
-                    </div>
+                         <label class="tituloventa2" for="tituloventa">Totales:</label>
+                         <br/>
+                         <br/>
+                         <div hidden class="col-sm-11 alert alert-success fade in montomayorsaldo">
+                             <a href="#" class="close" data-dismiss="alert">&times;</a>
+                             <strong>El Monto a abonar es mayor que el total del saldo, se liquidará el total de la deuda.</strong><br/>
+                         </div>
+                     </div>
                       <div class="form-group col-sm-6">
                          <div class="col-sm-12">
                             <label for="totalabonocolones">Total Colones:</label>
                              <br/><br/>
                         </div>
                          <div class="col-sm-12 totalesdata2" >
-                            <span class="precio totalabonocolones">-</span>
+                            <span class="precio totalabonocolones">₡ 0,00</span>
                         </div>
                      </div>
                       <div class="form-group col-sm-6">
@@ -437,7 +441,7 @@
                                  <br/><br/>
                             </div>
                              <div class="col-sm-12 totalesdata2" >
-                                <span class="preciodolar totalabonodolares">-</span>
+                                <span class="preciodolar totalabonodolares">$ 0,00</span>
                             </div>
                         </div>
 

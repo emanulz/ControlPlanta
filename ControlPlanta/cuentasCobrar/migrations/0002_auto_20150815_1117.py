@@ -11,9 +11,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='detallecuenta',
-            name='cliente',
-            field=models.OneToOneField(verbose_name=b'Cliente', to='clientes.Cliente'),
+        migrations.RenameField(
+            model_name='abono',
+            old_name='saldoreal',
+            new_name='saldoactual',
         ),
     ]

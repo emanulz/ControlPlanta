@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cuentasCobrar', '0002_auto_20150807_2220'),
+        ('variablesGlobales', '0002_variableglobal_descripcion'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='detallecuenta',
-            name='abonos',
-            field=models.ManyToManyField(to='cuentasCobrar.Abonos', verbose_name=b'Detalle de abonos', blank=True),
+            model_name='variableglobal',
+            name='valortext',
+            field=models.CharField(max_length=255, verbose_name=b'Valor texto', blank=True),
         ),
     ]

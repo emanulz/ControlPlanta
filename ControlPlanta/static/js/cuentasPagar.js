@@ -667,7 +667,63 @@ function CargarFactura(factura,cliente2,usuario2){
     //('.factura:hidden').show();
 }
 
+function TotalesAbono(){
+    var controlpagacon;
+            var moneda=$( "#monedaabono").val();
+            var a =$( "#montoabono").val();
+            var aa= parseFloat(a).toFixed(2);
+            //console.log(a);
+            var aaa=isNaN(a);
+            var vueltoint;
+            controlpagacon = !aaa;
 
+            if(controlpagacon){
+                if(moneda==1){
+                    $('.totalabonocolones').html(aa);
+                    $('.totalabonodolares').html(0);
+                    totalabono=aa;
+                    totalabonodolares=0;
+                }
+                if(moneda==2){
+                    $('.totalabonodolares').html(aa);
+                    $('.totalabonocolones').html((aa*tipocambiodolares).toFixed(2));
+                    totalabono=aa*tipocambiodolares;
+                    totalabonodolares=aa;
+                }
+                if(totalabono>=totalsaldo) {
+                    $('.totalabonocolones').html(totalsaldo.toFixed(2));
+                    totalabono = totalsaldo;
+                    $(".montomayorsaldo:hidden").show();
+                    if (moneda == 1) {
+                        $('.totalabonodolares').html(0);
+                        totalabonodolares = 0;
+                    }
+                    if (moneda == 2) {
+                        $('.totalabonodolares').html((totalsaldo / tipocambiodolares).toFixed(2));
+                        totalabonodolares = totalsaldo / tipocambiodolares;
+                    }
+                }
+                else{
+                    $(".montomayorsaldo").hide();
+                }
+
+                $('.precio').priceFormat({
+                prefix: '₡ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+                });
+                $('.preciodolar').priceFormat({
+                prefix: '$ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+                });
+            }
+            else{
+                //console.log('ELSE');
+                $('.totalabonodolares').html('-');
+                $('.totalabonocolones').html('-');
+            }
+}
 
 function blurElement(element, size){
             var filterVal = 'blur('+size+'px)';
@@ -697,47 +753,6 @@ function getcliente(){
 
 }
 
-function TotalesAbono(){
-    var controlpagacon;
-            var moneda=$( "#monedaabono").val();
-            var a =$( "#montoabono").val();
-            var aa= parseFloat(a).toFixed(2);
-            //console.log(a);
-            var aaa=isNaN(a);
-            var vueltoint;
-            controlpagacon = !aaa;
-
-            if(controlpagacon){
-                if(moneda==1){
-                    $('.totalabonocolones').html(aa);
-                    $('.totalabonodolares').html(0);
-                    totalabono=aa;
-                    totalabonodolares=0;
-                }
-                if(moneda==2){
-                    $('.totalabonodolares').html(aa);
-                    $('.totalabonocolones').html((aa*tipocambiodolares).toFixed(2));
-                    totalabono=aa*tipocambiodolares;
-                    totalabonodolares=aa;
-                }
-
-                $('.precio').priceFormat({
-                prefix: '₡ ',
-                centsSeparator: ',',
-                thousandsSeparator: '.'
-                });
-                $('.preciodolar').priceFormat({
-                prefix: '$ ',
-                centsSeparator: ',',
-                thousandsSeparator: '.'
-                });
-            }
-            else{
-                //console.log('ELSE');
-                $('.totalabonodolares').html('-');
-                $('.totalabonocolones').html('-');
-            }
-}
 
 function BuscarCliente(){
     codigobusquedacliente=[];

@@ -1,12 +1,12 @@
 from django.contrib import admin
 
 # Register your models here.
-from cuentasCobrar.models import Abonos,DetalleCuenta
+from cuentasCobrar.models import Abono,DetalleCuenta
 
 
-@admin.register(Abonos)
+@admin.register(Abono)
 class AbonosAdmin(admin.ModelAdmin):
-    list_display = ('id','date', 'time', 'detalle', 'monto', 'saldoant', 'saldoreal')
+    list_display = ('id','date', 'time', 'detalle', 'montocol','montodolar', 'saldoant', 'saldoactual')
     filter_horizontal = ('facturas',)
     search_fields = ('id','date')
 

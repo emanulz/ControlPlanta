@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from rest_framework import serializers,viewsets
-from cuentasCobrar.models import Abonos,DetalleCuenta
+from cuentasCobrar.models import Abono,DetalleCuenta
 
 # Create your views here.
 
@@ -18,17 +18,17 @@ class cuentasCobrarView(TemplateView):
 class AbonosSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Abonos
-        fields =('id','date', 'time', 'detalle','facturas' ,'monto', 'saldoant', 'saldoreal')
+        model = Abono
+        fields =('id','date', 'time', 'detalle','facturas' ,'moneda','montocol','montodolar','tipopago','tipotarjeta','digitos','autorizacion','transfnum', 'chequenum','banco','saldoant', 'saldoactual')
 
 
 # ViewroductSets define the view behavior.
 class AbonosViewSet(viewsets.ModelViewSet):
 
     serializer_class = AbonosSerializer
-    queryset = Abonos.objects.all()
+    queryset = Abono.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','date', 'time', 'detalle','facturas' ,'monto', 'saldoant', 'saldoreal')
+    filter_fields=('id','date', 'time', 'detalle','facturas' ,'moneda','montocol','montodolar','tipopago','tipotarjeta','digitos','autorizacion','transfnum', 'chequenum','banco','saldoant', 'saldoactual')
 
 class DetalleCuentaSerializer(serializers.ModelSerializer):
 
