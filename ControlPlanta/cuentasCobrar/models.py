@@ -31,8 +31,9 @@ class Abono(models.Model):
     digitos=models.IntegerField(blank=True,verbose_name='Últimos 4 digitos tarjeta',default=0000)
     autorizacion=models.IntegerField(blank=True,verbose_name='Número de autorización tarjeta',default=0000)
     transfnum=models.IntegerField(blank=True,verbose_name='Número de transferencia',default=0000)
+    bancotransf=models.CharField(max_length=255,verbose_name='Banco',blank=True)
     chequenum=models.IntegerField(blank=True,verbose_name='Número de cheque',default=0000)
-    banco=models.CharField(max_length=255,verbose_name='Banco',blank=True)
+    bancocheque=models.CharField(max_length=255,verbose_name='Banco',blank=True)
     saldoant=models.FloatField(default=0,verbose_name='Saldo Anterior ₡')
     saldoactual=models.FloatField(default=0,verbose_name='Saldo Actual ₡')
     def __unicode__(self):

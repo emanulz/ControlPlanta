@@ -373,19 +373,27 @@ function main () {
                 $("#nombreclientecred").val(cliente2.responseJSON.name+' '+cliente2.responseJSON.last_name);
                 $("#limitecred").val('₡'+cliente2.responseJSON.credit_limit);
                 var saldos = $.get('/api/saldocobrar/?cliente='+cliente,function(){});
-
-                $("#saldocred").val('₡'+saldos.responseJSON[0].total);
-
-                if((saldos.responseJSON[0].total+totalventa)>cliente2.responseJSON.credit_limit){
-                    $('.errorsaldoactual:hidden').show();
+                //console.log(saldos.responseJSON);
+                if(saldos.responseJSON.length==0){
+                    alertify.alert('Error','El cliente no posee cuenta en el apartado de cuentas por cobrar.');
+                    $("#pagacontipo").val(1);
+                    $(".credito").hide();
+                    $(".pagoefectivo:hidden").show();
                 }
-                if(cliente2.responseJSON.credit==false){
-                    $('.errorsaldoactual').hide();
-                    $('.errornocredito:hidden').show();
+                else{
+                    $("#saldocred").val('₡'+saldos.responseJSON[0].total);
+
+                    if((saldos.responseJSON[0].total+totalventa)>cliente2.responseJSON.credit_limit){
+                        $('.errorsaldoactual:hidden').show();
+                    }
+                    if(cliente2.responseJSON.credit==false){
+                        $('.errorsaldoactual').hide();
+                        $('.errornocredito:hidden').show();
+                    }
+                    vuelto();
+                    $(".pagaconpagar").html('CRÉDITO');
+                    $(".vueltopagar").html('₡ 0,00');
                 }
-                vuelto();
-                $(".pagaconpagar").html('CRÉDITO');
-                $(".vueltopagar").html('₡ 0,00');
             }
         });
 

@@ -19,7 +19,7 @@ class AbonosSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Abono
-        fields =('id','date', 'time', 'detalle','facturas' ,'moneda','montocol','montodolar','tipopago','tipotarjeta','digitos','autorizacion','transfnum', 'chequenum','banco','saldoant', 'saldoactual')
+        fields =('id','date', 'time', 'detalle','facturas' ,'moneda','montocol','montodolar','tipopago','tipotarjeta','digitos','autorizacion','transfnum','bancotransf', 'chequenum','bancocheque','saldoant', 'saldoactual')
 
 
 # ViewroductSets define the view behavior.
@@ -28,7 +28,7 @@ class AbonosViewSet(viewsets.ModelViewSet):
     serializer_class = AbonosSerializer
     queryset = Abono.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','date', 'time', 'detalle','facturas' ,'moneda','montocol','montodolar','tipopago','tipotarjeta','digitos','autorizacion','transfnum', 'chequenum','banco','saldoant', 'saldoactual')
+    filter_fields=('id','date', 'time', 'detalle','facturas' ,'moneda','montocol','montodolar','tipopago','tipotarjeta','digitos','autorizacion','transfnum','bancotransf', 'chequenum','bancocheque','saldoant', 'saldoactual')
 
 class DetalleCuentaSerializer(serializers.ModelSerializer):
 

@@ -4,10 +4,23 @@
 var cliente=1;
 var idcuentacobrar=1;
 var facturaspend=[];
+var facturasabono=[];
+var pendientes=[];
+var abonos=[];
 var totalsaldo;
+var saldorestante;
 var tipocambiodolares;
 var totalabono;
 var totalabonodolares;
+var liquidar=false;
+var restanteabono;
+
+//vars de modelo
+var tarjetaabono=6;
+var digitosabono=0;
+var authdatafono=0;
+var transfnumabono=0;
+var chequenumabono=0;
 
 //
 
@@ -415,6 +428,9 @@ function main () {
 
         //botones
         $("#Btnbuscarcliente").on("click",BuscarCliente);
+        $("#BtnconfirmarAbono").on("click",ChequearDatosabono);
+        $("#BtneditarAbono").on('click',EditardatosAbono);
+        $("#BtnRegistrarAbono").on('click',RegistrarAbono);
         $("#btnconfirmarcliente").on("click",function(){
                 $("#cliente").val($("#nombrecliente").val());
                 $('.cd-panelbuscarcliente').removeClass('is-visible');
@@ -584,6 +600,215 @@ function Imprimir(){
     $( "#factura").printArea();
 }
 
+function ChequearDatosabono(){
+    var control=false;
+
+    if($( "#pagacontipo").val()==1){//si es en efectivo
+        if($( "#montoabono").val()==''||$( "#montoabono").val()<=0){
+            alertify.alert('Error','El monto del abono tiene que ser mayor que cero.');
+        }
+        else{
+            control=true;
+            tarjetaabono=6;
+            digitosabono=0;
+            authdatafono=0;
+            transfnumabono=0;
+            chequenumabono=0;
+
+        }
+    }
+     if($( "#pagacontipo").val()==2){//si es con tarjeta
+        if($( "#montoabono").val()==''||$( "#montoabono").val()<=0||$( "#4digits").val()==''||$( "#authtarjeta").val()==''){
+            alertify.alert('Error','Hay datos incompletos o el monto es menor que cero, por favor revise los datos del monto y tarjeta.');
+        }
+        else{
+            control=true;
+            tarjetaabono=6;
+            digitosabono=$( "#4digits").val();
+            authdatafono=$( "#authtarjeta").val();
+            transfnumabono=0;
+            chequenumabono=0;
+        }
+    }
+     if($( "#pagacontipo").val()==4){//si es en transferencia
+        if($( "#montoabono").val()==''||$( "#montoabono").val()<=0||$( "#numtransf").val()==''){
+            alertify.alert('Error','Hay datos incompletos o el monto es menor que cero, por favor revise los datos del monto y transferencia.');
+        }
+        else {
+            control = true;
+            tarjetaabono = 6;
+            digitosabono = 0;
+            authdatafono = 0;
+            transfnumabono = $("#numtransf").val();
+            chequenumabono = 0;
+        }
+    }
+     if($( "#pagacontipo").val()==5){//si es en cheque
+         if($( "#montoabono").val()==''||$( "#montoabono").val()<=0||$( "#chequenum").val()==''){
+            alertify.alert('Error','Hay datos incompletos o el monto es menor que cero, por favor revise los datos del monto y cheque.');
+        }
+        else{
+            control=true;
+            tarjetaabono=6;
+            digitosabono=0;
+            authdatafono=0;
+            transfnumabono=0;
+            chequenumabono=$('#chequenum').val();
+        }
+    }
+    if (control==true){//si pasa los requisitos
+        //alertify.alert('Exito','Eeexitooo');
+        $('.datosdelabono').find(':input').prop('disabled', true);
+        $('#BtnconfirmarAbono').hide();
+        $('.btneditardatos:hidden').show();
+        $('.btnregistrarabono:hidden').show();
+        $("#BtneditarAbono").prop('disabled',false);
+        $("#BtnRegistrarAbono").prop('disabled',false);
+    }
+
+}
+
+function EditardatosAbono(){
+        $('.datosdelabono').find(':input').prop('disabled', false);
+        $('#BtnconfirmarAbono:hidden').show();
+        $('.btneditardatos').hide();
+        $('.btnregistrarabono').hide();
+}
+function RegistrarAbono(){
+    console.log('ENTRO A FUNC');
+    if(liquidar==true){
+        //llama a liquidar deuda
+    }
+    else{
+        console.log('ENTRO A FALSE');
+        var matrixpendientes=facturaspend;
+        $.each( matrixpendientes, function(i){
+            DescontarAbono(matrixpendientes[i][0],matrixpendientes[i][3]);
+        });
+        saldorestante=totalsaldo-totalabono;
+        //crear abono
+        CrearObjAbono();
+        //patch cuenta cobrar
+        patchresumensaldo(saldorestante);
+    }
+}
+function DescontarAbono(id,saldo){
+    if(restanteabono>0){//solo descuenta si queda saldo de lo que abona
+        facturasabono.push(id);
+        var restante=restanteabono-saldo;
+
+        if(restante>=0){
+            restanteabono=restante;
+            //patch factura con 0 de saldo
+            patchfacturasaldo(id,0);
+            //quitar id de facturas pendientes
+            pendientes.splice( $.inArray(id, pendientes), 1 );
+
+        }
+        else{
+            //patch factura con saldo = saldo -restanteabono
+            patchfacturasaldo(id,(saldo-restanteabono));
+            //
+            restanteabono=0;
+        }
+
+    }
+}
+
+function patchfacturasaldo(id,saldo){
+
+    $.ajax({
+        method: "PATCH",
+        url: "/api/venta/" + id + "/",
+
+        data: JSON.stringify({
+
+        "saldo": saldo
+
+        }),//JSON object
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+    })
+    .success(function () {
+
+    })
+    .fail(function (data) {
+        alertify.alert("Hubo un problema al crear el abono, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+    });
+
+}
+
+function patchresumensaldo(saldo){
+
+    $.ajax({
+        method: "PATCH",
+        url: "/api/saldocobrar/" + idcuentacobrar + "/",
+
+        data: JSON.stringify({
+
+        "total": saldo,
+        "pending": pendientes,
+        "abonos": abonos
+
+        }),//JSON object
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+    })
+    .success(function () {
+
+    })
+    .fail(function (data) {
+        alertify.alert("Hubo un problema al crear el abono, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+    });
+
+}
+
+function CrearObjAbono(){
+    var moneda;
+    if($('#monedaabono').val()==1){
+        moneda='Colones'
+    }
+    if($('#monedaabono').val()==1){
+        moneda='Dolares'
+    }
+    $.ajax({
+        method: "POST",
+        url: "/api/abonoscobrar/",
+        async: false,
+
+        data: JSON.stringify({
+        "date": today,
+        "time": tiempoahora(),
+        "detalle": "Abono a Factura(s) " + facturasabono,
+        "facturas": facturasabono,
+        "moneda": moneda,
+        "montocol": totalabono,
+        "montodolar": totalabonodolares,
+        "tipopago": $('#pagacontipo').val(),
+        "tipotarjeta": $('#tipotarjeta').val(),
+        "digitos": digitosabono,
+        "autorizacion": authdatafono,
+        "transfnum": transfnumabono,
+        "bancotransf": $('#bancotransf').html(),
+        "chequenum": chequenumabono,
+        "banco": $('#bancocheque').html(),
+        "saldoant": totalsaldo,
+        "saldoactual": saldorestante
+        }),//JSON object
+        contentType:"application/json; charset=utf-8",
+        dataType:"json"
+    })
+    .fail(function(data){
+        console.log(data.responseText);
+        alertify.alert("Hubo un problema al crear el abono, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+    })
+    .success(function(data){
+        //console.log(data.id);
+        //detallepago=data.id;
+        abonos.push(data.id)
+    });//ajax
+}
+
 
 function CargarSaldo(){
     $("#tablafacturaspend > tbody").html("");
@@ -594,6 +819,8 @@ function CargarSaldo(){
     var cuentascobrar=$.get('/api/saldocobrar/?cliente='+cliente,function(){});
     idcuentacobrar=cuentascobrar.responseJSON[0].id;
     totalsaldo=cuentascobrar.responseJSON[0].total;
+    pendientes=cuentascobrar.responseJSON[0].pending;
+    abonos=cuentascobrar.responseJSON[0].abonos;
 
     $('#saldototal').val(cuentascobrar.responseJSON[0].total.toFixed(2));
     var matrixcobrar=cuentascobrar.responseJSON[0].pending;
@@ -668,61 +895,67 @@ function CargarFactura(factura,cliente2,usuario2){
 }
 
 function TotalesAbono(){
+    liquidar=false;
     var controlpagacon;
-            var moneda=$( "#monedaabono").val();
-            var a =$( "#montoabono").val();
-            var aa= parseFloat(a).toFixed(2);
-            //console.log(a);
-            var aaa=isNaN(a);
-            var vueltoint;
-            controlpagacon = !aaa;
+    var moneda=$( "#monedaabono").val();
+    var a =$( "#montoabono").val();
+    var aa= parseFloat(a).toFixed(2);
+    //console.log(a);
+    var aaa=isNaN(a);
+    var vueltoint;
+    controlpagacon = !aaa;
 
-            if(controlpagacon){
-                if(moneda==1){
-                    $('.totalabonocolones').html(aa);
-                    $('.totalabonodolares').html(0);
-                    totalabono=aa;
-                    totalabonodolares=0;
-                }
-                if(moneda==2){
-                    $('.totalabonodolares').html(aa);
-                    $('.totalabonocolones').html((aa*tipocambiodolares).toFixed(2));
-                    totalabono=aa*tipocambiodolares;
-                    totalabonodolares=aa;
-                }
-                if(totalabono>=totalsaldo) {
-                    $('.totalabonocolones').html(totalsaldo.toFixed(2));
-                    totalabono = totalsaldo;
-                    $(".montomayorsaldo:hidden").show();
-                    if (moneda == 1) {
-                        $('.totalabonodolares').html(0);
-                        totalabonodolares = 0;
-                    }
-                    if (moneda == 2) {
-                        $('.totalabonodolares').html((totalsaldo / tipocambiodolares).toFixed(2));
-                        totalabonodolares = totalsaldo / tipocambiodolares;
-                    }
-                }
-                else{
-                    $(".montomayorsaldo").hide();
-                }
+    if(controlpagacon){
+        if(moneda==1){
+            $('.totalabonocolones').html(aa);
+            $('.totalabonodolares').html(0);
+            totalabono=aa;
+            restanteabono=aa;
+            totalabonodolares=0;
+        }
+        if(moneda==2){
+            $('.totalabonodolares').html(aa);
+            $('.totalabonocolones').html((aa*tipocambiodolares).toFixed(2));
+            totalabono=aa*tipocambiodolares;
+            restanteabono=aa*tipocambiodolares;
+            totalabonodolares=aa;
+        }
+        if(totalabono>=totalsaldo) {
+            $('.totalabonocolones').html(totalsaldo.toFixed(2));
+            totalabono = totalsaldo;
+            $(".montomayorsaldo:hidden").show();
+            $('#BtnRegistrarAbono').html('Liquidar Deuda');
+            liquidar=true;
+            if (moneda == 1) {
+                $('.totalabonodolares').html(0);
+                totalabonodolares = 0;
+            }
+            if (moneda == 2) {
+                $('.totalabonodolares').html((totalsaldo / tipocambiodolares).toFixed(2));
+                totalabonodolares = totalsaldo / tipocambiodolares;
+            }
+        }
+        else{
+            $(".montomayorsaldo").hide();
+            $('#BtnRegistrarAbono').html('Registar Abono');
+        }
 
-                $('.precio').priceFormat({
-                prefix: '₡ ',
-                centsSeparator: ',',
-                thousandsSeparator: '.'
-                });
-                $('.preciodolar').priceFormat({
-                prefix: '$ ',
-                centsSeparator: ',',
-                thousandsSeparator: '.'
-                });
-            }
-            else{
-                //console.log('ELSE');
-                $('.totalabonodolares').html('-');
-                $('.totalabonocolones').html('-');
-            }
+        $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+        });
+        $('.preciodolar').priceFormat({
+        prefix: '$ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+        });
+    }
+    else{
+        //console.log('ELSE');
+        $('.totalabonodolares').html('-');
+        $('.totalabonocolones').html('-');
+    }
 }
 
 function blurElement(element, size){
@@ -1176,7 +1409,7 @@ if($("#pagacontipo").val()==1){
             }),//JSON object
               contentType:"application/json; charset=utf-8",
               dataType:"json"
-            })
+    })
             .fail(function(data){
             console.log(data.responseText);
             alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
