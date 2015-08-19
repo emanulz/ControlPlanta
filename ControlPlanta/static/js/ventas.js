@@ -28,6 +28,7 @@ var efectivolisto=false;
 var ventaid;
 var today;
 var todaynorm;
+var creditoaprobado=false;
 
 var vencimiento;
 var tipo;
@@ -246,15 +247,20 @@ function main () {
             var row=$(this).closest("tr");
             var rowIndex = row.index();
             var precio=$('#preciocanalkilo').val();
+            var pesonuevo=$('#pesocanalnuevo').val();
+
             if(precio==''){
                 alertify.alert('Error','Ingrese un precio válido');
             }
             else{
-                //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
-                agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
+                if(pesonuevo==''){
+                    agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
+                }
+                else{
+                    //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
+                    agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,pesonuevo);
+                }
             }
-
-
         });
         //eventos enter
 
@@ -299,6 +305,19 @@ function main () {
 
         $("#montoefectivo").bind("change paste keyup", function() {
             vuelto();
+            checkEnableVenta();
+        });
+        $("#4digits").bind("change paste keyup", function() {
+            checkEnableVenta();
+        });
+        $("#authtarjeta").bind("change paste keyup", function() {
+            checkEnableVenta();
+        });
+        $("#numtransf").bind("change paste keyup", function() {
+            checkEnableVenta();
+        });
+        $("#chequenum").bind("change paste keyup", function() {
+            checkEnableVenta();
         });
 
         // Check si cantidad tiene un número
@@ -344,24 +363,32 @@ function main () {
 
         $( "#pagacontipo" ).change(function() {
             if( $("#pagacontipo").val()==1){
+                $(".cheque").hide();
+                $(".transferencia").hide();
                 $(".pagotarjeta").hide();
                 $(".credito").hide();
                 $(".pagoefectivo:hidden").show();
                 $("#montoefectivo").val(0);
                 vuelto();
+                checkEnableVenta();
                 $(".pagaconpagar").html('₡ 0,00');
                 $(".vueltopagar").html('₡ 0,00');
             }
             if( $("#pagacontipo").val()==2){
+                $(".cheque").hide();
+                $(".transferencia").hide();
                 $(".pagoefectivo").hide();
                 $(".credito").hide();
                 $(".pagotarjeta:hidden").show();
                 $("#montoefectivo").val(0);
                 vuelto();
+                checkEnableVenta();
                 $(".pagaconpagar").html('TARJETA');
                 $(".vueltopagar").html('₡ 0,00');
             }
             if( $("#pagacontipo").val()==3){
+                $(".cheque").hide();
+                $(".transferencia").hide();
                 $('.errorsaldoactual').hide();
                 $('.errornocredito').hide();
                 $(".pagoefectivo").hide();
@@ -379,21 +406,52 @@ function main () {
                     $("#pagacontipo").val(1);
                     $(".credito").hide();
                     $(".pagoefectivo:hidden").show();
+                    creditoaprobado=false;
                 }
                 else{
                     $("#saldocred").val('₡'+saldos.responseJSON[0].total);
 
                     if((saldos.responseJSON[0].total+totalventa)>cliente2.responseJSON.credit_limit){
                         $('.errorsaldoactual:hidden').show();
+                        creditoaprobado=false;
+                    }
+                    else{
+                        creditoaprobado=true;
                     }
                     if(cliente2.responseJSON.credit==false){
                         $('.errorsaldoactual').hide();
                         $('.errornocredito:hidden').show();
+                        creditoaprobado=false;
                     }
                     vuelto();
+                    checkEnableVenta();
                     $(".pagaconpagar").html('CRÉDITO');
                     $(".vueltopagar").html('₡ 0,00');
                 }
+            }
+            if( $("#pagacontipo").val()==4){//transferencia
+                $(".pagotarjeta").hide();
+                $(".credito").hide();
+                $(".pagoefectivo").hide();
+                $(".transferencia:hidden").show();
+                $(".cheque").hide();
+                $("#montoefectivo").val(0);
+                vuelto();
+                checkEnableVenta();
+                $(".pagaconpagar").html('₡ 0,00');
+                $(".vueltopagar").html('₡ 0,00');
+            }
+            if( $("#pagacontipo").val()==5){//cheque
+                $(".pagotarjeta").hide();
+                $(".credito").hide();
+                $(".pagoefectivo").hide();
+                $(".transferencia").hide();
+                $("#montoefectivo").val(0);
+                $(".cheque:hidden").show();
+                vuelto();
+                checkEnableVenta();
+                $(".pagaconpagar").html('₡ 0,00');
+                $(".vueltopagar").html('₡ 0,00');
             }
         });
 
@@ -525,6 +583,54 @@ function Imprimir(){
 
     event.preventDefault();
     $( "#factura").printArea();
+}
+
+function checkEnableVenta(){
+    var tipopago=$('#pagacontipo').val();
+
+    if(tipopago==1){
+        if($('#montoefectivo').val()==''||$('#montoefectivo').val()==0||$('#vuelto').val()==''||$('#vuelto').val()=='FALTA EFECTIVO'){
+            $("#BtnRegistrarVenta").prop("disabled",true);
+        }
+        else{
+            $("#BtnRegistrarVenta").prop("disabled",false);
+        }
+    }
+    if(tipopago==2){
+        if($('#4digits').val()==''||$('#authtarjeta').val()==''){
+            $("#BtnRegistrarVenta").prop("disabled",true);
+        }
+        else{
+            $("#BtnRegistrarVenta").prop("disabled",false);
+        }
+    }
+    if(tipopago==3){
+        if(creditoaprobado==false){
+            $("#BtnRegistrarVenta").prop("disabled",true);
+        }
+        else{
+            $("#BtnRegistrarVenta").prop("disabled",false);
+        }
+    }
+    if(tipopago==4){
+        if($('#numtransf').val()==''){
+            $("#BtnRegistrarVenta").prop("disabled",true);
+        }
+        else{
+            $("#BtnRegistrarVenta").prop("disabled",false);
+        }
+    }
+    if(tipopago==5){
+        if($('#chequenum').val()==''){
+            $("#BtnRegistrarVenta").prop("disabled",true);
+        }
+        else{
+            $("#BtnRegistrarVenta").prop("disabled",false);
+        }
+    }
+    if(tipopago==6){
+
+    }
 }
 
 function blurElement(element, size){
@@ -1020,7 +1126,11 @@ if($("#pagacontipo").val()==1){
             "vuelto": vueltoguardar,
             "tarjeta": 6,
             "digitos": null,
-            "autorizacion": null
+            "autorizacion": null,
+            "transfnum": 0,
+            "bancotransf": "-",
+            "chequenum": 0,
+            "bancocheque": "-"
             }),//JSON object
               contentType:"application/json; charset=utf-8",
               dataType:"json"
@@ -1052,7 +1162,11 @@ if($("#pagacontipo").val()==2){
                 "vuelto": 0,
                 "tarjeta": $("#tipotarjeta").val(),
                 "digitos": $("#4digits").val(),
-                "autorizacion": $("#authtarjeta").val()
+                "autorizacion": $("#authtarjeta").val(),
+                "transfnum": 0,
+                "bancotransf": "-",
+                "chequenum": 0,
+                "bancocheque": "-"
                 }),//JSON object
                   contentType:"application/json; charset=utf-8",
                   dataType:"json"
@@ -1078,7 +1192,71 @@ if($("#pagacontipo").val()==2){
             "vuelto": 0,
             "tarjeta": 6,
             "digitos": null,
-            "autorizacion": null
+            "autorizacion": null,
+            "transfnum": 0,
+            "bancotransf": "-",
+            "chequenum": 0,
+            "bancocheque": "-"
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function(data){
+                //console.log(data.id);
+                detallepago=data.id;
+            });//ajax
+    }//if
+    if($("#pagacontipo").val()==4){
+    $.ajax({
+          method: "POST",
+          url: "/api/detallepago/",
+          async: false,
+
+          data: JSON.stringify({
+            "tipopago": 4,
+            "montoefectivo": 0,
+            "vuelto": 0,
+            "tarjeta": 6,
+            "digitos": 0,
+            "autorizacion": 0,
+            "transfnum": $('#numtransf').val(),
+            "bancotransf": $("#bancotransf option:selected").text(),
+            "chequenum": 0,
+            "bancocheque": "-"
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function(data){
+                //console.log(data.id);
+                detallepago=data.id;
+            });//ajax
+    }//if
+    if($("#pagacontipo").val()==5){
+    $.ajax({
+          method: "POST",
+          url: "/api/detallepago/",
+          async: false,
+
+          data: JSON.stringify({
+            "tipopago": 5,
+            "montoefectivo": 0,
+            "vuelto": 0,
+            "tarjeta": 6,
+            "digitos": 0,
+            "autorizacion": 0,
+            "transfnum": 0,
+            "bancotransf": "-",
+            "chequenum": $('#chequenum').val(),
+            "bancocheque": $("#bancocheque option:selected").text()
             }),//JSON object
               contentType:"application/json; charset=utf-8",
               dataType:"json"

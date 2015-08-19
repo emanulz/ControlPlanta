@@ -1,22 +1,23 @@
 //variables globales
-
-//cierre
-
-var totalcierre=0;
-var ivcierre=0;
-var contadocierre=0;
-var tarjetacierre=0;
-var creditocierre=0;
-var transferenciacierre=0;
-var chequecierre=0;
+var tablamatrix=[];
+var existenciaactual;
+var today;
+var now;
+var usuario;
+//Variables entrada
+var identrada;
+var cantentrada;
+var tipoentrada=3;
+//Variables salida
+var idsalida;
+var cantsalida;
+var tiposalida=3;
 
 var enteronaddproducto = false;
 var cantidad=0;
-var nuevaext;
 var matrixdetalle=[];
 var detalle=[];
 var codigobusqueda=[];
-var canaleslist=[];
 var codigobusquedacliente=[];
 var matrixventa=[];
 var detallesventa=[];
@@ -24,7 +25,6 @@ var detallepago=0;
 var vueltoguardar=0;
 var efectivoguardar=0;
 var cliente=1;
-var usuario=1;
 var descuento=0;
 var descuentoporc=0;
 var preciosindesc=0;
@@ -35,19 +35,14 @@ var subtotal=0;
 var totaliv=0;
 var totalventa=0;
 var efectivolisto=false;
-var ventaid;
-var today;
-var todaynorm;
 
 var vencimiento;
 var tipo;
-
 jQuery.ajaxSetup({async:false});
 
 $(document).on('ready', main);
-
 function main () {
-//console.log($('#cajero').val());
+//console.log($.now());
 
 
         $.ajaxSetup({
@@ -85,21 +80,12 @@ function main () {
             if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
                 $('.cd-panelpagar').removeClass('is-visible');
                 blurElement('.blurlines',0);
-                $("#pagacontipo").val(1);
-                $(".pagotarjeta").hide();
-                $(".credito").hide();
-                $(".pagoefectivo:hidden").show();
-                $("#montoefectivo").val(0);
-                vuelto();
-                $(".pagaconpagar").html('₡ 0,00');
-                $(".vueltopagar").html('₡ 0,00');
                 event.preventDefault();
             }
         });
         $('.btntest').on('click', function(event){
             //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
                 $('.cd-panelpagar').removeClass('is-visible');
-                $("#pagacontipo").val(1);
                 blurElement('.blurlines',0);
                 event.preventDefault();
            // }
@@ -149,26 +135,28 @@ function main () {
            // }
         });
 
-        //PANEL DE BUSCAR CANAL
-        $('.cd-panelcanal').on('click', function(event){
+        //PANEL ENTRADA
+
+        $('.cd-panelentrada').on('click', function(event){
             if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                $('.cd-panelcanal').removeClass('is-visible');
+                $('.cd-panelentrada').removeClass('is-visible');
                 blurElement('.blurlines',0);
-                canaleslist=[];
-                $("#tablacanales > tbody").html("");
                 event.preventDefault();
             }
         });
 
-        $('#btncerrarcanal').on('click', function(event){
-            //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                $('.cd-panelcanal').removeClass('is-visible');
+        //PANEL SALIDA
+
+        $('.cd-panelsalida').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelsalida').removeClass('is-visible');
                 blurElement('.blurlines',0);
-                canaleslist=[];
-                $("#tablacanales > tbody").html("");
                 event.preventDefault();
-           // }
+            }
         });
+
+
+
         //remove row
 
         $('html').on('click','.removerow', function () {
@@ -250,22 +238,6 @@ function main () {
 
         });
 
-        //selectrow canal
-        $('html').on('click','.selectrowcanal', function () {
-            event.preventDefault();
-            var row=$(this).closest("tr");
-            var rowIndex = row.index();
-            var precio=$('#preciocanalkilo').val();
-            if(precio==''){
-                alertify.alert('Error','Ingrese un precio válido');
-            }
-            else{
-                //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
-                agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
-            }
-
-
-        });
         //eventos enter
 
         $('#descuento').on('keypress', function (event) {
@@ -355,7 +327,6 @@ function main () {
         $( "#pagacontipo" ).change(function() {
             if( $("#pagacontipo").val()==1){
                 $(".pagotarjeta").hide();
-                $(".credito").hide();
                 $(".pagoefectivo:hidden").show();
                 $("#montoefectivo").val(0);
                 vuelto();
@@ -364,37 +335,10 @@ function main () {
             }
             if( $("#pagacontipo").val()==2){
                 $(".pagoefectivo").hide();
-                $(".credito").hide();
                 $(".pagotarjeta:hidden").show();
                 $("#montoefectivo").val(0);
                 vuelto();
                 $(".pagaconpagar").html('TARJETA');
-                $(".vueltopagar").html('₡ 0,00');
-            }
-            if( $("#pagacontipo").val()==3){
-                $('.errorsaldoactual').hide();
-                $('.errornocredito').hide();
-                $(".pagoefectivo").hide();
-                $(".pagotarjeta").hide();
-                $(".credito:hidden").show();
-                $("#montoefectivo").val(0);
-                var cliente2=$.get('/api/clientes/'+cliente+'/',function(){});
-                //cliente=cliente2.responseJSON[0].id;
-                $("#nombreclientecred").val(cliente2.responseJSON.name+' '+cliente2.responseJSON.last_name);
-                $("#limitecred").val('₡'+cliente2.responseJSON.credit_limit);
-                var saldos = $.get('/api/saldocobrar/?cliente='+cliente,function(){});
-
-                $("#saldocred").val('₡'+saldos.responseJSON[0].total);
-
-                if((saldos.responseJSON[0].total+totalventa)>cliente2.responseJSON.credit_limit){
-                    $('.errorsaldoactual:hidden').show();
-                }
-                if(cliente2.responseJSON.credit==false){
-                    $('.errorsaldoactual').hide();
-                    $('.errornocredito:hidden').show();
-                }
-                vuelto();
-                $(".pagaconpagar").html('CRÉDITO');
                 $(".vueltopagar").html('₡ 0,00');
             }
         });
@@ -404,13 +348,6 @@ function main () {
         //boton de busqueda en panel de busqueda producto
         $("#btnbusqueda").on("click",BuscarProducto);
 
-        //CIERRE
-        $("#BtnGenerarCierre").on("click",llenartablacierre);
-        $("#BtnImprimircierre").on("click",imprimircierre);
-        $('#BtnNuevoCierre').on("click",function(){
-            location.reload();
-        });
-        //CIERRE
 
         //botones de cliente
 
@@ -457,8 +394,6 @@ function main () {
 
         });
 
-
-
         //boton de busqueda en panel de busqueda cliente
         $("#Btnbuscarcliente").on("click",BuscarCliente);
         //boton de descuento
@@ -478,23 +413,257 @@ function main () {
         //llenado de espacios e inicializacion
         $(".hideonload").hide();
         $(".pagotarjeta").hide();
-        $(".credito").hide();
+        //$(".pagotarjeta").hide();
         $("#BtnNoConfirmar").hide();
         $("#btnconfirmarcliente").prop('disabled',true);
 
 
-    //set Cajero
-    //
-    //$.get('/api/cajeros/?user='+$('#cajero').val(),function(data){
-    //    $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>')
-    //    usuario=data[0].user;
-    //});
 
+
+    /// INVENTARIOS DESDE AQUI
     //set usuario
-    //$.get('/api/cajeros/?user='+$('#cajero').val(),function(data){
-    //    $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>');
-    //    usuario=data[0].user;
-    //});
+    $.get('/api/cajeros/?user='+$('#cajero').val(),function(data){
+        $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>');
+        usuario=data[0].user;
+    });
+    //Llenar tabla de inventario total
+
+    $.get('/api/materiaprima/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
+
+    $( "#tipoconsulta" ).change(function() {
+        $("#filtroinv").val('');
+        $("#tablainventario > tbody").html("");
+        $.get('/api/materiaprima/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
+    });
+
+    //filtro
+    $("#filtroinv").bind("change paste keyup", function() {
+        if($("#filtroinv").val()!=''){
+            $("#tablainventario > tbody").html("");
+            $.get('/api/materiaprima/?description='+$("#filtroinv").val()+'&category='+$('#tipoconsulta').val(),llenarTablaIventario);
+        }
+        else{
+            $("#tablainventario > tbody").html("");
+            $.get('/api/materiaprima/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
+        }
+    });
+
+    //select row entrada
+    $('html').on('click','.selectrowentrada', function () {
+        event.preventDefault();
+        var row=$(this).closest("tr");
+        var rowIndex = row.index();
+        $("#codprodentrada").val(tablamatrix[rowIndex][1]);
+        $("#descprodentrada").val(tablamatrix[rowIndex][2]);
+        existenciaactual=tablamatrix[rowIndex][3];
+        $("#extactual").val(tablamatrix[rowIndex][3]);
+        identrada=tablamatrix[rowIndex][0];
+        $('.cd-panelentrada').addClass('is-visible');
+        blurElement('.blurlines',3);
+    });
+
+    //select row salida
+    $('html').on('click','.selectrowsalida', function () {
+        event.preventDefault();
+        var row=$(this).closest("tr");
+        var rowIndex = row.index();
+        $("#codprodsalida").val(tablamatrix[rowIndex][1]);
+        $("#descprodsalida").val(tablamatrix[rowIndex][2]);
+        existenciaactual=tablamatrix[rowIndex][3];
+        $("#extactualsalida").val(tablamatrix[rowIndex][3]);
+        idsalida=tablamatrix[rowIndex][0];
+        $('.cd-panelsalida').addClass('is-visible');
+        blurElement('.blurlines',3);
+    });
+
+    //Cambio tipo entrada
+    $("#tipoentrada").change(function() {
+        $(".changetipoent:hidden").show();
+        if($( "#tipoentrada" ).val()==3){
+            $( ".changetipoent" ).html('Ajuste por toma Física: <br/> <br/>');
+            $(".produccion").hide();
+            $(".compradev").hide();
+            $(".devolucion").hide();
+            $(".tomafisica:hidden").show();
+            tipoentrada=3;
+        }
+        if($( "#tipoentrada" ).val()==4){
+            $( ".changetipoent" ).html('Entrada por devolución: <br/> <br/>');
+            $(".produccion").hide();
+            $(".compradev").hide();
+            $(".devolucion:hidden").show();
+            $(".tomafisica").hide();
+            tipoentrada=4;
+        }
+        if($( "#tipoentrada" ).val()==2){
+            $( ".changetipoent" ).html('Entrada por compras: <br/> <br/>');
+            $(".produccion").hide();
+            $(".compradev:hidden").show();
+            $(".tomafisica").hide();
+            $(".devolucion").hide();
+            tipoentrada=2;
+        }
+        //if($( "#tipoentrada" ).val()==1){
+        //    $( ".changetipoent" ).html('Entrada por producción: <br/> <br/>');
+        //    $(".produccion:hidden").show();
+        //    $(".compradev").hide();
+        //    $(".tomafisica").hide();
+        //    tipoentrada=1;
+        //}
+    });
+
+    //cambio tipo salida
+    $("#tiposalida").change(function() {
+        if($( "#tiposalida" ).val()==3){
+            $( ".changetiposal" ).html('Ajuste por toma Física: <br/> <br/>');
+            $(".salidageneral").hide();
+            $(".ventassal").hide();
+            $(".tomafisicasal:hidden").show();
+            tiposalida=3;
+        }
+        if($( "#tiposalida" ).val()==4){
+            $( ".changetiposal" ).html('Salida por por producto vencido: <br/> <br/>');
+            $(".tomafisicasal").hide();
+            $(".salidageneral:hidden").show();
+            $(".ventassal").hide();
+            tiposalida=4;
+        }
+        if($( "#tiposalida" ).val()==2){
+            $( ".changetiposal" ).html('Salida por desecho de productos: <br/> <br/>');
+            $(".tomafisicasal").hide();
+            $(".salidageneral:hidden").show();
+            $(".ventassal").hide();
+            tiposalida=2;
+        }
+        if($( "#tiposalida" ).val()==1){
+            $( ".changetiposal" ).html('Salida por Ventas: <br/> <br/>');
+            $(".ventassal:hidden").show();
+            $(".tomafisicasal").hide();
+            $(".salidageneral").hide();
+            tiposalida=1;
+        }
+        if($( "#tiposalida" ).val()==5){
+            $( ".changetiposal" ).html('Salida por Reproceso: <br/> <br/>');
+            $(".tomafisicasal").hide();
+            $(".salidageneral:hidden").show();
+            $(".ventassal").hide();
+            tiposalida=5;
+        }
+    });
+
+    //funciones de entrada
+    $("#tomaf").bind("change paste keyup", function() {
+        var a =$("#tomaf").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        //console.log(!aaa);
+        if(!aaa){
+            $("#btntomaf").prop('disabled',false);
+            cantentrada=aa;
+        }
+        else{
+            $("#btntomaf").prop('disabled',true);
+            cantentrada=0;
+        }
+    });
+    $("#entcompras").bind("change paste keyup", function() {
+        var a =$("#entcompras").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        //console.log(!aaa);
+        if(!aaa){
+            $("#btnconfcompdev").prop('disabled',false);
+            cantentrada=aa+existenciaactual;
+        }
+        else{
+            $("#btnconfcompdev").prop('disabled',true);
+            cantentrada=0;
+        }
+    });
+    $("#valdevolucion").bind("change paste keyup", function() {
+        var a =$("#valdevolucion").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        //console.log(!aaa);
+        if(!aaa){
+            $("#btndevolucion").prop('disabled',false);
+            cantentrada=aa+existenciaactual;
+        }
+        else{
+            $("#btndevolucion").prop('disabled',true);
+            cantentrada=0;
+        }
+    });
+    $("#produccionsum").bind("change paste keyup", function() {
+        var a =$("#produccionsum").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        //console.log(!aaa);
+        if(!aaa){
+            $("#btnconfprod").prop('disabled',false);
+            cantentrada=aa+existenciaactual;
+        }
+        else{
+            $("#btnconfprod").prop('disabled',true);
+            cantentrada=0;
+        }
+    });
+
+    $("#btntomaf").on("click",RegistarEntrada);
+    $("#btnconfcompdev").on("click",RegistarEntrada);
+    $("#btnconfprod").on("click",RegistarEntrada);
+    $("#btndevolucion").on("click",RegistarEntrada);
+    $("#BtnPrint").on("click",Imprimir);
+
+    //funciones de Salida
+    $("#tomafsal").bind("change paste keyup", function() {
+        var a =$("#tomafsal").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        //console.log(!aaa);
+        if(!aaa){
+            $("#btntomafsal").prop('disabled',false);
+            cantsalida=aa;
+        }
+        else{
+            $("#btntomafsal").prop('disabled',true);
+            cantsalida=0;
+        }
+    });
+    $("#salidageneral").bind("change paste keyup", function() {
+        var a =$("#salidageneral").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        //console.log(!aaa);
+        if(!aaa){
+            $("#btnconfsalgen").prop('disabled',false);
+            cantsalida=existenciaactual-aa;
+        }
+        else{
+            $("#btnconfsalgen").prop('disabled',true);
+            cantsalida=0;
+        }
+    });
+    $("#salventas").bind("change paste keyup", function() {
+        var a =$("#salventas").val();
+        var aa=parseFloat(a);
+        var aaa=isNaN(aa);
+        //console.log(!aaa);
+        if(!aaa){
+            $("#btnconfventa").prop('disabled',false);
+            cantsalida=existenciaactual-aa;
+        }
+        else{
+            $("#btnconfventa").prop('disabled',true);
+            cantsalida=0;
+        }
+    });
+
+    $("#btntomafsal").on("click",RegistarSalida);
+    $("#btnconfsalgen").on("click",RegistarSalida);
+    $("#btnconfventa").on("click",RegistarSalida);
+     /// INVENTARIOS HASTA AQUI
+
     //valor vencimiento
 
         var now = new Date();
@@ -510,7 +679,6 @@ function main () {
         vencimiento = (year)+"-"+(month)+"-"+(day) ;
         //console.log(vencimiento);
         today = (year2)+"-"+(month2)+"-"+(day) ;
-        todaynorm = (day)+"/"+(month2)+"/"+(year2) ;
         //console.log(today);
 
     //valores iniciales
@@ -524,112 +692,32 @@ function main () {
         $("#codigocliente").val('0001');
         $("#nombrecliente").val('Cliente Contado').prop("disabled",true);
 
-        $("#BtnPrint").on("click",Imprimir);
-
     }//main
 
-
-function llenartablacierre(){
-    $("#tablacierre > tbody").html("");
-    $("#tablaimpcierre > tbody").html("");
-    totalcierre=0;
-    ivcierre=0;
-    contadocierre=0;
-    tarjetacierre=0;
-    creditocierre=0;
-    chequecierre=0;
-    transferenciacierre=0;
-    var fechacierre=$('#fechacierre').val();
-    //console.log(fechacierre);
-    var ventasdia=$.get('/api/venta/?date='+fechacierre,function(){});
-    //console.log(ventasdia);
-    var tipopagocierre;
-    $.each( ventasdia.responseJSON, function(i){
-        $.get('/api/detallepago/'+ventasdia.responseJSON[i].datosdelpago+'/',function(data){
-            if(data.tipopago==1){
-                tipopagocierre='EFECTIVO';
-            }
-            if(data.tipopago==2){
-                tipopagocierre='TARJETA';
-            }
-            if(data.tipopago==3){
-                tipopagocierre='CREDITO';
-            }
-            if(data.tipopago==4){
-                tipopagocierre='TRANSFERENCIA';
-            }
-            if(data.tipopago==5){
-                tipopagocierre='CHEQUE';
-            }
-        });
-        $('#tablacierre > tbody:last').append('<tr><td>' + ventasdia.responseJSON[i].id + '</td><td>' + ventasdia.responseJSON[i].nombrecliente +
-            '</td><td>' + tipopagocierre + '</td><td class="price">' +  ventasdia.responseJSON[i].iv.toFixed(2) +
-            '</td><td class="price">' +  ventasdia.responseJSON[i].total.toFixed(2) + '</td></tr>');
-        $('#tablaimpcierre > tbody:last').append('<tr><td> ' +ventasdia.responseJSON[i].id+ ' </td><td class="price">' + ventasdia.responseJSON[i].iv.toFixed(2)+ '</td><td class="price">' +ventasdia.responseJSON[i].total.toFixed(2)+ '</td></tr>');
-
-
-        totalcierre=totalcierre+ventasdia.responseJSON[i].total;
-        ivcierre=ivcierre+ventasdia.responseJSON[i].iv;
-
-        if(tipopagocierre=='EFECTIVO'){
-            contadocierre=contadocierre+ventasdia.responseJSON[i].total;
-        }
-        if( tipopagocierre=='TARJETA'){
-            tarjetacierre=tarjetacierre+ventasdia.responseJSON[i].total;
-        }
-        if(tipopagocierre=='CREDITO'){
-            creditocierre=creditocierre+ventasdia.responseJSON[i].total;
-        }
-        if(tipopagocierre=='TRANSFERENCIA'){
-            transferenciacierre=transferenciacierre+ventasdia.responseJSON[i].total;
-        }
-        if(tipopagocierre=='CHEQUE'){
-            chequecierre=chequecierre+ventasdia.responseJSON[i].total;
-        }
-
-        });//each
-
-        $('.totalefectivocierre').html(contadocierre.toFixed(2));
-        $('.totaltarjetacierre').html(tarjetacierre.toFixed(2));
-        $('.totalcredcierre').html(creditocierre.toFixed(2));
-        $('.totaltransfcierre').html(transferenciacierre.toFixed(2));
-        $('.totalchequecierre').html(chequecierre.toFixed(2));
-        $('.totalventascierre').html(totalcierre.toFixed(2));
-        $('.totalivcierre').html(ivcierre.toFixed(2));
-        //imprimir
-        $('.fechaimpcierre').html('FECHA: '+fechacierre);
-        $('.efectivoimprimir').html(contadocierre.toFixed(2));
-        $('.tarjetaimprimir').html(tarjetacierre.toFixed(2));
-        $('.creditoimprimir').html(creditocierre.toFixed(2));
-        $('.transfimprimir').html(transferenciacierre.toFixed(2));
-        $('.chequeimprimir').html(chequecierre.toFixed(2));
-        $('.ivimprimir').html(ivcierre.toFixed(2));
-        $('.totalimprimir').html(totalcierre.toFixed(2));
-
-
-        $('.price').priceFormat({
-                prefix: '₡ ',
-                centsSeparator: ',',
-                thousandsSeparator: '.'
-        });
-
-}
-
-function imprimircierre(){
-
-        $('.sidetotales').hide();
-        $('.factura:hidden').show();
-        Imprimir();
-        $('#maincontent').find(':input').prop('disabled', true);
-        $('#BtnPrint').prop('disabled', false);
-        $('#BtnNuevoCierre').prop('disabled', false);
-}
-
 function Imprimir(){
-
     event.preventDefault();
-    $( "#factura").printArea();
+    $( "#print").printArea();
 }
+
+function tiempoahora(){
+    var dt = new Date();
+    return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+}
+
+function llenarTablaIventario(data){
+    tablamatrix=[];
+    //console.log(data);
+        $.each( data, function(i){
+            var existencia = data[i].inventory;
+            //console.log('TABLA '+existencia);
+            $('#tablainventario > tbody:last').append('<tr><td>' + data[i].product_code + '</td><td>' + data[i].description +
+            '</td><td>' + existencia + '</td><td><button  type="button" class=" btn btn-success form-control selectrowentrada btnanchoinv " id="btnentrada"><span class="glyphicon glyphicon-plus"></span></button></td>'+
+            '</td><td><button  type="button" class=" btn btn-danger form-control selectrowsalida btnanchoinv" id="btnsalida"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+            tablamatrix.push([data[i].id, data[i].product_code,data[i].description ,existencia]);
+        });
+}
+
+
 
 function blurElement(element, size){
             var filterVal = 'blur('+size+'px)';
@@ -639,7 +727,212 @@ function blurElement(element, size){
               .css('mozFilter',filterVal)
               .css('oFilter',filterVal)
               .css('msFilter',filterVal);
-        }
+}
+
+function RegistarEntrada(){
+    if ((cantentrada-existenciaactual)<=0||cantentrada<=0) {
+    alertify.alert("Error","La cantidad de entrada no puede ser menor que 0, ingrese una nueva cantidad o realice una salida de inventario.");
+    }
+    else {
+        $.ajax({
+            method: "PATCH",
+            url: "/api/materiaprima/" + identrada + "/",
+
+            data: JSON.stringify({
+
+                "inventory": cantentrada
+
+            }),//JSON object
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        })
+            .success(function () {
+                if (tipoentrada == 3) {//tomafisica
+
+                    crearentrada('Entrada por toma Física', cantentrada, cantentrada);
+                }
+                if (tipoentrada == 2) {//compras
+
+                    crearentrada('Entrada por compra de producto Factura # ' + $("#factcompdev").val(), cantentrada - existenciaactual, cantentrada);
+                }
+                if (tipoentrada == 4) {//devolucion
+
+                    crearentrada('Entrada por devolución', cantentrada - existenciaactual, cantentrada);
+                }
+                if (tipoentrada == 1) {//produccion
+
+                    crearentrada('Entrada por Producción ', cantentrada - existenciaactual, cantentrada);
+                }
+            })
+            .fail(function (data) {
+                alertify.alert("Hubo un problema al crear la entrada, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            });
+    }
+}
+
+
+function crearentrada(datos,peso,nuevopeso){
+    if ((cantentrada-existenciaactual)<=0||cantentrada<=0) {
+    alertify.alert("Error","La cantidad de entrada no puede ser menor que 0, ingrese una nueva cantidad o realice una salida de inventario.");
+    }
+    else {
+        $.ajax({
+            method: "POST",
+            url: "/api/inventarioentradamp/",
+
+            data: JSON.stringify({
+                "tipo": tipoentrada,
+                "datos": datos,
+                "materiaprima": identrada,
+                "peso": peso,
+                "nuevopeso": nuevopeso,
+                "date": today,
+                "time": tiempoahora(),
+                "usuario": usuario
+            }),//JSON object
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        })
+            .success(function () {
+                pacthresinvent();
+                $("#tablainventario > tbody").html("");
+                $.get('/api/materiaprima/?category=' + $('#tipoconsulta').val(), llenarTablaIventario);
+                alertify.alert('Entrada exitosa', "Entrada a inventario creada con exito");
+                $('.cd-panelentrada').removeClass('is-visible');
+                blurElement('.blurlines', 0);
+
+            })
+            .fail(function (data) {
+                alertify.alert("Hubo un problema al crear la entrada, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            });
+    }
+}
+
+function RegistarSalida() {
+    console.log(cantsalida);
+    if ((existenciaactual- cantsalida) < 0||cantsalida<0) {
+    alertify.alert("Error","La cantidad de producto que desea descontar es mayor a la existencia actual, ingrese una nueva cantidad o realice una entrada de inventario.");
+    }
+    else {
+        $.ajax({
+            method: "PATCH",
+            url: "/api/materiaprima/" + idsalida + "/",
+
+            data: JSON.stringify({
+
+                "inventory": cantsalida
+
+            }),//JSON object
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        })
+            .success(function () {
+                if (tiposalida == 3) {
+
+                    crearsalida('Salida por toma Física', cantsalida, cantsalida);
+                }
+                if (tiposalida == 2) {
+
+                    crearsalida('Salida por desecho de producto', (existenciaactual - cantsalida), cantsalida);
+                }
+                if (tiposalida == 4) {
+
+                    crearsalida('Salida por Producto vencido', (existenciaactual - cantsalida), cantsalida);
+                }
+                if (tiposalida == 1) {
+
+                    crearsalida('Salida por venta, Factura # ' + $("#factsalventas").val(), existenciaactual - cantsalida, cantsalida);
+                }
+                if (tiposalida == 5) {
+
+                    crearsalida('Salida por Reproceso ', existenciaactual - cantsalida, cantsalida);
+                }
+            })
+            .fail(function (data) {
+                alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            });
+
+    }//else
+}//function
+
+function crearsalida(datos,peso,nuevopeso){
+
+    $.ajax({
+      method: "POST",
+      url: "/api/inventariosalidamp/",
+
+      data: JSON.stringify({
+            "tipo": tiposalida,
+            "datos": datos,
+            "materiaprima": idsalida,
+            "peso": peso,
+            "nuevopeso": nuevopeso,
+            "date": today,
+            "time": tiempoahora(),
+            "usuario": usuario
+        }),//JSON object
+          contentType:"application/json; charset=utf-8",
+          dataType:"json"
+        })
+      .success(function() {
+        pacthresinvsal();
+        $("#tablainventario > tbody").html("");
+        $.get('/api/materiaprima/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
+        alertify.alert('Salida exitosa',"Salida de inventario creada con exito");
+        $('.cd-panelsalida').removeClass('is-visible');
+        blurElement('.blurlines',0);
+
+
+        })
+        .fail(function(data) {
+        alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        });
+}
+function pacthresinvsal(){
+    var prodinventario=$.get('/api/inventarioresumenmp/?materiaprima='+idsalida,function(){});
+
+    $.ajax({
+            method: "PATCH",
+            url: "/api/inventarioresumenmp/" + prodinventario.responseJSON[0].id + "/",
+
+            data: JSON.stringify({
+
+                "cantidad": cantsalida
+
+            }),//JSON object
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        })
+            .success(function () {
+
+            })
+            .fail(function (data) {
+                alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            });
+}
+
+function pacthresinvent(){
+    var prodinventario=$.get('/api/inventarioresumenmp/?materiaprima='+identrada,function(){});
+
+    $.ajax({
+            method: "PATCH",
+            url: "/api/inventarioresumenmp/" + prodinventario.responseJSON[0].id + "/",
+
+            data: JSON.stringify({
+
+                "cantidad": cantentrada
+
+            }),//JSON object
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        })
+            .success(function () {
+
+            })
+            .fail(function (data) {
+                alertify.alert("Hubo un problema al crear la entrada, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            });
+}
 
 function getcliente(){
     var a =$("#codigocliente").val();
@@ -735,13 +1028,8 @@ function recalculartablaproductos(){
     //reclacular toda la tabla
     $("#tablaproductos > tbody").html("");
     $.each( matrixinterna, function(i){
-        if(matrixinterna[i][0]==4001||matrixinterna[i][0]==5001){
-            agregarcanalatabla(matrixinterna[i][10],matrixinterna[i][9],matrixinterna[i][2],matrixinterna[i][3]);
-        }
-        else{
-            cantidad=matrixinterna[i][3];
-             $.get('/api/productos/?product_code='+matrixinterna[i][0],llenartablaProductos);
-        }
+        cantidad=matrixinterna[i][3];
+         $.get('/api/productos/?product_code='+matrixinterna[i][0],llenartablaProductos);
     });
 
 
@@ -750,40 +1038,8 @@ function recalculartablaproductos(){
 function getProducto(){
     var a=$('#producto').val();
     cantidad =parseFloat($('#cantidad').val());
-    if (a==4001||a==5001){
-        $('.cd-panelcanal').addClass('is-visible');
-        blurElement('.blurlines',2);
-        getcanales(a);
-    }
-    else{
-        $.get('/api/productos/?product_code='+a,llenartablaProductos);
-    }
+    $.get('/api/productos/?product_code='+a,llenartablaProductos);
 }
-
-function getcanales(a){
-    if(a==4001){//es canal de cerdo
-         $(".tipodecanal").html('Canales de Cerdo Disponibles');
-         $.get('/api/canales/?tipo=1&isonlote=False&vendido=False',llenartablacanales);
-    }
-    else{//es canal de res
-        $(".tipodecanal").html('Canales de Res Disponibles');
-        $.get('/api/canales/?tipo=2&isonlote=False&vendido=False',llenartablacanales);
-    }
-}
-function llenartablacanales(data){
-        $.each( data, function(i){
-            canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
-            var test= $.get('/api/proveedores/'+data[i].fierro+'/',function(){
-                return 1;
-            });
-
-            $('#tablacanales > tbody:last').append('<tr><td>' + data[i].id + '</td><td>' + data[i].consecutive +
-            '</td><td>' + data[i].qualification + '</td><td>' + data[i].weight +
-            '</td><td>' + test.responseJSON.fierro + '</td><td><button  type="button" class=" btn btn-success form-control selectrowcanal " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
-        });
-}
-
-
 
 function BuscarProducto(){
     codigobusqueda=[];
@@ -801,7 +1057,7 @@ function llenarTablaBusqueda(data){
         $.each( data, function(i){
             codigobusqueda.push(data[i].product_code);
             $('#tablabusqueda > tbody:last').append('<tr><td>' + data[i].product_code + '</td><td>' + data[i].description +
-            '</td><td>' + data[i].price1 + '</td><td><button  type="button" class=" btn btn-success form-control selectrow " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
+            '</td><td>' + data[i].price + '</td><td><button  type="button" class=" btn btn-success form-control selectrow " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
         });
 }
 
@@ -811,57 +1067,6 @@ function llenarTablaBusquedaCliente(data){
             $('#tablabusquedacliente > tbody:last').append('<tr><td>' + data[i].code + '</td><td>' + data[i].name +' '+data[i].last_name+
             '</td><td><button  type="button" class=" btn btn-success form-control selectrowcliente " id="btnelegircliente"><span class="glyphicon glyphicon-ok"></span></button></td></tr>');
         });
-}
-
-function agregarcanalatabla(id,tipo,precio,peso) {
-    var canaliv=(precio*peso)*(13/100);
-    var canalivr=Math.round((canaliv) * 1000) / 1000;
-    var pricesubr=peso*precio;
-    var pricetot=(precio*peso)*1.13;
-    var price=Math.round((precio) * 1000) / 1000;
-    var pricetotr=Math.round((pricetot) * 1000) / 1000;
-    if(tipo==1){// canal de cerdo
-        $('#tablaproductos > tbody:last').append('<tr><td>' + 4001 + '</td><td>' + 'Canal Cerdo id# '+id+'</td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+4001+'>' + peso + '</td>' +
-        '<td>'+'G'+'</td><td class="precio total'+4001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
-
-       matrixventa.push([4001, 'Canal Cerdo id# '+id,precio ,peso,pricesubr, canalivr,pricetotr,106,true,1,id]);//los dos ultimos son si es canal y tipo y el id
-
-    }
-    if(tipo==2){//canal de res
-        $('#tablaproductos > tbody:last').append('<tr><td>' + 5001 + '</td><td>' + 'Canal Res id# '+id+'</td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+5001+'>' + peso + '</td>' +
-        '<td>'+'G'+'</td><td class="precio total'+5001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
-
-        matrixventa.push([5001, 'Canal Res id# '+id,precio ,peso,pricesubr,canalivr,pricetotr,107,true,2,id]);//los dos ultimos son si es canal y tipo y el id
-
-    }
-    var totalkg2=parseFloat(totalkg);
-    totalkg=Math.round((totalkg2+peso)*1000)/1000;
-    totalart=totalart+1;
-    subtotal=subtotal+pricesubr;
-    totaliv=totaliv+canalivr;
-    ivsindesc=totaliv;
-    totalventa=totalventa+pricetotr;
-    preciosindesc =totalventa;
-
-    $('.subtotal').html(subtotal.toFixed(2));
-    $('.totalventa').html(totalventa.toFixed(2));
-    $('.totaliv').html(totaliv.toFixed(2));
-    $('.totalart').html(totalart);
-    $('.totalkg').html(totalkg +' Kg');
-    $("#BtnConfirmar").prop("disabled",false);
-
-    $('.precio').priceFormat({
-        prefix: '₡ ',
-        centsSeparator: ',',
-        thousandsSeparator: '.'
-    });
-
-    $('.cd-panelcanal').removeClass('is-visible');
-    blurElement('.blurlines',0);
-    canaleslist=[];
-    $("#tablacanales > tbody").html("");
-    event.preventDefault();
-
 }
 
 function llenartablaProductos(data){
@@ -915,7 +1120,7 @@ function llenartablaProductos(data){
                 $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td class="precio">' +pricetouse.toFixed(2) + '</td><td class=cant'+data[0].product_code+'>' + cantidad + '</td>' +
                 '<td>'+impentabla+'</td><td class="precio total'+data[0].product_code+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
 
-                matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer,data[0].id,usaimpuestos,0,0]);//los dos ultimos son si es canal y el id
+                matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer,data[0].id,usaimpuestos]);
 
                 $('#cantidad').val(1);
                 totalkg2=parseFloat(totalkg);
@@ -1090,23 +1295,14 @@ function NoConfirmarDatos(){
     });
     vuelto();
 }
-function tiempoahora(){
-    var dt = new Date();
-    return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-}
+
 function RegistarVenta(){
 
     guardardetallepago();
     guardardetalleproducto();
+    //descontarinventarios();
     guardarventa();
-    descontarinventarios();
-    generarfactura();
-    Imprimir();
-    $('.cd-panelpagar').removeClass('is-visible');
-    blurElement('.blurlines',0);
-    $('#maincontent').find(':input').prop('disabled', true);
-    $('#BtnPrint').prop('disabled', false);
-    $('#BtnNuevaVenta').prop('disabled', false);
+
 
 }
 
@@ -1140,49 +1336,18 @@ if($("#pagacontipo").val()==1){
     }//if
 
 if($("#pagacontipo").val()==2){
-    //console.log('TARJETA');
-    if($("#4digits").val()==''||$("#authtarjeta").val()==''){
-        alertify.alert('Error','Por Favor Complete los espacios en de los ultimos 4 digitos de la tarjeta y autorización.');
-    }
-    else{
-        $.ajax({
-              method: "POST",
-              url: "/api/detallepago/",
-              async: false,
-
-              data: JSON.stringify({
-                "tipopago": 2,
-                "montoefectivo": 0,
-                "vuelto": 0,
-                "tarjeta": $("#tipotarjeta").val(),
-                "digitos": $("#4digits").val(),
-                "autorizacion": $("#authtarjeta").val()
-                }),//JSON object
-                  contentType:"application/json; charset=utf-8",
-                  dataType:"json"
-                })
-                .fail(function(data){
-                console.log(data.responseText);
-                alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-                })
-                .success(function(data){
-                    detallepago=data.id;
-                });
-    }
-    }//if
-    if($("#pagacontipo").val()==3){
     $.ajax({
           method: "POST",
           url: "/api/detallepago/",
           async: false,
 
           data: JSON.stringify({
-            "tipopago": 3,
+            "tipopago": 2,
             "montoefectivo": 0,
             "vuelto": 0,
-            "tarjeta": 6,
-            "digitos": null,
-            "autorizacion": null
+            "tarjeta": $("#tipotarjeta").val(),
+            "digitos": $("#4digits").val(),
+            "autorizacion": $("#authtarjeta").val()
             }),//JSON object
               contentType:"application/json; charset=utf-8",
               dataType:"json"
@@ -1192,9 +1357,8 @@ if($("#pagacontipo").val()==2){
             alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
             })
             .success(function(data){
-                //console.log(data.id);
                 detallepago=data.id;
-            });//ajax
+            });
     }//if
 }//function
 
@@ -1224,191 +1388,280 @@ function guardardetalleproducto(){
             alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 "+data.responseText);
             })
             .success(function(data){
-                detallesventa.push(data.id);
-                //console.log(detallesventa);
+               detallesventa.push(data.id);
+                console.log(detallesventa);
             });
     });
 
 }
 
-function descontarinventarios(){
-    $.each( matrixventa, function(i){
-        var productodatos = $.get('/api/productos/'+matrixventa[i][7]+'/',function(){});
-        console.log(productodatos.responseJSON.inventory);
-        console.log(matrixventa[i][3]);
-        nuevaext= productodatos.responseJSON.inventory-matrixventa[i][3];
-        console.log(nuevaext);
-        //patch al producto
-        $.ajax({
-          method: "PATCH",
-          url: "/api/productos/"+productodatos.responseJSON.id+"/",
+function guardarventa(){
+    $.ajax({
+          method: "POST",
+          url: "/api/detallepago/",
+          async: false,
 
           data: JSON.stringify({
+            "client": null,
+            "nombrecliente": "",
+            "cashier": null,
+            "date": today,
+            "time": null,
+            "totolkilogramos": totalkg,
+            "cantidadarticulos": totalart,
+            "subtotal": subtotal,
+            "iv": totaliv,
+            "descopor": descuentoporc,
+            "desctocol": descuento,
+            "total": totalventa,
+            "detalleproductos": detallesventa,
+            "datosdelpago": detallepago
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function(data){
+                //detallepago=data.id;
+            });
+}
 
-            "inventory": nuevaext
+
+function guardarDetalle() {
+
+    event.preventDefault();
+    var lote =$("#lote").val();
+    var control=matrixdetalle.length;
+    //console.log(lote);
+
+    $.each( matrixdetalle, function(i){
+
+        $.ajax({
+          method: "POST",
+          url: "/api/detalledeshuese/",
+          async: false,
+
+          data: JSON.stringify({
+            "producto": matrixdetalle[i][0],
+            "peso": matrixdetalle[i][1],
+            "lote": lote
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+            })
+            .success(function(data){
+                console.log(data);
+            });
+
+        $.ajax({
+          method: "POST",
+          url: "/api/inventariototal/",
+          async: false,
+
+          data: JSON.stringify({
+            "producto": matrixdetalle[i][0],
+            "peso": matrixdetalle[i][1],
+            "lote": lote,
+            "vencimiento": vencimiento,
+            "tipo":tipo
 
             }),//JSON object
               contentType:"application/json; charset=utf-8",
               dataType:"json"
-        })
-        .fail(function (data) {
+            })
+            .fail(function(data){
             console.log(data.responseText);
-            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-        })
-        .success(function () {
-            //success fuction.
-            //crear la salida de inventario
-                $.ajax({
-                  method: "POST",
-                  url: "/api/inventariosalida/",
+            alert("Hubo un problema al crear el inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+            })
+            .success(function(data){
+                console.log(data);
+            });
 
-                  data: JSON.stringify({
-                        "tipo": 1,
-                        "datos": 'Salida por venta, Factura # '+ventaid,
-                        "producto": matrixventa[i][7],
-                        "peso": matrixventa[i][3],
-                        "nuevopeso": nuevaext,
-                        "date": today,
-                        "time": tiempoahora(),
-                        "usuario": usuario
-                    }),//JSON object
-                      contentType:"application/json; charset=utf-8",
-                      dataType:"json"
-                    })
-                  .success(function() {
 
-                            var prodinventario=$.get('/api/inventarioresumen/?producto='+matrixventa[i][7],function(){});
+        if(i==(control-1)){
+            console.log(control);
+            console.log(i);
 
-                            $.ajax({
-                                    method: "PATCH",
-                                    url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
+            $.get('/api/detalledeshuese/?lote='+lote, function (data) {
+                $.each( data, function(index){
+                    detalle.push(data[index].id);
+               });
+               // console.log(detalle);
+                guardarDeshuese();
+            });
 
-                                    data: JSON.stringify({
+            }//if
+    });
 
-                                        "cantidad": nuevaext
 
-                                    }),//JSON object
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json"
-                            })
-                            .success(function () {
+    //guardarDeshuese();
+}//Guardar Detalle
 
-                            })
-                            .fail(function (data) {
-                                alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-                            });
+function test(){
 
-                    })
-                    .fail(function(data) {
-                    alertify.alert("Hubo un problema al crear la salida de inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-                    });
-
-        });//success func
-    });//each
-    
-}
-
-function guardarventa(){
-    var saldoguardar=0;
-    if($("#pagacontipo").val()==3){
-        saldoguardar=totalventa;
-    }
-    $.ajax({
-            method: "POST",
-            url: "/api/venta/",
-            async: false,
-
-            data: JSON.stringify({
-                "client": cliente,
-                "nombrecliente": $('#cliente').val(),
-                "cashier": usuario,
-                "date": today,
-                "time": tiempoahora(),
-                "totolkilogramos": totalkg,
-                "cantidadarticulos": totalart,
-                "subtotal": subtotal,
-                "iv": totaliv,
-                "descopor": descuentoporc,
-                "desctocol": descuento,
-                "total": totalventa,
-                "detalleproductos": detallesventa,
-                "datosdelpago": detallepago,
-                "saldo": saldoguardar
-            }),//JSON object
-            contentType: "application/json; charset=utf-8",
-            dataType: "json"
-        })
-        .fail(function (data) {
-            console.log(data.responseText);
-            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-        })
-        .success(function (data) {
-            ventaid=data.id;
+ var lote =parseInt($("#lote").val());
+    console.log(detalle);
+    var data2= JSON.stringify({
+        "lote": lote,
+        "pesototal": pesodesh,
+        "mermakg": mermakg,
+        "mermapor": mermaporc,
+        "detalle": detalle
         });
-    if($("#pagacontipo").val()==3){
-        patchcuentacobrar();
-    }
+    console.log(data2);
+
 }
 
-function patchcuentacobrar(){
-    var detallecuenta = $.get('/api/saldocobrar/?cliente='+cliente,function(){});
-    var matrixpendign=detallecuenta.responseJSON[0].pending;
-    var saldonuevo=detallecuenta.responseJSON[0].total+totalventa;
-    matrixpendign.push(ventaid);
-     $.ajax({
-      method: "PATCH",
-      url: "/api/saldocobrar/"+detallecuenta.responseJSON[0].id+"/",
+function guardarDeshuese() {
+    console.log(detalle);
+    var lote =parseInt($("#lote").val());
+    //var mermaporc2=parseFloat(mermaporc);
+
+    event.preventDefault();
+
+    $.ajax({
+      method: "POST",
+      url: "/api/deshuese/",
+      async: false,
 
       data: JSON.stringify({
-        "total": saldonuevo,
-        "pending": matrixpendign
+        "lote": lote,
+        "pesototal": pesodesh,
+        "mermakg": mermakg,
+        "mermapor": mermaporc,
+        "detalle": detalle
+        }),//JSON object
+          contentType:"application/json; charset=utf-8",
+          dataType:"json"
+        })
+    .fail(function(data){
+            console.log(data.responseText);
+            alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+        })
+    .success(function(data){
+            console.log(data);
+            patchlote();
+            
+        });
+
+}//Guardar Deshuese
+
+function errorhandle (data){
+
+    console.log(data);
+        if (data.status=="Success"){
+            console.log(data.status);
+            patchcanal();
+        }
+        else{
+                $(".failmessage:hidden").show("slow");
+
+                if (typeof data.errores.date!=='undefined' ){
+
+                    $("#dateerror:hidden").show("slow");
+                    $("#dateerror").html(data.errores.date[0]);
+                    $("#date").addClass("errorlist2");
+                }
+                if (typeof data.errores.lotenum!=='undefined' ){
+
+                    $("#lotenumerror:hidden").show("slow");
+                    $("#lotenumerror").html(data.errores.lotenum[0]);
+                    $("#numlote").addClass("errorlist2");
+                }
+                if (typeof data.errores.fierro!=='undefined' ){
+
+                    $("#fierronumerror:hidden").show("slow");
+                    $("#fierronumerror").html(data.errores.fierro[0]);
+                    $("#fierronum").addClass("errorlist2");
+
+                }
+                if (typeof data.errores.canalesqty!=='undefined' ){
+
+                    $("#cantcanaleserror:hidden").show("slow");
+                    $("#cantcanaleserror").html(data.errores.canalesqty[0]);
+                    $("#cantcanales").addClass("errorlist2");
+                }
+                if (typeof data.errores.canales!=='undefined' ){
+
+                    $("#canaleserror:hidden").show("slow");
+                    $("#canaleserror").html(data.errores.canales[0]);
+                    $("#canales").addClass("errorlist2");
+                }
+                 if (typeof data.errores.totalweight!=='undefined' ){
+
+                    $("#pesototalerror:hidden").show("slow");
+                    $("#pesototalerror").html(data.errores.totalweight[0]);
+                    $("#pesototal").addClass("errorlist2");
+                }
+            }
+
+
+}
+function errorclean(){
+
+    $(".hideonload").hide();
+
+    $("#dateerror:hidden").hide();
+    $("#dateerror").html("");
+    $("#date").removeClass("errorlist2");
+
+    $("#lotenumerror:hidden").hide();
+    $("#lotenumerror").html("");
+    $("#numlote").removeClass("errorlist2");
+
+    $("#fierronumerror:hidden").hide();
+    $("#fierronumerror").html("");
+    $("#fierronum").removeClass("errorlist2");
+
+    $("#canaleserror:hidden").hide();
+    $("#canaleserror").html("");
+    $("#canales").removeClass("errorlist2");
+
+    $("#cantcanaleserror:hidden").hide();
+    $("#cantcanaleserror").html("");
+    $("#cantcanales").removeClass("errorlist2");
+
+    $("#pesototalerror:hidden").hide();
+    $("#pesototalerror").html("");
+    $("#pesototal").removeClass("errorlist2");
+
+}
+
+function patchlote(){
+event.preventDefault();
+    var lote =parseInt($("#lote").val());
+
+
+        $.ajax({
+      method: "PATCH",
+      url: "/api/lotes/"+lote+"/",
+
+      data: JSON.stringify({
+
+        "isondeshuese": true
 
         }),//JSON object
           contentType:"application/json; charset=utf-8",
           dataType:"json"
 
         })
-      .fail(function (data) {
-            console.log(data.responseText);
-            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+
+      .success(function() {
+        $("#BtnCrear").prop("disabled",true);
+        $("#BtnNoConfirmar").prop("disabled",true);
+        $(".succesmessage:hidden").show("slow");
         })
-        .success(function (data) {
-            //success fuction.
+        .fail(function() {
+        //$("#BtnCrear").prop("disabled",true);
+        $(".failmessage:hidden").show("slow");
         });
+
+
 }
-
-function generarfactura(){
-    var clientefactura=$.get('/api/clientes/'+cliente+'/',function(){});
-    var cajerofactura=$.get('/api/cajeros/'+usuario+'/',function(){});
-    var tipoventafact='CONTADO.';
-    if($("#pagacontipo").val()==3){
-        tipoventafact='CRÉDITO.';
-    }
-    $('.facturanumfact').html(' '+ventaid);
-    $('.tipoventafact').html(' '+tipoventafact);
-    $('.fechafact').html('  '+todaynorm +' '+tiempoahora());
-    $('.clientefact').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
-    $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
-
-    $.each( matrixventa, function(i){
-        $('#tablafactura > tbody:last').append('<tr><td> ' +matrixventa[i][3]+ ' </td><td>' + matrixventa[i][1]+ '</td><td class="precio">' +matrixventa[i][4].toFixed(2)+ '</td></tr>');
-    });
-    if(descuento>0){
-        $('.descueentofactleft').html('DESCUENTO '+descuentoporc +'%');
-    }
-
-    $('.subtotalfactright').html(subtotal.toFixed(2));
-    $('.descueentofactright').html(descuento.toFixed(2));
-    $('.ivfactright').html(totaliv.toFixed(2));
-    $('.totalfactright').html(totalventa.toFixed(2));
-
-    $('.precio').priceFormat({
-        prefix: '₡ ',
-        centsSeparator: ',',
-        thousandsSeparator: '.'
-    });
-    $('.sidetotales').hide();
-    $('.factura:hidden').show();
-}
-
-

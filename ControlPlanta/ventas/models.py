@@ -63,7 +63,10 @@ class DetallesPago(models.Model):
     tarjeta=models.ForeignKey('Tipostarjeta',verbose_name='Tipo de Tarjeta')
     digitos=models.IntegerField(null=True,verbose_name='Últimos 4 dígitos tarjeta')
     autorizacion=models.IntegerField(null=True,verbose_name='Autorización Datafono')
-
+    transfnum=models.IntegerField(blank=True,verbose_name='Número de transferencia',default=0)
+    bancotransf=models.CharField(max_length=255,verbose_name='Banco',default='Nacional',blank=True)
+    chequenum=models.IntegerField(blank=True,verbose_name='Número de cheque',default=0)
+    bancocheque=models.CharField(max_length=255,verbose_name='Banco',default='Nacional',blank=True)
     def __unicode__(self):
         ret=str(self.id)
         return ret

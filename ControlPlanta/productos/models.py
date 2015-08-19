@@ -10,6 +10,7 @@ class Producto(models.Model):
     description = models.CharField(max_length=255, verbose_name='Descripción')
     category = models.ForeignKey('FamiliaDelProducto', default=1,verbose_name='Familia')
     inventory= models.FloatField(default=0,verbose_name='Existencia en Inventario')
+    minimum=models.FloatField(default=0,verbose_name='Mínimo en Inventario',blank=True)
     cost= models.FloatField(default=0, verbose_name='Costo Standard ₡')
     autoprice = models.BooleanField(default=0, verbose_name='Precio Auto?')
     utility1=models.FloatField(default=0, verbose_name='Utilidad Cliente %:')

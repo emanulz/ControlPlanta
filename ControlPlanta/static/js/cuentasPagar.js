@@ -14,6 +14,7 @@ var totalabono;
 var totalabonodolares;
 var liquidar=false;
 var restanteabono;
+var idabonohecho=1;
 
 //vars de modelo
 var tarjetaabono=6;
@@ -419,18 +420,26 @@ function main () {
         $("#cliente").val('Cliente Contado').prop("disabled",true);
         $("#codigocliente").val('0001');
         $("#nombrecliente").val('Cliente Contado').prop("disabled",true);
-        $("#BtnPrint").on("click",Imprimir);
+
 
         //CUENTAS COBRAR #################
 
         var tipocambiodolarget=$.get('/api/variableglobal/?nombre=cambiodolar',function(){});
         tipocambiodolares=tipocambiodolarget.responseJSON[0].valornum;
+        $('.tipocambiohead').html('Tipo de Cambio '+tipocambiodolares.toFixed(2));
 
         //botones
+        $("#BtnPrint").on("click",Imprimir);
+        $("#BtnPrintabono").on("click",ImprimirAbono);
         $("#Btnbuscarcliente").on("click",BuscarCliente);
         $("#BtnconfirmarAbono").on("click",ChequearDatosabono);
         $("#BtneditarAbono").on('click',EditardatosAbono);
         $("#BtnRegistrarAbono").on('click',RegistrarAbono);
+
+        $('#BtnNuevoAbono').on("click",function(){
+            location.reload();
+        });
+
         $("#btnconfirmarcliente").on("click",function(){
                 $("#cliente").val($("#nombrecliente").val());
                 $('.cd-panelbuscarcliente').removeClass('is-visible');
@@ -592,12 +601,23 @@ function main () {
            // }
         });
 
+
     }//main
 
 function Imprimir(){
 
     event.preventDefault();
     $( "#factura").printArea();
+}
+function ImprimirAbono(){
+
+    event.preventDefault();
+    $( "#abono").printArea();
+}
+
+function tiempoahora(){
+    var dt = new Date();
+    return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
 }
 
 function ChequearDatosabono(){
@@ -675,12 +695,23 @@ function EditardatosAbono(){
         $('.btnregistrarabono').hide();
 }
 function RegistrarAbono(){
-    console.log('ENTRO A FUNC');
+    //console.log('ENTRO A FUNC');
     if(liquidar==true){
         //llama a liquidar deuda
+        $.each( facturaspend, function(i){
+            patchfacturasaldo(facturaspend[i][0],0);
+            facturasabono.push(facturaspend[i][0]);
+        });
+        saldorestante=0;
+        pendientes=[];
+        CrearObjAbono();
+        patchresumensaldo(0);
+        //imprimir recibo
+        ImprimirReciboAbono(idabonohecho,cliente);
+
     }
     else{
-        console.log('ENTRO A FALSE');
+        //console.log('ENTRO A FALSE');
         var matrixpendientes=facturaspend;
         $.each( matrixpendientes, function(i){
             DescontarAbono(matrixpendientes[i][0],matrixpendientes[i][3]);
@@ -690,8 +721,45 @@ function RegistrarAbono(){
         CrearObjAbono();
         //patch cuenta cobrar
         patchresumensaldo(saldorestante);
+        //imprimir recibo
+        ImprimirReciboAbono(idabonohecho,cliente)
+
     }
 }
+
+function ImprimirReciboAbono(id,cliente){
+
+    var abono=$.get('/api/abonoscobrar/'+id+'/',function(){});
+    var cliente=$.get('/api/clientes/'+cliente+'/',function(){});
+    $('.numabono').html(' '+abono.responseJSON.id);
+    $('.fechaabono').html(' '+abono.responseJSON.date+' '+abono.responseJSON.time);
+    $('.clienteabono').html(' '+cliente.responseJSON.name+' '+cliente.responseJSON.last_name);
+
+    $('.montoabono').html(' '+abono.responseJSON.montocol.toFixed(2));
+    $('.saldoanteior').html(' '+abono.responseJSON.saldoant.toFixed(2));
+    $('.saldoactual').html(' '+abono.responseJSON.saldoactual.toFixed(2));
+
+    $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+
+    $('.factura').hide();
+    $('.reciboabono:hidden').show();
+    $('.cd-panelabono').removeClass('is-visible');
+
+    blurElement('.blurlines',0);
+    $('#maincontent').find(':input').prop('disabled', true);
+    $("#BtnPrintabono").prop('disabled',false);
+    $("#BtnNuevoAbono").prop('disabled',false);
+
+
+    ImprimirAbono();
+
+
+}
+
 function DescontarAbono(id,saldo){
     if(restanteabono>0){//solo descuenta si queda saldo de lo que abona
         facturasabono.push(id);
@@ -789,9 +857,9 @@ function CrearObjAbono(){
         "digitos": digitosabono,
         "autorizacion": authdatafono,
         "transfnum": transfnumabono,
-        "bancotransf": $('#bancotransf').html(),
+        "bancotransf":$("#bancotransf option:selected").text(),
         "chequenum": chequenumabono,
-        "banco": $('#bancocheque').html(),
+        "banco": $("#bancocheque option:selected").text(),
         "saldoant": totalsaldo,
         "saldoactual": saldorestante
         }),//JSON object
@@ -805,7 +873,8 @@ function CrearObjAbono(){
     .success(function(data){
         //console.log(data.id);
         //detallepago=data.id;
-        abonos.push(data.id)
+        abonos.push(data.id);
+        idabonohecho=data.id;
     });//ajax
 }
 
@@ -932,7 +1001,7 @@ function TotalesAbono(){
             }
             if (moneda == 2) {
                 $('.totalabonodolares').html((totalsaldo / tipocambiodolares).toFixed(2));
-                totalabonodolares = totalsaldo / tipocambiodolares;
+                totalabonodolares = (totalsaldo / tipocambiodolares).toFixed(2);
             }
         }
         else{
@@ -1063,8 +1132,6 @@ function llenartablacanales(data){
             '</td><td>' + test.responseJSON.fierro + '</td><td><button  type="button" class=" btn btn-success form-control selectrowcanal " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
         });
 }
-
-
 
 function BuscarProducto(){
     codigobusqueda=[];
@@ -1371,10 +1438,7 @@ function NoConfirmarDatos(){
     });
     vuelto();
 }
-function tiempoahora(){
-    var dt = new Date();
-    return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-}
+
 function RegistarVenta(){
 
     guardardetallepago();

@@ -1,0 +1,601 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="/static/panel/css/reset.css"> <!-- CSS reset -->
+	<link rel="stylesheet" href="/static/panel/css/style.css"> <!-- Resource style -->
+	<script src="/static/panel/js/modernizr.js"></script> <!-- Modernizr -->
+    <script src="/static/js/PriceFormat.js"></script>
+    <script src="/static/js/inventariosmp.js"></script>
+    <script src="/static/print/jquery.PrintArea.js"></script>
+
+<div class="PaddingContent blurlines">
+
+    <div class="hideonload succesmessage">
+            <div class="col-sm-9 alert alert-success fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Completado!</strong> El deshuese fue registrado correctamente.<br/> <br/>
+                <a href=""  class=" btn btn-success" role="button" >Crear Nuevo</a>
+            </div>
+        </div><!-- Mensage success -->
+    <div class="hideonload failmessage">
+            <div class="col-sm-9 alert alert-danger fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Error en formulario!</strong> Corrija los errores mostrados.
+            </div>
+        </div><!-- Mensaje Error -->
+    <div class="container-fluid form-group" >
+    <div class="col-sm-9" >
+        <form class="form-horizontal col-sm-12" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="col-sm-5 tituloventa">Control de Materias Primas</div>
+                <label class="col-sm-2" for="cajero">Usuario:</label>
+                        <div class="col-sm-4">
+                            <select disabled class="form-control" name="cajero" id="cajero">
+                                <option value="{{ request.user.id }}"></option>
+                            </select>
+                       </div>
+                </div> <!-- Fecha y Usuario -->
+                 <div class="form-group">
+                    <label class="col-sm-2" for="tipoconsulta">Consulta por tipo:</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" name="tipoconsulta" id="tipoconsulta">
+                                <option value="1">Condimentos</option>
+
+                            </select>
+                       </div>
+                    <label class="col-sm-2" for="filtroinv">Filtro:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="filtroinv">
+                        </div>
+                     <div class=" col-sm-1">
+                        <button type="button" id="Btnfiltro" class="btn btn-success marginTop15px2"> <span class="glyphicon glyphicon-filter" aria-hidden="true"></span></button>
+                    </div>
+                </div> <!-- consulta y filtro-->
+            </div>
+        </form><!-- Encabezado -->
+        <form class="form-horizontal col-sm-12" action="">
+        <div class="form-group"  id="print">
+            <div class=" form-group col-sm-12 ">
+            <table class="table table-bordered table-hover" data-toggle="table" id="tablainventario" data-url="" data-cache="false" data-height="299">
+                <thead>
+                    <tr class="danger">
+                        <th data-field="id">Código</th>
+                        <th data-field="name">Descripción</th>
+                        <th data-field="name">Existencia KG</th>
+                        <th data-field="name">Entrada</th>
+                        <th data-field="name">Salida</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            </div><!-- tabla -->
+
+        </div>
+        <div class="form-group">
+
+        </div>
+    </form><!-- tabla de productos -->
+    </div><!-- main content -->
+    <div hidden class="col-sm-3" >
+        <form class="form-horizontal col-sm-12" action="">
+        <div class="col-sm-1"></div>
+        <div  class="form-group col-sm-11 ">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="pesolote">Total de Kilogramos:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalkg">0 Kg</span>
+                    </div>
+                </div>
+            </div><!-- total de kilogramos-->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="totalart">Total de Artículos:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalart">0</span>
+                    </div>
+                </div>
+            </div><!-- Total de artículos -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="mermakg">Sub Total:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData subtotal precio">₡ 0</span>
+                    </div>
+                </div>
+            </div><!-- Sub total -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="mermakg">Descuento: <span class="descuentoside"></span> </label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData descuento precio">₡ 0</span>
+                    </div>
+                </div>
+            </div><!-- descuento -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="mermaporc">I.V</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totaliv precio">₡ 0</span>
+
+                    </div>
+                </div>
+            </div><!-- Iv -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label>Total:</label>
+                    <div>
+                        <br/>
+                        <div class="sidePanelData2 totalventa precio">₡ 0</div>
+
+                    </div>
+                </div>
+            </div><!-- Total -->
+            <div class="form-group " style="margin-top: 15px">
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnConfirmar" style="width: 160px">Confirmar</button>
+                    <button  type="button" class=" btn btn-danger  form-control " id="BtnNoConfirmar" style="width: 160px">Editar Datos</button>
+                    <br/><br/>
+                    <button  type="button" class=" btn btn-success  form-control  btnprint" id="BtnPrint" style="width: 160px">Imprimir</button>
+                </div>
+            </div><!-- btnconfirmar -->
+        </div>
+    </form>
+    </div> <!-- Side bar -->
+</div><!-- Pagina principal -->
+</div>
+
+<div class="cd-panel cd-panelentrada from-right">
+		<header class="cd-panel-header">
+			<h1>Ingreso de Productos a inventario</h1>
+        </header>
+		<div class="cd-panel-container">
+			<div class="cd-panel-content">
+				<form class="col-sm-12 form-horizontal" action="">
+                    <div class="tituloventa2">
+                        Datos del Producto:
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            <input disabled type="text" class="form-control" id="codprodentrada" placeholder="Código del producto">
+                        </div>
+                        <div class="col-sm-5">
+                            <input disabled type="text" class="form-control" id="descprodentrada" placeholder="Descripción del producto">
+                        </div>
+                   </div><!-- codigo y descripcion -->
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                <label for="extactual">Existencia Actual:</label>
+                                <br/>
+                                <br/>
+                                </div>
+                                <div class="col-sm-12">
+                                <input disabled type="number" class="form-control " id="extactual">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                <label for="codigocliente">Tipo de entrada:</label>
+                                <br/>
+                                <br/>
+                                </div>
+                                <div class="col-sm-12">
+                                    <select class="form-control" name="tipoentrada" id="tipoentrada">
+                                        <option value="2">Compras</option>
+                                        <option value="3">Ajuste Toma Física</option>
+                                        <option value="4">Devolución</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                   </div><!-- existencia y tipo -->
+                     <div class="tituloventa2 changetipoent">
+                        Entrada por compras:
+                        <br/>
+                        <br/>
+                    </div>
+
+                    <div hidden class="form-group tomafisica">
+                        <div class="col-sm-12">
+                            <label for="tomaf">Nueva existencia:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control numentrada " id="tomaf">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button disabled type="button" class=" btn btn-success form-control confentrada" id="btntomaf" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+                    <div hidden class="form-group produccion">
+                        <div class="col-sm-12">
+                            <label for="produccionsum">Cantidad Producida KG:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control numentrada" id="produccionsum">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button disabled type="button" class=" btn btn-success form-control confentrada" id="btnconfprod" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+                     <div  class="form-group compradev">
+                        <div class="col-sm-12">
+                            <label for="entcompras">Unidades Compradas KG:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control numentrada" id="entcompras">
+                        </div>
+                         <div class="col-sm-12">
+                            <br/>
+                            <label for="factcompdev">Factura Compra:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                         <div class="col-sm-8">
+                            <input type="text" class="form-control numentrada2" id="factcompdev">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button disabled type="button" class=" btn btn-success form-control confentrada" id="btnconfcompdev" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+                    <div hidden class="form-group devolucion">
+                        <div class="col-sm-12">
+                            <label for="valdevolucion">Unidades Devueltas KG:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control numentrada" id="valdevolucion">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button disabled type="button" class=" btn btn-success form-control confentrada" id="btndevolucion" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+
+                </form>
+            </div> <!-- cd-panel-content -->
+		</div> <!-- cd-panel-container -->
+	</div> <!-- Panel de entrada de productos -->
+
+<div class="cd-panel cd-panelsalida from-left">
+		<header class="cd-panel-header">
+			<h1>Salida de Productos de inventario</h1>
+        </header>
+		<div class="cd-panel-container">
+			<div class="cd-panel-content">
+				<form class="col-sm-12 form-horizontal" action="">
+                    <div class="tituloventa2">
+                        Datos del Producto:
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            <input disabled type="text" class="form-control" id="codprodsalida" placeholder="Código del producto">
+                        </div>
+                        <div class="col-sm-5">
+                            <input disabled type="text" class="form-control" id="descprodsalida" placeholder="Descripción del producto">
+                        </div>
+                   </div><!-- codigo y descripcion -->
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                <label for="extactual">Existencia Actual:</label>
+                                <br/>
+                                <br/>
+                                </div>
+                                <div class="col-sm-12">
+                                <input disabled type="number" class="form-control " id="extactualsalida">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                <label for="tiposalida">Tipo de salida:</label>
+                                <br/>
+                                <br/>
+                                </div>
+                                <div class="col-sm-12">
+                                    <select class="form-control" name="tiposalida" id="tiposalida">
+                                        <option value="3">Ajuste Toma Física</option>
+                                        <option value="4">Producto Vencido</option>
+                                        <option value="2">Desecho</option>
+                                        <option value="1">Ventas</option>
+                                        <option value="5">Reproceso</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                   </div><!-- existencia y tipo -->
+                     <div class="tituloventa2 changetiposal">
+                        Ajuste por toma Física:
+                        <br/>
+                        <br/>
+                    </div>
+
+                    <div class="form-group tomafisicasal">
+                        <div class="col-sm-12">
+                            <label for="tomafsal">Nueva existencia:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="tomafsal">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button disabled type="button" class=" btn btn-success form-control confentrada" id="btntomafsal" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+                    <div hidden class="form-group salidageneral">
+                        <div class="col-sm-12">
+                            <label for="salidageneral">Cantidad de producto KG:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control " id="salidageneral">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button disabled type="button" class=" btn btn-success form-control " id="btnconfsalgen" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+                     <div hidden class="form-group ventassal">
+                        <div class="col-sm-12">
+                            <label for="salventas">Unidades Vendidas KG:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control " id="salventas">
+                        </div>
+                         <div class="col-sm-12">
+                            <br/>
+                            <label for="factsalventas">Factura Venta #:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                         <div class="col-sm-8">
+                            <input type="text" class="form-control " id="factsalventas">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button disabled type="button" class=" btn btn-success form-control confentrada" id="btnconfventa" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+
+                </form>
+            </div> <!-- cd-panel-content -->
+		</div> <!-- cd-panel-container -->
+	</div> <!-- Panel de salida de productos -->
+
+<div class="cd-panel cd-panelpagar from-right">
+    <header class="cd-panel-header">
+        <H1>Datos del Pago</H1>
+    </header>
+    <div class="cd-panel-container">
+        <div class="cd-panel-content">
+            <form class="col-sm-12 form-horizontal" action="">
+                 <div class="form-group tipodepago">
+                    <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacontipo">Tipo de pago:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <select class="form-control input-lg" name="pagacontipo" id="pagacontipo">
+                            <option value="1">Efectivo</option>
+                            <option value="2">Tarjeta</option>
+                            <option value="3">Crédito</option>
+                        </select>
+                    </div>
+                </div>
+                 <div class="form-group pagoefectivo">
+                    <div class="col-sm-12">
+                        <label class="tituloventa2" for="montoefectivo">Datos efectivo:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="montoefectivo">Monto efectivo:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control input-lg " name="montoefectivo" id="montoefectivo">
+                        <br/>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="vuelto">Vuelto:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <input disabled type="text" class="form-control input-lg precio" name="vuelto" id="vuelto">
+                        <br/>
+                    </div>
+                </div>
+                 <div class="pagotarjeta form-group">
+                     <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Datos de la tarjeta:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="tipotarjeta">Tipo:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <select class="form-control input-lg" name="tipotarjeta" id="tipotarjeta">
+                            <option value="1">Visa</option>
+                            <option value="2">Master Card</option>
+                            <option value="3">American Express</option>
+                            <option value="4">Discover</option>
+                            <option value="5">Otra</option>
+                        </select>
+                        <br/>
+                    </div>
+                 </div>
+                 <div class="pagotarjeta form-group">
+                     <div class=" form-group col-sm-6">
+                         <div class="col-sm-11">
+                            <label for="4digits">Últimos 4 digitos:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control input-lg" name="4digits" id="4digits">
+                        </div>
+                     </div>
+                     <div class="form-group col-sm-6">
+                         <div class="col-sm-11">
+                            <label for="authtarjeta">Autorización:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control input-lg" name="authtarjeta" id="authtarjeta">
+                        </div>
+                     </div>
+                 </div>
+                 <div class="totalespago form-group" >
+                     <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Totales:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                      <div class="form-group col-sm-6">
+                         <div class="col-sm-12">
+                            <label for="4digits">Total:</label>
+                             <br/><br/>
+                        </div>
+                         <div class="col-sm-12 totalesdata2" >
+                            <span class="precio totalpagar">10000</span>
+                        </div>
+                     </div>
+                      <div class="form-group col-sm-6">
+                            <div class="col-sm-12">
+                                <label for="4digits">Paga Con:</label>
+                                 <br/><br/>
+                            </div>
+                             <div class="col-sm-12 totalesdata" >
+                                <span class="pagaconpagar">-</span>
+                            </div>
+                        </div>
+
+                     <div class="col-sm-12"><br/></div>
+
+
+                     <div class="form-group col-sm-6">
+                         <div class="col-sm-12">
+                            <label for="4digits">Vuelto:</label>
+                             <br/><br/>
+                        </div>
+                         <div class="col-sm-12 totalesdata " >
+                            <div class="precio vueltopagar">0</div>
+                        </div>
+
+                     </div>
+                     <div class="form-group col-sm-6">
+                            <div class="col-sm-12"><br/><br/></div>
+                            <div class="col-sm-12">
+                                <button  type="button" class=" btn btn-success  form-control" id="BtnRegistrarVenta" style="width: 160px">Registrar Venta</button>
+                            </div>
+                     </div>
+
+                 </div>
+            </form>
+        </div> <!-- cd-panel-content -->
+    </div> <!-- cd-panel-container -->
+</div> <!-- Panel de pagar -->
+
+<div class="cd-panel cd-panelbuscar from-left">
+		<header class="cd-panel-header">
+			<h1>Búsqueda de Producto</h1>
+        </header>
+
+        <div class="cd-panel-container">
+            <div class="cd-panel-content">
+                <div class="form-group">
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="tipobusqueda">Tipo de búsqueda:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select class="form-control input-lg" name="" id="tipobusqueda">
+                                <option value="1">Descripción</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="busqueda">Búsqueda:</label>
+                        </div>
+                        <div class="col-sm-9">
+                        <div>
+                        <input type="text" class="form-control input-lg" id="busqueda">
+                        </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class=" pull-right">
+                        <button  type="button" class=" btn btn-success  form-control marginBtnAdd2 " id="btnbusqueda" style="width: 160px">Buscar <span class="glyphicon glyphicon-search"> </span></button>
+                        </div>
+                    </div>
+                 </form>
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-12" >
+                            <table class="table table-bordered table-hover " data-toggle="table" id="tablabusqueda" data-url="" data-cache="false" data-height="299">
+                                <thead>
+                                    <tr class="danger">
+                                    <th data-field="id">Código</th>
+                                    <th data-field="descripcion">Descripción</th>
+                                    <th data-field="precio">Precio</th>
+                                    <th data-field="agregar">Agregar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class=" pull-right">
+                        <button  type="button" class=" btn btn-danger  form-control marginBtnAdd2 btntest" id="btncerrarbuscar" style="width: 160px"><span class="glyphicon glyphicon-menu-left"></span> Regresar</button>
+                        </div>
+                    </div>
+
+                </form>
+                </div>
+            </div> <!-- cd-panel-content -->
+        </div> <!-- cd-panel-container -->
+	</div> <!-- Panel de Buscar -->
+
+{% endblock %}

@@ -57,6 +57,8 @@ INSTALLED_APPS = (
     'frontend',
     'cuentasCobrar',
     'variablesGlobales',
+    'materiasPrimas',
+    'inventariosMP',
 
 )
 
@@ -77,10 +79,6 @@ MIDDLEWARE_CLASSES = (
 # #suits
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-    'django.core.context_processors.request',
-)
-
 SUIT_CONFIG = {
 
     'ADMIN_NAME': 'Avanzando Juntos',
@@ -89,22 +87,28 @@ SUIT_CONFIG = {
 
     'MENU': (
         {'app': 'auth', 'label': 'Usuarios', 'icon': 'icon-user'},
-        {'app': 'variablesglobales', 'label': 'Variables del sistema', 'icon': 'icon-lock'},
-        {'app': 'productos', 'label': 'Productos', 'icon': 'icon-gift'},
-        {'app': 'clientes', 'label': 'Clientes', 'icon': 'icon-briefcase'},
-        {'app': 'cuentascobrar', 'label': 'Cuentas por cobrar', 'icon': 'icon-hdd'},
-        {'app': 'proveedores', 'label': 'Proveedores', 'icon': 'icon-list'},
         {'app': 'cajeros', 'label': 'Cajeros', 'icon': 'icon-th'},
-        {'app': 'ventas', 'label': 'Ventas', 'icon': 'icon-bullhorn'},
+        {'app': 'variablesglobales', 'label': 'Variables del sistema', 'icon': 'icon-lock'},
         {'app': 'lotes', 'label': 'Lotes', 'icon': 'icon-barcode'},
         {'app': 'canales', 'label': 'Canales', 'icon': 'icon-filter'},
         {'app': 'deshueses', 'label': 'Deshuese', 'icon': 'icon-tasks'},
+        {'app': 'productos', 'label': 'Productos', 'icon': 'icon-gift'},
         {'app': 'inventarios', 'label': 'Inventarios', 'icon': 'icon-hdd'},
+        {'app': 'materiasprimas', 'label': 'Materias Primas', 'icon': 'icon-retweet'},
+        {'app': 'inventariosmp', 'label': 'Inventarios MP', 'icon': 'icon-bullhorn'},
+        {'app': 'clientes', 'label': 'Clientes', 'icon': 'icon-briefcase'},
+        {'app': 'cuentascobrar', 'label': 'Cuentas por cobrar', 'icon': 'icon-hdd'},
+        {'app': 'proveedores', 'label': 'Proveedores', 'icon': 'icon-list'},
+        {'app': 'ventas', 'label': 'Ventas', 'icon': 'icon-play'},
 
     ),
 
     'MENU_OPEN_FIRST_CHILD': False,
 }
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    'django.core.context_processors.request',
+)
+
 
 ROOT_URLCONF = 'ControlPlanta.urls'
 

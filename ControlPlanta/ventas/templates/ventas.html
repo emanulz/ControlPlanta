@@ -390,6 +390,8 @@
                             <option value="1">Efectivo</option>
                             <option value="2">Tarjeta</option>
                             <option value="3">Crédito</option>
+                            <option value="4">Transferencia</option>
+                            <option value="5">Cheque</option>
                         </select>
                     </div>
                 </div>
@@ -405,7 +407,7 @@
                         <br/>
                     </div>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control input-lg " name="montoefectivo" id="montoefectivo">
+                        <input type="number" class="form-control input-lg " name="montoefectivo" id="montoefectivo">
                         <br/>
                     </div>
                     <div class="col-sm-12">
@@ -462,6 +464,74 @@
                         </div>
                      </div>
                  </div>
+                <div hidden class="form-group transferencia" style="margin-bottom: 0">
+                    <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Datos de la transferencia:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class=" form-group col-sm-6 ">
+                        <div class="col-sm-12 ">
+                            <label for="numtransf ">Transferencia:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control input-lg " name="numtransf" id="numtransf">
+                            <br/>
+                        </div>
+                    </div>
+                     <div class=" form-group col-sm-5 ">
+                         <div class="col-sm-12 ">
+                            <label for="bancotransf">Banco:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <select class="form-control input-lg" name="bancotransf" id="bancotransf">
+                                <option value="1">Nacional</option>
+                                <option value="2">Costa Rica</option>
+                                <option value="2">BAC</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div hidden class="form-group cheque" style="margin-bottom: 0">
+
+                    <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Datos del cheque:</label>
+                        <br/>
+                        <br/>
+                    </div>
+
+                    <div class=" form-group col-sm-6 ">
+                        <div class="col-sm-12 ">
+                            <label for="chequenum ">Cheque:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control input-lg " name="chequenum" id="chequenum">
+                            <br/>
+                        </div>
+                    </div>
+                     <div class=" form-group col-sm-5 ">
+                         <div class="col-sm-12 ">
+                            <label for="bancocheque">Banco:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <select class="form-control input-lg" name="bancocheque" id="bancocheque">
+                                <option value="1">Nacional</option>
+                                <option value="2">Costa Rica</option>
+                                <option value="2">BAC</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                  <div class="credito form-group">
                      <div class="col-sm-12">
                         <label class="tituloventa2" for="pagacon">Datos del Cliente:</label>
@@ -553,7 +623,7 @@
                      <div class="form-group col-sm-6">
                             <div class="col-sm-12"><br/><br/></div>
                             <div class="col-sm-12">
-                                <button  type="button" class=" btn btn-success  form-control" id="BtnRegistrarVenta" style="width: 160px">Registrar Venta</button>
+                                <button disabled  type="button" class=" btn btn-success  form-control" id="BtnRegistrarVenta" style="width: 160px">Registrar Venta</button>
                             </div>
                      </div>
 
@@ -646,15 +716,27 @@
 
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-12">
-                            <label for="preciocanalkilo">Precio por Kilo ₡:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-5">
-                            <input type="number" class="form-control " id="preciocanalkilo">
-                        </div>
-                   </div>
+                        <div class="form-group col-sm-6">
+                            <div class="col-sm-12">
+                                <label for="preciocanalkilo">Precio por Kilo ₡:</label>
+                                <br/>
+                                <br/>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control " id="preciocanalkilo">
+                            </div>
+                       </div>
+                        <div class="form-group col-sm-6">
+                            <div class="col-sm-12">
+                                <label for="pesocanalnuevo">Peso del canal al entregar Kg:</label>
+                                <br/>
+                                <br/>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control " id="pesocanalnuevo">
+                            </div>
+                       </div>
+                    </div>
 
                  </form>
                 <form class="col-sm-12 form-horizontal" action="">

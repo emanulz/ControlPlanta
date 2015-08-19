@@ -22,6 +22,9 @@ from clientes.views import ClientViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
 from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet, \
     InventariosView
+from inventariosMP.views import InventarioResumenMPViewSet, InventarioEntradasMPViewSet, InventarioSalidasMPViewSet, \
+    InventariosmpView
+from materiasPrimas.views import MateriaPrimaViewSet, FamiliaMPViewSet
 from variablesGlobales.views import VariableGlobalViewSet
 from ventas.views import VentasView, DetallePagoViewSet, DetalleProductosViewSet, VentaViewSet, CierreView
 from lotes.views import LoteCreate, LoteViewSet
@@ -48,13 +51,17 @@ router.register(r'cajeros', CajeroViewSet)
 router.register(r'inventarioresumen', InventarioResumenViewSet)
 router.register(r'inventarioentrada', InventarioEntradasViewSet)
 router.register(r'inventariosalida', InventarioSalidasViewSet)
+router.register(r'inventarioresumenmp', InventarioResumenMPViewSet)
+router.register(r'inventarioentradamp', InventarioEntradasMPViewSet)
+router.register(r'inventariosalidamp', InventarioSalidasMPViewSet)
 router.register(r'detallepago', DetallePagoViewSet)
 router.register(r'detalleproducto', DetalleProductosViewSet)
 router.register(r'venta', VentaViewSet)
 router.register(r'abonoscobrar', AbonosViewSet)
 router.register(r'saldocobrar', DetalleCuentaViewSet)
 router.register(r'variableglobal', VariableGlobalViewSet)
-
+router.register(r'materiaprima', MateriaPrimaViewSet)
+router.register(r'familiamp', FamiliaMPViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -62,6 +69,7 @@ urlpatterns = [
     url(r'^ventas/', VentasView.as_view()),
     url(r'^cierrediario/', CierreView.as_view()),
     url(r'^inventarios/', InventariosView.as_view()),
+    url(r'^inventariosmp/', InventariosmpView.as_view()),
     url(r'^cuentascobrar/', cuentasCobrarView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
