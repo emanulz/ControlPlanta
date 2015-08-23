@@ -1,0 +1,272 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="/static/panel/css/reset.css"> <!-- CSS reset -->
+	<link rel="stylesheet" href="/static/panel/css/style.css"> <!-- Resource style -->
+	<script src="/static/panel/js/modernizr.js"></script> <!-- Modernizr -->
+    <script src="/static/js/PriceFormat.js"></script>
+    <script src="/static/js/reproceso.js"></script>
+    <script src="/static/print/jquery.PrintArea.js"></script>
+
+<div class="PaddingContent blurlines" id="maincontent">
+
+    <div class="hideonload succesmessage">
+            <div class="col-sm-9 alert alert-success fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Completado!</strong> El deshuese fue registrado correctamente.<br/> <br/>
+                <a href=""  class=" btn btn-success" role="button" >Crear Nuevo</a>
+            </div>
+        </div><!-- Mensage success -->
+    <div class="hideonload failmessage">
+            <div class="col-sm-9 alert alert-danger fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Error en formulario!</strong> Corrija los errores mostrados.
+            </div>
+        </div><!-- Mensaje Error -->
+<div class="container-fluid form-group" >
+    <div class="col-sm-9" >
+        <form class="form-horizontal col-sm-12" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="col-sm-5 tituloventa">Reproceso:</div>
+                <label class="col-sm-2" for="date">Fecha:</label>
+                    <div class="col-sm-3">
+                      <input type="date" class="form-control " id="date">
+                   </div>
+
+                </div> <!-- Fecha y titulo -->
+                 <div class="form-group">
+                     <div class="col-sm-5 tituloventa"></div>
+                    <label class="col-sm-2" for="cajero">Usuario:</label>
+                        <div class="col-sm-3">
+                            <select disabled class="form-control" name="cajero" id="cajero">
+                                <option value="{{ request.user.id }}"></option>
+                            </select>
+                       </div>
+
+                </div> <!-- cajero cliente y buscar-->
+            </div>
+        </form><!-- Fecha cajero y cliente -->
+        <form class="form-horizontal col-sm-12" action="">
+        <div class="form-group">
+            <div class="form-group">
+                <div class="col-sm-5 sidePanelData">Cortes Usados:</div>
+            </div>
+            <div class="form-group col sm-12" >
+            <label class="col-sm-2" for="cantidadCorteUsado">Cantidad:</label>
+            <div class="col-sm-3">
+                <input type="number" class="form-control " id="cantidadCorteUsado">
+            </div>
+            <label class="col-sm-2" for="idcorteusado">Corte:</label>
+            <div class="col-sm-3">
+                <input  type="number" class="form-control " id="idcorteusado">
+            </div>
+            <div class=" col-sm-1">
+                <button type="button" id="btnAddCorteUsado" class="btn btn-success marginTop15px2 btnAddCorteUsado"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+            </div>
+            <div class=" col-sm-1">
+                <button type="button" id="btnBuscarCorteUsado" class="btn btn-success marginTop15px2 btnBuscarCorteUsado btnbuscar"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </div>
+
+            </div><!-- peoductos y boton -->
+        </div>
+        </form><!-- productos y buscar 1 -->
+        <form class="form-horizontal col-sm-12" action="">
+        <div class="form-group">
+            <div class=" form-group col-sm-12 ">
+            <table class="table table-bordered table-hover" data-toggle="table" id="tablaCortesUsados" data-url="" data-cache="false" data-height="299">
+                <thead >
+                    <tr class="danger" >
+                        <th style="text-align: center" data-field="id">Código</th>
+                        <th style="text-align: center" data-field="name">Descripción</th>
+                        <th style="text-align: center" data-field="name">Existencia Actual Kg</th>
+                        <th style="text-align: center" data-field="name">Peso Usado Kg</th>
+                        <th style="text-align: center" data-field="name">X</th>
+                    </tr>
+
+                </thead>
+                <tbody style="text-align: center;vertical-align: middle">
+
+                </tbody>
+            </table>
+            </div><!-- tabla -->
+
+        </div>
+
+        </form><!-- tabla de productos 1 -->
+        <form class="form-horizontal col-sm-12" action="">
+        <div class="form-group">
+            <div class="form-group">
+                <div class="col-sm-5 sidePanelData ">Productos Creados:</div>
+            </div>
+            <div class="form-group col sm-12" >
+            <label class="col-sm-2" for="cantidadProdCreados">Cantidad Kg:</label>
+            <div class="col-sm-3">
+                <input type="number" class="form-control " id="cantidadProdCreados">
+            </div>
+            <label class="col-sm-2" for="productoCreado">Producto:</label>
+            <div class="col-sm-3">
+                <input  type="number" class="form-control " id="productoCreado">
+            </div>
+            <div class=" col-sm-1">
+                <button type="button" id="btnAddProdCreado" class="btn btn-success marginTop15px2 btnAddProdCreado"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+            </div>
+            <div class=" col-sm-1">
+                <button type="button" id="btnBuscarProdCreado" class="btn btn-success marginTop15px2 btnBuscarProdCreado btnbuscar"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </div>
+
+            </div><!-- peoductos y boton -->
+        </div>
+        </form><!-- productos y buscar 2-->
+        <form class="form-horizontal col-sm-12" action="">
+        <div class="form-group">
+            <div class=" form-group col-sm-12 ">
+            <table class="table table-bordered table-hover" data-toggle="table" id="tablaProductosCreados" data-url="" data-cache="false" data-height="299">
+                <thead>
+                    <tr class="danger">
+                        <tr class="danger">
+                        <th style="text-align: center" data-field="id">Código</th>
+                        <th style="text-align: center" data-field="name">Descripción</th>
+                        <th style="text-align: center" data-field="name">Existencia Actual Kg</th>
+                        <th style="text-align: center" data-field="name">Peso Creado Kg</th>
+                        <th style="text-align: center" data-field="name">X</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;vertical-align: middle" >
+
+                </tbody>
+            </table>
+            </div><!-- tabla -->
+
+        </div>
+
+        </form><!-- tabla de productos 2 -->
+    </div><!-- main content -->
+
+    <div class="col-sm-3 sidetotales" >
+        <form class="form-horizontal col-sm-12" action="">
+
+        <div class="form-group col-sm-12 ">
+            <div class="form-group">
+                <div class="col-sm-5 tituloventa2 ">Resumen:</div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="totalCortes">Total de Cortes Usados:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalCortes">0</span>
+                    </div>
+                </div>
+            </div><!-- total de kilogramos-->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="totalCortesKg">Total de Kg Usados:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalCortesKg">0 Kg</span>
+                    </div>
+                </div>
+            </div><!-- Total de artículos -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="totalProdCreados">Total de Productos creados:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalProdCreados">0</span>
+                    </div>
+                </div>
+            </div><!-- Sub total -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="totalProdCreadosKg">Total de Kg Creados: <span class="descuentoside"></span> </label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalProdCreadosKg">0 Kg</span>
+                    </div>
+                </div>
+            </div><!-- descuento -->
+
+            <div class="form-group " style="margin-top: 15px">
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-success  form-control  btnConfirmarRep" id="BtnConfirmar" style="width: 160px">Confirmar</button>
+                    <button  type="button" class=" btn btn-danger  form-control " id="BtnNoConfirmarRep" style="width: 160px">Editar Datos</button>
+                    <br/><br/>
+                    <button disabled type="button" class=" btn btn-success  form-control  " id="BtnCrearRep" style="width: 160px">Registrar Reproceso</button>
+                </div>
+            </div><!-- btnconfirmar -->
+        </div>
+    </form>
+    </div> <!-- Side bar -->
+
+</div><!-- Pagina principal -->
+</div>
+<div class="cd-panel cd-panelbuscar from-left">
+		<header class="cd-panel-header">
+			<h1>Búsqueda de Producto</h1>
+        </header>
+
+        <div class="cd-panel-container">
+            <div class="cd-panel-content">
+                <div class="form-group">
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="tipobusqueda">Tipo de búsqueda:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select class="form-control input-lg" name="" id="tipobusqueda">
+                                <option value="1">Descripción</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="busqueda">Búsqueda:</label>
+                        </div>
+                        <div class="col-sm-9">
+                        <div>
+                        <input type="text" class="form-control input-lg" id="busqueda">
+                        </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class=" pull-right">
+                        <button  type="button" class=" btn btn-success  form-control marginBtnAdd2 " id="btnbusqueda" style="width: 160px">Buscar <span class="glyphicon glyphicon-search"> </span></button>
+                        </div>
+                    </div>
+                 </form>
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-hover" data-toggle="table" id="tablabusqueda" data-url="" data-cache="false" data-height="299">
+                                <thead>
+                                    <tr class="danger">
+                                    <th data-field="id">Código</th>
+                                    <th data-field="descripcion">Descripción</th>
+                                    <th data-field="precio">Existencia Kg</th>
+                                    <th data-field="agregar">Agregar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class=" pull-right">
+                        <button  type="button" class=" btn btn-danger  form-control marginBtnAdd2 btntest" id="btncerrarbuscar" style="width: 160px"><span class="glyphicon glyphicon-menu-left"></span> Regresar</button>
+                        </div>
+                    </div>
+
+                </form>
+                </div>
+            </div> <!-- cd-panel-content -->
+        </div> <!-- cd-panel-container -->
+	</div> <!-- Panel de Buscar -->
+
+{% endblock %}

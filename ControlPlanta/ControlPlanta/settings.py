@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'variablesGlobales',
     'materiasPrimas',
     'inventariosMP',
+    'reprocesos',
 
 )
 
@@ -94,6 +95,7 @@ SUIT_CONFIG = {
         {'app': 'deshueses', 'label': 'Deshuese', 'icon': 'icon-tasks'},
         {'app': 'productos', 'label': 'Productos', 'icon': 'icon-gift'},
         {'app': 'inventarios', 'label': 'Inventarios', 'icon': 'icon-hdd'},
+        {'app': 'reprocesos', 'label': 'Reprocesos', 'icon': 'icon-hdd'},
         {'app': 'materiasprimas', 'label': 'Materias Primas', 'icon': 'icon-retweet'},
         {'app': 'inventariosmp', 'label': 'Inventarios MP', 'icon': 'icon-bullhorn'},
         {'app': 'clientes', 'label': 'Clientes', 'icon': 'icon-briefcase'},

@@ -25,6 +25,7 @@ from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,In
 from inventariosMP.views import InventarioResumenMPViewSet, InventarioEntradasMPViewSet, InventarioSalidasMPViewSet, \
     InventariosmpView
 from materiasPrimas.views import MateriaPrimaViewSet, FamiliaMPViewSet
+from reprocesos.views import ReprocesoViewSet, ReprocesosView
 from variablesGlobales.views import VariableGlobalViewSet
 from ventas.views import VentasView, DetallePagoViewSet, DetalleProductosViewSet, VentaViewSet, CierreView
 from lotes.views import LoteCreate, LoteViewSet
@@ -62,6 +63,8 @@ router.register(r'saldocobrar', DetalleCuentaViewSet)
 router.register(r'variableglobal', VariableGlobalViewSet)
 router.register(r'materiaprima', MateriaPrimaViewSet)
 router.register(r'familiamp', FamiliaMPViewSet)
+router.register(r'familiamp', ReprocesoViewSet)
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -71,6 +74,7 @@ urlpatterns = [
     url(r'^inventarios/', InventariosView.as_view()),
     url(r'^inventariosmp/', InventariosmpView.as_view()),
     url(r'^cuentascobrar/', cuentasCobrarView.as_view()),
+    url(r'^reproceso/', ReprocesosView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
     url(r'backupdb/', 'frontend.views.backupdbmine', name='backup'),
