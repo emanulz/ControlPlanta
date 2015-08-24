@@ -4,6 +4,10 @@ fierros=[];
 var n;
 var today = "";
 var today2 = "";
+var cantcerdos=0;
+var cantreses=0;
+var cantpollos=0;
+jQuery.ajaxSetup({async:false});
 
 $(document).on('ready', main);
 
@@ -21,22 +25,24 @@ function main () {
 			}
 		}
 	});
+        cargarCanales();
 
       //eventos checkbox
        $( "input[type=checkbox]" ).on( "click", function(){
-
+           console.log('test');
+           var id=0;
          n = parseInt($( "input:checked" ).length);
          $("#cantcanales").val(n);
 
           var thisCheck = $(this);
             if (thisCheck.is (':checked')) {
-                var id = $(this).data('id');
+                id = $(this).data('id');
                 lotescliked.push(id);
 
                 $.get('/api/canales/' + id+'/', sumarPeso)
             }
            else{
-                var id = $(this).data('id');
+                id = $(this).data('id');
                 lotescliked.splice( $.inArray(id,lotescliked) ,1 );
                 $.get('/api/canales/' + id+'/', restarPeso)
             }
@@ -52,10 +58,15 @@ function main () {
             $("#pesototal").val(0);
             $("#cantcanales").val(0);
             lotescliked=[];
+            $("#msgNohayCanales:hidden").show();
             $('.Cerdo').attr('checked', false);
             $('.Res').attr('checked', false);
 
             if($("#tipo" ).val()==1){
+                console.log(cantcerdos);
+                if(cantcerdos>0){
+                    $("#msgNohayCanales").hide();
+                }
 
                 $(".Res:hidden").hide();
                 $(".Pollo:hidden").hide();
@@ -64,7 +75,10 @@ function main () {
                 $(".Cerdo:hidden").show();
             }
             if($("#tipo" ).val()==2){
-
+                if(cantreses>0){
+                    $("#msgNohayCanales").hide();
+                }
+                $(".Res:hidden").show();
                 $(".Cerdo:hidden").hide();
                 $(".Pollo:hidden").hide();
                 $(".Cerdo").hide();
@@ -72,7 +86,9 @@ function main () {
 
             }
             if($("#tipo" ).val()==3){
-
+                if(cantpollos>0){
+                    $("#msgNohayCanales").hide();
+                }
                 $(".Cerdo:hidden").hide();
                 $(".Res:hidden").hide();
                 $(".Cerdo").hide();
@@ -99,7 +115,46 @@ function main () {
 
         //consigue la cantidad de lotes del dia y llama llenar numlote
         $.get('/totallotes/', llenarnumlote);
+
+        if(cantcerdos>0){
+            $("#msgNohayCanales").hide();
+        }
+
+
     }//main
+
+function cargarCanales(){
+    var canaleslist= $.get('/api/canales/?isonlote=False&vendido=False&mediovendido=False', function(){});
+    console.log(canaleslist.responseJSON[0].tipo);
+    var tipo;
+    if(canaleslist.responseJSON.length==0){
+        $("#msgNohayCanales:hidden").show();
+    }
+    else {
+        //$("#msgNohayCanales").hide();
+        $.each(canaleslist.responseJSON, function (i) {
+            if (canaleslist.responseJSON[i].tipo == 1) {
+                tipo = 'Cerdo';
+                cantcerdos = cantcerdos + 1;
+            }
+            if (canaleslist.responseJSON[i].tipo == 2) {
+                tipo = 'Res';
+                cantreses = cantreses + 1;
+            }
+            if (canaleslist.responseJSON[i].tipo == 3) {
+                tipo = 'Pollo';
+                cantpollos = cantpollos + 1;
+            }
+            var fierro= $.get('/api/proveedores/'+canaleslist.responseJSON[i].fierro +'/', function(){});
+            $("#canaleslist").append('<li class="' + tipo + '" >' +
+            '<label class="' + tipo + '" style="color: #0081c2" for="' + canaleslist.responseJSON[i].id + '">' +
+            canaleslist.responseJSON[i].id + ' ' + canaleslist.responseJSON[i].date +' ' +fierro.responseJSON.name +' ' +
+            fierro.responseJSON.lastname +' ' +fierro.responseJSON.fierro +'</label>' +
+            '<input  type="checkbox" class="checkboxdis ' + tipo + '" id="' + canaleslist.responseJSON[i].id + '" data-id="' + canaleslist.responseJSON[i].id + '"/>' +
+            '</li>');
+        });
+    }
+}
 
 function llenarnumlote(data){
     var a=data.total+1;
@@ -117,7 +172,7 @@ function sumarPeso (data){
     var pesototal2=Math.round(pesototal* 1000) / 1000;
     $("#pesototal").val(pesototal2);
 
-    }//sumarPeso
+}//sumarPeso
 
 function restarPeso (data){
 
@@ -128,7 +183,7 @@ function restarPeso (data){
     var pesototal=pesoactual-pesocanal;
     var pesototal2=Math.round(pesototal* 1000) / 1000;
     $("#pesototal").val(pesototal2);
-    }//restarPeso
+}//restarPeso
 
 function unique(list) {
   var result = [];

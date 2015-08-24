@@ -5,11 +5,11 @@ from inventarios.models import EntradasInventario, SalidasInventario
 
 
 class Reproceso(models.Model):
-    entrada=models.ForeignKey(EntradasInventario,verbose_name='Entrada de inventario relacionada')
-    salida=models.ForeignKey(SalidasInventario,verbose_name='Entrada de inventario relacionada')
-    cortesusados=models.FloatField(default=1,verbose_name='Cantidad de cortes Usados')
+    entrada=models.ManyToManyField(EntradasInventario,verbose_name='Entrada de inventario relacionada')
+    salida=models.ManyToManyField(SalidasInventario,verbose_name='Entrada de inventario relacionada')
+    cortesusados=models.PositiveIntegerField(default=1,verbose_name='Cantidad de cortes Usados')
     cortesusadoskg=models.FloatField(default=1,verbose_name='Cantidad de cortes Usados Kg')
-    prodcreados=models.FloatField(default=1,verbose_name='Cantidad de productos creados')
+    prodcreados=models.PositiveIntegerField(default=1,verbose_name='Cantidad de productos creados')
     prodcreadoskg=models.FloatField(default=1,verbose_name='Cantidad de productos creados Kg')
 
     def __unicode__(self):

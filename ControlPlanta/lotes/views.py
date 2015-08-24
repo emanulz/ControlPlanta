@@ -46,7 +46,7 @@ def loteform2(request):
 
 @login_required(login_url='/admin/login/')
 def loteform(request):
-    canales = Canal.objects.filter(date=datetime.today(),isonlote=False,vendido=False)
+    canales = Canal.objects.filter(date=datetime.today(),isonlote=False,vendido=False,mediovendido=False)
     return render_to_response('crearlote.html', {'canales': canales}, context_instance=RequestContext(request))
 
 @login_required(login_url='/admin/login/')

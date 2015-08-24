@@ -68,44 +68,55 @@
                 <div class="col-sm-12 errorlist" id="canaleslisterror"> </div>
                 <label class="col-sm-2" for="canaleslist">Canales:</label>
                 <div class="col-sm-6">
-                <div id="canaleslist">
-                    {% if  canales.count != 0 %}
+                    <div id="canaleslist">
 
-                        {% for canal in canales %}
-                            {% if  canal.isonlote != True %}
-                                {% if  canal.tipo.id == 1 %}
-                                <li class="Cerdo" >
-                                    <label class="Cerdo" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>
-                                    <input  type="checkbox" class="checkboxdis Cerdo" id="{{ canal.id }}" data-id="{{ canal.id }}"/>
-                                </li>
-                                {% endif %}
-
-                                 {% if  canal.tipo.id == 2 %}
-                                <li class="Res">
-                                    <label class="Res" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>
-                                    <input  type="checkbox" class="checkboxdis Res" id="{{ canal.id }}" data-id="{{ canal.id }}"/>
-                                </li>
-                                {% endif %}
-
-                                 {% if  canal.tipo.id == 3 %}
-                                <li class="Pollo">
-                                    <label class="Pollo" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>
-                                    <input  type="checkbox" class="checkboxdis Pollo " id="{{ canal.id }}" data-id="{{ canal.id }}"/>
-                                </li>
-                                {% endif %}
-
-                            {% endif %}
-
-                        {% endfor %}
-
-                    {% else %}
+                        <div id="msgNohayCanales">
                             <p>
-                                <strong> No hay canales registrados hoy, que no pertenezcan ya a un lote. </strong>
+                                <strong> No hay canales registrados, que no pertenezcan ya a un lote.</strong>
                                 <br/>
                                 <a href="/addcanal/" class="btn btn-primary margintop10px" role="button" >Crear Canal</a>
                             </p>
-                    {% endif %}
-                </div>
+                        </div>
+
+                    </div>
+{#                <div id="canaleslist">#}
+{#                    {% if  canales.count != 0 %}#}
+{##}
+{#                        {% for canal in canales %}#}
+{#                            {% if  canal.isonlote != True %}#}
+{#                                {% if  canal.tipo.id == 1 %}#}
+{#                                <li class="Cerdo" >#}
+{#                                    <label class="Cerdo" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>#}
+{#                                    <input  type="checkbox" class="checkboxdis Cerdo" id="{{ canal.id }}" data-id="{{ canal.id }}"/>#}
+{#                                </li>#}
+{#                                {% endif %}#}
+{##}
+{#                                 {% if  canal.tipo.id == 2 %}#}
+{#                                <li class="Res">#}
+{#                                    <label class="Res" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>#}
+{#                                    <input  type="checkbox" class="checkboxdis Res" id="{{ canal.id }}" data-id="{{ canal.id }}"/>#}
+{#                                </li>#}
+{#                                {% endif %}#}
+{##}
+{#                                 {% if  canal.tipo.id == 3 %}#}
+{#                                <li class="Pollo">#}
+{#                                    <label class="Pollo" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>#}
+{#                                    <input  type="checkbox" class="checkboxdis Pollo " id="{{ canal.id }}" data-id="{{ canal.id }}"/>#}
+{#                                </li>#}
+{#                                {% endif %}#}
+{##}
+{#                            {% endif %}#}
+{##}
+{#                        {% endfor %}#}
+{##}
+{#                    {% else %}#}
+{#                            <p>#}
+{#                                <strong> No hay canales registrados hoy, que no pertenezcan ya a un lote. </strong>#}
+{#                                <br/>#}
+{#                                <a href="/addcanal/" class="btn btn-primary margintop10px" role="button" >Crear Canal</a>#}
+{#                            </p>#}
+{#                    {% endif %}#}
+{#                </div>#}
                 </div>
             </div>
 

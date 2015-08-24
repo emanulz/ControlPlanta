@@ -15,6 +15,7 @@ class Canal(models.Model):
     fierro=models.ForeignKey(Proveedor, verbose_name='# de Fierro')
     isonlote=models.BooleanField(default=False,verbose_name='Pertenece a lote?')
     vendido=models.BooleanField(default=False,verbose_name='vendido entero?')
+    mediovendido=models.BooleanField(default=False,verbose_name='Ya se vendió medio?')
     tipo=models.ForeignKey(FamiliaDelProducto, default=1,verbose_name='Tipo de Carne')
 
 

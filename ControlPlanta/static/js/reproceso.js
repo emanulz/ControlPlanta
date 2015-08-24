@@ -8,6 +8,8 @@ var totalCortesKg=0;
 var totalProdCreados=0;
 var totalProdCreadosKg=0;
 var codigobusqueda=[];
+var salidasInv=[];
+var entradasInv=[];
 
 //variables globales
 
@@ -489,12 +491,16 @@ function main () {
     $("#cantidadCorteUsado").val(1);
     $("#BtnNoConfirmarRep").hide();
     $("#BtnCrearRep").hide();
+    $("#BtnCrearNewRep").hide();
 
     //al introducios codigo
 
     $("#BtnConfirmar").on("click",ConfirmarDatos);
     $("#BtnNoConfirmarRep").on("click",NoConfirmarDatos);
     $("#BtnCrearRep").on("click",crearReproceso);
+    $("#BtnCrearNewRep").on("click",function(){
+         location.reload();
+    });
 
     //tabla 1
 
@@ -842,12 +848,239 @@ function blurElement(element, size){
 
 function crearReproceso(){
     //crear salidas
+    crearSalidasInv();
     //patch inv en productos salidas
-    //crear entradas
-    //patch inv en productos entradas
+    patchSalidasInvProducto();
     //patch res inv
+    patchSalidasResumenInv();
+    //crear entradas
+    crearEntradasInv();
+    //patch inv en productos entradas
+    patchEntradasInvProducto();
+    //patch res inv
+    patchEntradasResumenInv();
     //crear reproceso
+    crearElemReproceso();
+    $('#maincontent').find(':input').prop('disabled', true);
+    $("#BtnCrearRep").hide();
+    $("#BtnCrearNewRep:hidden").show();
+    $("#BtnCrearNewRep").prop('disabled', false);
+
+    alertify.alert("COMPLETADO!","Reproceso completado, datos ingresados al sistema correctamente" );
 }
+
+// FUNCIONES DE SALIDAS
+
+function crearSalidasInv(){
+    //matrixCortesUsados.push([data[0].product_code, data[0].description,existencia ,cantidad,data[0].id]);
+    event.preventDefault();
+     $.each( matrixCortesUsados, function(i){
+
+        $.ajax({
+          method: "POST",
+          url: "/api/inventariosalida/",
+          async: false,
+
+          data: JSON.stringify({
+                "tipo": 5,
+                "datos": 'Salida por reproceso.',
+                "producto": matrixCortesUsados[i][4],
+                "peso": matrixCortesUsados[i][3],
+                "nuevopeso": matrixCortesUsados[i][2]-matrixCortesUsados[i][3],
+                "date":today,
+                "time": tiempoahora(),
+                "usuario":usuario
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear el reproceso, por favor intente de nuevo o contacte a Emanuel al # 83021964 "+data.responseText);
+            })
+            .success(function(data){
+                salidasInv.push(data.id);
+                //console.log(detallesventa);
+            });
+    });
+}
+
+function patchSalidasInvProducto(){
+    //matrixCortesUsados.push([data[0].product_code, data[0].description,existencia ,cantidad,data[0].id]);
+    event.preventDefault();
+     $.each( matrixCortesUsados, function(i){
+        $.ajax({
+              method: "PATCH",
+              url: "/api/productos/"+matrixCortesUsados[i][4]+"/",
+
+              data: JSON.stringify({
+
+                "inventory": matrixCortesUsados[i][2]-matrixCortesUsados[i][3]
+
+                }),//JSON object
+                  contentType:"application/json; charset=utf-8",
+                  dataType:"json"
+            })
+            .fail(function (data) {
+                console.log(data.responseText);
+                alertify.alert("Error","Hubo un problema al crear el reproceso, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function () {
+                //detallesventa.push(data.id);
+                //console.log(detallesventa);
+            });
+    });
+}
+
+function patchSalidasResumenInv(){
+    //matrixCortesUsados.push([data[0].product_code, data[0].description,existencia ,cantidad,data[0].id]);
+     event.preventDefault();
+     $.each( matrixCortesUsados, function(i){
+        var InvRes=$.get('/api/inventarioresumen/?producto='+matrixCortesUsados[i][4],function(){});
+        $.ajax({
+              method: "PATCH",
+              url: "/api/inventarioresumen/"+InvRes.responseJSON[0].id+"/",
+
+              data: JSON.stringify({
+
+                "cantidad": matrixCortesUsados[i][2]-matrixCortesUsados[i][3]
+
+                }),//JSON object
+                  contentType:"application/json; charset=utf-8",
+                  dataType:"json"
+            })
+            .fail(function (data) {
+                console.log(data.responseText);
+                alertify.alert("Error","Hubo un problema al crear el reproceso, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function () {
+                //detallesventa.push(data.id);
+                //console.log(detallesventa);
+            });
+    });
+}
+
+// FUNCIONES DE ENTRADA
+
+function crearEntradasInv(){
+    //matrixCortesUsados.push([data[0].product_code, data[0].description,existencia ,cantidad,data[0].id]);
+    event.preventDefault();
+     $.each( matrixProductosCreados, function(i){
+
+        $.ajax({
+          method: "POST",
+          url: "/api/inventarioentrada/",
+          async: false,
+
+          data: JSON.stringify({
+                "tipo": 5,
+                "datos": 'Entrada por reproceso.',
+                "producto": matrixProductosCreados[i][4],
+                "peso": matrixProductosCreados[i][3],
+                "nuevopeso": matrixProductosCreados[i][2]+matrixProductosCreados[i][3],
+                "date":today,
+                "time": tiempoahora(),
+                "usuario":usuario
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear el reproceso, por favor intente de nuevo o contacte a Emanuel al # 83021964 "+data.responseText);
+            })
+            .success(function(data){
+                entradasInv.push(data.id);
+                //console.log(detallesventa);
+            });
+    });
+}
+
+function patchEntradasInvProducto(){
+    //matrixCortesUsados.push([data[0].product_code, data[0].description,existencia ,cantidad,data[0].id]);
+    event.preventDefault();
+     $.each( matrixProductosCreados, function(i){
+        $.ajax({
+              method: "PATCH",
+              url: "/api/productos/"+matrixProductosCreados[i][4]+"/",
+
+              data: JSON.stringify({
+
+                "inventory": matrixProductosCreados[i][2]+matrixProductosCreados[i][3]
+
+                }),//JSON object
+                  contentType:"application/json; charset=utf-8",
+                  dataType:"json"
+            })
+            .fail(function (data) {
+                console.log(data.responseText);
+                alertify.alert("Error","Hubo un problema al crear el reproceso, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function () {
+                //detallesventa.push(data.id);
+                //console.log(detallesventa);
+            });
+    });
+}
+
+function patchEntradasResumenInv(){
+    //matrixCortesUsados.push([data[0].product_code, data[0].description,existencia ,cantidad,data[0].id]);
+     event.preventDefault();
+     $.each( matrixProductosCreados, function(i){
+        var InvRes=$.get('/api/inventarioresumen/?producto='+matrixProductosCreados[i][4],function(){});
+        $.ajax({
+              method: "PATCH",
+              url: "/api/inventarioresumen/"+InvRes.responseJSON[0].id+"/",
+
+              data: JSON.stringify({
+
+                "cantidad": matrixProductosCreados[i][2]+matrixProductosCreados[i][3]
+
+                }),//JSON object
+                  contentType:"application/json; charset=utf-8",
+                  dataType:"json"
+            })
+            .fail(function (data) {
+                console.log(data.responseText);
+                alertify.alert("Error","Hubo un problema al crear el reproceso, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+            .success(function () {
+                //detallesventa.push(data.id);
+                //console.log(detallesventa);
+            });
+    });
+}
+
+function crearElemReproceso(){
+
+    event.preventDefault();
+
+    $.ajax({
+          method: "POST",
+          url: "/api/reproceso/",
+          async: false,
+
+          data: JSON.stringify({
+                "entrada": entradasInv,
+                "salida":  salidasInv,
+                "cortesusados": totalCortes,
+                "cortesusadoskg": totalCortesKg,
+                "prodcreados": totalProdCreados,
+                "prodcreadoskg":totalProdCreadosKg
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 "+data.responseText);
+            })
+            .success(function(data){
+                //salidasInv.push(data.id);
+                //console.log(detallesventa);
+            });
+}
+
 //TERMINA REPORCESO
 
 

@@ -17,6 +17,11 @@ class InventariosView(TemplateView):
     def dispatch(self, *args, **kwargs):
         return super(InventariosView, self).dispatch(*args, **kwargs)
 
+class AlertasInventariosView(TemplateView):
+    template_name = 'alertasinventarios.html'
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(AlertasInventariosView, self).dispatch(*args, **kwargs)
 
 #INVENTARIO TOTAL API
 class InventarioTotalSerializer(serializers.ModelSerializer):

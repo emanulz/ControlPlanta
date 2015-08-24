@@ -43,7 +43,8 @@ class EntradasInventario(models.Model):
     time=models.TimeField(verbose_name='Hora' )
     usuario=models.ForeignKey(Cajero,verbose_name='usuario')
     def __unicode__(self):
-        return self.tipo.nombre
+        ret = str(self.id)
+        return self.tipo.nombre+' #'+ret
     class Meta:
         ordering=['id']
         verbose_name='Entrada en Inventario'
@@ -69,7 +70,8 @@ class SalidasInventario(models.Model):
     usuario=models.ForeignKey(Cajero,verbose_name='Usuario')
 
     def __unicode__(self):
-        return self.tipo.nombre
+        ret = str(self.id)
+        return self.tipo.nombre+' #'+ret
     class Meta:
         ordering=['id']
         verbose_name='Salida en Inventario'

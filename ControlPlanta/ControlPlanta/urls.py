@@ -21,7 +21,7 @@ from canales.views import CanalViewSet
 from clientes.views import ClientViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
 from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet, \
-    InventariosView
+    InventariosView, AlertasInventariosView
 from inventariosMP.views import InventarioResumenMPViewSet, InventarioEntradasMPViewSet, InventarioSalidasMPViewSet, \
     InventariosmpView
 from materiasPrimas.views import MateriaPrimaViewSet, FamiliaMPViewSet
@@ -63,7 +63,7 @@ router.register(r'saldocobrar', DetalleCuentaViewSet)
 router.register(r'variableglobal', VariableGlobalViewSet)
 router.register(r'materiaprima', MateriaPrimaViewSet)
 router.register(r'familiamp', FamiliaMPViewSet)
-router.register(r'familiamp', ReprocesoViewSet)
+router.register(r'reproceso', ReprocesoViewSet)
 
 
 urlpatterns = [
@@ -72,6 +72,7 @@ urlpatterns = [
     url(r'^ventas/', VentasView.as_view()),
     url(r'^cierrediario/', CierreView.as_view()),
     url(r'^inventarios/', InventariosView.as_view()),
+    url(r'^alertas/', AlertasInventariosView.as_view()),
     url(r'^inventariosmp/', InventariosmpView.as_view()),
     url(r'^cuentascobrar/', cuentasCobrarView.as_view()),
     url(r'^reproceso/', ReprocesosView.as_view()),
