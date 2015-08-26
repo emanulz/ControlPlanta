@@ -10,6 +10,7 @@ class DetalleCuenta(models.Model):
     total=models.FloatField(default=0,verbose_name='Total Pendiente Crédito')
     pending=models.ManyToManyField(Venta,verbose_name='Facturas pendientes',blank=True)
     abonos=models.ManyToManyField('Abono',verbose_name='Detalle de abonos',blank=True)
+    notasdecredito=models.ManyToManyField('NotaDeCredito', verbose_name='Notas de crédito asociadas',blank=True)
     def __unicode__(self):
         ret = str(self.id)
         return ret
@@ -44,6 +45,18 @@ class Abono(models.Model):
         verbose_name='Abono'
         verbose_name_plural='2. Abonos'
 
-
-
+class NotaDeCredito(models.Model):
+    date=models.DateField(verbose_name='Fecha')
+    time=models.TimeField(verbose_name='Hora de la venta')
+    monto=models.FloatField(verbose_name='Monto de la nota',default=0)
+    saldoanterior=models.FloatField(verbose_name='Saldo de la cuenta antes de aplicar',default=0)
+    saldoactual=models.FloatField(verbose_name='Saldo de la cuenta después de aplicar',default=0)
+    venta=models.ForeignKey(Venta, verbose_name='Ventas asociadas',blank=True)
+    def __unicode__(self):
+        ret = str(self.id)
+        return ret
+    class Meta:
+        ordering=['id']
+        verbose_name='Nota de crédito'
+        verbose_name_plural='3. Notas de crédito'
 

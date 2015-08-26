@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from rest_framework import serializers,viewsets
-from cuentasCobrar.models import Abono,DetalleCuenta
+from cuentasCobrar.models import Abono,DetalleCuenta, NotaDeCredito
 
 # Create your views here.
 
@@ -13,6 +13,11 @@ class cuentasCobrarView(TemplateView):
     def dispatch(self, *args, **kwargs):
         return super(cuentasCobrarView, self).dispatch(*args, **kwargs)
 
+class notaCreditoView(TemplateView):
+    template_name = 'notascredito.html'
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(notaCreditoView, self).dispatch(*args, **kwargs)
 ##API
 
 class AbonosSerializer(serializers.ModelSerializer):
@@ -44,3 +49,18 @@ class DetalleCuentaViewSet(viewsets.ModelViewSet):
     queryset = DetalleCuenta.objects.all()
     lookup_field = 'id'
     filter_fields=('id','cliente','total', 'pending', 'abonos')
+
+class NotaDeCreditoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = NotaDeCredito
+        fields =('date','time','monto','saldoanterior','saldoactual','ventas')
+
+
+# ViewroductSets define the view behavior.
+class NotaDeCreditoViewSet(viewsets.ModelViewSet):
+
+    serializer_class = NotaDeCreditoSerializer
+    queryset = NotaDeCredito.objects.all()
+    lookup_field = 'id'
+    filter_fields=('date','time','monto','saldoanterior','saldoactual','ventas')

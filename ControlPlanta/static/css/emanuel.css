@@ -14,6 +14,12 @@
     color: #9d201c;
 
 }
+.tituloventa3{
+    font-size: 20px;
+    color: #9d201c;
+    font-family: sans-serif;
+
+}
 
 .PaddingContent{
 
@@ -58,6 +64,13 @@
 
     font-size: 40px ;
     color: #e38e09;
+    font-family: sans-serif
+}
+
+.totalesdata3{
+
+    font-size: 17px ;
+    color: #000000;
     font-family: sans-serif
 }
 

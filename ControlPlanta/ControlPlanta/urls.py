@@ -34,7 +34,8 @@ from rest_framework import routers
 from productos.views import ProductViewSet, FamiliaViewSet
 from proveedores.views import ProveedorViewSet
 from cajeros.views import CajeroViewSet
-from cuentasCobrar.views import AbonosViewSet,DetalleCuentaViewSet, cuentasCobrarView
+from cuentasCobrar.views import AbonosViewSet,DetalleCuentaViewSet, cuentasCobrarView, NotaDeCreditoViewSet, \
+    notaCreditoView
 
 # Routers provide an easy way of automatically determining the URL conf.
 
@@ -64,6 +65,8 @@ router.register(r'variableglobal', VariableGlobalViewSet)
 router.register(r'materiaprima', MateriaPrimaViewSet)
 router.register(r'familiamp', FamiliaMPViewSet)
 router.register(r'reproceso', ReprocesoViewSet)
+router.register(r'notacredito', NotaDeCreditoViewSet)
+
 
 
 urlpatterns = [
@@ -76,6 +79,7 @@ urlpatterns = [
     url(r'^inventariosmp/', InventariosmpView.as_view()),
     url(r'^cuentascobrar/', cuentasCobrarView.as_view()),
     url(r'^reproceso/', ReprocesosView.as_view()),
+    url(r'^notacredito/', notaCreditoView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
     url(r'backupdb/', 'frontend.views.backupdbmine', name='backup'),

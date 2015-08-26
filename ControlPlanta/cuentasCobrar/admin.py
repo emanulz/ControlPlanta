@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from cuentasCobrar.models import Abono,DetalleCuenta
+from cuentasCobrar.models import Abono,DetalleCuenta, NotaDeCredito
 
 
 @admin.register(Abono)
@@ -16,3 +16,7 @@ class DetalleCuentaAdmin(admin.ModelAdmin):
     search_fields = ('id','cliente','total')
     filter_horizontal = ('pending', 'abonos')
 
+@admin.register(NotaDeCredito)
+class NotaDeCredito(admin.ModelAdmin):
+    list_display = ('date','time','monto','saldoanterior','saldoactual')
+    search_fields = ('date','time','monto','saldoanterior','saldoactual')

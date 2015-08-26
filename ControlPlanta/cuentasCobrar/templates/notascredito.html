@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="/static/panel/css/style.css"> <!-- Resource style -->
 	<script src="/static/panel/js/modernizr.js"></script> <!-- Modernizr -->
     <script src="/static/js/PriceFormat.js"></script>
-    <script src="/static/js/cuentasCobrar.js"></script>
+    <script src="/static/js/notascredito.js"></script>
     <script src="/static/print/jquery.PrintArea.js"></script>
 
 <div class="PaddingContent blurlines" id="maincontent">
@@ -30,7 +30,7 @@
             {% csrf_token %}
             <div class="form-group">
                 <div class="form-group">
-                    <div class="col-sm-5 tituloventa">Detalle de Cuenta:</div>
+                    <div class="col-sm-5 tituloventa">NOTAS CREDITO:</div>
                 <label class="col-sm-2" for="date">Fecha:</label>
                     <div class="col-sm-4">
                       <input type="date" class="form-control " id="date">
@@ -73,16 +73,15 @@
             <table class="table table-bordered table-hover" data-toggle="table" id="tablafacturaspend" data-url="" data-cache="false" data-height="299">
                 <thead>
                     <tr class="danger">
-                        <th style="text-align: center" data-field="id"># Fact/NC</th>
-                        <th style="text-align: center" data-field="name">Fecha</th>
-                        <th style="text-align: center" data-field="name">Total</th>
-                        <th style="text-align: center" data-field="name">Saldo</th>
-                        <th style="text-align: center" data-field="name">Nota de Crédito </th>
-                        <th style="text-align: center" data-field="name">Ver</th>
+                        <th data-field="id"># Fact</th>
+                        <th data-field="name">Fecha</th>
+                        <th data-field="name">Total</th>
+                        <th data-field="name">Saldo</th>
+                        <th data-field="name"> Ver </th>
                     </tr>
 
                 </thead>
-                <tbody style="text-align: center;vertical-align: middle">
+                <tbody>
 
                 </tbody>
             </table>
@@ -540,147 +539,5 @@
     </div> <!-- cd-panel-container -->
 </div> <!-- Panel de abono -->
 
-<div class="cd-panel cd-panelnotacred from-right">
-    <header class="cd-panel-header">
-        <H1>Nota de crédito <span style="position: relative;float: right;margin-right: 10px" >Tipo de cambio: <span class="precio tipocambiohead"></span> </span></H1>
-    </header>
-    <div class="cd-panel-container">
-        <div class="cd-panel-content datosdelabono">
-            <form class="col-sm-12 form-horizontal" action="">
-                <div class="form-group datoscliente" style="margin-bottom: 0">
-                    <div class=" form-group col-sm-6 ">
-                        <div class="col-sm-12 tituloventa3">
-                            <label for="codigoclientenc ">Código de cliente:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-12 codigoclientenc totalesdata3">
-                            0002
-                        </div>
-                    </div>
-                     <div class=" form-group col-sm-6 ">
-                         <div class="col-sm-12 tituloventa3">
-                            <label for="monedaabono">Nombre del Cliente:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-12 nombreclientenc totalesdata3">
-                            Nombre del Cliente
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group saldoscliente" style="margin-bottom: 0">
-                    <div class=" form-group col-sm-6 ">
-                        <div class="col-sm-12 tituloventa3">
-                            <label for="codigoclientenc ">Límite de crédito:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-12 creditlimitnc totalesdata3 precio">
-                            0
-                        </div>
-                    </div>
-                     <div class=" form-group col-sm-6 ">
-                         <div class="col-sm-12 tituloventa3">
-                            <label for="monedaabono">Saldo actual:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-12 saldoactualnc totalesdata3 precio">
-                            0
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group facturaysaldo" style="margin-bottom: 0">
-                    <div class=" form-group col-sm-6 ">
-                        <div class="col-sm-12 tituloventa3">
-                            <label for="codigoclientenc ">Número de factura:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-12 numfacturanc totalesdata3  ">
-                            0
-                        </div>
-                    </div>
-                     <div class=" form-group col-sm-6 ">
-                         <div class="col-sm-12 tituloventa3">
-                            <label for="monedaabono">Saldo factura:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-12 saldofacturanc totalesdata3 precio">
-                            0
-                        </div>
-                    </div>
-                </div>
-                <div  class="montonotacredito form-group">
-                     <div class=" form-group col-sm-6">
-                         <div class="col-sm-12 tituloventa3">
-                            <label for="montonc">Monto de la Nota de crédito:</label>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-sm-12">
-                            <input type="number" class="form-control input-lg" name="montonc" id="montonc">
-                        </div>
-                     </div>
-
-                 </div>
-
-                <div class="totalesnc form-group" >
-                     <div class="col-sm-12">
-                         <label class="tituloventa3" for="tituloventa">Totales:</label>
-                         <br/>
-                         <br/>
-                         <div hidden class="col-sm-11 alert alert-success fade in montomayorsaldonc">
-                             <a href="#" class="close" data-dismiss="alert">&times;</a>
-                             <strong>El Monto de la nota de crédito es mayor al saldo de la factura, la factura se liquidará!.</strong><br/>
-                         </div>
-                     </div>
-                      <div class="form-group col-sm-6">
-                         <div class="col-sm-12">
-                            <label for="totalabonocolones">Total NC:</label>
-                             <br/><br/>
-                        </div>
-                         <div class="col-sm-12 totalesdata2" >
-                            <span class="precio montonctotal">₡ 0,00</span>
-                        </div>
-                     </div>
-                      <div class="form-group col-sm-6">
-                            <div class="col-sm-12">
-                                <label for="totalabonodolares">Nuevo pendiente Factura:</label>
-                                 <br/><br/>
-                            </div>
-                             <div class="col-sm-12 totalesdata2" >
-                                <span class="precio montopendientefactura">₡ 0,00</span>
-                            </div>
-                        </div>
-
-                     <div class="col-sm-12"><br/></div>
-
-
-                     <div class="form-group col-sm-6">
-
-                     </div>
-
-                     <div class="form-group col-sm-6">
-                            <div class="col-sm-12"><br/><br/></div>
-                            <div class="col-sm-12 BtnconfirmarNC">
-                                <button  type="button" class=" btn btn-success  form-control" id="BtnconfirmarNC" style="width: 160px">Confirmar Datos</button>
-                            </div>
-                            <div hidden class="col-sm-12 BtneditarNC">
-                                <button  type="button" class=" btn btn-danger  form-control" id="BtneditarNC" style="width: 160px">Editar Datos</button>
-                            </div>
-                            <div class="col-sm-12"><br/></div>
-                            <div hidden class="col-sm-12 BtnRegistrarNC">
-                                <button  type="button" class=" btn btn-success  form-control" id="BtnRegistrarNC" style="width: 160px">Registrar Nota</button>
-                            </div>
-                     </div>
-
-                 </div>
-            </form>
-        </div> <!-- cd-panel-content -->
-    </div> <!-- cd-panel-container -->
-</div> <!-- Panel de nota cred -->
 
 {% endblock %}
