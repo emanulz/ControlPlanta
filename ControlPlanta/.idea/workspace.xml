@@ -41,7 +41,7 @@
       <file leaf-file-name="cuentasCobrar.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/cuentasCobrar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.37037" vertical-offset="13639" max-vertical-offset="17917">
+            <state vertical-scroll-proportion="0.0" vertical-offset="13639" max-vertical-offset="17917">
               <caret line="1209" column="45" selection-start-line="1209" selection-start-column="45" selection-end-line="1209" selection-end-column="45" />
               <folding>
                 <element signature="n#!!block;n#Imprimir#0" expanded="false" />
@@ -96,18 +96,31 @@
       <file leaf-file-name="reportecuentascobrar.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cuentasCobrar/templates/reportecuentascobrar.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.607142" vertical-offset="608" max-vertical-offset="12274">
-              <caret line="55" column="52" selection-start-line="55" selection-start-column="52" selection-end-line="55" selection-end-column="52" />
+            <state vertical-scroll-proportion="-30.75" vertical-offset="1476" max-vertical-offset="6308">
+              <caret line="123" column="48" selection-start-line="123" selection-start-column="48" selection-end-line="123" selection-end-column="48" />
+              <folding>
+                <element signature="e#10032#14481#0#HTML" expanded="false" />
+                <element signature="e#14516#23541#0#HTML" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="recuperacion.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cuentasCobrar/templates/recuperacion.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.45125" vertical-offset="1273" max-vertical-offset="12293">
+              <caret line="86" column="11" selection-start-line="86" selection-start-column="11" selection-end-line="86" selection-end-column="11" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="reportecuentascobrar.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="reportecuentascobrar.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/reportecuentascobrar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47518796" vertical-offset="9507" max-vertical-offset="26828">
-              <caret line="517" column="23" selection-start-line="517" selection-start-column="23" selection-end-line="517" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="11229" max-vertical-offset="26885">
+              <caret line="610" column="1" selection-start-line="610" selection-start-column="1" selection-end-line="610" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -187,13 +200,13 @@
         <option value="$PROJECT_DIR$/cuentasCobrar/models.py" />
         <option value="$PROJECT_DIR$/static/js/cuentasCobrar.js" />
         <option value="$PROJECT_DIR$/cuentasCobrar/templates/cuentasCobrar.html" />
-        <option value="$PROJECT_DIR$/cuentasCobrar/templates/recuperacion.html" />
         <option value="$PROJECT_DIR$/static/js/recuperacion.js" />
         <option value="$PROJECT_DIR$/ControlPlanta/urls.py" />
         <option value="$PROJECT_DIR$/frontend/templates/base2.html" />
         <option value="$PROJECT_DIR$/cuentasCobrar/views.py" />
-        <option value="$PROJECT_DIR$/cuentasCobrar/templates/reportecuentascobrar.html" />
         <option value="$PROJECT_DIR$/static/js/reportecuentascobrar.js" />
+        <option value="$PROJECT_DIR$/cuentasCobrar/templates/reportecuentascobrar.html" />
+        <option value="$PROJECT_DIR$/cuentasCobrar/templates/recuperacion.html" />
       </list>
     </option>
   </component>
@@ -253,19 +266,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Default" />
-        <subPane subId="Problems" />
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-        <subPane subId="Changed Files" />
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -346,11 +346,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="cuentasCobrar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="ControlPlanta" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Default" />
+        <subPane subId="Problems" />
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <subPane subId="Changed Files" />
       </pane>
     </panes>
   </component>
@@ -739,26 +770,48 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18757193" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18757193" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17518637" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17678382" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2542373" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35254237" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18757193" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35254237" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2542373" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17678382" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-    </layout>
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -950,11 +1003,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.20879121" vertical-offset="3610" max-vertical-offset="5282">
           <caret line="197" column="108" selection-start-line="197" selection-start-column="94" selection-end-line="197" selection-end-column="108" />
-          <folding>
-            <element signature="e#9575#9595#0#HTML" expanded="false" />
-            <element signature="e#9758#9778#0#HTML" expanded="false" />
-            <element signature="e#9758#9778#0#HTML" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1029,7 +1077,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.52615386" vertical-offset="342" max-vertical-offset="1805">
           <caret line="36" column="23" selection-start-line="36" selection-start-column="23" selection-end-line="36" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1128,9 +1175,90 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cuentasCobrar/templates/cuentasCobrar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="8.981818" vertical-offset="2147" max-vertical-offset="6631">
+          <caret line="87" column="20" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
+          <folding>
+            <element signature="e#4135#4161#0#HTML" expanded="false" />
+            <element signature="e#4221#4247#0#HTML" expanded="false" />
+            <element signature="e#4305#4331#0#HTML" expanded="false" />
+            <element signature="e#4389#4415#0#HTML" expanded="false" />
+            <element signature="e#4473#4499#0#HTML" expanded="false" />
+            <element signature="e#4568#4594#0#HTML" expanded="false" />
+            <element signature="e#4697#4746#0#HTML" expanded="false" />
+            <element signature="e#1428#6274#0#HTML" expanded="false" />
+            <element signature="e#6617#6670#0#HTML" expanded="false" />
+            <element signature="e#6722#6763#0#HTML" expanded="false" />
+            <element signature="e#7756#7779#0#HTML" expanded="false" />
+            <element signature="e#9407#9430#0#HTML" expanded="false" />
+            <element signature="e#9565#9584#0#HTML" expanded="false" />
+            <element signature="e#9729#9748#0#HTML" expanded="false" />
+            <element signature="e#9869#9888#0#HTML" expanded="false" />
+            <element signature="e#9995#10030#0#HTML" expanded="false" />
+            <element signature="e#10080#10116#0#HTML" expanded="false" />
+            <element signature="e#10175#10218#0#HTML" expanded="false" />
+            <element signature="e#10724#10748#0#HTML" expanded="false" />
+            <element signature="e#10900#10921#0#HTML" expanded="false" />
+            <element signature="e#6301#11049#0#HTML" expanded="false" />
+            <element signature="e#11849#11875#0#HTML" expanded="false" />
+            <element signature="e#12483#12506#0#HTML" expanded="false" />
+            <element signature="e#12534#12553#0#HTML" expanded="false" />
+            <element signature="e#12668#12687#0#HTML" expanded="false" />
+            <element signature="e#12817#12836#0#HTML" expanded="false" />
+            <element signature="e#13057#13099#0#HTML" expanded="false" />
+            <element signature="e#13362#13381#0#HTML" expanded="false" />
+            <element signature="e#14320#14341#0#HTML" expanded="false" />
+            <element signature="e#17150#17169#0#HTML" expanded="false" />
+            <element signature="e#17222#17243#0#HTML" expanded="false" />
+            <element signature="e#17150#17169#0#HTML" expanded="false" />
+            <element signature="e#17222#17243#0#HTML" expanded="false" />
+            <element signature="e#17150#17169#0#HTML" expanded="false" />
+            <element signature="e#17222#17243#0#HTML" expanded="false" />
+            <element signature="e#13726#13762#0#HTML" expanded="false" />
+            <element signature="e#19045#22783#0#HTML" expanded="false" />
+            <element signature="e#22818#33227#0#HTML" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/recuperacion.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.185185" vertical-offset="9953" max-vertical-offset="27018">
+          <caret line="544" column="6" selection-start-line="544" selection-start-column="6" selection-end-line="544" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ControlPlanta/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1088" max-vertical-offset="1919">
+          <caret line="82" column="31" selection-start-line="82" selection-start-column="11" selection-end-line="82" selection-end-column="31" />
+          <folding>
+            <element signature="e#622#663#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-18.892857" vertical-offset="1922" max-vertical-offset="2774">
+          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cuentasCobrar/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="1387">
+          <caret line="57" column="31" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/cuentasCobrar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.37037" vertical-offset="13639" max-vertical-offset="17917">
+        <state vertical-scroll-proportion="0.0" vertical-offset="13639" max-vertical-offset="17917">
           <caret line="1209" column="45" selection-start-line="1209" selection-start-column="45" selection-end-line="1209" selection-end-column="45" />
           <folding>
             <element signature="n#!!block;n#Imprimir#0" expanded="false" />
@@ -1181,110 +1309,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cuentasCobrar/templates/cuentasCobrar.html">
+    <entry file="file://$PROJECT_DIR$/static/js/reportecuentascobrar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="8.981818" vertical-offset="2147" max-vertical-offset="6631">
-          <caret line="87" column="20" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
-          <folding>
-            <element signature="e#4135#4161#0#HTML" expanded="false" />
-            <element signature="e#4221#4247#0#HTML" expanded="false" />
-            <element signature="e#4305#4331#0#HTML" expanded="false" />
-            <element signature="e#4389#4415#0#HTML" expanded="false" />
-            <element signature="e#4473#4499#0#HTML" expanded="false" />
-            <element signature="e#4568#4594#0#HTML" expanded="false" />
-            <element signature="e#4697#4746#0#HTML" expanded="false" />
-            <element signature="e#1428#6274#0#HTML" expanded="false" />
-            <element signature="e#6617#6670#0#HTML" expanded="false" />
-            <element signature="e#6722#6763#0#HTML" expanded="false" />
-            <element signature="e#7756#7779#0#HTML" expanded="false" />
-            <element signature="e#9407#9430#0#HTML" expanded="false" />
-            <element signature="e#9565#9584#0#HTML" expanded="false" />
-            <element signature="e#9729#9748#0#HTML" expanded="false" />
-            <element signature="e#9869#9888#0#HTML" expanded="false" />
-            <element signature="e#9995#10030#0#HTML" expanded="false" />
-            <element signature="e#10080#10116#0#HTML" expanded="false" />
-            <element signature="e#10175#10218#0#HTML" expanded="false" />
-            <element signature="e#10724#10748#0#HTML" expanded="false" />
-            <element signature="e#10900#10921#0#HTML" expanded="false" />
-            <element signature="e#6301#11049#0#HTML" expanded="false" />
-            <element signature="e#11849#11875#0#HTML" expanded="false" />
-            <element signature="e#12483#12506#0#HTML" expanded="false" />
-            <element signature="e#12534#12553#0#HTML" expanded="false" />
-            <element signature="e#12668#12687#0#HTML" expanded="false" />
-            <element signature="e#12817#12836#0#HTML" expanded="false" />
-            <element signature="e#13057#13099#0#HTML" expanded="false" />
-            <element signature="e#13362#13381#0#HTML" expanded="false" />
-            <element signature="e#14320#14341#0#HTML" expanded="false" />
-            <element signature="e#17150#17169#0#HTML" expanded="false" />
-            <element signature="e#17222#17243#0#HTML" expanded="false" />
-            <element signature="e#17150#17169#0#HTML" expanded="false" />
-            <element signature="e#17222#17243#0#HTML" expanded="false" />
-            <element signature="e#17150#17169#0#HTML" expanded="false" />
-            <element signature="e#17222#17243#0#HTML" expanded="false" />
-            <element signature="e#13726#13762#0#HTML" expanded="false" />
-            <element signature="e#19045#22783#0#HTML" expanded="false" />
-            <element signature="e#22818#33227#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cuentasCobrar/templates/recuperacion.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.4642856" vertical-offset="1195" max-vertical-offset="9443">
-          <caret line="68" column="39" selection-start-line="68" selection-start-column="39" selection-end-line="68" selection-end-column="39" />
-          <folding>
-            <element signature="e#3279#8951#0#HTML" expanded="false" />
-            <element signature="e#9038#11507#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/recuperacion.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.185185" vertical-offset="9953" max-vertical-offset="27018">
-          <caret line="544" column="6" selection-start-line="544" selection-start-column="6" selection-end-line="544" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ControlPlanta/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1088" max-vertical-offset="1919">
-          <caret line="82" column="31" selection-start-line="82" selection-start-column="11" selection-end-line="82" selection-end-column="31" />
-          <folding>
-            <element signature="e#622#663#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.892857" vertical-offset="1922" max-vertical-offset="2774">
-          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cuentasCobrar/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="1387">
-          <caret line="57" column="31" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="11229" max-vertical-offset="26885">
+          <caret line="610" column="1" selection-start-line="610" selection-start-column="1" selection-end-line="610" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cuentasCobrar/templates/reportecuentascobrar.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.607142" vertical-offset="608" max-vertical-offset="12274">
-          <caret line="55" column="52" selection-start-line="55" selection-start-column="52" selection-end-line="55" selection-end-column="52" />
-          <folding />
+        <state vertical-scroll-proportion="-30.75" vertical-offset="1476" max-vertical-offset="6308">
+          <caret line="123" column="48" selection-start-line="123" selection-start-column="48" selection-end-line="123" selection-end-column="48" />
+          <folding>
+            <element signature="e#10032#14481#0#HTML" expanded="false" />
+            <element signature="e#14516#23541#0#HTML" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/reportecuentascobrar.js">
+    <entry file="file://$PROJECT_DIR$/cuentasCobrar/templates/recuperacion.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47518796" vertical-offset="9507" max-vertical-offset="26828">
-          <caret line="517" column="23" selection-start-line="517" selection-start-column="23" selection-end-line="517" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.45125" vertical-offset="1273" max-vertical-offset="12293">
+          <caret line="86" column="11" selection-start-line="86" selection-start-column="11" selection-end-line="86" selection-end-column="11" />
           <folding />
         </state>
       </provider>

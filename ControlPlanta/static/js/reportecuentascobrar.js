@@ -9,6 +9,7 @@ var tarjetacierre=0;
 var creditocierre=0;
 var transferenciacierre=0;
 var chequecierre=0;
+var totalclientesconsaldo=0;
 
 var enteronaddproducto = false;
 var cantidad=0;
@@ -550,51 +551,51 @@ function llenartablacierre(){
         if(ventasdia.responseJSON[i].cliente!=1) {
             var clienteid = $.get('/api/clientes/' + ventasdia.responseJSON[i].cliente + '/', function () {
             });
+            if (ventasdia.responseJSON[i].total>0) {
+                $('#tablacierre > tbody:last').append('<tr><td>' + clienteid.responseJSON.code + '</td><td>' + clienteid.responseJSON.name + ' ' + clienteid.responseJSON.last_name +
+                '</td><td class="price">' + clienteid.responseJSON.credit_limit.toFixed(2) + '</td><td class="price">' + ventasdia.responseJSON[i].total.toFixed(2) + '</td></tr>');
 
-            $('#tablacierre > tbody:last').append('<tr><td>' + clienteid.responseJSON.code + '</td><td>' + clienteid.responseJSON.name+' '+clienteid.responseJSON.last_name +
-            '</td><td class="price">' + clienteid.responseJSON.credit_limit.toFixed(2) + '</td><td class="price">' + ventasdia.responseJSON[i].total.toFixed(2) + '</td></tr>');
-
-            //$('#tablaimpcierre > tbody:last').append('<tr><td> ' + ventasdia.responseJSON[i].id + ' </td><td> ' + ventasdia.responseJSON[i].facturas + ' </td>' +
-            //'<td class="price">' + ventasdia.responseJSON[i].montocol.toFixed(2) + '</td></tr>');
-            //
-            //
-            //totalcierre = totalcierre + ventasdia.responseJSON[i].montocol;
-            ////ivcierre=ivcierre+ventasdia.responseJSON[i].iv;
-            //
-            //if (tipopagocierre == 'EFECTIVO') {
-            //    contadocierre = contadocierre + ventasdia.responseJSON[i].montocol;
-            //}
-            //if (tipopagocierre == 'TARJETA') {
-            //    tarjetacierre = tarjetacierre + ventasdia.responseJSON[i].montocol;
-            //}
-            //if (tipopagocierre == 'CREDITO') {
-            //    creditocierre = creditocierre + ventasdia.responseJSON[i].montocol;
-            //}
-            //if (tipopagocierre == 'TRANSFERENCIA') {
-            //    transferenciacierre = transferenciacierre + ventasdia.responseJSON[i].montocol;
-            //}
-            //if (tipopagocierre == 'CHEQUE') {
-            //    chequecierre = chequecierre + ventasdia.responseJSON[i].montocol;
-            //}
-
+                $('#tablaimpcierre > tbody:last').append('<tr><td> ' + clienteid.responseJSON.code + ' </td><td> ' + clienteid.responseJSON.name + ' ' + clienteid.responseJSON.last_name + ' </td>' +
+                '<td class="price">' + ventasdia.responseJSON[i].total.toFixed(2) + '</td></tr>');
+                //
+                totalclientesconsaldo=totalclientesconsaldo+1;
+                totalcierre = totalcierre + ventasdia.responseJSON[i].total;
+                ////ivcierre=ivcierre+ventasdia.responseJSON[i].iv;
+                //
+                //if (tipopagocierre == 'EFECTIVO') {
+                //    contadocierre = contadocierre + ventasdia.responseJSON[i].montocol;
+                //}
+                //if (tipopagocierre == 'TARJETA') {
+                //    tarjetacierre = tarjetacierre + ventasdia.responseJSON[i].montocol;
+                //}
+                //if (tipopagocierre == 'CREDITO') {
+                //    creditocierre = creditocierre + ventasdia.responseJSON[i].montocol;
+                //}
+                //if (tipopagocierre == 'TRANSFERENCIA') {
+                //    transferenciacierre = transferenciacierre + ventasdia.responseJSON[i].montocol;
+                //}
+                //if (tipopagocierre == 'CHEQUE') {
+                //    chequecierre = chequecierre + ventasdia.responseJSON[i].montocol;
+                //}
+            }
         }
 
         });//each
 
-        $('.totalefectivocierre').html(contadocierre.toFixed(2));
-        $('.totaltarjetacierre').html(tarjetacierre.toFixed(2));
+        $('.totalcreditos').html(totalcierre.toFixed(2));
+        $('.totalclientescredito').html(totalclientesconsaldo);
         //$('.totalcredcierre').html(creditocierre.toFixed(2));
-        $('.totaltransfcierre').html(transferenciacierre.toFixed(2));
-        $('.totalchequecierre').html(chequecierre.toFixed(2));
-        $('.totalventascierre').html(totalcierre.toFixed(2));
-        //$('.totalivcierre').html(ivcierre.toFixed(2));
+        //$('.totaltransfcierre').html(transferenciacierre.toFixed(2));
+        //$('.totalchequecierre').html(chequecierre.toFixed(2));
+        //$('.totalventascierre').html(totalcierre.toFixed(2));
+        ////$('.totalivcierre').html(ivcierre.toFixed(2));
         //imprimir
-        $('.fechaimpcierre').html('FECHA: '+fechacierre);
-        $('.efectivoimprimir').html(contadocierre.toFixed(2));
-        $('.tarjetaimprimir').html(tarjetacierre.toFixed(2));
-        //$('.creditoimprimir').html(creditocierre.toFixed(2));
-        $('.transfimprimir').html(transferenciacierre.toFixed(2));
-        $('.chequeimprimir').html(chequecierre.toFixed(2));
+        $('.fechaimpcierre').html('A LA FECHA: '+fechacierre);
+        $('.numclientesdeudores').html(totalclientesconsaldo);
+        //$('.tarjetaimprimir').html(tarjetacierre.toFixed(2));
+        ////$('.creditoimprimir').html(creditocierre.toFixed(2));
+        //$('.transfimprimir').html(transferenciacierre.toFixed(2));
+        //$('.chequeimprimir').html(chequecierre.toFixed(2));
         //$('.ivimprimir').html(ivcierre.toFixed(2));
         $('.totalimprimir').html(totalcierre.toFixed(2));
 
@@ -604,6 +605,8 @@ function llenartablacierre(){
                 centsSeparator: ',',
                 thousandsSeparator: '.'
         });
+
+        $('#BtnImprimircierre').prop('disabled', false);
 
 }
 
