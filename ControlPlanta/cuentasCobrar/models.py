@@ -49,9 +49,12 @@ class NotaDeCredito(models.Model):
     date=models.DateField(verbose_name='Fecha')
     time=models.TimeField(verbose_name='Hora de la venta')
     monto=models.FloatField(verbose_name='Monto de la nota',default=0)
+    saldoanteriorfact=models.FloatField(verbose_name='Saldo de la factura antes de aplicar',default=0)
+    saldoactualfact=models.FloatField(verbose_name='Saldo de la factura después de aplicar',default=0)
     saldoanterior=models.FloatField(verbose_name='Saldo de la cuenta antes de aplicar',default=0)
     saldoactual=models.FloatField(verbose_name='Saldo de la cuenta después de aplicar',default=0)
     venta=models.ForeignKey(Venta, verbose_name='Ventas asociadas',blank=True)
+    detalle=models.CharField(max_length=255,verbose_name='Detalle de la Nota de crédito',default='',blank=True)
     def __unicode__(self):
         ret = str(self.id)
         return ret

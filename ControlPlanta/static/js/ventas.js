@@ -837,15 +837,15 @@ function agregarcanalatabla(id,tipo,precio,peso,enteroOmedio) {
     if(tipo==1){// canal de cerdo
         $('#tablaproductos > tbody:last').append('<tr><td>' + 4001 + '</td><td>' + description+' Cerdo id# '+id+'</td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+4001+'>' + peso + '</td>' +
         '<td>'+'G'+'</td><td class="precio total'+4001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
-
-       matrixventa.push([4001, description+' Cerdo id# '+id,precio ,peso,pricesubr, canalivr,pricetotr,106,true,1,id,enteroOmedio]);//los dos ultimos son si es canal y tipo y el id
+        var codCanalCerdo=$.get('/api/productos/?product_code=4001',function(){});
+        matrixventa.push([4001, description+' Cerdo id# '+id,precio ,peso,pricesubr, canalivr,pricetotr,codCanalCerdo.responseJSON[0].id,true,1,id,enteroOmedio]);//los dos ultimos son si es canal y tipo y el id
 
     }
     if(tipo==2){//canal de res
         $('#tablaproductos > tbody:last').append('<tr><td>' + 5001 + '</td><td>' + description+' Res id# '+id+'</td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+5001+'>' + peso + '</td>' +
         '<td>'+'G'+'</td><td class="precio total'+5001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
-
-        matrixventa.push([5001, description+' Res id# '+id,precio ,peso,pricesubr,canalivr,pricetotr,107,true,2,id,enteroOmedio]);//los dos ultimos son si es canal y tipo y el id
+        var codCanalRes=$.get('/api/productos/?product_code=5001',function(){});
+        matrixventa.push([5001, description+' Res id# '+id,precio ,peso,pricesubr,canalivr,pricetotr,codCanalRes.responseJSON[0].id,true,2,id,enteroOmedio]);//los dos ultimos son si es canal y tipo y el id
 
     }
     var totalkg2=parseFloat(totalkg);

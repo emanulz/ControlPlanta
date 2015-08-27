@@ -1,29 +1,14 @@
 //variables globales
 
-//vars de cuentas cobrar
-var cliente=1;
-var idcuentacobrar=1;
-var facturaspend=[];
-var facturasabono=[];
-var pendientes=[];
-var abonos=[];
-var totalsaldo;
-var saldorestante;
-var tipocambiodolares;
-var totalabono;
-var totalabonodolares;
-var liquidar=false;
-var restanteabono;
-var idabonohecho=1;
+//cierre
 
-//vars de modelo
-var tarjetaabono=6;
-var digitosabono=0;
-var authdatafono=0;
-var transfnumabono=0;
-var chequenumabono=0;
-
-//
+var totalcierre=0;
+var ivcierre=0;
+var contadocierre=0;
+var tarjetacierre=0;
+var creditocierre=0;
+var transferenciacierre=0;
+var chequecierre=0;
 
 var enteronaddproducto = false;
 var cantidad=0;
@@ -38,7 +23,7 @@ var detallesventa=[];
 var detallepago=0;
 var vueltoguardar=0;
 var efectivoguardar=0;
-
+var cliente=1;
 var usuario=1;
 var descuento=0;
 var descuentoporc=0;
@@ -142,7 +127,27 @@ function main () {
            // }
         });
 
+        //PANEL DE BUSCAR CLIENTE
 
+        $('.btnbuscarcliente').on('click', function(event){
+        event.preventDefault();
+        $('.cd-panelbuscarcliente').addClass('is-visible');
+        blurElement('.blurlines',2);
+        });
+        $('.cd-panelbuscarcliente').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelbuscarcliente').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                event.preventDefault();
+            }
+        });
+        $('#btncerrarbuscarcliente').on('click', function(event){
+            //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelbuscarcliente').removeClass('is-visible');
+                blurElement('.blurlines',0);
+                event.preventDefault();
+           // }
+        });
 
         //PANEL DE BUSCAR CANAL
         $('.cd-panelcanal').on('click', function(event){
@@ -220,20 +225,47 @@ function main () {
 
         //selectrow buscar cliente
 
+        $('html').on('click','.selectrowcliente', function () {
+            event.preventDefault();
+            var row=$(this).closest("tr");
+            var rowIndex = row.index();
+
+            var codigo = codigobusquedacliente[rowIndex][0];
+            var nombre = codigobusquedacliente[rowIndex][1];
+            var apellido = codigobusquedacliente[rowIndex][2];
+            cliente=codigobusquedacliente[rowIndex][3];
+            $("#tablabusquedacliente > tbody").html("");
+            $('#codigocliente').val(codigo);
+            $('#nombrecliente').val(nombre+' '+apellido);
+            $("#cliente").val($("#nombrecliente").val());
+            $("#nombrecliente").val('Cliente Contado');
+            $("#codigocliente").val('0001');
+            $("#btnconfirmarcliente").prop('disabled',true);
+            $("#codigocliente").prop('disabled',false);
+            $("#nombreclientecontado").val('');
+            $("#nombreclientebuscar").val('');
+            $('.cd-panelbuscarcliente').removeClass('is-visible');
+            blurElement('.blurlines',0);
+            recalculartablaproductos();
+
+        });
+
         //selectrow canal
-        //$('html').on('click','.selectrowfactura', function () {
-        //    event.preventDefault();
-        //    var row=$(this).closest("tr");
-        //    var rowIndex = row.index();
-        //    var precio=$('#preciocanalkilo').val();
-        //    if(precio==''){
-        //        alertify.alert('Error','Ingrese un precio válido');
-        //    }
-        //    else{
-        //        //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
-        //        agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
-        //    }
-        //});
+        $('html').on('click','.selectrowcanal', function () {
+            event.preventDefault();
+            var row=$(this).closest("tr");
+            var rowIndex = row.index();
+            var precio=$('#preciocanalkilo').val();
+            if(precio==''){
+                alertify.alert('Error','Ingrese un precio válido');
+            }
+            else{
+                //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
+                agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
+            }
+
+
+        });
         //eventos enter
 
         $('#descuento').on('keypress', function (event) {
@@ -320,16 +352,89 @@ function main () {
              }
        });
 
+        $( "#pagacontipo" ).change(function() {
+            if( $("#pagacontipo").val()==1){
+                $(".pagotarjeta").hide();
+                $(".credito").hide();
+                $(".pagoefectivo:hidden").show();
+                $("#montoefectivo").val(0);
+                vuelto();
+                $(".pagaconpagar").html('₡ 0,00');
+                $(".vueltopagar").html('₡ 0,00');
+            }
+            if( $("#pagacontipo").val()==2){
+                $(".pagoefectivo").hide();
+                $(".credito").hide();
+                $(".pagotarjeta:hidden").show();
+                $("#montoefectivo").val(0);
+                vuelto();
+                $(".pagaconpagar").html('TARJETA');
+                $(".vueltopagar").html('₡ 0,00');
+            }
+            if( $("#pagacontipo").val()==3){
+                $('.errorsaldoactual').hide();
+                $('.errornocredito').hide();
+                $(".pagoefectivo").hide();
+                $(".pagotarjeta").hide();
+                $(".credito:hidden").show();
+                $("#montoefectivo").val(0);
+                var cliente2=$.get('/api/clientes/'+cliente+'/',function(){});
+                //cliente=cliente2.responseJSON[0].id;
+                $("#nombreclientecred").val(cliente2.responseJSON.name+' '+cliente2.responseJSON.last_name);
+                $("#limitecred").val('₡'+cliente2.responseJSON.credit_limit);
+                var saldos = $.get('/api/saldocobrar/?cliente='+cliente,function(){});
+
+                $("#saldocred").val('₡'+saldos.responseJSON[0].total);
+
+                if((saldos.responseJSON[0].total+totalventa)>cliente2.responseJSON.credit_limit){
+                    $('.errorsaldoactual:hidden').show();
+                }
+                if(cliente2.responseJSON.credit==false){
+                    $('.errorsaldoactual').hide();
+                    $('.errornocredito:hidden').show();
+                }
+                vuelto();
+                $(".pagaconpagar").html('CRÉDITO');
+                $(".vueltopagar").html('₡ 0,00');
+            }
+        });
 
         //botones
 
         //boton de busqueda en panel de busqueda producto
         $("#btnbusqueda").on("click",BuscarProducto);
 
+        //CIERRE
+        $("#BtnGenerarCierre").on("click",llenartablacierre);
+        $("#BtnImprimircierre").on("click",imprimircierre);
+        $('#BtnNuevoCierre').on("click",function(){
+            location.reload();
+        });
+        //CIERRE
 
         //botones de cliente
 
+        $("#btnconfirmarcliente").on("click",function(){
+            $("#cliente").val($("#nombrecliente").val());
+            $('.cd-panelbuscarcliente').removeClass('is-visible');
+            blurElement('.blurlines',0);
+            $("#nombrecliente").val('Cliente Contado');
+            var a = $("#codigocliente").val();
+            var cliente2=$.get('/api/clientes/?code='+a,function(){});
+            cliente=cliente2.responseJSON[0].id;
+            console.log(cliente);
 
+            $("#nombrecliente").val('Cliente Contado');
+            $("#codigocliente").val('0001');
+            $("#nombreclientecontado").val('');
+            $("#nombreclientebuscar").val('');
+            $("#btnconfirmarcliente").prop('disabled',true);
+            $("#codigocliente").prop('disabled',false);
+            $("#tablabusquedacliente > tbody").html("");
+
+            recalculartablaproductos();
+
+        });
 
          $("#btnconfirmarclientecontado").on("click",function(){
             if($("#nombreclientecontado").val()!==''){
@@ -352,12 +457,10 @@ function main () {
 
         });
 
-        $('#BtnNuevaVenta').on("click",function(){
-            location.reload();
-        });
+
 
         //boton de busqueda en panel de busqueda cliente
-
+        $("#Btnbuscarcliente").on("click",BuscarCliente);
         //boton de descuento
         $("#btndescuento").on("click",function(){
             Aplicardescuento();
@@ -388,10 +491,10 @@ function main () {
     //});
 
     //set usuario
-    $.get('/api/cajeros/?user='+$('#cajero').val(),function(data){
-        $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>');
-        usuario=data[0].user;
-    });
+    //$.get('/api/cajeros/?user='+$('#cajero').val(),function(data){
+    //    $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>');
+    //    usuario=data[0].user;
+    //});
     //valor vencimiento
 
         var now = new Date();
@@ -421,610 +524,113 @@ function main () {
         $("#codigocliente").val('0001');
         $("#nombrecliente").val('Cliente Contado').prop("disabled",true);
 
-
-        //CUENTAS COBRAR #################
-
-        var tipocambiodolarget=$.get('/api/variableglobal/?nombre=cambiodolar',function(){});
-        tipocambiodolares=tipocambiodolarget.responseJSON[0].valornum;
-        $('.tipocambiohead').html('Tipo de Cambio '+tipocambiodolares.toFixed(2));
-
-        //botones
         $("#BtnPrint").on("click",Imprimir);
-        $("#BtnPrintabono").on("click",ImprimirAbono);
-        $("#Btnbuscarcliente").on("click",BuscarCliente);
-        $("#BtnconfirmarAbono").on("click",ChequearDatosabono);
-        $("#BtneditarAbono").on('click',EditardatosAbono);
-        $("#BtnRegistrarAbono").on('click',RegistrarAbono);
-
-        $('#BtnNuevoAbono').on("click",function(){
-            location.reload();
-        });
-
-        $("#btnconfirmarcliente").on("click",function(){
-                $("#cliente").val($("#nombrecliente").val());
-                $('.cd-panelbuscarcliente').removeClass('is-visible');
-                blurElement('.blurlines',0);
-                $("#nombrecliente").val('Cliente Contado');
-                var a = $("#codigocliente").val();
-                var cliente2=$.get('/api/clientes/?code='+a,function(){});
-                cliente=cliente2.responseJSON[0].id;
-                //console.log(cliente);
-
-                $("#nombrecliente").val('Cliente Contado');
-                $("#codigocliente").val('0001');
-                $("#nombreclientecontado").val('');
-                $("#nombreclientebuscar").val('');
-                $("#btnconfirmarcliente").prop('disabled',true);
-                $("#codigocliente").prop('disabled',false);
-                $("#tablabusquedacliente > tbody").html("");
-
-                CargarSaldo();
-
-        });
-
-        //selectrow factura (desplegar factura)
-
-        $('html').on('click','.selectrowfactura', function () {
-            event.preventDefault();
-            var row=$(this).closest("tr");
-            var rowIndex = row.index();
-            //var precio=$('#preciocanalkilo').val();
-            //formato [id,fecha,total,saldo,cliente,cajero]
-            //canaleslist.push([data[i].id,data[i].consecutive,data[i].weight,data[i].qualification,data[i].fierro,data[i].tipo]);
-            //agregarcanalatabla(canaleslist[rowIndex][0],canaleslist[rowIndex][5],precio,canaleslist[rowIndex][2]);
-            $('.factura:hidden').show();
-            CargarFactura(facturaspend[rowIndex][0],facturaspend[rowIndex][4],facturaspend[rowIndex][5]);
-        });
-
-        //Eventos Change
-
-        $("#montoabono").bind("change paste keyup", function() {
-            TotalesAbono();
-        });
-
-        $( "#monedaabono" ).change(function() {
-            TotalesAbono();
-         });
-
-        $( "#pagacontipo" ).change(function() {
-                if( $("#pagacontipo").val()==1){
-                    $(".pagotarjeta").hide();
-                    $(".transferencia").hide();
-                    $(".cheque").hide();
-                }
-                if( $("#pagacontipo").val()==2){
-                    $(".pagoefectivo").hide();
-                    $(".pagotarjeta:hidden").show();
-                    $(".transferencia").hide();
-                    $(".cheque").hide();
-                }
-                if( $("#pagacontipo").val()==4){
-                    $(".pagoefectivo").hide();
-                    $(".pagotarjeta").hide();
-                    $(".transferencia:hidden").show();
-                    $(".cheque").hide();
-                }
-                if( $("#pagacontipo").val()==5){
-                    $(".pagoefectivo").hide();
-                    $(".pagotarjeta").hide();
-                    $(".transferencia").hide();
-                    $(".cheque:hidden").show();
-                }
-                if( $("#pagacontipo").val()==3){
-                    $('.errorsaldoactual').hide();
-                    $('.errornocredito').hide();
-                    $(".pagoefectivo").hide();
-                    $(".pagotarjeta").hide();
-                    $(".credito:hidden").show();
-                    $("#montoefectivo").val(0);
-                    var cliente2=$.get('/api/clientes/'+cliente+'/',function(){});
-                    //cliente=cliente2.responseJSON[0].id;
-                    $("#nombreclientecred").val(cliente2.responseJSON.name+' '+cliente2.responseJSON.last_name);
-                    $("#limitecred").val('₡'+cliente2.responseJSON.credit_limit);
-                    var saldos = $.get('/api/saldocobrar/?cliente='+cliente,function(){});
-
-                    $("#saldocred").val('₡'+saldos.responseJSON[0].total);
-
-                    if((saldos.responseJSON[0].total+totalventa)>cliente2.responseJSON.credit_limit){
-                        $('.errorsaldoactual:hidden').show();
-                    }
-                    if(cliente2.responseJSON.credit==false){
-                        $('.errorsaldoactual').hide();
-                        $('.errornocredito:hidden').show();
-                    }
-                    vuelto();
-                    $(".pagaconpagar").html('CRÉDITO');
-                    $(".vueltopagar").html('₡ 0,00');
-                }
-            });
-
-        $('html').on('click','.selectrowcliente', function () {
-            event.preventDefault();
-            var row=$(this).closest("tr");
-            var rowIndex = row.index();
-
-            var codigo = codigobusquedacliente[rowIndex][0];
-            var nombre = codigobusquedacliente[rowIndex][1];
-            var apellido = codigobusquedacliente[rowIndex][2];
-            cliente=codigobusquedacliente[rowIndex][3];
-            $("#tablabusquedacliente > tbody").html("");
-            $('#codigocliente').val(codigo);
-            $('#nombrecliente').val(nombre+' '+apellido);
-            $("#cliente").val($("#nombrecliente").val());
-            $("#nombrecliente").val('Cliente Contado');
-            $("#codigocliente").val('0001');
-            $("#btnconfirmarcliente").prop('disabled',true);
-            $("#codigocliente").prop('disabled',false);
-            $("#nombreclientecontado").val('');
-            $("#nombreclientebuscar").val('');
-            $('.cd-panelbuscarcliente').removeClass('is-visible');
-            blurElement('.blurlines',0);
-            CargarSaldo();
-        });
-
-        //PANEL DE ABONO
-
-        $('.btnabono').on('click', function(event){
-            event.preventDefault();
-
-            $('.cd-panelabono').addClass('is-visible');
-            blurElement('.blurlines',2);
-        });
-        $('.cd-panelabono').on('click', function(event){
-            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                $('.cd-panelabono').removeClass('is-visible');
-
-                blurElement('.blurlines',0);
-                event.preventDefault();
-            }
-        });
-
-        //PANEL DE BUSCAR CLIENTE
-
-        $('.btnbuscarcliente').on('click', function(event){
-        event.preventDefault();
-        $('.cd-panelbuscarcliente').addClass('is-visible');
-        blurElement('.blurlines',2);
-        });
-        $('.cd-panelbuscarcliente').on('click', function(event){
-            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                $('.cd-panelbuscarcliente').removeClass('is-visible');
-                blurElement('.blurlines',0);
-                event.preventDefault();
-            }
-        });
-        $('#btncerrarbuscarcliente').on('click', function(event){
-            //if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-                $('.cd-panelbuscarcliente').removeClass('is-visible');
-                blurElement('.blurlines',0);
-                event.preventDefault();
-           // }
-        });
-
 
     }//main
+
+
+function llenartablacierre(){
+    $("#tablacierre > tbody").html("");
+    $("#tablaimpcierre > tbody").html("");
+    totalcierre=0;
+    ivcierre=0;
+    contadocierre=0;
+    tarjetacierre=0;
+    creditocierre=0;
+    chequecierre=0;
+    transferenciacierre=0;
+    var fechacierre=$('#fechacierre').val();
+    //console.log(fechacierre);
+    var ventasdia=$.get('/api/abonoscobrar/?date='+fechacierre,function(){});
+    //console.log(ventasdia);
+    var tipopagocierre;
+
+    $.each( ventasdia.responseJSON, function(i){
+
+        if(ventasdia.responseJSON[i].tipopago==1){
+            tipopagocierre='EFECTIVO';
+        }
+        if(ventasdia.responseJSON[i].tipopago==2){
+            tipopagocierre='TARJETA';
+        }
+        if(ventasdia.responseJSON[i].tipopago==3){
+            tipopagocierre='CREDITO';
+        }
+        if(ventasdia.responseJSON[i].tipopago==4){
+            tipopagocierre='TRANSFERENCIA';
+        }
+        if(ventasdia.responseJSON[i].tipopago==5){
+            tipopagocierre='CHEQUE';
+        }
+
+        $('#tablacierre > tbody:last').append('<tr><td>' + ventasdia.responseJSON[i].id + '</td><td>' + ventasdia.responseJSON[i].facturas +
+            '</td><td>' + tipopagocierre + '</td><td class="price">' +  ventasdia.responseJSON[i].montocol.toFixed(2) + '</td></tr>');
+
+        $('#tablaimpcierre > tbody:last').append('<tr><td> ' +ventasdia.responseJSON[i].id+ ' </td><td> ' +ventasdia.responseJSON[i].facturas+ ' </td>' +
+        '<td class="price">' +ventasdia.responseJSON[i].montocol.toFixed(2)+ '</td></tr>');
+
+
+        totalcierre=totalcierre+ventasdia.responseJSON[i].montocol;
+        //ivcierre=ivcierre+ventasdia.responseJSON[i].iv;
+
+        if(tipopagocierre=='EFECTIVO'){
+            contadocierre=contadocierre+ventasdia.responseJSON[i].montocol;
+        }
+        if( tipopagocierre=='TARJETA'){
+            tarjetacierre=tarjetacierre+ventasdia.responseJSON[i].montocol;
+        }
+        if(tipopagocierre=='CREDITO'){
+            creditocierre=creditocierre+ventasdia.responseJSON[i].montocol;
+        }
+        if(tipopagocierre=='TRANSFERENCIA'){
+            transferenciacierre=transferenciacierre+ventasdia.responseJSON[i].montocol;
+        }
+        if(tipopagocierre=='CHEQUE'){
+            chequecierre=chequecierre+ventasdia.responseJSON[i].montocol;
+        }
+
+        });//each
+
+        $('.totalefectivocierre').html(contadocierre.toFixed(2));
+        $('.totaltarjetacierre').html(tarjetacierre.toFixed(2));
+        //$('.totalcredcierre').html(creditocierre.toFixed(2));
+        $('.totaltransfcierre').html(transferenciacierre.toFixed(2));
+        $('.totalchequecierre').html(chequecierre.toFixed(2));
+        $('.totalventascierre').html(totalcierre.toFixed(2));
+        //$('.totalivcierre').html(ivcierre.toFixed(2));
+        //imprimir
+        $('.fechaimpcierre').html('FECHA: '+fechacierre);
+        $('.efectivoimprimir').html(contadocierre.toFixed(2));
+        $('.tarjetaimprimir').html(tarjetacierre.toFixed(2));
+        //$('.creditoimprimir').html(creditocierre.toFixed(2));
+        $('.transfimprimir').html(transferenciacierre.toFixed(2));
+        $('.chequeimprimir').html(chequecierre.toFixed(2));
+        //$('.ivimprimir').html(ivcierre.toFixed(2));
+        $('.totalimprimir').html(totalcierre.toFixed(2));
+
+
+        $('.price').priceFormat({
+                prefix: '₡ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+        });
+
+}
+
+function imprimircierre(){
+
+        $('.sidetotales').hide();
+        $('.factura:hidden').show();
+        Imprimir();
+        $('#maincontent').find(':input').prop('disabled', true);
+        $('#BtnPrint').prop('disabled', false);
+        $('#BtnNuevoCierre').prop('disabled', false);
+}
 
 function Imprimir(){
 
     event.preventDefault();
     $( "#factura").printArea();
-}
-function ImprimirAbono(){
-
-    event.preventDefault();
-    $( "#abono").printArea();
-}
-
-function tiempoahora(){
-    var dt = new Date();
-    return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-}
-
-function ChequearDatosabono(){
-    var control=false;
-
-    if($( "#pagacontipo").val()==1){//si es en efectivo
-        if($( "#montoabono").val()==''||$( "#montoabono").val()<=0){
-            alertify.alert('Error','El monto del abono tiene que ser mayor que cero.');
-        }
-        else{
-            control=true;
-            tarjetaabono=6;
-            digitosabono=0;
-            authdatafono=0;
-            transfnumabono=0;
-            chequenumabono=0;
-
-        }
-    }
-     if($( "#pagacontipo").val()==2){//si es con tarjeta
-        if($( "#montoabono").val()==''||$( "#montoabono").val()<=0||$( "#4digits").val()==''||$( "#authtarjeta").val()==''){
-            alertify.alert('Error','Hay datos incompletos o el monto es menor que cero, por favor revise los datos del monto y tarjeta.');
-        }
-        else{
-            control=true;
-            tarjetaabono=6;
-            digitosabono=$( "#4digits").val();
-            authdatafono=$( "#authtarjeta").val();
-            transfnumabono=0;
-            chequenumabono=0;
-        }
-    }
-     if($( "#pagacontipo").val()==4){//si es en transferencia
-        if($( "#montoabono").val()==''||$( "#montoabono").val()<=0||$( "#numtransf").val()==''){
-            alertify.alert('Error','Hay datos incompletos o el monto es menor que cero, por favor revise los datos del monto y transferencia.');
-        }
-        else {
-            control = true;
-            tarjetaabono = 6;
-            digitosabono = 0;
-            authdatafono = 0;
-            transfnumabono = $("#numtransf").val();
-            chequenumabono = 0;
-        }
-    }
-     if($( "#pagacontipo").val()==5){//si es en cheque
-         if($( "#montoabono").val()==''||$( "#montoabono").val()<=0||$( "#chequenum").val()==''){
-            alertify.alert('Error','Hay datos incompletos o el monto es menor que cero, por favor revise los datos del monto y cheque.');
-        }
-        else{
-            control=true;
-            tarjetaabono=6;
-            digitosabono=0;
-            authdatafono=0;
-            transfnumabono=0;
-            chequenumabono=$('#chequenum').val();
-        }
-    }
-    if (control==true){//si pasa los requisitos
-        //alertify.alert('Exito','Eeexitooo');
-        $('.datosdelabono').find(':input').prop('disabled', true);
-        $('#BtnconfirmarAbono').hide();
-        $('.btneditardatos:hidden').show();
-        $('.btnregistrarabono:hidden').show();
-        $("#BtneditarAbono").prop('disabled',false);
-        $("#BtnRegistrarAbono").prop('disabled',false);
-    }
-
-}
-
-function EditardatosAbono(){
-        $('.datosdelabono').find(':input').prop('disabled', false);
-        $('#BtnconfirmarAbono:hidden').show();
-        $('.btneditardatos').hide();
-        $('.btnregistrarabono').hide();
-}
-function RegistrarAbono(){
-    //console.log('ENTRO A FUNC');
-    if(liquidar==true){
-        //llama a liquidar deuda
-        $.each( facturaspend, function(i){
-            patchfacturasaldo(facturaspend[i][0],0);
-            facturasabono.push(facturaspend[i][0]);
-        });
-        saldorestante=0;
-        pendientes=[];
-        CrearObjAbono();
-        patchresumensaldo(0);
-        //imprimir recibo
-        ImprimirReciboAbono(idabonohecho,cliente);
-
-    }
-    else{
-        //console.log('ENTRO A FALSE');
-        var matrixpendientes=facturaspend;
-        $.each( matrixpendientes, function(i){
-            DescontarAbono(matrixpendientes[i][0],matrixpendientes[i][3]);
-        });
-        saldorestante=totalsaldo-totalabono;
-        //crear abono
-        CrearObjAbono();
-        //patch cuenta cobrar
-        patchresumensaldo(saldorestante);
-        //imprimir recibo
-        ImprimirReciboAbono(idabonohecho,cliente)
-
-    }
-}
-
-function ImprimirReciboAbono(id,cliente){
-
-    var abono=$.get('/api/abonoscobrar/'+id+'/',function(){});
-    var cliente=$.get('/api/clientes/'+cliente+'/',function(){});
-    $('.numabono').html(' '+abono.responseJSON.id);
-    $('.fechaabono').html(' '+abono.responseJSON.date+' '+abono.responseJSON.time);
-    $('.clienteabono').html(' '+cliente.responseJSON.name+' '+cliente.responseJSON.last_name);
-
-    $('.montoabono').html(' '+abono.responseJSON.montocol.toFixed(2));
-    $('.saldoanteior').html(' '+abono.responseJSON.saldoant.toFixed(2));
-    $('.saldoactual').html(' '+abono.responseJSON.saldoactual.toFixed(2));
-
-    $('.precio').priceFormat({
-        prefix: '₡ ',
-        centsSeparator: ',',
-        thousandsSeparator: '.'
-    });
-
-    $('.factura').hide();
-    $('.reciboabono:hidden').show();
-    $('.cd-panelabono').removeClass('is-visible');
-
-    blurElement('.blurlines',0);
-    $('#maincontent').find(':input').prop('disabled', true);
-    $("#BtnPrintabono").prop('disabled',false);
-    $("#BtnNuevoAbono").prop('disabled',false);
-
-
-    ImprimirAbono();
-
-
-}
-
-function DescontarAbono(id,saldo){
-    if(restanteabono>0){//solo descuenta si queda saldo de lo que abona
-        facturasabono.push(id);
-        var restante=restanteabono-saldo;
-
-        if(restante>=0){
-            restanteabono=restante;
-            //patch factura con 0 de saldo
-            patchfacturasaldo(id,0);
-            //quitar id de facturas pendientes
-            pendientes.splice( $.inArray(id, pendientes), 1 );
-
-        }
-        else{
-            //patch factura con saldo = saldo -restanteabono
-            patchfacturasaldo(id,(saldo-restanteabono));
-            //
-            restanteabono=0;
-        }
-
-    }
-}
-
-function patchfacturasaldo(id,saldo){
-
-    $.ajax({
-        method: "PATCH",
-        url: "/api/venta/" + id + "/",
-
-        data: JSON.stringify({
-
-        "saldo": saldo
-
-        }),//JSON object
-        contentType: "application/json; charset=utf-8",
-        dataType: "json"
-    })
-    .success(function () {
-
-    })
-    .fail(function (data) {
-        alertify.alert("Hubo un problema al crear el abono, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-    });
-
-}
-
-function patchresumensaldo(saldo){
-
-    $.ajax({
-        method: "PATCH",
-        url: "/api/saldocobrar/" + idcuentacobrar + "/",
-
-        data: JSON.stringify({
-
-        "total": saldo,
-        "pending": pendientes,
-        "abonos": abonos
-
-        }),//JSON object
-        contentType: "application/json; charset=utf-8",
-        dataType: "json"
-    })
-    .success(function () {
-
-    })
-    .fail(function (data) {
-        alertify.alert("Hubo un problema al crear el abono, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-    });
-
-}
-
-function CrearObjAbono(){
-    var moneda;
-    if($('#monedaabono').val()==1){
-        moneda='Colones'
-    }
-    if($('#monedaabono').val()==1){
-        moneda='Dolares'
-    }
-    $.ajax({
-        method: "POST",
-        url: "/api/abonoscobrar/",
-        async: false,
-
-        data: JSON.stringify({
-        "date": today,
-        "time": tiempoahora(),
-        "detalle": "Abono a Factura(s) " + facturasabono,
-        "facturas": facturasabono,
-        "moneda": moneda,
-        "montocol": totalabono,
-        "montodolar": totalabonodolares,
-        "tipopago": $('#pagacontipo').val(),
-        "tipotarjeta": $('#tipotarjeta').val(),
-        "digitos": digitosabono,
-        "autorizacion": authdatafono,
-        "transfnum": transfnumabono,
-        "bancotransf":$("#bancotransf option:selected").text(),
-        "chequenum": chequenumabono,
-        "banco": $("#bancocheque option:selected").text(),
-        "saldoant": totalsaldo,
-        "saldoactual": saldorestante
-        }),//JSON object
-        contentType:"application/json; charset=utf-8",
-        dataType:"json"
-    })
-    .fail(function(data){
-        console.log(data.responseText);
-        alertify.alert("Hubo un problema al crear el abono, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-    })
-    .success(function(data){
-        //console.log(data.id);
-        //detallepago=data.id;
-        abonos.push(data.id);
-        idabonohecho=data.id;
-    });//ajax
-}
-
-
-function CargarSaldo(){
-    $("#tablafacturaspend > tbody").html("");
-    $('.nosaldo').hide();
-    $("#BtnAbono").prop('disabled',true);
-
-    facturaspend=[];
-    var cuentascobrar=$.get('/api/saldocobrar/?cliente='+cliente,function(){});
-    idcuentacobrar=cuentascobrar.responseJSON[0].id;
-    totalsaldo=cuentascobrar.responseJSON[0].total;
-    pendientes=cuentascobrar.responseJSON[0].pending;
-    abonos=cuentascobrar.responseJSON[0].abonos;
-
-    $('#saldototal').val(cuentascobrar.responseJSON[0].total.toFixed(2));
-    var matrixcobrar=cuentascobrar.responseJSON[0].pending;
-
-    $.each( matrixcobrar, function(i){
-        llenartablafacturas(matrixcobrar[i]);
-    });
-
-    $('.precio').priceFormat({
-        prefix: '₡ ',
-        centsSeparator: ',',
-        thousandsSeparator: '.'
-    });
-
-    if(totalsaldo==0){
-        $('.nosaldo:hidden').show();
-    }
-    else{
-        $("#BtnAbono").prop('disabled',false);
-    }
-}
-
-function llenartablafacturas (factura){
-    var ventapend=$.get('/api/venta/'+factura+'/',function(){});
-    //console.log(ventapend);
-    //formato [id,fecha,total,saldo,cliente,cajero]
-    facturaspend.push([ventapend.responseJSON.id,ventapend.responseJSON.date,ventapend.responseJSON.total,ventapend.responseJSON.saldo,ventapend.responseJSON.client,ventapend.responseJSON.cashier]);
-    $('#tablafacturaspend > tbody:last').append('<tr><td>' + ventapend.responseJSON.id + '</td><td>' + ventapend.responseJSON.date +
-    '</td><td class=precio>' + ventapend.responseJSON.total.toFixed(2) + '</td><td class=precio >' + ventapend.responseJSON.saldo.toFixed(2) +
-    '</td><td><button  type="button" class=" btn btn-success form-control selectrowfactura " id="btnelegir"><span class="glyphicon glyphicon-menu-right"></span></button></td></tr>');
-
-}
-
-function CargarFactura(factura,cliente2,usuario2){
-    $("#tablafactura > tbody").html("");
-    var clientefactura=$.get('/api/clientes/'+cliente2+'/',function(){});
-    var cajerofactura=$.get('/api/cajeros/'+usuario2+'/',function(){});
-    var venta=$.get('/api/venta/'+factura+'/',function(){});
-    var matrixproductos=venta.responseJSON.detalleproductos;
-    var tipoventafact='CRÉDITO.';
-    //if($("#pagacontipo").val()==3){
-    //    tipoventafact='CRÉDITO.';
-    //}
-
-    $('.facturanumfact').html(' '+factura);
-    $('.tipoventafact').html(' '+tipoventafact);
-    $('.fechafact').html('  '+venta.responseJSON.date +' '+venta.responseJSON.time);
-    $('.clientefact').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
-    $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
-
-    $.each( matrixproductos, function(i){
-        var detalleint=$.get('/api/detalleproducto/'+matrixproductos[i]+'/',function(){});
-        //var producto=$.get('/api/productos/'+detalleint.responseJSON.producto+'/',function(){});
-        $('#tablafactura > tbody:last').append('<tr><td> ' +detalleint.responseJSON.cantidad+ ' </td><td>' + detalleint.responseJSON.description+ '</td><td class="precio">' +detalleint.responseJSON.total.toFixed(2)+ '</td></tr>');
-    });
-    if(venta.responseJSON.descopor>0){
-        $('.descueentofactleft').html('DESCUENTO '+venta.responseJSON.descopor +'%');
-    }
-
-    $('.subtotalfactright').html(venta.responseJSON.subtotal.toFixed(2));
-    $('.descueentofactright').html(venta.responseJSON.desctocol.toFixed(2));
-    $('.ivfactright').html(venta.responseJSON.iv.toFixed(2));
-    $('.totalfactright').html(venta.responseJSON.total.toFixed(2));
-
-    $('.precio').priceFormat({
-        prefix: '₡ ',
-        centsSeparator: ',',
-        thousandsSeparator: '.'
-    });
-    //$('.sidetotales').hide();
-    //('.factura:hidden').show();
-}
-
-function TotalesAbono(){
-    liquidar=false;
-    var controlpagacon;
-    var moneda=$( "#monedaabono").val();
-    var a =$( "#montoabono").val();
-    var aa= parseFloat(a).toFixed(2);
-    //console.log(a);
-    var aaa=isNaN(a);
-    var vueltoint;
-    controlpagacon = !aaa;
-
-    if(controlpagacon){
-        if(moneda==1){
-            $('.totalabonocolones').html(aa);
-            $('.totalabonodolares').html(0);
-            totalabono=aa;
-            restanteabono=aa;
-            totalabonodolares=0;
-        }
-        if(moneda==2){
-            $('.totalabonodolares').html(aa);
-            $('.totalabonocolones').html((aa*tipocambiodolares).toFixed(2));
-            totalabono=aa*tipocambiodolares;
-            restanteabono=aa*tipocambiodolares;
-            totalabonodolares=aa;
-        }
-        if(totalabono>=totalsaldo) {
-            $('.totalabonocolones').html(totalsaldo.toFixed(2));
-            totalabono = totalsaldo;
-            $(".montomayorsaldo:hidden").show();
-            $('#BtnRegistrarAbono').html('Liquidar Deuda');
-            liquidar=true;
-            if (moneda == 1) {
-                $('.totalabonodolares').html(0);
-                totalabonodolares = 0;
-            }
-            if (moneda == 2) {
-                $('.totalabonodolares').html((totalsaldo / tipocambiodolares).toFixed(2));
-                totalabonodolares = (totalsaldo / tipocambiodolares).toFixed(2);
-            }
-        }
-        else{
-            $(".montomayorsaldo").hide();
-            $('#BtnRegistrarAbono').html('Registar Abono');
-        }
-
-        $('.precio').priceFormat({
-        prefix: '₡ ',
-        centsSeparator: ',',
-        thousandsSeparator: '.'
-        });
-        $('.preciodolar').priceFormat({
-        prefix: '$ ',
-        centsSeparator: ',',
-        thousandsSeparator: '.'
-        });
-    }
-    else{
-        //console.log('ELSE');
-        $('.totalabonodolares').html('-');
-        $('.totalabonocolones').html('-');
-    }
 }
 
 function blurElement(element, size){
@@ -1055,6 +661,52 @@ function getcliente(){
 
 }
 
+function vuelto(){
+
+    var controlpagacon;
+            var a =$( "#montoefectivo").val();
+            var aa= parseFloat(a).toFixed(2);
+            //console.log(a);
+            var aaa=isNaN(a);
+            var vueltoint;
+            controlpagacon = !aaa;
+
+            if(controlpagacon){
+                $('.pagaconpagar').html(aa);
+                //console.log('IF');
+                $('.pagaconpagar').priceFormat({
+                prefix: '₡ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+                });
+                vueltoint=(aa-totalventa).toFixed(2);
+                if(vueltoint<0){
+                    efectivolisto=false;
+                    $('#vuelto').val('FALTA EFECTIVO');
+                    $('.vueltopagar').html('-');
+                }
+                else{
+                efectivolisto=true;
+                vueltoguardar=vueltoint;
+                efectivoguardar=a;
+                $('#vuelto').val(vueltoint);
+                $('.vueltopagar').html(vueltoint);
+                $('.precio').priceFormat({
+                prefix: '₡ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+                });
+                }
+
+            }
+            else{
+                //console.log('ELSE');
+                $('.pagaconpagar').html('-');
+
+            }
+
+
+}
 
 function BuscarCliente(){
     codigobusquedacliente=[];
@@ -1132,6 +784,8 @@ function llenartablacanales(data){
             '</td><td>' + test.responseJSON.fierro + '</td><td><button  type="button" class=" btn btn-success form-control selectrowcanal " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
         });
 }
+
+
 
 function BuscarProducto(){
     codigobusqueda=[];
@@ -1438,14 +1092,17 @@ function NoConfirmarDatos(){
     });
     vuelto();
 }
-
+function tiempoahora(){
+    var dt = new Date();
+    return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+}
 function RegistarVenta(){
 
     guardardetallepago();
     guardardetalleproducto();
     guardarventa();
     descontarinventarios();
-    //generarfactura();
+    generarfactura();
     Imprimir();
     $('.cd-panelpagar').removeClass('is-visible');
     blurElement('.blurlines',0);
@@ -1473,7 +1130,7 @@ if($("#pagacontipo").val()==1){
             }),//JSON object
               contentType:"application/json; charset=utf-8",
               dataType:"json"
-    })
+            })
             .fail(function(data){
             console.log(data.responseText);
             alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);

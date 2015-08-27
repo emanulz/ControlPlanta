@@ -13,11 +13,17 @@ class cuentasCobrarView(TemplateView):
     def dispatch(self, *args, **kwargs):
         return super(cuentasCobrarView, self).dispatch(*args, **kwargs)
 
-class notaCreditoView(TemplateView):
-    template_name = 'notascredito.html'
+class recuperacionView(TemplateView):
+    template_name = 'recuperacion.html'
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        return super(notaCreditoView, self).dispatch(*args, **kwargs)
+        return super(recuperacionView, self).dispatch(*args, **kwargs)
+
+class reporteCuentasCobrarView(TemplateView):
+    template_name = 'reportecuentascobrar.html'
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(reporteCuentasCobrarView, self).dispatch(*args, **kwargs)
 ##API
 
 class AbonosSerializer(serializers.ModelSerializer):
@@ -39,7 +45,7 @@ class DetalleCuentaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DetalleCuenta
-        fields =('id','cliente','total', 'pending', 'abonos')
+        fields =('id','cliente','total', 'pending', 'abonos','notasdecredito')
 
 
 # ViewroductSets define the view behavior.
@@ -48,13 +54,14 @@ class DetalleCuentaViewSet(viewsets.ModelViewSet):
     serializer_class = DetalleCuentaSerializer
     queryset = DetalleCuenta.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','cliente','total', 'pending', 'abonos')
+    filter_fields=('id','cliente','total', 'pending', 'abonos','notasdecredito')
+    ordering_fields = '__all__'
 
 class NotaDeCreditoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NotaDeCredito
-        fields =('date','time','monto','saldoanterior','saldoactual','ventas')
+        fields =('id','date','time','monto','saldoanteriorfact','saldoactualfact','saldoanterior','saldoactual','venta','detalle')
 
 
 # ViewroductSets define the view behavior.
@@ -63,4 +70,4 @@ class NotaDeCreditoViewSet(viewsets.ModelViewSet):
     serializer_class = NotaDeCreditoSerializer
     queryset = NotaDeCredito.objects.all()
     lookup_field = 'id'
-    filter_fields=('date','time','monto','saldoanterior','saldoactual','ventas')
+    filter_fields=('id','date','time','monto','saldoanteriorfact','saldoactualfact','saldoanterior','saldoactual','venta','detalle')
