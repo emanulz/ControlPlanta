@@ -11,10 +11,10 @@ class VariableGlobalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VariableGlobal
-        fields =('id','nombre','descripcion','valornum','valortext')
+        fields =('id','nombre','descripcion','valornum','valortext','valoremail')
 
 class VariableGlobalViewSet(viewsets.ModelViewSet):
     serializer_class = VariableGlobalSerializer
     queryset = VariableGlobal.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','nombre','descripcion','valornum','valortext')
+    filter_fields=('id','nombre','descripcion','valornum','valortext','valoremail')

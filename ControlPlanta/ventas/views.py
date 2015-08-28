@@ -35,14 +35,14 @@ class DetallePagoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DetallesPago
-        fields =('id','tipopago','montoefectivo','vuelto','tarjeta','digitos','autorizacion','transfnum','bancotransf','chequenum','bancocheque')
+        fields =('id','tipopago','montoefectivo','vuelto','tarjeta','digitos','autorizacion','transfnum','bancotransf','chequenum','bancocheque','saldoant','saldoactual')
 
 class DetallePagoViewSet(viewsets.ModelViewSet):
 
     serializer_class = DetallePagoSerializer
     queryset = DetallesPago.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','tipopago','montoefectivo','vuelto','tarjeta','digitos','autorizacion','transfnum','bancotransf','chequenum','bancocheque')
+    filter_fields=('id','tipopago','montoefectivo','vuelto','tarjeta','digitos','autorizacion','transfnum','bancotransf','chequenum','bancocheque','saldoant','saldoactual')
 
 #DETALLES DE PRODUCTOS API
 

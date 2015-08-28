@@ -1,0 +1,774 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="/static/panel/css/reset.css"> <!-- CSS reset -->
+	<link rel="stylesheet" href="/static/panel/css/style.css"> <!-- Resource style -->
+    <link rel="stylesheet" href="/static/css/cdnTables.css"> <!-- Resource style -->
+	<script src="/static/panel/js/modernizr.js"></script> <!-- Modernizr -->
+    <script src="/static/js/PriceFormat.js"></script>
+    <script src="/static/js/SaldosCliente.js"></script>
+    <script src="/static/print/jquery.PrintArea.js"></script>
+    <script src="/static/js/cdnTable.js"></script>
+    <script src="/static/js/cdnTable2.js"></script>
+
+<div class="PaddingContent blurlines" id="maincontent">
+
+    <div class="hideonload succesmessage">
+            <div class="col-sm-9 alert alert-success fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Completado!</strong> El deshuese fue registrado correctamente.<br/> <br/>
+                <a href=""  class=" btn btn-success" role="button" >Crear Nuevo</a>
+            </div>
+        </div><!-- Mensage success -->
+    <div class="hideonload failmessage">
+            <div class="col-sm-9 alert alert-danger fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Error en formulario!</strong> Corrija los errores mostrados.
+            </div>
+        </div><!-- Mensaje Error -->
+    <div class="container-fluid form-group" >
+    <div class="col-sm-9" >
+        <form class="form-horizontal col-sm-12" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="col-sm-5 tituloventa">ESTADO DE CUENTA:</div>
+                <label class="col-sm-2" for="date">Fecha:</label>
+                    <div class="col-sm-4">
+                      <input type="date" class="form-control " id="date">
+                   </div>
+
+                </div> <!-- Fecha y titulo -->
+                 <div class="form-group">
+                    <label class="col-sm-2" for="cajero">Cajero:</label>
+                        <div class="col-sm-3">
+                            <select disabled class="form-control" name="cajero" id="cajero">
+                                <option value="{{ request.user.id }}"></option>
+                            </select>
+                       </div>
+                    <label class="col-sm-2" for="cliente">Cliente:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="cliente">
+                        </div>
+                     <div class=" col-sm-1">
+                        <button type="button" id="Btnbuscarclientemain" class="btn btn-success marginTop15px2 btnbuscarcliente"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
+                    </div>
+                </div> <!-- cajero cliente y buscar-->
+
+            </div>
+        </form><!-- Fecha cajero y cliente -->
+
+        <form class="form-horizontal col-sm-12" id="imprimirResumen" action="">
+        <div class="form-group">
+            <div class=" form-group col-sm-5 tituloventa">Resumen de créditos y Abonos:</div>
+       </div>
+        <div class="form-group">
+            <div class=" form-group col-sm-12 ">NOMBRE : <span class="nombreresumensaldo"></span></div>
+            <br/>
+            <div class=" form-group col-sm-12 ">CÓDIGO&nbsp&nbsp: <span class="codigoresumensaldo"></span></div>
+            <br/>
+            <div class=" form-group col-sm-12 ">FECHA&nbsp&nbsp&nbsp&nbsp&nbsp: <span class="fecharesumensaldo"></span></div>
+       </div>
+        <div class="form-group">
+            <div class=" form-group col-sm-12 ">
+            <table class="table table-bordered table-hover" data-toggle="table" id="tablafacturaspend" data-url="" data-cache="false" data-height="299">
+                <thead>
+                    <tr class="danger">
+
+                        <th style="text-align: center" data-field="name">Transacción</th>
+                        <th style="text-align: center" data-field="id"># Transacción</th>
+                        <th style="text-align: center" data-field="name">Fecha</th>
+                        <th style="text-align: center" data-field="name">Monto</th>
+                        <th style="text-align: center" data-field="name">Ver</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;vertical-align: middle">
+
+                </tbody>
+            </table>
+            </div><!-- tabla -->
+        </div>
+         <div hidden class="form-group" id="montosresumen">
+            <div style="text-align: right" class=" form-group col-sm-12 ">Compras: <span class="comprasresumensaldo precio"></span></div>
+            <br/>
+            <div style="text-align: right" class=" form-group col-sm-12 ">Abonos: <span class="abonosresumensaldo precioneg"></span></div>
+            <br/>
+            <div style="text-align: right" class=" form-group col-sm-12 ">Notas de crédito: <span class="ncresumensaldo precioneg"></span></div>
+            <br/>
+            <div style="text-align: right" class=" form-group col-sm-12 ">SALDO TOTAL: <span class="totalresumensaldo precio"></span></div>
+
+       </div>
+        <div hidden class="form-group nosaldo">
+            <div class="col-sm-11 alert alert-success fade in ">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                El cliente no tiene pendientes.<br/> <br/>
+{#              <a href=""  class=" btn btn-success" role="button" >Crear Nuevo</a>#}
+            </div>
+        </div>
+    </form><!-- tabla de productods -->
+    <form class="form-horizontal col-sm-12"  action="">
+        <div hidden class="form-group" id="imprimirResumenBtn">
+            <div class=" form-group col-sm-12 " style="text-align: right">
+                <button  type="button" class=" btn btn-success  form-control " id="BtnPrintResumen" style="width: 160px;">Imprimir</button>
+            </div>
+       </div>
+    </form>
+    </div><!-- main content -->
+
+    <div hidden class="col-sm-3 factura" >
+        <form class="form-horizontal col-sm-12" action="" >
+{#        <div class="form-group col-sm-12 ">#}
+{#            <div class="form-group tituloventa2 ">#}
+{#                FACTURA:#}
+{#            </div>#}
+{#        </div>#}
+        <div class="form-group col-sm-12 " style="border: 1px solid #000000;border-radius: 10px" >
+            <div class="form-group" id="factura" style="margin-left: 5px; margin-top: 5px">
+                <div class="col-sm-12 encabezado" style="font-size: 12px; text-align: center" >
+                    <span>
+                        PLANTA EMPACADORA DE CARNE <br/>
+                        COOPEAVANZANDO JUNTOS RL. <br/> <br/>
+                    </span>
+                    <figure style="text-align: center">
+                        <img src="/media/img/logo-empacadora80.png" alt="logo empacadora"/>
+                        <br/> <br/>
+                    </figure>
+                    <span>
+                        Cooperativa de porcicultores y productores de concentrados de Pérez Zeledón. <br/> <br/>
+                    </span>
+                    <span>
+                        Cédula Jurídica 3-004-681672 <br/>
+                        Contiguo a la Fábrica de concentrados Avanzando Juntos, Pérez Zeledón. <br/>
+                        Tel: 2770-5160.<br/><br/>
+                    </span>
+
+                </div>
+                <div class="form-group col-sm-12" style="font-size: 10px">
+                    <span style="float: left">FACTURA #&nbsp:&nbsp </span><span class="facturanumfact">0</span><br/>
+                    <span style="float: left">FECHA&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="fechafact" >0</span><br/>
+                    <span style="float: left">CLIENTE&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="clientefact" >0</span><br/>
+                    <span style="float: left">VENDEDOR&nbsp:&nbsp</span><span class="cajerofact" >0</span><br/><br/>
+                    <span>--------------------------------------------------------------------<br/></span>
+                    <span style="float: left;font-size: 12px">FACTURA DE&nbsp </span><span style="font-size: 12px" class="tipoventafact">0</span><br/>
+                    <span>--------------------------------------------------------------------<br/></span>
+                </div>
+                <div class=" form-group col-sm-12 ">
+                <table class="table table-bordered table-hover" data-toggle="table" id="tablafactura" data-url="" data-cache="false" data-height="299" style="font-size: 10px">
+                    <thead>
+                        <tr class="danger">
+                            <th data-field="id">Cant</th>
+                            <th data-field="name">Descripción</th>
+                            <th data-field="name">Precio</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                </div><!-- tabla -->
+
+                <div class="form-group col-sm-12" style="font-size: 10px">
+                    <span>--------------------------------------------------------------------<br/></span>
+                    <span style="float: left">SUBTOTAL:</span><span class="subtotalfactright precio" style="float: right;">0</span><br/>
+                    <span class="descueentofactleft" style="float: left">DESCUENTO:</span><span class="descueentofactright precio" style="float: right;">0</span><br/>
+                    <span style="float: left">I.V:</span><span class="ivfactright precio" style="float: right;">0</span><br/>
+                    <span style="float: left;font-size: 15px">TOTAL:</span><span class="totalfactright precio" style="float: right;font-size: 15px">0</span><br/>
+                </div>
+                <div style="font-size: 10px; text-align: center">
+
+                    <span>
+                        Cantidades expresadas en Kg. Total con I.V incluido. <br/>
+                        <span>--------------------------------------------------------------------<br/></span>
+                        Autorizado mediante Resolución No.11-97 y No.13-97 de la D.G.D.T del 12-08-97, publicado en Gaceta No.171 del 05-09-97.<br/>
+                    </span>
+
+                </div>
+            </div><!-- cuerpo factura-->
+
+
+
+            <div class="form-group " style="margin-top: 15px">
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnPrint" style="width: 160px;">Imprimir Copia</button>
+
+                </div>
+            </div><!-- btnreimprimir -->
+
+        </div>
+    </form>
+    </div> <!-- Side bar FACTURA -->
+    <div hidden class="col-sm-3 reciboabono" >
+        <form class="form-horizontal col-sm-12" action="" >
+{#        <div class="form-group col-sm-12 ">#}
+{#            <div class="form-group tituloventa2 ">#}
+{#                FACTURA:#}
+{#            </div>#}
+{#        </div>#}
+        <div class="form-group col-sm-12 " style="border: 1px solid #000000;border-radius: 10px" >
+            <div class="form-group" id="abono" style="margin-left: 5px; margin-top: 5px">
+                <div class="col-sm-12 encabezadoabono" style="font-size: 12px; text-align: center" >
+                    <span>
+                        PLANTA EMPACADORA DE CARNE <br/>
+                        COOPEAVANZANDO JUNTOS RL. <br/> <br/>
+                    </span>
+                    <figure style="text-align: center">
+                        <img src="/media/img/logo-empacadora80.png" alt="logo empacadora"/>
+                        <br/> <br/>
+                    </figure>
+                    <span>
+                        Cooperativa de porcicultores y productores de concentrados de Pérez Zeledón. <br/> <br/>
+                    </span>
+                    <span>
+                        Contiguo a la Fábrica de concentrados Avanzando Juntos, Pérez Zeledón. <br/>
+                        Tel: 2770-5160.<br/><br/>
+                    </span>
+
+                </div>
+                <div class="form-group col-sm-12" style="font-size: 10px">
+                    <span style="float: left">RECIBO &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp </span><span class="numabono">0</span><br/>
+                    <span style="float: left">FECHA&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="fechaabono" >0</span><br/>
+                    <span style="float: left">CLIENTE&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="clienteabono" >0</span><br/>
+
+                    <span>--------------------------------------------------------------------</span>
+                    <div style="text-align: center;font-size: 12px">RECIBO POR DINERO&nbsp </div>
+                    <span>--------------------------------------------------------------------<br/></span>
+                </div>
+
+                <div class="form-group col-sm-12" style="font-size: 10px">
+                    <span style="float: left">Abono:</span><span class="montoabono precio" style="float: right;">0</span><br/><br/>
+                    <span style="float: left">Saldo Anterior:</span><span class="saldoanteior precio" style="float: right;">0</span><br/><br/>
+                    <span style="float: left;font-size: 13px">SALDO ACTUAL:</span><span class="saldoactual precio" style="float: right;font-size: 15px">0</span><br/>
+                </div>
+                <div style="font-size: 10px; text-align: center">
+
+                <div class="form-group col-sm-12">
+
+                <span>--------------------------------------------------------------------<br/></span>
+
+                </div>
+
+                </div>
+            </div><!-- cuerpo factura-->
+
+
+
+            <div class="form-group " style="margin-top: 15px">
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-success  form-control  " id="BtnPrintabono" style="width: 160px;">Imprimir Copia</button>
+                </div>
+                <br/><br/>
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-warning  form-control  " id="BtnNuevoAbono" style="width: 160px;margin-top: 15px">Nuevo Abono</button>
+                </div>
+            </div><!-- btnreimprimir -->
+
+        </div>
+    </form>
+    </div> <!-- Side bar Recibo abono -->
+    <div hidden class="col-sm-3 reciboNC" >
+        <form class="form-horizontal col-sm-12" action="" >
+{#        <div class="form-group col-sm-12 ">#}
+{#            <div class="form-group tituloventa2 ">#}
+{#                FACTURA:#}
+{#            </div>#}
+{#        </div>#}
+        <div class="form-group col-sm-12 " style="border: 1px solid #000000;border-radius: 10px" >
+            <div class="form-group" id="notacred" style="margin-left: 5px; margin-top: 5px">
+                <div class="col-sm-12 encabezadoabono" style="font-size: 12px; text-align: center" >
+                    <span>
+                        PLANTA EMPACADORA DE CARNE <br/>
+                        COOPEAVANZANDO JUNTOS RL. <br/> <br/>
+                    </span>
+                    <figure style="text-align: center">
+                        <img src="/media/img/logo-empacadora80.png" alt="logo empacadora"/>
+                        <br/> <br/>
+                    </figure>
+                    <span>
+                        Cooperativa de porcicultores y productores de concentrados de Pérez Zeledón. <br/> <br/>
+                    </span>
+                    <span>
+                        Contiguo a la Fábrica de concentrados Avanzando Juntos, Pérez Zeledón. <br/>
+                        Tel: 2770-5160.<br/><br/>
+                    </span>
+
+                </div>
+                <div class="form-group col-sm-12" style="font-size: 10px">
+                    <span style="float: left">NOTA DE CRÉDITO &nbsp:&nbsp </span><span class="numNC">0</span><br/>
+                    <span style="float: left">FECHA&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="fechNC" >0</span><br/>
+                    <span style="float: left">CLIENTE&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="clienteNC" >0</span><br/>
+
+                    <span>--------------------------------------------------------------------</span>
+                    <div style="text-align: center;font-size: 12px">NOTA DE CRÉDITO&nbsp </div>
+                    <span>--------------------------------------------------------------------<br/></span>
+                </div>
+
+                <div class="form-group col-sm-12" style="font-size: 10px">
+                    <span style="float: left">Aplicada a factura #:</span><span class="NumfactNC" style="float: right;">0</span><br/><br/>
+                    <span style="float: left">Monto:</span><span class="montoAplicadoNC precio" style="float: right;">0</span><br/><br/>
+                    <span style="float: left">Saldo Anterior factura:</span><span class="saldoAntFact precio" style="float: right;">0</span><br/><br/>
+                    <span style="float: left">Saldo Actual factura:</span><span class="saldoActFact precio" style="float: right;">0</span><br/><br/>
+                    <span style="float: left">Saldo Anterior cuenta:</span><span class="saldoAntCuenta precio" style="float: right;">0</span><br/><br/>
+                    <span style="float: left;font-size: 13px">SALDO ACTUAL CUENTA:</span><span class="saldoActCuenta precio" style="float: right;font-size: 14px">0</span><br/>
+                </div>
+                <div style="font-size: 10px; text-align: center">
+
+                <div class="form-group col-sm-12">
+
+                <span>--------------------------------------------------------------------<br/></span>
+
+                </div>
+
+                </div>
+            </div><!-- cuerpo factura-->
+
+
+
+            <div class="form-group " style="margin-top: 15px">
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-success  form-control  " id="BtnPrintNC" style="width: 160px;">Imprimir Copia</button>
+                </div>
+                <br/><br/>
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-warning  form-control  " id="BtnNuevoNC" style="width: 160px;margin-top: 15px">Nueva consulta</button>
+                </div>
+            </div><!-- btnreimprimir -->
+
+        </div>
+    </form>
+    </div> <!-- Side bar Recibo Nota Cred -->
+
+</div><!-- Pagina principal -->
+</div>
+
+<div class="cd-panel cd-panelbuscarcliente from-right">
+		<header class="cd-panel-header">
+			<h1>Datos del cliente</h1>
+        </header>
+		<div class="cd-panel-container">
+			<div class="cd-panel-content">
+				<form class="col-sm-12 form-horizontal" action="">
+                     <div class="tituloventa2">
+                        Cliente Existente:
+                        <br/>
+                        <br/>
+                    </div>
+                   <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="codigocliente">Código de cliente:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control " id="codigocliente">
+                        </div>
+
+                   </div>
+                    <div class="form-group">
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control " id="nombrecliente">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button type="button" class=" btn btn-success form-control " id="btnconfirmarcliente" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+                    <div class="tituloventa2">
+                        <br/>
+                        Buscar Cliente:
+                        <br/>
+                        <br/>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="tipobusquedacliente">Búsqueda:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control" name="tipobusquedacliente" id="tipobusquedacliente">
+                                <option value="1">Nombre</option>
+                                <option value="2">Apellido</option>
+                                <option value="3">Identificación</option>
+                            </select>
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="nombreclientebuscar" placeholder="Texto a buscar">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button  type="button" class=" btn btn-success form-control " id="Btnbuscarcliente" ><span class="glyphicon glyphicon-search"></span></button>
+                        </div>
+                   </div>
+                     <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-hover" data-toggle="table" id="tablabusquedacliente" data-url="" data-cache="false" data-height="299">
+                                <thead>
+                                    <tr class="danger">
+                                    <th data-field="id">Código</th>
+                                    <th data-field="nombre">Nombre</th>
+                                    <th data-field="elegir">Elegir</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </form>
+            </div> <!-- cd-panel-content -->
+		</div> <!-- cd-panel-container -->
+	</div> <!-- Panel de buscar cliente -->
+
+<div class="cd-panel cd-panelabono from-right">
+    <header class="cd-panel-header">
+        <H1>Datos del Abono  <span style="position: relative;float: right;margin-right: 10px" >Tipo de cambio: <span class="precio tipocambiohead"></span> </span></H1>
+    </header>
+    <div class="cd-panel-container">
+        <div class="cd-panel-content datosdelabono">
+            <form class="col-sm-12 form-horizontal" action="">
+                <div class="form-group montosabono" style="margin-bottom: 0">
+                    <div class=" form-group col-sm-6 ">
+                        <div class="col-sm-12 tituloventa2">
+                            <label for="montoabono ">Monto del Abono:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control input-lg " name="montoabono" id="montoabono">
+                            <br/>
+                        </div>
+                    </div>
+                     <div class=" form-group col-sm-6 ">
+                         <div class="col-sm-12 tituloventa2">
+                            <label for="monedaabono">Moneda:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <select class="form-control input-lg" name="monedaabono" id="monedaabono">
+                                <option value="1">Colones</option>
+                                <option value="2">Dolares</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group tipodepago">
+                    <div class=" form-group col-sm-6 ">
+                        <div class="col-sm-12">
+                            <label class="tituloventa2" for="pagacontipo">Tipo de pago:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <select class="form-control input-lg" name="pagacontipo" id="pagacontipo">
+                                <option value="1">Efectivo</option>
+                                <option value="2">Tarjeta</option>
+                                <option value="4">Transferencia</option>
+                                <option value="5">Cheque</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div hidden class="pagotarjeta form-group">
+                     <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Datos de la tarjeta:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="tipotarjeta">Tipo:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <select class="form-control input-lg" name="tipotarjeta" id="tipotarjeta">
+                            <option value="1">Visa</option>
+                            <option value="2">Master Card</option>
+                            <option value="3">American Express</option>
+                            <option value="4">Discover</option>
+                            <option value="5">Otra</option>
+                        </select>
+                        <br/>
+                    </div>
+                 </div>
+                <div hidden class="pagotarjeta form-group">
+                     <div class=" form-group col-sm-6">
+                         <div class="col-sm-12">
+                            <label for="4digits">Últimos 4 digitos:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control input-lg" name="4digits" id="4digits">
+                        </div>
+                     </div>
+                     <div class="form-group col-sm-6">
+                         <div class="col-sm-12">
+                            <label for="authtarjeta">Autorización:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control input-lg" name="authtarjeta" id="authtarjeta">
+                        </div>
+                     </div>
+                 </div>
+                <div hidden class="form-group transferencia" style="margin-bottom: 0">
+                    <div class=" form-group col-sm-6 ">
+                        <div class="col-sm-12 tituloventa2">
+                            <label for="numtransf ">Transferencia:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control input-lg " name="numtransf" id="numtransf">
+                            <br/>
+                        </div>
+                    </div>
+                     <div class=" form-group col-sm-6 ">
+                         <div class="col-sm-12 tituloventa2">
+                            <label for="bancotransf">Banco:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <select class="form-control input-lg" name="bancotransf" id="bancotransf">
+                                <option value="1">Nacional</option>
+                                <option value="2">Costa Rica</option>
+                                <option value="2">BAC</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div hidden class="form-group cheque" style="margin-bottom: 0">
+                    <div class=" form-group col-sm-6 ">
+                        <div class="col-sm-12 tituloventa2">
+                            <label for="chequenum ">Cheque:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control input-lg " name="chequenum" id="chequenum">
+                            <br/>
+                        </div>
+                    </div>
+                     <div class=" form-group col-sm-6 ">
+                         <div class="col-sm-12 tituloventa2">
+                            <label for="bancocheque">Banco:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <select class="form-control input-lg" name="bancocheque" id="bancocheque">
+                                <option value="1">Nacional</option>
+                                <option value="2">Costa Rica</option>
+                                <option value="2">BAC</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="totalespago form-group" >
+                     <div class="col-sm-12">
+                         <label class="tituloventa2" for="tituloventa">Totales:</label>
+                         <br/>
+                         <br/>
+                         <div hidden class="col-sm-11 alert alert-success fade in montomayorsaldo">
+                             <a href="#" class="close" data-dismiss="alert">&times;</a>
+                             <strong>El Monto a abonar es mayor que el total del saldo, se liquidará el total de la deuda.</strong><br/>
+                         </div>
+                     </div>
+                      <div class="form-group col-sm-6">
+                         <div class="col-sm-12">
+                            <label for="totalabonocolones">Total Colones:</label>
+                             <br/><br/>
+                        </div>
+                         <div class="col-sm-12 totalesdata2" >
+                            <span class="precio totalabonocolones">₡ 0,00</span>
+                        </div>
+                     </div>
+                      <div class="form-group col-sm-6">
+                            <div class="col-sm-12">
+                                <label for="totalabonodolares">Dolares:</label>
+                                 <br/><br/>
+                            </div>
+                             <div class="col-sm-12 totalesdata2" >
+                                <span class="preciodolar totalabonodolares">$ 0,00</span>
+                            </div>
+                        </div>
+
+                     <div class="col-sm-12"><br/></div>
+
+
+                     <div class="form-group col-sm-6">
+
+                     </div>
+                     <div class="form-group col-sm-6">
+                            <div class="col-sm-12"><br/></div>
+                            <div class="col-sm-12 btnconfirmardatos">
+                                <button  type="button" class=" btn btn-success  form-control" id="BtnconfirmarAbono" style="width: 160px">Confirmar Datos</button>
+                            </div>
+                            <div hidden class="col-sm-12 btneditardatos">
+                                <button  type="button" class=" btn btn-danger  form-control" id="BtneditarAbono" style="width: 160px">Editar Datos</button>
+                            </div>
+                            <div class="col-sm-12"><br/></div>
+                            <div hidden class="col-sm-12 btnregistrarabono">
+                                <button  type="button" class=" btn btn-success  form-control" id="BtnRegistrarAbono" style="width: 160px">Registrar Abono</button>
+                            </div>
+                     </div>
+
+                 </div>
+            </form>
+        </div> <!-- cd-panel-content -->
+    </div> <!-- cd-panel-container -->
+</div> <!-- Panel de abono -->
+
+<div class="cd-panel cd-panelnotacred from-right">
+    <header class="cd-panel-header">
+        <H1>Nota de crédito <span style="position: relative;float: right;margin-right: 10px" >Tipo de cambio: <span class="precio tipocambiohead"></span> </span></H1>
+    </header>
+    <div class="cd-panel-container">
+        <div class="cd-panel-content datosdelabono">
+            <form class="col-sm-12 form-horizontal" action="">
+                <div class="form-group datoscliente" style="margin-bottom: 0">
+                    <div class=" form-group col-sm-6 ">
+                        <div class="col-sm-12 tituloventa3">
+                            <label for="codigoclientenc ">Código de cliente:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12 codigoclientenc totalesdata3">
+                            0002
+                        </div>
+                    </div>
+                     <div class=" form-group col-sm-6 ">
+                         <div class="col-sm-12 tituloventa3">
+                            <label for="monedaabono">Nombre del Cliente:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12 nombreclientenc totalesdata3">
+                            Nombre del Cliente
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group saldoscliente" style="margin-bottom: 0">
+                    <div class=" form-group col-sm-6 ">
+                        <div class="col-sm-12 tituloventa3">
+                            <label for="codigoclientenc ">Límite de crédito:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12 creditlimitnc totalesdata3 precio">
+                            0
+                        </div>
+                    </div>
+                     <div class=" form-group col-sm-6 ">
+                         <div class="col-sm-12 tituloventa3">
+                            <label for="monedaabono">Saldo actual:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12 saldoactualnc totalesdata3 precio">
+                            0
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group facturaysaldo" style="margin-bottom: 0">
+                    <div class=" form-group col-sm-6 ">
+                        <div class="col-sm-12 tituloventa3">
+                            <label for="codigoclientenc ">Número de factura:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12 numfacturanc totalesdata3  ">
+                            0
+                        </div>
+                    </div>
+                     <div class=" form-group col-sm-6 ">
+                         <div class="col-sm-12 tituloventa3">
+                            <label for="monedaabono">Saldo factura:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12 saldofacturanc totalesdata3 precio">
+                            0
+                        </div>
+                    </div>
+                </div>
+                <div  class="montonotacredito form-group">
+                     <div class=" form-group col-sm-6">
+                         <div class="col-sm-12 tituloventa3">
+                            <label for="montonc">Monto de la Nota de crédito:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control input-lg" name="montonc" id="montonc">
+                        </div>
+                     </div>
+
+                 </div>
+
+                <div class="totalesnc form-group" >
+                     <div class="col-sm-12">
+                         <label class="tituloventa3" for="tituloventa">Totales:</label>
+                         <br/>
+                         <br/>
+                         <div hidden class="col-sm-11 alert alert-success fade in montomayorsaldonc">
+                             <a href="#" class="close" data-dismiss="alert">&times;</a>
+                             <strong>El Monto de la nota de crédito es mayor al saldo de la factura, la factura se liquidará!.</strong><br/>
+                         </div>
+                     </div>
+                      <div class="form-group col-sm-6">
+                         <div class="col-sm-12">
+                            <label for="totalabonocolones">Total NC:</label>
+                             <br/><br/>
+                        </div>
+                         <div class="col-sm-12 totalesdata2" >
+                            <span class="precio montonctotal">₡ 0,00</span>
+                        </div>
+                     </div>
+                      <div class="form-group col-sm-6">
+                            <div class="col-sm-12">
+                                <label for="totalabonodolares">Nuevo pendiente Factura:</label>
+                                 <br/><br/>
+                            </div>
+                             <div class="col-sm-12 totalesdata2" >
+                                <span class="precio montopendientefactura">₡ 0,00</span>
+                            </div>
+                        </div>
+
+                     <div class="col-sm-12"><br/></div>
+
+
+                     <div class="form-group col-sm-6">
+
+                     </div>
+
+                     <div class="form-group col-sm-6">
+                            <div class="col-sm-12"><br/><br/></div>
+                            <div class="col-sm-12 BtnconfirmarNC">
+                                <button disabled type="button" class=" btn btn-success  form-control" id="BtnconfirmarNC" style="width: 160px">Confirmar Datos</button>
+                            </div>
+                            <div hidden class="col-sm-12 BtneditarNC">
+                                <button  type="button" class=" btn btn-danger  form-control" id="BtneditarNC" style="width: 160px">Editar Datos</button>
+                            </div>
+                            <div class="col-sm-12"><br/></div>
+                            <div hidden class="col-sm-12 BtnRegistrarNC">
+                                <button  type="button" class=" btn btn-success  form-control" id="BtnRegistrarNC" style="width: 160px">Registrar Nota</button>
+                            </div>
+                     </div>
+
+                 </div>
+            </form>
+        </div> <!-- cd-panel-content -->
+    </div> <!-- cd-panel-container -->
+</div> <!-- Panel de nota cred -->
+
+{% endblock %}

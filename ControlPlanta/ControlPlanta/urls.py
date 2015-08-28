@@ -35,7 +35,7 @@ from productos.views import ProductViewSet, FamiliaViewSet
 from proveedores.views import ProveedorViewSet
 from cajeros.views import CajeroViewSet
 from cuentasCobrar.views import AbonosViewSet,DetalleCuentaViewSet, cuentasCobrarView, NotaDeCreditoViewSet, \
-     recuperacionView, reporteCuentasCobrarView
+     recuperacionView, reporteCuentasCobrarView, saldosClienteView
 
 # Routers provide an easy way of automatically determining the URL conf.
 
@@ -81,6 +81,7 @@ urlpatterns = [
     url(r'^reproceso/', ReprocesosView.as_view()),
     url(r'^recuperacion/', recuperacionView.as_view()),
     url(r'^reportecuentascobrar/', reporteCuentasCobrarView.as_view()),
+    url(r'^estadocuenta/', saldosClienteView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
     url(r'backupdb/', 'frontend.views.backupdbmine', name='backup'),

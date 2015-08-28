@@ -7,6 +7,7 @@ class VariableGlobal(models.Model):
     descripcion=models.CharField(max_length=255,verbose_name='Descripcion',blank=True)
     valornum=models.FloatField(default=0,verbose_name='Valor Numérico',blank=True)
     valortext=models.CharField(max_length=255,verbose_name='Valor texto',blank=True)
+    valoremail=models.EmailField(verbose_name='Email',blank=True)
 
     def __unicode__(self):
         ret=str(self.id)

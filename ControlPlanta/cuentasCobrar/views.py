@@ -13,6 +13,12 @@ class cuentasCobrarView(TemplateView):
     def dispatch(self, *args, **kwargs):
         return super(cuentasCobrarView, self).dispatch(*args, **kwargs)
 
+class saldosClienteView(TemplateView):
+    template_name = 'SaldosCliente.html'
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(saldosClienteView, self).dispatch(*args, **kwargs)
+
 class recuperacionView(TemplateView):
     template_name = 'recuperacion.html'
     @method_decorator(login_required)

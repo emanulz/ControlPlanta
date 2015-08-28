@@ -29,6 +29,8 @@ var ventaid;
 var today;
 var todaynorm;
 var creditoaprobado=false;
+var saldoantcred=0;
+var saldoactcred=0;
 
 var vencimiento;
 var tipo;
@@ -405,7 +407,7 @@ function main () {
                 var cliente2=$.get('/api/clientes/'+cliente+'/',function(){});
                 //cliente=cliente2.responseJSON[0].id;
                 $("#nombreclientecred").val(cliente2.responseJSON.name+' '+cliente2.responseJSON.last_name);
-                $("#limitecred").val('₡'+cliente2.responseJSON.credit_limit);
+                $("#limitecred").val('₡'+cliente2.responseJSON.credit_limit.toFixed(2));
                 var saldos = $.get('/api/saldocobrar/?cliente='+cliente,function(){});
                 //console.log(saldos.responseJSON);
                 if(saldos.responseJSON.length==0){
@@ -416,7 +418,7 @@ function main () {
                     creditoaprobado=false;
                 }
                 else{
-                    $("#saldocred").val('₡'+saldos.responseJSON[0].total);
+                    $("#saldocred").val('₡'+saldos.responseJSON[0].total.toFixed(2));
 
                     if((saldos.responseJSON[0].total+totalventa)>cliente2.responseJSON.credit_limit){
                         $('.errorsaldoactual:hidden').show();
@@ -424,6 +426,8 @@ function main () {
                     }
                     else{
                         creditoaprobado=true;
+                        saldoantcred=saldos.responseJSON[0].total;
+                        saldoactcred=saldos.responseJSON[0].total+totalventa;
                     }
                     if(cliente2.responseJSON.credit==false){
                         $('.errorsaldoactual').hide();
@@ -1208,7 +1212,9 @@ if($("#pagacontipo").val()==2){
             "transfnum": 0,
             "bancotransf": "-",
             "chequenum": 0,
-            "bancocheque": "-"
+            "bancocheque": "-",
+            "saldoant": saldoantcred,
+            "saldoactual": saldoactcred
             }),//JSON object
               contentType:"application/json; charset=utf-8",
               dataType:"json"

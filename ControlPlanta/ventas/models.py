@@ -67,6 +67,8 @@ class DetallesPago(models.Model):
     bancotransf=models.CharField(max_length=255,verbose_name='Banco',default='Nacional',blank=True)
     chequenum=models.IntegerField(blank=True,verbose_name='Número de cheque',default=0)
     bancocheque=models.CharField(max_length=255,verbose_name='Banco',default='Nacional',blank=True)
+    saldoant=models.FloatField(verbose_name='Saldo Crédito anterior ₡',default=0,blank=True)
+    saldoactual=models.FloatField(verbose_name='Saldo Crédito nuevo ₡',default=0,blank=True)
     def __unicode__(self):
         ret=str(self.id)
         return ret
