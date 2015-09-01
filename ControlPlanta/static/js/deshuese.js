@@ -354,7 +354,6 @@ function NoConfirmarDatos(){
 
 }
 
-
 function guardarDetalle() {
 
     event.preventDefault();
@@ -385,29 +384,29 @@ function guardarDetalle() {
                // console.log(data);
             });
 
-        $.ajax({
-          method: "POST",
-          url: "/api/inventariototal/",
-          async: false,
-
-          data: JSON.stringify({
-            "producto": matrixdetalle[i][0],
-            "peso": matrixdetalle[i][1],
-            "lote": lote,
-            "vencimiento": vencimiento,
-            "tipo":tipo
-
-            }),//JSON object
-              contentType:"application/json; charset=utf-8",
-              dataType:"json"
-            })
-            .fail(function(data){
-            //console.log(data.responseText);
-            alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-            })
-            .success(function(data){
-                //console.log(data);
-            });
+        //$.ajax({
+        //  method: "POST",
+        //  url: "/api/inventariototal/",
+        //  async: false,
+        //
+        //  data: JSON.stringify({
+        //    "producto": matrixdetalle[i][0],
+        //    "peso": matrixdetalle[i][1],
+        //    "lote": lote,
+        //    "vencimiento": vencimiento,
+        //    "tipo":tipo
+        //
+        //    }),//JSON object
+        //      contentType:"application/json; charset=utf-8",
+        //      dataType:"json"
+        //    })
+        //    .fail(function(data){
+        //    //console.log(data.responseText);
+        //    alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        //    })
+        //    .success(function(data){
+        //        //console.log(data);
+        //    });
 
 
         if(i==(control-1)){

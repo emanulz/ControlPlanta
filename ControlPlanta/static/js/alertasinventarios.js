@@ -299,11 +299,11 @@ function main () {
                                getProducto();
                            }
                            else{
-                               alert('la cantidad NO puede ser 0 o menor.');
+                               alertify.alert('Error','la cantidad NO puede ser 0 o menor.');
                            }
                      }
                      else{
-                         alert('Ingrese un valor de código y cantidad válidos.');
+                         alertify.alert('Error','Ingrese un valor de código y cantidad válidos.');
                      }
                  }
            });
@@ -315,11 +315,11 @@ function main () {
                            getProducto();
                        }
                        else{
-                           alert('la cantidad NO puede ser 0 o menor.');
+                           alertify.alert('Error','la cantidad NO puede ser 0 o menor.');
                        }
                  }
                  else{
-                     alert('Ingrese un valor de código y cantidad válidos.');
+                    alertify.alert('Error','Ingrese un valor de código y cantidad válidos.');
                  }
              }
        });
@@ -389,7 +389,7 @@ function main () {
                 recalculartablaproductos();
             }
              else{
-                alert('Debe introducir un nombre válido');
+                alertify.alert('Error','Debe introducir un nombre válido');
             }
 
         });
@@ -1238,11 +1238,11 @@ function Aplicardescuento(){
 
         }
         else{
-            alert("Por favor ingrese un valor de descuento válido");
+           alertify.alert('Error',"Por favor ingrese un valor de descuento válido");
         }
     }
     else{
-        alert("Por favor ingrese un valor de descuento numérico");
+        alertify.alert('Error',"Por favor ingrese un valor de descuento numérico");
     }
 }
 
@@ -1446,7 +1446,7 @@ function guardarDetalle() {
             })
             .fail(function(data){
             console.log(data.responseText);
-            alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+            alertify.alert('Error',"Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
             })
             .success(function(data){
                 console.log(data);
@@ -1470,7 +1470,7 @@ function guardarDetalle() {
             })
             .fail(function(data){
             console.log(data.responseText);
-            alert("Hubo un problema al crear el inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+            alertify.alert('Error',"Hubo un problema al crear el inventario, por favor intente de nuevo o contacte a Emanuel al # 83021964");
             })
             .success(function(data){
                 console.log(data);
@@ -1535,7 +1535,7 @@ function guardarDeshuese() {
         })
     .fail(function(data){
             console.log(data.responseText);
-            alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
+           alertify.alert('Error',"Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964");
         })
     .success(function(data){
             console.log(data);

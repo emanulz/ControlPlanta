@@ -513,18 +513,20 @@ function main () {
                 $('.factura:hidden').show();
                 $('.reciboabono').hide();
                 $('.reciboNC').hide();
-                //CargarFactura(facturaspend[rowIndex][0], facturaspend[rowIndex][4], facturaspend[rowIndex][5]);
+                CargarFactura(transacciones[rowIndex][1]);
             }
             if (transacciones[rowIndex][0]==2) {
                 $('.reciboabono:hidden').show();
                 $('.factura').hide();
                 $('.reciboNC').hide();
-                //CargarFactura(facturaspend[rowIndex][0], facturaspend[rowIndex][4], facturaspend[rowIndex][5]);
+                //console.log(transacciones);
+                CargarAbono(transacciones[rowIndex][1]);
             }
             if (transacciones[rowIndex][0]==3) {
                 $('.reciboNC:hidden').show();
                 $('.factura').hide();
                 $('.reciboabono').hide();
+                 CargarNC(transacciones[rowIndex][1]);
                 //CargarFactura(facturaspend[rowIndex][0], facturaspend[rowIndex][4], facturaspend[rowIndex][5]);
             }
         });
@@ -1292,30 +1294,33 @@ function llenartablafacturas (factura){
 
     $.each( abonosfact.responseJSON, function(i){
     //contadorrows=contadorrows+1;
-    $('#tablafacturaspend > tbody:last').append('<tr><td>ABONO A FACTURAS</td><td>' + abonosfact.responseJSON[i].id + '</td><td>' + abonosfact.responseJSON[i].date +
-    '</td><td class=precioneg>' + abonosfact.responseJSON[i].montocol.toFixed(2) + '</td>' +
-    '<td><button style="width: 75px" type="button" class=" btn btn-success form-control selectrowfactura " id="btnelegir"><span class="glyphicon glyphicon-menu-right"></span></button></td></tr>');
-    transacciones.push([2,abonosfact.responseJSON.id]);
-    abonosresumen=abonosresumen+abonosfact.responseJSON[i].montocol
+        $('#tablafacturaspend > tbody:last').append('<tr><td>ABONO A FACTURAS</td><td>' + abonosfact.responseJSON[i].id + '</td><td>' + abonosfact.responseJSON[i].date +
+        '</td><td class=precioneg>' + abonosfact.responseJSON[i].montocol.toFixed(2) + '</td>' +
+        '<td><button style="width: 75px" type="button" class=" btn btn-success form-control selectrowfactura " id="btnelegir"><span class="glyphicon glyphicon-menu-right"></span></button></td></tr>');
+        transacciones.push([2,abonosfact.responseJSON[i].id]);
+        abonosresumen=abonosresumen+abonosfact.responseJSON[i].montocol
     });
 
     var notascredfact=$.get('/api/notacredito/?venta='+factura,function(){});
 
     $.each( notascredfact.responseJSON, function(i){
-    $('#tablafacturaspend > tbody:last').append('<tr><td>NOTA DE CRÉDITO</td><td>' + notascredfact.responseJSON[i].id + '</td><td>' + notascredfact.responseJSON[i].date +
-    '</td><td class=precioneg>' + notascredfact.responseJSON[i].monto.toFixed(2) + '</td>' +
-    '<td><button style="width: 75px" type="button" class=" btn btn-success form-control selectrowfactura " id="btnelegir"><span class="glyphicon glyphicon-menu-right"></span></button></td></tr>');
-    transacciones.push([3,notascredfact.responseJSON.id]);
-    notasresumen=notasresumen+notascredfact.responseJSON[i].monto;
+        $('#tablafacturaspend > tbody:last').append('<tr><td>NOTA DE CRÉDITO</td><td>' + notascredfact.responseJSON[i].id + '</td><td>' + notascredfact.responseJSON[i].date +
+        '</td><td class=precioneg>' + notascredfact.responseJSON[i].monto.toFixed(2) + '</td>' +
+        '<td><button style="width: 75px" type="button" class=" btn btn-success form-control selectrowfactura " id="btnelegir"><span class="glyphicon glyphicon-menu-right"></span></button></td></tr>');
+        transacciones.push([3,notascredfact.responseJSON[i].id]);
+        notasresumen=notasresumen+notascredfact.responseJSON[i].monto;
     });
 
 }
 
-function CargarFactura(factura,cliente2,usuario2){
+function CargarFactura(factura){
     $("#tablafactura > tbody").html("");
-    var clientefactura=$.get('/api/clientes/'+cliente2+'/',function(){});
-    var cajerofactura=$.get('/api/cajeros/'+usuario2+'/',function(){});
+
     var venta=$.get('/api/venta/'+factura+'/',function(){});
+
+    var clientefactura=$.get('/api/clientes/'+venta.responseJSON.client+'/',function(){});
+    var cajerofactura=$.get('/api/cajeros/'+venta.responseJSON.cashier+'/',function(){});
+
     var matrixproductos=venta.responseJSON.detalleproductos;
     var tipoventafact='CRÉDITO.';
     //if($("#pagacontipo").val()==3){
@@ -1349,6 +1354,69 @@ function CargarFactura(factura,cliente2,usuario2){
     });
     //$('.sidetotales').hide();
     //('.factura:hidden').show();
+}
+
+function CargarAbono(idabono){
+
+    //console.log(idabono);
+
+    $("#tablafactura > tbody").html("");
+
+    var abono=$.get('/api/abonoscobrar/'+idabono+'/',function(){});
+    var venta=$.get('/api/venta/'+abono.responseJSON.facturas+'/',function(){});
+    var clientefactura=$.get('/api/clientes/'+venta.responseJSON.client+'/',function(){});
+    //var cajerofactura=$.get('/api/cajeros/'+venta.responseJSON.cashier+'/',function(){});
+    console.log(abono.responseJSON);
+
+    $('.numabono').html(' '+abono.responseJSON.id);
+    $('.fechaabono').html('  '+abono.responseJSON.date +' '+abono.responseJSON.time);
+    $('.clienteabono').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
+
+
+    $('.montoabono').html(abono.responseJSON.montocol.toFixed(2));
+    $('.saldoanteior').html(abono.responseJSON.saldoant.toFixed(2));
+    $('.saldoactual').html(abono.responseJSON.saldoactual.toFixed(2));
+
+
+    $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+
+}
+
+function CargarNC(idNC){
+
+
+    $("#tablafactura > tbody").html("");
+
+    var nc=$.get('/api/notacredito/'+idNC+'/',function(){});
+    var venta=$.get('/api/venta/'+nc.responseJSON.venta+'/',function(){});
+    var clientefactura=$.get('/api/clientes/'+venta.responseJSON.client+'/',function(){});
+    //var cajerofactura=$.get('/api/cajeros/'+venta.responseJSON.cashier+'/',function(){});
+    //console.log(abono.responseJSON);
+
+    $('.numNC').html(' '+nc.responseJSON.id);
+    $('.fechNC').html('  '+nc.responseJSON.date +' '+nc.responseJSON.time);
+    $('.clienteNC').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
+
+
+    $('.NumfactNC').html(nc.responseJSON.venta);
+    $('.montoAplicadoNC').html(nc.responseJSON.monto.toFixed(2));
+    $('.saldoAntFact').html(nc.responseJSON.saldoanteriorfact.toFixed(2));
+    $('.saldoActFact').html(nc.responseJSON.saldoactualfact.toFixed(2));
+    $('.saldoAntCuenta').html(nc.responseJSON.saldoanterior.toFixed(2));
+    $('.saldoActCuenta').html(nc.responseJSON.saldoactual.toFixed(2));
+    //$('.saldoActCuenta').html(nc.responseJSON.saldoactual.toFixed(2));
+
+
+    $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+
 }
 
 function TotalesAbono(){

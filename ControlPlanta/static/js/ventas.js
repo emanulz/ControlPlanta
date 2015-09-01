@@ -345,11 +345,11 @@ function main () {
                                getProducto();
                            }
                            else{
-                               alert('la cantidad NO puede ser 0 o menor.');
+                               alertify.alert('Error','la cantidad NO puede ser 0 o menor.');
                            }
                      }
                      else{
-                         alert('Ingrese un valor de código y cantidad válidos.');
+                         alertify.alert('Error','Ingrese un valor de código y cantidad válidos.');
                      }
                  }
            });
@@ -361,11 +361,11 @@ function main () {
                            getProducto();
                        }
                        else{
-                           alert('la cantidad NO puede ser 0 o menor.');
+                            alertify.alert('Error','la cantidad NO puede ser 0 o menor.');
                        }
                  }
                  else{
-                     alert('Ingrese un valor de código y cantidad válidos.');
+                     alertify.alert('Error','Ingrese un valor de código y cantidad válidos.');
                  }
              }
        });
@@ -512,7 +512,7 @@ function main () {
                 recalculartablaproductos();
             }
              else{
-                alert('Debe introducir un nombre válido');
+                alertify.alert('Error','Debe introducir un nombre válido');
             }
 
         });
@@ -1059,11 +1059,11 @@ function Aplicardescuento(){
 
         }
         else{
-            alert("Por favor ingrese un valor de descuento válido");
+           alertify.alert('Error',"Por favor ingrese un valor de descuento válido");
         }
     }
     else{
-        alert("Por favor ingrese un valor de descuento numérico");
+        alertify.alert('Error',"Por favor ingrese un valor de descuento numérico");
     }
 }
 
@@ -1541,6 +1541,7 @@ function generarfactura(){
     var tipoventafact='CONTADO.';
     if($("#pagacontipo").val()==3){
         tipoventafact='CRÉDITO.';
+        $('#firmacredito:hidden').show();
     }
     $('.facturanumfact').html(' '+ventaid);
     $('.tipoventafact').html(' '+tipoventafact);

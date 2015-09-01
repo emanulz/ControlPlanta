@@ -17,6 +17,7 @@ sys.path.append('/Volumes/DATOS/Avanzando_Juntos/ControlPlanta/venv/lib/python2.
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ControlPlanta.settings")
+#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ControlPlanta.settings")
+os.environ["DJANGO_SETTINGS_MODULE"] = "ControlPlanta.settings"
 
 application = get_wsgi_application()

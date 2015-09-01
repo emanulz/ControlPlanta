@@ -146,10 +146,11 @@ function cargarCanales(){
                 cantpollos = cantpollos + 1;
             }
             var fierro= $.get('/api/proveedores/'+canaleslist.responseJSON[i].fierro +'/', function(){});
+
             $("#canaleslist").append('<li class="' + tipo + '" >' +
             '<label class="' + tipo + '" style="color: #0081c2" for="' + canaleslist.responseJSON[i].id + '">' +
             canaleslist.responseJSON[i].id + ' ' + canaleslist.responseJSON[i].date +' ' +fierro.responseJSON.name +' ' +
-            fierro.responseJSON.lastname +' ' +fierro.responseJSON.fierro +'</label>' +
+            fierro.responseJSON.lastname +' ' +fierro.responseJSON.fierro +' ' +canaleslist.responseJSON[i].weight+' kg' +'</label>' +
             '<input  type="checkbox" class="checkboxdis ' + tipo + '" id="' + canaleslist.responseJSON[i].id + '" data-id="' + canaleslist.responseJSON[i].id + '"/>' +
             '</li>');
         });
