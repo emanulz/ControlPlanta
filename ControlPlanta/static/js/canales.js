@@ -9,9 +9,5 @@ function main () {
     $('.date').val(today);
     $('.disablecheckbox').prop("disabled",true);
 
-
-
-
-
-
 }
+

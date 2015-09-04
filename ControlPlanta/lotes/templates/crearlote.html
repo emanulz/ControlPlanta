@@ -7,22 +7,22 @@
     <h4 id="titulohide">Para Crear Un lote complete correctamente los siguientes espacios: </h4>
     <br/>
 
-         <div class="hideonload succesmessage">
-            <div class="col-sm-6 alert alert-success fade in ">
+         <div hidden class="hideonload succesmessage">
+            <div class="col-md-6 alert alert-success fade in ">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <strong>Completado!</strong> El lote fue creado correctamente.<br/> <br/>
                 <a href=""  class=" btn btn-success" role="button" >Crear Nuevo</a>
             </div>
         </div>
-        <div class="hideonload failmessage">
-            <div class="col-sm-6 alert alert-danger fade in ">
+        <div hidden class="hideonload failmessage">
+            <div class="col-md-6 alert alert-danger fade in ">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <strong>Error en formulario!</strong> Corrija los errores mostrados.
             </div>
         </div>
 
        <div>
-        <form  class="form-horizontal col-sm-9" action="" method="post">
+        <form  class="form-horizontal col-md-9" action="" method="post">
         {% csrf_token %}
 
         <div class="form-group">
@@ -67,7 +67,7 @@
             <div class="form-group">
                 <div class="col-sm-12 errorlist" id="canaleslisterror"> </div>
                 <label class="col-sm-2" for="canaleslist">Canales:</label>
-                <div class="col-sm-6">
+                <div class="col-lg-6">
                     <div id="canaleslist">
 
                         <div id="msgNohayCanales">
@@ -77,46 +77,28 @@
                                 <a href="/addcanal/" class="btn btn-primary margintop10px" role="button" >Crear Canal</a>
                             </p>
                         </div>
+                        <div hidden id="tablaListaCanales">
+
+                            <table class="table table-bordered table-hover" data-toggle="table" id="tablaCanales" data-url="" data-cache="false" data-height="299" style="font-size: 15px">
+                                <thead>
+                                    <tr class="success">
+                                        <th data-field="num">#</th>
+                                        <th data-field="date">Fecha</th>
+                                        <th data-field="date">C/M</th>
+                                        <th data-field="fierro">Fierro</th>
+                                        <th data-field="weight">Peso Kg</th>
+                                        <th data-field="select">Select</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+
+                        </div>
 
                     </div>
-{#                <div id="canaleslist">#}
-{#                    {% if  canales.count != 0 %}#}
-{##}
-{#                        {% for canal in canales %}#}
-{#                            {% if  canal.isonlote != True %}#}
-{#                                {% if  canal.tipo.id == 1 %}#}
-{#                                <li class="Cerdo" >#}
-{#                                    <label class="Cerdo" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>#}
-{#                                    <input  type="checkbox" class="checkboxdis Cerdo" id="{{ canal.id }}" data-id="{{ canal.id }}"/>#}
-{#                                </li>#}
-{#                                {% endif %}#}
-{##}
-{#                                 {% if  canal.tipo.id == 2 %}#}
-{#                                <li class="Res">#}
-{#                                    <label class="Res" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>#}
-{#                                    <input  type="checkbox" class="checkboxdis Res" id="{{ canal.id }}" data-id="{{ canal.id }}"/>#}
-{#                                </li>#}
-{#                                {% endif %}#}
-{##}
-{#                                 {% if  canal.tipo.id == 3 %}#}
-{#                                <li class="Pollo">#}
-{#                                    <label class="Pollo" style="color: #0081c2" for="{{ canal.id }}">{{ canal }} </label>#}
-{#                                    <input  type="checkbox" class="checkboxdis Pollo " id="{{ canal.id }}" data-id="{{ canal.id }}"/>#}
-{#                                </li>#}
-{#                                {% endif %}#}
-{##}
-{#                            {% endif %}#}
-{##}
-{#                        {% endfor %}#}
-{##}
-{#                    {% else %}#}
-{#                            <p>#}
-{#                                <strong> No hay canales registrados hoy, que no pertenezcan ya a un lote. </strong>#}
-{#                                <br/>#}
-{#                                <a href="/addcanal/" class="btn btn-primary margintop10px" role="button" >Crear Canal</a>#}
-{#                            </p>#}
-{#                    {% endif %}#}
-{#                </div>#}
                 </div>
             </div>
 
@@ -139,7 +121,7 @@
             <br/>
             <div class="col-sm-2"></div>
             <div class="col-sm-4">
-                <input class=" btn btn-primary  form-control" type="submit" value="Crear" id="btnSubmit" />
+                <input disabled class=" btn btn-success  form-control" type="submit" value="Crear" id="btnSubmit" />
             </div>
             
         </div>

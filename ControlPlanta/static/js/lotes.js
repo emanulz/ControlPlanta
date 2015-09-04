@@ -39,12 +39,13 @@ function main () {
                 id = $(this).data('id');
                 lotescliked.push(id);
 
-                $.get('/api/canales/' + id+'/', sumarPeso)
+                $.get('/api/canales/' + id+'/', sumarPeso);
+                $("#btnSubmit").prop('disabled',false);
             }
            else{
                 id = $(this).data('id');
                 lotescliked.splice( $.inArray(id,lotescliked) ,1 );
-                $.get('/api/canales/' + id+'/', restarPeso)
+                $.get('/api/canales/' + id+'/', restarPeso);
             }
        });//eventos checkbox
 
@@ -58,6 +59,8 @@ function main () {
             $("#pesototal").val(0);
             $("#cantcanales").val(0);
             lotescliked=[];
+            $("#btnSubmit").prop('disabled',true);
+            $("#tablaListaCanales").hide();
             $("#msgNohayCanales:hidden").show();
             $('.Cerdo').attr('checked', false);
             $('.Res').attr('checked', false);
@@ -65,6 +68,7 @@ function main () {
             if($("#tipo" ).val()==1){
                 console.log(cantcerdos);
                 if(cantcerdos>0){
+                    $("#tablaListaCanales:hidden").show();
                     $("#msgNohayCanales").hide();
                 }
 
@@ -76,6 +80,7 @@ function main () {
             }
             if($("#tipo" ).val()==2){
                 if(cantreses>0){
+                    $("#tablaListaCanales:hidden").show();
                     $("#msgNohayCanales").hide();
                 }
                 $(".Res:hidden").show();
@@ -87,6 +92,7 @@ function main () {
             }
             if($("#tipo" ).val()==3){
                 if(cantpollos>0){
+                    $("#tablaListaCanales:hidden").show();
                     $("#msgNohayCanales").hide();
                 }
                 $(".Cerdo:hidden").hide();
@@ -129,9 +135,12 @@ function cargarCanales(){
     var tipo;
     if(canaleslist.responseJSON.length==0){
         $("#msgNohayCanales:hidden").show();
+        $("#tablaListaCanales").hide();
+
     }
     else {
         //$("#msgNohayCanales").hide();
+        $("#tablaListaCanales:hidden").show();
         $.each(canaleslist.responseJSON, function (i) {
             if (canaleslist.responseJSON[i].tipo == 1) {
                 tipo = 'Cerdo';
@@ -145,14 +154,22 @@ function cargarCanales(){
                 tipo = 'Pollo';
                 cantpollos = cantpollos + 1;
             }
+
             var fierro= $.get('/api/proveedores/'+canaleslist.responseJSON[i].fierro +'/', function(){});
 
-            $("#canaleslist").append('<li class="' + tipo + '" >' +
-            '<label class="' + tipo + '" style="color: #0081c2" for="' + canaleslist.responseJSON[i].id + '">' +
-            canaleslist.responseJSON[i].id + ' ' + canaleslist.responseJSON[i].date +' ' +fierro.responseJSON.name +' ' +
-            fierro.responseJSON.lastname +' ' +fierro.responseJSON.fierro +' ' +canaleslist.responseJSON[i].weight+' kg' +'</label>' +
-            '<input  type="checkbox" class="checkboxdis ' + tipo + '" id="' + canaleslist.responseJSON[i].id + '" data-id="' + canaleslist.responseJSON[i].id + '"/>' +
-            '</li>');
+
+            $('#tablaCanales > tbody:last').append('<tr class="'+tipo+'"><td>' + canaleslist.responseJSON[i].id + '</td><td>' + canaleslist.responseJSON[i].date+
+            '</td><td>'+ canaleslist.responseJSON[i].consecutive +'</td><td>'+ fierro.responseJSON.name +' ' + fierro.responseJSON.lastname +' ' +fierro.responseJSON.fierro +'</td>' +
+            '<td>'+ canaleslist.responseJSON[i].weight +'</td><td><input  type="checkbox" class=" form-control input-lg checkboxdis ' + tipo + '" id="' + canaleslist.responseJSON[i].id + '" data-id="' + canaleslist.responseJSON[i].id + '"/>' +'</td></tr>');
+
+
+
+            //$("#canaleslist").append('<li class="' + tipo + '" >' +
+            //'<label class="' + tipo + '" style="color: #0081c2" for="' + canaleslist.responseJSON[i].id + '">' +
+            //canaleslist.responseJSON[i].id + ' ' + canaleslist.responseJSON[i].date +' ' +fierro.responseJSON.name +' ' +
+            //fierro.responseJSON.lastname +' ' +fierro.responseJSON.fierro +' ' +canaleslist.responseJSON[i].weight+' kg' +'</label>' +
+            //'<input  type="checkbox" class="checkboxdis ' + tipo + '" id="' + canaleslist.responseJSON[i].id + '" data-id="' + canaleslist.responseJSON[i].id + '"/>' +
+            //'</li>');
         });
     }
 }
@@ -184,6 +201,11 @@ function restarPeso (data){
     var pesototal=pesoactual-pesocanal;
     var pesototal2=Math.round(pesototal* 1000) / 1000;
     $("#pesototal").val(pesototal2);
+
+    if(pesototal2==0){
+        $("#btnSubmit").prop('disabled',true);
+    }
+
 }//restarPeso
 
 function unique(list) {
@@ -207,13 +229,13 @@ function guardarLote() {
 
     $.ajax({
       method: "POST",
-      url: "/lotes/",
+      url: "/api/lotes/",
 
       data: JSON.stringify({
 
         "date":today,
         "lotenum": numlote,
-        "fierro": unique(fierros),
+        "fierro": fierros,
         "canalesqty": cantcanales,
         "canales": canaleslist,
         "totalweight": pesototal,
@@ -223,9 +245,16 @@ function guardarLote() {
           contentType:"application/json; charset=utf-8",
           dataType:"json"
         })
-      .done(function(data){
-         errorhandle(data)
+        .fail(function(data){
+            //console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear el lote, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            })
+        .success(function(data){
+           patchcanal();
         });
+      //.done(function(data){
+      //   errorhandle(data)
+      //  });
 }
 function errorhandle (data){
 
