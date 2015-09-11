@@ -1,10 +1,10 @@
 {% extends '../../frontend/templates/base2.html' %}
 {% block content %}
-     <script src="/static/js/lotes.js"></script>
+     <script src="/static/js/eliminarLote.js"></script>
 <div class="PaddingContent">
-    <h3>Crear Lote:</h3>
+    <h3 class="tituloventa">Eliminar Lote:</h3>
     <br/>
-    <h4 id="titulohide">Para Crear Un lote complete correctamente los siguientes espacios: </h4>
+    <h4  id="titulohide">Para Eliminar un lote seleccione el lote, confirme los datos y haga click en eliminar: </h4>
     <br/>
 
          <div hidden class="hideonload succesmessage">
@@ -28,10 +28,14 @@
         <div class="form-group">
 
             <div class="form-group">
-                <div class="col-sm-12 errorlist" id="dateerror"> </div>
-                <label class="col-sm-2" for="date">Fecha:</label>
+                <div class="col-sm-12 errorlist" id="tipoerror"> </div>
+                <label class="col-sm-2" for="tipo">Tipo:</label>
                 <div class="col-sm-6">
-                    <input type="date" class="form-control input-lg" id="date" >
+                    <select class="form-control input-lg" name="tipo" id="tipo">
+                    <option value="1">Cerdo</option>
+                    <option value="2">Res</option>
+                    <option disabled value="3">Pollo</option>
+                    </select>
                 </div>
             </div>
 
@@ -39,30 +43,12 @@
                 <div class="col-sm-12 errorlist" id="lotenumerror"> </div>
                 <label class="col-sm-2" for="numlote">Número de lote:</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control input-lg" id="numlote" placeholder="Número de lote.">
-                </div>
-            </div>
+                    <select class="form-control input-lg" name="numlote" id="numlote">
 
-             <div class="form-group">
-                <div class="col-sm-12 errorlist" id="tipoerror"> </div>
-                <label class="col-sm-2" for="tipo">Tipo:</label>
-               <div class="col-sm-6">
-                    <select class="form-control input-lg" name="tipo" id="tipo">
-                    <option value="1">Cerdo</option>
-                    <option value="2">Res</option>
-                    <option disabled value="3">Pollo</option>
                     </select>
-               </div>
-            </div>
-
-            <div hidden class="form-group ">
-                <div class="col-sm-12 errorlist" id="fierronumerror"> </div>
-
-                <label class="col-sm-2" for="fierronum">Fierros:</label>
-                <div class="col-sm-6">
-                    <input disabled type="text" class="form-control input-lg" id="fierronum" placeholder="Número fierro">
                 </div>
             </div>
+
 
             <div class="form-group">
                 <div class="col-sm-12 errorlist" id="canaleslisterror"> </div>
@@ -70,14 +56,17 @@
                 <div class="col-lg-6">
                     <div id="canaleslist">
 
-                        <div id="msgNohayCanales">
+                        <div id="msgInicial">
                             <p>
-                                <strong> No hay canales registrados, que no pertenezcan ya a un lote.</strong>
-                                <br/>
-                                <a href="/addcanal/" class="btn btn-success margintop10px" role="button" >Crear Canal</a>
+                                <strong> Seleccione un lote de la lista de arriba.</strong>
                             </p>
                         </div>
-                        <div hidden id="tablaListaCanales">
+                        <div hidden id="msgNohayCanales">
+                            <p>
+                                <strong> No hay lotes del tipo de carne selecionada que no se hayan deshuesado ya.</strong>
+                            </p>
+                        </div>
+                        <div id="tablaListaCanales">
 
                             <table class="table table-bordered table-hover" data-toggle="table" id="tablaCanales" data-url="" data-cache="false" data-height="299" style="font-size: 15px">
                                 <thead>
@@ -87,7 +76,7 @@
                                         <th data-field="date">C/M</th>
                                         <th data-field="fierro">Fierro</th>
                                         <th data-field="weight">Peso Kg</th>
-                                        <th data-field="select">Select</th>
+
                                     </tr>
 
                                 </thead>
@@ -102,7 +91,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div hidden class=" cantcanales form-group">
                 <div class="col-sm-12 errorlist" id="cantcanaleserror"> </div>
                 <label class="col-sm-2" for="cantcanales">Número canales:</label>
                 <div class="col-sm-6">
@@ -110,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div hidden class="pesototal form-group">
                 <div class="col-sm-12 errorlist" id="pesototalerror"> </div>
                 <label class="col-sm-2" for="pesototal">Peso total (Kg):</label>
                 <div class="col-sm-6">
@@ -120,8 +109,24 @@
 
             <br/>
             <div class="col-sm-2"></div>
-            <div class="col-sm-4">
-                <input disabled class=" btn btn-success  form-control" type="submit" value="Crear" id="btnSubmit" />
+            <div hidden class=" recargar col-sm-4">
+                <input class=" btn btn-success  form-control" type="submit" value="Recargar" id="btnRecargar" />
+            </div>
+            <div hidden class=" confirmar col-sm-4">
+                <input class=" btn btn-success  form-control" type="submit" value="Confirmar" id="btnSubmit" />
+            </div>
+
+            <div hidden class="editar col-sm-12"></div>
+            <div hidden class="editar col-sm-2"></div>
+            <div hidden class="editar col-sm-4">
+                <input  class=" btn btn-success  form-control" type="submit" value="Editar Datos" id="btnEditar" />
+            </div>
+
+            <div hidden class="submit2 col-sm-12"></div>
+            <div hidden class="submit2 col-sm-2"></div>
+            <div hidden class="submit2 col-sm-4">
+                <br/>
+                <input class=" btn btn-danger  form-control" type="submit" value="Eliminar" id="btnSubmit2" />
             </div>
             
         </div>

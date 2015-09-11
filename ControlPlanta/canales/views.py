@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
 from canales.forms import CanalFormView
 
 # Create your views here.
@@ -22,6 +24,13 @@ def canalform(request):
         form = CanalFormView() # An unbound form
 
     return render(request, 'canalcreate.html', {'form': form,})
+
+class eliminarCanalView(TemplateView):
+    template_name = 'eliminarCanal.html'
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(eliminarCanalView, self).dispatch(*args, **kwargs)
+
 
 from rest_framework import routers, serializers, viewsets
 

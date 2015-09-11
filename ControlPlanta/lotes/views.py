@@ -15,6 +15,12 @@ from lotes.forms import LoteFormView
 from lotes.models import Lote
 
 
+class eliminarLoteView(TemplateView):
+    template_name = 'eliminarLote.html'
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(eliminarLoteView, self).dispatch(*args, **kwargs)
+
 class LoteCreate(CreateView):
     @method_decorator(login_required(login_url='/admin/login/'))
     def dispatch(self, request, *args, **kwargs):

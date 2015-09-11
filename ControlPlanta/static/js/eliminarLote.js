@@ -1,5 +1,6 @@
 //variables globales
 lotescliked=[];
+canalescliked=[];
 fierros=[];
 var n;
 var today = "";
@@ -23,9 +24,16 @@ function main () {
             if(settings.type == "PATCH"){
 				xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
 			}
+            if(settings.type == "DELETE"){
+				xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
+			}
 		}
 	});
-        cargarCanales();
+        $("#tablaListaCanales").hide();
+        $("#date").prop("disabled",true);
+        cargarLotes(1);
+        //cargarCanales();
+
 
       //eventos checkbox
        $( "input[type=checkbox]" ).on( "click", function(){
@@ -38,13 +46,14 @@ function main () {
             if (thisCheck.is (':checked')) {
                 id = $(this).data('id');
                 lotescliked.push(id);
-
+                console.log(lotescliked);
                 $.get('/api/canales/' + id+'/', sumarPeso);
                 $("#btnSubmit").prop('disabled',false);
             }
            else{
                 id = $(this).data('id');
                 lotescliked.splice( $.inArray(id,lotescliked) ,1 );
+                console.log(lotescliked);
                 $.get('/api/canales/' + id+'/', restarPeso);
             }
        });//eventos checkbox
@@ -53,6 +62,11 @@ function main () {
         $(".Res").hide();
         $(".Pollo").hide();
         $(".Cerdo:hidden").show();
+
+        $( "#numlote" ).change(function() {
+            console.log('NUM');
+            cargarCanales($( "#numlote" ).val());
+        });
 
         $( "#tipo" ).change(function() {
 
@@ -105,7 +119,30 @@ function main () {
 
         //botones
 
-       $("#btnSubmit").on("click",guardarLote);
+        $("#btnSubmit").on("click",function(){
+            event.preventDefault();
+            $(".editar:hidden").show();
+            $(".submit2:hidden").show();
+            $(".confirmar").hide();
+            $(".checkboxdis").prop("disabled",true);
+            $("#tipo").prop("disabled",true);
+        });
+
+        $("#btnEditar").on("click",function(){
+            event.preventDefault();
+            $(".editar").hide();
+            $(".submit2").hide();
+            $(".confirmar:hidden").show();
+            $(".checkboxdis").prop("disabled",false);
+            $("#tipo").prop("disabled",false);
+        });
+
+        $("#btnRecargar").on("click",function(){
+            event.preventDefault();
+            location.reload();
+        });
+
+        $("#btnSubmit2").on("click",guardarLote);
 
         //llenado de espacios e inicializacion
         $(".hideonload").hide();
@@ -129,51 +166,51 @@ function main () {
 
     }//main
 
-function cargarCanales(){
-    var canaleslist= $.get('/api/canales/?isonlote=False&vendido=False&mediovendido=False', function(){});
-    console.log(canaleslist.responseJSON[0].tipo);
-    var tipo;
-    if(canaleslist.responseJSON.length==0){
+function cargarCanales(lotenum){
+    
+    $('#tablaCanales > tbody').html('');
+    var lote=$.get('/api/lotes/'+lotenum+'/', function(){});
+    //console.log(lote);
+    var canaleslist= lote.responseJSON.canales;
+    canalescliked=canaleslist;
+        //$("#msgNohayCanales").hide();
+    $("#tablaListaCanales:hidden").show();
+
+    $.each(canaleslist, function (i) {
+        var canal=$.get('/api/canales/'+canaleslist[i]+'/', function(){});
+
+        var fierro= $.get('/api/proveedores/'+canal.responseJSON.fierro +'/', function(){});
+
+
+        $('#tablaCanales > tbody:last').append('<tr class="'+tipo+'"><td>' + canal.responseJSON.id + '</td><td>' + canal.responseJSON.date+
+        '</td><td>'+ canal.responseJSON.consecutive +'</td><td>'+ fierro.responseJSON.name +' ' + fierro.responseJSON.lastname +' ' +fierro.responseJSON.fierro +'</td>' +
+        '<td>'+ canal.responseJSON.weight +'</td></tr>');
+
+    });
+
+    $(".cantcanales:hidden").show();
+    $(".pesototal:hidden").show();
+    $(".confirmar:hidden").show();
+
+    $("#cantcanales").val(lote.responseJSON.canalesqty);
+    $("#pesototal").val(lote.responseJSON.totalweight);
+
+
+
+
+}
+
+function cargarLotes(tipo){
+    var loteslist= $.get('/api/lotes/?isondeshuese=False&tipo='+tipo, function(){});
+
+    if(loteslist.responseJSON.length==0){
         $("#msgNohayCanales:hidden").show();
         $("#tablaListaCanales").hide();
-
     }
     else {
-        //$("#msgNohayCanales").hide();
-        $("#tablaListaCanales:hidden").show();
-        $.each(canaleslist.responseJSON, function (i) {
-            if (canaleslist.responseJSON[i].tipo == 1) {
-                tipo = 'Cerdo';
-                cantcerdos = cantcerdos + 1;
-            }
-            if (canaleslist.responseJSON[i].tipo == 2) {
-                tipo = 'Res';
-                cantreses = cantreses + 1;
-            }
-            if (canaleslist.responseJSON[i].tipo == 3) {
-                tipo = 'Pollo';
-                cantpollos = cantpollos + 1;
-            }
-
-            var fierro= $.get('/api/proveedores/'+canaleslist.responseJSON[i].fierro +'/', function(){});
-
-
-            $('#tablaCanales > tbody:last').append('<tr class="'+tipo+'"><td>' + canaleslist.responseJSON[i].id + '</td><td>' + canaleslist.responseJSON[i].date+
-            '</td><td>'+ canaleslist.responseJSON[i].consecutive +'</td><td>'+ fierro.responseJSON.name +' ' + fierro.responseJSON.lastname +' ' +fierro.responseJSON.fierro +'</td>' +
-            '<td>'+ canaleslist.responseJSON[i].weight +'</td><td><input  type="checkbox" class=" form-control input-lg checkboxdis ' + tipo + '" id="' + canaleslist.responseJSON[i].id + '" data-id="' + canaleslist.responseJSON[i].id + '"/>' +'</td></tr>');
-
-
-
-            //$("#canaleslist").append('<li class="' + tipo + '" >' +
-            //'<label class="' + tipo + '" style="color: #0081c2" for="' + canaleslist.responseJSON[i].id + '">' +
-            //canaleslist.responseJSON[i].id + ' ' + canaleslist.responseJSON[i].date +' ' +fierro.responseJSON.name +' ' +
-            //fierro.responseJSON.lastname +' ' +fierro.responseJSON.fierro +' ' +canaleslist.responseJSON[i].weight+' kg' +'</label>' +
-            //'<input  type="checkbox" class="checkboxdis ' + tipo + '" id="' + canaleslist.responseJSON[i].id + '" data-id="' + canaleslist.responseJSON[i].id + '"/>' +
-            //'</li>');
+        $.each(loteslist.responseJSON, function (i) {
+            $('#numlote').append('<option value="'+loteslist.responseJSON[i].id+'">'+loteslist.responseJSON[i].lotenum+'</option>');
         });
-        if(cantcerdos==0 && $('#tipo').val()==1){
-            $("#tablaListaCanales").hide();
-        }
     }
 }
 
@@ -222,39 +259,35 @@ function unique(list) {
 function guardarLote() {
     event.preventDefault();
     errorclean();
-    var numlote = $("#numlote").val();
-    var fierronum = $("#fierronum").val();
-    var cantcanales = $("#cantcanales").val();
-    var canaleslist = lotescliked;
-    var pesototal = $("#pesototal").val();
-    var tipo=parseInt($("#tipo").val());
+    var fail=0;
 
+    $.each(lotescliked, function (i) {
+        $.ajax({
+              method: "DELETE",
+              url: "/api/canales/"+lotescliked[i]+"/"
 
-    $.ajax({
-      method: "POST",
-      url: "/api/lotes/",
-
-      data: JSON.stringify({
-
-        "date":today,
-        "lotenum": numlote,
-        "fierro": fierros,
-        "canalesqty": cantcanales,
-        "canales": canaleslist,
-        "totalweight": pesototal,
-        "tipo": tipo
-
-        }),//JSON object
-          contentType:"application/json; charset=utf-8",
-          dataType:"json"
         })
         .fail(function(data){
             //console.log(data.responseText);
-            alertify.alert("Hubo un problema al crear el lote, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-            })
+            fail=1;
+            alertify.alert('ERROR',"Hubo un problema al eliminar el canal, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        })
         .success(function(data){
-           patchcanal();
+           //patchcanal();
         });
+
+    });
+
+    if(fail==0){
+        alertify.alert("COMPLETADO!","Se han eliminado los canales correctamente");
+        //event.preventDefault();
+        $(".editar").hide();
+        $(".submit2").hide();
+        $(".recargar:hidden").show();
+    }
+
+
+
       //.done(function(data){
       //   errorhandle(data)
       //  });

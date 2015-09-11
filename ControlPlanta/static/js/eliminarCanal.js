@@ -23,8 +23,13 @@ function main () {
             if(settings.type == "PATCH"){
 				xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
 			}
+            if(settings.type == "DELETE"){
+				xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
+			}
 		}
 	});
+        $("#tablaListaCanales").hide();
+        $("#date").prop("disabled",true);
         cargarCanales();
 
       //eventos checkbox
@@ -38,13 +43,14 @@ function main () {
             if (thisCheck.is (':checked')) {
                 id = $(this).data('id');
                 lotescliked.push(id);
-
+                console.log(lotescliked);
                 $.get('/api/canales/' + id+'/', sumarPeso);
                 $("#btnSubmit").prop('disabled',false);
             }
            else{
                 id = $(this).data('id');
                 lotescliked.splice( $.inArray(id,lotescliked) ,1 );
+                console.log(lotescliked);
                 $.get('/api/canales/' + id+'/', restarPeso);
             }
        });//eventos checkbox
@@ -105,7 +111,30 @@ function main () {
 
         //botones
 
-       $("#btnSubmit").on("click",guardarLote);
+        $("#btnSubmit").on("click",function(){
+            event.preventDefault();
+            $(".editar:hidden").show();
+            $(".submit2:hidden").show();
+            $(".confirmar").hide();
+            $(".checkboxdis").prop("disabled",true);
+            $("#tipo").prop("disabled",true);
+        });
+
+        $("#btnEditar").on("click",function(){
+            event.preventDefault();
+            $(".editar").hide();
+            $(".submit2").hide();
+            $(".confirmar:hidden").show();
+            $(".checkboxdis").prop("disabled",false);
+            $("#tipo").prop("disabled",false);
+        });
+
+        $("#btnRecargar").on("click",function(){
+            event.preventDefault();
+            location.reload();
+        });
+
+        $("#btnSubmit2").on("click",guardarLote);
 
         //llenado de espacios e inicializacion
         $(".hideonload").hide();
@@ -171,6 +200,7 @@ function cargarCanales(){
             //'<input  type="checkbox" class="checkboxdis ' + tipo + '" id="' + canaleslist.responseJSON[i].id + '" data-id="' + canaleslist.responseJSON[i].id + '"/>' +
             //'</li>');
         });
+
         if(cantcerdos==0 && $('#tipo').val()==1){
             $("#tablaListaCanales").hide();
         }
@@ -222,39 +252,35 @@ function unique(list) {
 function guardarLote() {
     event.preventDefault();
     errorclean();
-    var numlote = $("#numlote").val();
-    var fierronum = $("#fierronum").val();
-    var cantcanales = $("#cantcanales").val();
-    var canaleslist = lotescliked;
-    var pesototal = $("#pesototal").val();
-    var tipo=parseInt($("#tipo").val());
+    var fail=0;
 
+    $.each(lotescliked, function (i) {
+        $.ajax({
+              method: "DELETE",
+              url: "/api/canales/"+lotescliked[i]+"/"
 
-    $.ajax({
-      method: "POST",
-      url: "/api/lotes/",
-
-      data: JSON.stringify({
-
-        "date":today,
-        "lotenum": numlote,
-        "fierro": fierros,
-        "canalesqty": cantcanales,
-        "canales": canaleslist,
-        "totalweight": pesototal,
-        "tipo": tipo
-
-        }),//JSON object
-          contentType:"application/json; charset=utf-8",
-          dataType:"json"
         })
         .fail(function(data){
             //console.log(data.responseText);
-            alertify.alert("Hubo un problema al crear el lote, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-            })
+            fail=1;
+            alertify.alert('ERROR',"Hubo un problema al eliminar el canal, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        })
         .success(function(data){
-           patchcanal();
+           //patchcanal();
         });
+
+    });
+
+    if(fail==0){
+        alertify.alert("COMPLETADO!","Se han eliminado los canales correctamente");
+        //event.preventDefault();
+        $(".editar").hide();
+        $(".submit2").hide();
+        $(".recargar:hidden").show();
+    }
+
+
+
       //.done(function(data){
       //   errorhandle(data)
       //  });

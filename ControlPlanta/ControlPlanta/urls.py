@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from api.views import LoteApiView
 from cajeros.views import CajeroCreate
-from canales.views import CanalViewSet
+from canales.views import CanalViewSet, eliminarCanalView
 from clientes.views import ClientViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
 from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet, \
@@ -28,7 +28,7 @@ from materiasPrimas.views import MateriaPrimaViewSet, FamiliaMPViewSet
 from reprocesos.views import ReprocesoViewSet, ReprocesosView
 from variablesGlobales.views import VariableGlobalViewSet
 from ventas.views import VentasView, DetallePagoViewSet, DetalleProductosViewSet, VentaViewSet, CierreView
-from lotes.views import LoteCreate, LoteViewSet
+from lotes.views import LoteCreate, LoteViewSet, eliminarLoteView
 from frontend.views import LandingView, TrazabilidadView
 from rest_framework import routers
 from productos.views import ProductViewSet, FamiliaViewSet
@@ -82,6 +82,8 @@ urlpatterns = [
     url(r'^recuperacion/', recuperacionView.as_view()),
     url(r'^reportecuentascobrar/', reporteCuentasCobrarView.as_view()),
     url(r'^estadocuenta/', saldosClienteView.as_view()),
+    url(r'^eliminarcanal/', eliminarCanalView.as_view()),
+    url(r'^eliminarlote/', eliminarLoteView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
     url(r'backupdb/', 'frontend.views.backupdbmine', name='backup'),
