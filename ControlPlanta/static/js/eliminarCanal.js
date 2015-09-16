@@ -272,11 +272,11 @@ function guardarLote() {
     });
 
     if(fail==0){
-        alertify.alert("COMPLETADO!","Se han eliminado los canales correctamente");
+        alertify.alert("COMPLETADO!","Se han eliminado los canales correctamente").set('onok', function(closeEvent){ location.reload()});
         //event.preventDefault();
-        $(".editar").hide();
-        $(".submit2").hide();
-        $(".recargar:hidden").show();
+        //$(".editar").hide();
+        //$(".submit2").hide();
+        //$(".recargar:hidden").show();
     }
 
 

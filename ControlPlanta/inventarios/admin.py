@@ -5,10 +5,10 @@ from inventarios.models import InventarioTotal,ResumenInventario,EntradasInventa
 from productos.models import Producto
 
 
-@admin.register(InventarioTotal)
-class InvTotalAdmin(admin.ModelAdmin):
-    list_display = ('id', 'producto', 'peso', 'lote','vencimiento')
-    search_fields = ('id', 'lote', 'vencimiento')
+# @admin.register(InventarioTotal)
+# class InvTotalAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'producto', 'peso', 'lote','vencimiento')
+#     search_fields = ('id', 'lote', 'vencimiento')
 
 
 @admin.register(ResumenInventario)

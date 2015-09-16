@@ -1,5 +1,6 @@
 //variables globales
 lotescliked=[];
+numlote=0;
 canalescliked=[];
 fierros=[];
 var n;
@@ -64,56 +65,33 @@ function main () {
         $(".Cerdo:hidden").show();
 
         $( "#numlote" ).change(function() {
-            console.log('NUM');
+            //console.log('NUM');
             cargarCanales($( "#numlote" ).val());
+            $("#msgInicial").hide();
         });
 
         $( "#tipo" ).change(function() {
 
+            canalescliked=[];
             $("#pesototal").val(0);
             $("#cantcanales").val(0);
-            lotescliked=[];
-            $("#btnSubmit").prop('disabled',true);
+            //$("#btnSubmit").prop('disabled',true);
+            $(".confirmar").hide();
             $("#tablaListaCanales").hide();
-            $("#msgNohayCanales:hidden").show();
+
+
             $('.Cerdo').attr('checked', false);
             $('.Res').attr('checked', false);
 
             if($("#tipo" ).val()==1){
-                console.log(cantcerdos);
-                if(cantcerdos>0){
-                    $("#tablaListaCanales:hidden").show();
-                    $("#msgNohayCanales").hide();
-                }
-
-                $(".Res:hidden").hide();
-                $(".Pollo:hidden").hide();
-                $(".Res").hide();
-                $(".Pollo").hide();
-                $(".Cerdo:hidden").show();
+                cargarLotes(1);
             }
             if($("#tipo" ).val()==2){
-                if(cantreses>0){
-                    $("#tablaListaCanales:hidden").show();
-                    $("#msgNohayCanales").hide();
-                }
-                $(".Res:hidden").show();
-                $(".Cerdo:hidden").hide();
-                $(".Pollo:hidden").hide();
-                $(".Cerdo").hide();
-                $(".Pollo").hide();
+                cargarLotes(2);
 
             }
             if($("#tipo" ).val()==3){
-                if(cantpollos>0){
-                    $("#tablaListaCanales:hidden").show();
-                    $("#msgNohayCanales").hide();
-                }
-                $(".Cerdo:hidden").hide();
-                $(".Res:hidden").hide();
-                $(".Cerdo").hide();
-                $(".Res").hide();
-                $(".Pollo:hidden").show();
+                cargarLotes(3);
             }
         });//cambios en tipo
 
@@ -126,6 +104,7 @@ function main () {
             $(".confirmar").hide();
             $(".checkboxdis").prop("disabled",true);
             $("#tipo").prop("disabled",true);
+            $("#numlote").prop("disabled",true);
         });
 
         $("#btnEditar").on("click",function(){
@@ -135,6 +114,7 @@ function main () {
             $(".confirmar:hidden").show();
             $(".checkboxdis").prop("disabled",false);
             $("#tipo").prop("disabled",false);
+            $("#numlote").prop("disabled",false);
         });
 
         $("#btnRecargar").on("click",function(){
@@ -142,7 +122,7 @@ function main () {
             location.reload();
         });
 
-        $("#btnSubmit2").on("click",guardarLote);
+        $("#btnSubmit2").on("click",eliminarLote);
 
         //llenado de espacios e inicializacion
         $(".hideonload").hide();
@@ -167,8 +147,10 @@ function main () {
     }//main
 
 function cargarCanales(lotenum){
+    numlote=lotenum;
     
     $('#tablaCanales > tbody').html('');
+    canalescliked=[];
     var lote=$.get('/api/lotes/'+lotenum+'/', function(){});
     //console.log(lote);
     var canaleslist= lote.responseJSON.canales;
@@ -201,17 +183,24 @@ function cargarCanales(lotenum){
 }
 
 function cargarLotes(tipo){
+    $('#numlote').html('');
     var loteslist= $.get('/api/lotes/?isondeshuese=False&tipo='+tipo, function(){});
 
     if(loteslist.responseJSON.length==0){
         $("#msgNohayCanales:hidden").show();
         $("#tablaListaCanales").hide();
+        $("#msgInicial").hide();
+        $('#numlote').prop('disabled',true);
     }
     else {
         $.each(loteslist.responseJSON, function (i) {
             $('#numlote').append('<option value="'+loteslist.responseJSON[i].id+'">'+loteslist.responseJSON[i].lotenum+'</option>');
         });
+        $("#msgNohayCanales").hide();
+        $("#msgInicial").show();
+        $('#numlote').prop('disabled',false);
     }
+    $('#numlote').val('');
 }
 
 function llenarnumlote(data){
@@ -254,6 +243,55 @@ function unique(list) {
     if ($.inArray(e, result) == -1) result.push(e);
   });
   return result;
+}
+
+function eliminarLote(){
+    event.preventDefault();
+    var fail=0;
+    $.each(canalescliked, function (i) {
+        $.ajax({
+            method: "PATCH",
+            url: "/api/canales/"+canalescliked[i]+"/",
+
+            data: JSON.stringify({
+
+            "isonlote": false
+
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+
+        })
+        .fail(function(data){
+            //console.log(data.responseText);
+            fail=1;
+            alertify.alert('ERROR',"Hubo un problema al eliminar el lote, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        })
+        .success(function(data){
+           //patchcanal();
+        });
+
+    });
+
+    if(fail==0){
+
+       $.ajax({
+              method: "DELETE",
+              url: "/api/lotes/"+numlote+"/"
+
+        })
+        .fail(function(data){
+            //console.log(data.responseText);
+
+            alertify.alert('ERROR',"Hubo un problema al eliminar el canal, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        })
+        .success(function(data){
+            alertify.alert('ELIMINADO',"El lote ha sido eliminado correctamente.").set('onok', function(closeEvent){ location.reload()});
+           // $(".editar").hide();
+           // $(".submit2").hide();
+           // $(".recargar:hidden").show();
+        });
+    }
 }
 
 function guardarLote() {

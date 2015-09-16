@@ -31,7 +31,7 @@ class ResumenInventario(models.Model):
     class Meta:
         ordering=['id']
         verbose_name='Resumen de Inventario'
-        verbose_name_plural='2. Resumen de Inventario'
+        verbose_name_plural='1. Resumen de Inventario'
 
 class EntradasInventario(models.Model):
     tipo=models.ForeignKey('TiposEntradas',verbose_name='Tipo de entrada')
@@ -48,7 +48,7 @@ class EntradasInventario(models.Model):
     class Meta:
         ordering=['id']
         verbose_name='Entrada en Inventario'
-        verbose_name_plural='3. Entradas en Inventario'
+        verbose_name_plural='2. Entradas en Inventario'
 
 class TiposEntradas(models.Model):
     nombre=models.CharField(max_length=255,verbose_name='Nombre del tipo de entrada')
@@ -57,7 +57,7 @@ class TiposEntradas(models.Model):
     class Meta:
         ordering=['id']
         verbose_name='Tipo de entrada Inventario'
-        verbose_name_plural='4. Tipos de entradas Inventario'
+        verbose_name_plural='3. Tipos de entradas Inventario'
 
 class SalidasInventario(models.Model):
     tipo=models.ForeignKey('TiposSalidas',verbose_name='Tipo de salida')
@@ -75,7 +75,7 @@ class SalidasInventario(models.Model):
     class Meta:
         ordering=['id']
         verbose_name='Salida en Inventario'
-        verbose_name_plural='5. Salidas en Inventario'
+        verbose_name_plural='4. Salidas en Inventario'
 
 class TiposSalidas(models.Model):
     nombre=models.CharField(max_length=255,verbose_name='Nombre del tipo de salida')
@@ -84,4 +84,4 @@ class TiposSalidas(models.Model):
     class Meta:
         ordering=['id']
         verbose_name='Tipo de salida Inventario'
-        verbose_name_plural='6. Tipos de salidas Inventario'
+        verbose_name_plural='5. Tipos de salidas Inventario'
