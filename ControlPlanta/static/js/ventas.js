@@ -790,9 +790,19 @@ function llenartablacanales(data){
                 return 1;
             });
 
-            $('#tablacanales > tbody:last').append('<tr><td>' + data[i].id + '</td><td>' + data[i].consecutive +
-            '</td><td>' + data[i].qualification + '</td><td>' + data[i].weight +
-            '</td><td>' + test.responseJSON.fierro + '</td><td><button  type="button" class=" btn btn-success form-control selectrowcanal " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
+            if(data[i].mediovendido==true){
+                $('#tablacanales > tbody:last').append('<tr style="background-color:rgba(255, 0, 0, 0.5)" ><td>' + data[i].id + '</td><td>' + data[i].consecutive +
+                '</td><td>' + data[i].qualification + '</td><td>' + data[i].weight +
+                '</td><td>' + test.responseJSON.fierro + '</td><td><button  type="button" class=" btn btn-success form-control selectrowcanal " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
+
+            }
+            else {
+
+                $('#tablacanales > tbody:last').append('<tr><td>' + data[i].id + '</td><td>' + data[i].consecutive +
+                '</td><td>' + data[i].qualification + '</td><td>' + data[i].weight +
+                '</td><td>' + test.responseJSON.fierro + '</td><td><button  type="button" class=" btn btn-success form-control selectrowcanal " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
+
+            }
         });
 }
 
@@ -827,10 +837,10 @@ function llenarTablaBusquedaCliente(data){
 }
 
 function agregarcanalatabla(id,tipo,precio,peso,enteroOmedio) {
-    var canaliv=(precio*peso)*(13/100);
+    var canaliv=(precio*peso)*(0);
     var canalivr=Math.round((canaliv) * 1000) / 1000;
     var pricesubr=peso*precio;
-    var pricetot=(precio*peso)*1.13;
+    var pricetot=(precio*peso)*1;
     var price=Math.round((precio) * 1000) / 1000;
     var pricetotr=Math.round((pricetot) * 1000) / 1000;
     var description='Canal';
@@ -840,16 +850,16 @@ function agregarcanalatabla(id,tipo,precio,peso,enteroOmedio) {
 
     if(tipo==1){// canal de cerdo
         $('#tablaproductos > tbody:last').append('<tr><td>' + 4001 + '</td><td>' + description+' Cerdo id# '+id+'</td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+4001+'>' + peso + '</td>' +
-        '<td>'+'G'+'</td><td class="precio total'+4001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+        '<td>'+'E'+'</td><td class="precio total'+4001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
         var codCanalCerdo=$.get('/api/productos/?product_code=4001',function(){});
-        matrixventa.push([4001, description+' Cerdo id# '+id,precio ,peso,pricesubr, canalivr,pricetotr,codCanalCerdo.responseJSON[0].id,true,1,id,enteroOmedio]);//los dos ultimos son si es canal y tipo y el id
+        matrixventa.push([4001, description+' Cerdo id# '+id,precio ,peso,pricesubr, canalivr,pricetotr,codCanalCerdo.responseJSON[0].id,false,1,id,enteroOmedio]);//los dos ultimos son si es canal y tipo y el id
 
     }
     if(tipo==2){//canal de res
         $('#tablaproductos > tbody:last').append('<tr><td>' + 5001 + '</td><td>' + description+' Res id# '+id+'</td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+5001+'>' + peso + '</td>' +
-        '<td>'+'G'+'</td><td class="precio total'+5001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+        '<td>'+'E'+'</td><td class="precio total'+5001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
         var codCanalRes=$.get('/api/productos/?product_code=5001',function(){});
-        matrixventa.push([5001, description+' Res id# '+id,precio ,peso,pricesubr,canalivr,pricetotr,codCanalRes.responseJSON[0].id,true,2,id,enteroOmedio]);//los dos ultimos son si es canal y tipo y el id
+        matrixventa.push([5001, description+' Res id# '+id,precio ,peso,pricesubr,canalivr,pricetotr,codCanalRes.responseJSON[0].id,false,2,id,enteroOmedio]);//los dos ultimos son si es canal y tipo y el id
 
     }
     var totalkg2=parseFloat(totalkg);
