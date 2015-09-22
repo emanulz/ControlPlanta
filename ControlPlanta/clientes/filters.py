@@ -7,4 +7,4 @@ class ClientFilter(django_filters.FilterSet):
 
     class Meta:
         model=Cliente
-        fields=('code','name','last_name','identification','credit','credit_limit','associated','associated_code')# fields=('code','name','last_name','identification','credit','credit_limit','associated','associated_code','total','pending')
+        fields=('code','name','last_name','identification','discount','credit','credit_limit','associated','associated_code')# fields=('code','name','last_name','identification','credit','credit_limit','associated','associated_code','total','pending')

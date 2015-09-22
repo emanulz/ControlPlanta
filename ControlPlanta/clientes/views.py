@@ -10,7 +10,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cliente
-        fields =('id','code','name','last_name','identification','credit','credit_limit','associated','associated_code','clienttype')
+        fields =('id','code','name','last_name','identification','discount','credit','credit_limit','associated','associated_code','clienttype')
 
 
 # ViewroductSets define the view behavior.

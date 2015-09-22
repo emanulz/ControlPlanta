@@ -25,6 +25,7 @@ class Cliente(models.Model):
     associated=models.BooleanField(default=0, verbose_name='Es asociado?')
     associated_code=models.PositiveIntegerField( null=True, blank=True,unique=True,verbose_name='Número de asociado')
     clienttype=models.ForeignKey('ClientType',default=1,verbose_name='Tipo de Cliente')
+    discount = models.FloatField(blank=True, default=0, verbose_name='Descuento revendedor %')
     credit = models.BooleanField(default=0, verbose_name='Tiene crédito?')
     credit_limit = models.FloatField(blank=True, default=0, verbose_name='Límite de crédito')
 

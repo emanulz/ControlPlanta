@@ -1,5 +1,6 @@
 //variables globales
 
+var descuentoyaaplicado = false;
 var enteronaddproducto = false;
 var cantidad=0;
 var nuevaext;
@@ -994,19 +995,36 @@ function determinprice(data){
 
     var tipo=$.get('/api/clientes/'+cliente+'/',function(){});
     var tipocliente=tipo.responseJSON.clienttype;
+    var descuentoint= tipo.responseJSON.discount;
     var conganancia;
+    var conganancia2;
+    var condescuento;
     var utilidad;
+    descuentoyaaplicado=false;
+    $("#descuento").val('');
+    //console.log(descuento);
 
     if (data[0].autoprice==false){//si no es con autoprecio
         //console.log('precio puesto');
         if (tipocliente===1){
-           return data[0].price1;
+
+            return data[0].price1;
         }
         if (tipocliente===2){
+
             return data[0].price2;
         }
         if (tipocliente===3){
+
             return data[0].price3;
+        }
+        if(tipocliente===4){
+
+            condescuento = data[0].price1*(1-(descuentoint/100));
+            descuentoyaaplicado=true;
+            $("#descuento").val(descuentoint);
+            descuentoporc=descuentoint;
+            return condescuento;
         }
     }//if
     else{//si es con autoprecio
@@ -1025,6 +1043,17 @@ function determinprice(data){
             utilidad=(data[0].utility3/100)+1;
             conganancia=data[0].cost*utilidad;
             return conganancia;
+        }
+        if (tipocliente===4){
+            utilidad=(data[0].utility1/100)+1;
+            conganancia=data[0].cost*utilidad;
+            //console.log(conganancia);
+            conganancia2=conganancia*(1-(descuentoint/100));
+            //console.log(conganancia2);
+            descuentoyaaplicado=true;
+            descuentoporc=descuentoint;
+            $("#descuento").val(descuentoint);
+            return conganancia2;
         }
 
     }//else
@@ -1078,8 +1107,12 @@ function Aplicardescuento(){
 }
 
 function ConfirmarDatos(){
-$("#descuento").prop('disabled',false);
-$("#btndescuento").prop('disabled',false);
+
+if (descuentoyaaplicado==false){
+    $("#descuento").prop('disabled',false);
+    $("#btndescuento").prop('disabled',false);
+}
+
 $(".removerow").prop('disabled',true);
 $("#cantidad").prop('disabled',true);
 $("#producto").prop('disabled',true);
