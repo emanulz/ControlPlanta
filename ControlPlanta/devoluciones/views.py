@@ -1,9 +1,17 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from rest_framework import serializers,viewsets
 from devoluciones.models import DetalleDev, Devolucion
 
 # Create your views here.
+
+class DevolucionesView(TemplateView):
+    template_name = 'devoluciones.html'
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(DevolucionesView, self).dispatch(*args, **kwargs)
 
 #DEVOLUCION API
 

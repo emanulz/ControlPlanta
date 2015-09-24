@@ -20,6 +20,7 @@ from cajeros.views import CajeroCreate
 from canales.views import CanalViewSet, eliminarCanalView
 from clientes.views import ClientViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
+from devoluciones.views import DevolucionesView
 from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet, \
     InventariosView, AlertasInventariosView
 from inventariosMP.views import InventarioResumenMPViewSet, InventarioEntradasMPViewSet, InventarioSalidasMPViewSet, \
@@ -84,6 +85,7 @@ urlpatterns = [
     url(r'^estadocuenta/', saldosClienteView.as_view()),
     url(r'^eliminarcanal/', eliminarCanalView.as_view()),
     url(r'^eliminarlote/', eliminarLoteView.as_view()),
+    url(r'^devoluciones/', DevolucionesView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
     url(r'backupdb/', 'frontend.views.backupdbmine', name='backup'),

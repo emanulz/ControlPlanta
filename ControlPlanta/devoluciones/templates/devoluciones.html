@@ -1,0 +1,766 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="/static/panel/css/reset.css"> <!-- CSS reset -->
+	<link rel="stylesheet" href="/static/panel/css/style.css"> <!-- Resource style -->
+	<script src="/static/panel/js/modernizr.js"></script> <!-- Modernizr -->
+    <script src="/static/js/PriceFormat.js"></script>
+    <script src="/static/js/devoluciones.js"></script>
+    <script src="/static/print/jquery.PrintArea.js"></script>
+
+<div class="PaddingContent blurlines" id="maincontent">
+
+
+<div class="container-fluid form-group" >
+    <div class="col-sm-9" >
+        <form class="form-horizontal col-sm-12" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="col-sm-5 tituloventa">Devoluciones:</div>
+                <label class="col-sm-2" for="date">Fecha:</label>
+                    <div class="col-sm-4">
+                      <input type="date" class="form-control " id="date">
+                   </div>
+
+                </div> <!-- Fecha y titulo -->
+                 <div class="form-group">
+                    <label class="col-sm-2" for="cajero">Cajero:</label>
+                        <div class="col-sm-3">
+                            <select disabled class="form-control" name="cajero" id="cajero">
+                                <option value="{{ request.user.id }}"></option>
+                            </select>
+                       </div>
+{#                        <label class="col-sm-2" for="cliente">Nombre:</label>#}
+{#                        <div class="col-sm-4">#}
+{#                            <input type="text" class="form-control" id="cliente">#}
+{#                        </div>#}
+{#                        <div class=" col-sm-1">#}
+{#                            <button type="button" id="Btnbuscarclientemain" class="btn btn-success marginTop15px2 btnbuscarcliente"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>#}
+{#                        </div>#}
+                        <label class="col-sm-2" for="cliente">Factura #:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="NumFactura">
+                        </div>
+                        <div class=" col-sm-1">
+                            <button type="button" id="BtnConfirmarFactura" class="btn btn-success marginTop15px2 BtnConfirmarFactura"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
+                        </div>
+                </div> <!-- cajero cliente y buscar-->
+            </div>
+        </form><!-- Fecha cajero y cliente -->
+
+        <form class="form-horizontal col-sm-12" action="">
+        <div class="form-group">
+            <div class=" form-group col-sm-12 ">
+            <table class="table table-bordered table-hover" data-toggle="table" id="tablaproductos" data-url="" data-cache="false" data-height="299">
+                <thead>
+                    <tr class="danger">
+                        <th data-field="id">Código</th>
+                        <th data-field="name">Descripción</th>
+                        <th data-field="name">P/Kg</th>
+                        <th data-field="name">Cant</th>
+                        <th data-field="name">Total</th>
+                        <th class="centerCol" data-field="name">Devolver</th>
+                        <th data-field="name">Kg</th>
+                        <th data-field="name">₡</th>
+                        <th class="centerCol" data-field="name">Editar</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            </div><!-- tabla -->
+
+        </div>
+        <div class="form-group">
+
+        </div>
+    </form><!-- tabla de productods -->
+    </div><!-- main content -->
+
+    <div hidden class="col-sm-3 factura" >
+        <form class="form-horizontal col-sm-12" action="" >
+        <div class="form-group col-sm-12 ">
+            <div class="form-group tituloventa2 ">
+                FACTURA:
+            </div>
+        </div>
+        <div class="form-group col-sm-12 " style="border: 1px solid #000000;border-radius: 10px" >
+            <div class="form-group" id="factura" style="margin-left: 5px; margin-top: 5px">
+                <div class="col-sm-12 encabezado" style="font-size: 12px; text-align: center" >
+                    <span>
+                        PLANTA EMPACADORA DE CARNE <br/>
+                        COOPEAVANZANDO JUNTOS RL. <br/> <br/>
+                    </span>
+                    <figure style="text-align: center">
+                        <img src="/media/img/logo-empacadora80.png" alt="logo empacadora"/>
+                        <br/> <br/>
+                    </figure>
+                    <span>
+                        Cooperativa de porcicultores y productores de concentrados de Pérez Zeledón. <br/> <br/>
+                    </span>
+                    <span>
+                        Cédula Jurídica 3-004-681672 <br/>
+                        Contiguo a la Fábrica de concentrados Avanzando Juntos, Pérez Zeledón. <br/>
+                        Tel: 2770-5160.<br/><br/>
+                    </span>
+
+                </div>
+                <div class="form-group col-sm-12" style="font-size: 10px">
+                    <span style="float: left">FACTURA #&nbsp:&nbsp </span><span class="facturanumfact">0</span><br/>
+                    <span style="float: left">FECHA&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="fechafact" >0</span><br/>
+                    <span style="float: left">CLIENTE&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="clientefact" >0</span><br/>
+                    <span style="float: left">VENDEDOR&nbsp:&nbsp</span><span class="cajerofact" >0</span><br/><br/>
+                    <span>--------------------------------------------------------------------<br/></span>
+                    <span style="float: left;font-size: 12px">FACTURA DE&nbsp </span><span style="font-size: 12px" class="tipoventafact">0</span><br/>
+                    <span>--------------------------------------------------------------------<br/></span>
+                </div>
+                <div class=" form-group col-sm-12 ">
+                <table class="table table-bordered table-hover" data-toggle="table" id="tablafactura" data-url="" data-cache="false" data-height="299" style="font-size: 10px">
+                    <thead>
+                        <tr class="danger">
+                            <th data-field="id">Cant</th>
+                            <th data-field="name">Descripción</th>
+                            <th data-field="name">Precio</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                </div><!-- tabla -->
+
+                <div class="form-group col-sm-12" style="font-size: 10px">
+                    <span>--------------------------------------------------------------------<br/></span>
+                    <span style="float: left">SUBTOTAL:</span><span class="subtotalfactright precio" style="float: right;">0</span><br/>
+                    <span class="descueentofactleft" style="float: left">DESCUENTO:</span><span class="descueentofactright precio" style="float: right;">0</span><br/>
+                    <span style="float: left">I.V:</span><span class="ivfactright precio" style="float: right;">0</span><br/>
+                    <span style="float: left;font-size: 15px">TOTAL:</span><span class="totalfactright precio" style="float: right;font-size: 15px">0</span><br/><br/><br/><br/>
+                </div>
+                <div hidden id="firmacredito" style="font-size: 12px; text-align: center">
+                    <div></div>
+                    <div></div>
+                    <div>
+                        <span>__________________________________________________<br/><br/></span>
+                        Firma del Cliente y cédula.<br/><br/><br/>
+                    </div>
+
+                </div>
+
+                <div style="font-size: 10px; text-align: center">
+
+                    <span>
+                        Cantidades expresadas en Kg. Total con I.V incluido. <br/>
+                        <span>--------------------------------------------------------------------<br/></span>
+                        Autorizado mediante Resolución No.11-97 y No.13-97 de la D.G.D.T del 12-08-97, publicado en Gaceta No.171 del 05-09-97.<br/>
+                    </span>
+
+                </div>
+            </div><!-- cuerpo factura-->
+
+
+
+            <div class="form-group " style="margin-top: 15px">
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnPrint" style="width: 160px;">Imprimir Copia</button>
+
+                </div>
+            </div><!-- btnreimprimir -->
+            <div class="form-group " style="margin-top: 15px">
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-warning  form-control  btnconfirmar" id="BtnNuevaVenta" style="width: 160px;">Nueva Venta</button>
+
+                </div>
+            </div><!-- btnnieva venta -->
+        </div>
+    </form>
+    </div> <!-- Side bar FACTURA -->
+    <div hidden class="col-sm-9 factura"></div>
+    <div hidden class="col-sm-3 sidetotales" >
+        <form class="form-horizontal col-sm-12" action="">
+        <div class="col-sm-1"></div>
+        <div class="form-group col-sm-11 ">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="pesolote">Total de Kilogramos:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalkg">0 Kg</span>
+                    </div>
+                </div>
+            </div><!-- total de kilogramos-->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="totalart">Total de Artículos:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalart">0</span>
+                    </div>
+                </div>
+            </div><!-- Total de artículos -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="mermakg">Sub Total:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData subtotal precio">₡ 0</span>
+                    </div>
+                </div>
+            </div><!-- Sub total -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="mermakg">Descuento: <span class="descuentoside"></span> </label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData descuento precio">₡ 0</span>
+                    </div>
+                </div>
+            </div><!-- descuento -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="mermaporc">I.V</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totaliv precio">₡ 0</span>
+
+                    </div>
+                </div>
+            </div><!-- Iv -->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label>Total:</label>
+                    <div>
+                        <br/>
+                        <div class="sidePanelData2 totalventa precio">₡ 0</div>
+
+                    </div>
+                </div>
+            </div><!-- Total -->
+            <div class="form-group " style="margin-top: 15px">
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnConfirmar" style="width: 160px">Confirmar</button>
+                    <button  type="button" class=" btn btn-danger  form-control " id="BtnNoConfirmar" style="width: 160px">Editar Datos</button>
+                    <br/><br/>
+                    <button  type="button" class=" btn btn-success  form-control  btnpagar" id="BtnPagar" style="width: 160px">Pagar</button>
+                </div>
+            </div><!-- btnconfirmar -->
+        </div>
+    </form>
+    </div> <!-- Side bar -->
+
+</div><!-- Pagina principal -->
+</div>
+
+<div class="cd-panel cd-panelbuscarcliente from-right">
+		<header class="cd-panel-header">
+			<h1>Datos del cliente</h1>
+        </header>
+		<div class="cd-panel-container">
+			<div class="cd-panel-content">
+				<form class="col-sm-12 form-horizontal" action="">
+                    <div class="tituloventa2">
+                        Cliente Contado:
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="nombreclientecontado" placeholder="Nombre del Cliente">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button  type="button" class=" btn btn-success form-control " id="btnconfirmarclientecontado" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+                     <div class="tituloventa2">
+                        Cliente Existente:
+                        <br/>
+                        <br/>
+                    </div>
+                   <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="codigocliente">Código de cliente:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control " id="codigocliente">
+                        </div>
+
+                   </div>
+                    <div class="form-group">
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control " id="nombrecliente">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button  type="button" class=" btn btn-success form-control " id="btnconfirmarcliente" ><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                   </div>
+                    <div class="tituloventa2">
+                        <br/>
+                        Buscar Cliente:
+                        <br/>
+                        <br/>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="tipobusquedacliente">Búsqueda:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control" name="tipobusquedacliente" id="tipobusquedacliente">
+                                <option value="1">Nombre</option>
+                                <option value="2">Apellido</option>
+                                <option value="3">Identificación</option>
+                            </select>
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="nombreclientebuscar" placeholder="Texto a buscar">
+                        </div>
+                        <div class="col-sm-2" >
+                             <button  type="button" class=" btn btn-success form-control " id="Btnbuscarcliente" ><span class="glyphicon glyphicon-search"></span></button>
+                        </div>
+                   </div>
+                     <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-hover" data-toggle="table" id="tablabusquedacliente" data-url="" data-cache="false" data-height="299">
+                                <thead>
+                                    <tr class="danger">
+                                    <th data-field="id">Código</th>
+                                    <th data-field="nombre">Nombre</th>
+                                    <th data-field="elegir">Elegir</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </form>
+            </div> <!-- cd-panel-content -->
+		</div> <!-- cd-panel-container -->
+	</div> <!-- Panel de buscar cliente -->
+
+<div class="cd-panel cd-panelpagar from-right">
+    <header class="cd-panel-header">
+        <H1>Datos del Pago</H1>
+    </header>
+    <div class="cd-panel-container">
+        <div class="cd-panel-content">
+            <form class="col-sm-12 form-horizontal" action="">
+                 <div class="form-group tipodepago">
+                    <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacontipo">Tipo de pago:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <select class="form-control input-lg" name="pagacontipo" id="pagacontipo">
+                            <option value="1">Efectivo</option>
+                            <option value="2">Tarjeta</option>
+                            <option value="3">Crédito</option>
+                            <option value="4">Transferencia</option>
+                            <option value="5">Cheque</option>
+                        </select>
+                    </div>
+                </div>
+                 <div class="form-group pagoefectivo">
+                    <div class="col-sm-12">
+                        <label class="tituloventa2" for="montoefectivo">Datos efectivo:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="montoefectivo">Monto efectivo:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control input-lg " name="montoefectivo" id="montoefectivo">
+                        <br/>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="vuelto">Vuelto:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <input disabled type="text" class="form-control input-lg precio" name="vuelto" id="vuelto">
+                        <br/>
+                    </div>
+                </div>
+                 <div class="pagotarjeta form-group">
+                     <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Datos de la tarjeta:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="tipotarjeta">Tipo:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <select class="form-control input-lg" name="tipotarjeta" id="tipotarjeta">
+                            <option value="1">Visa</option>
+                            <option value="2">Master Card</option>
+                            <option value="3">American Express</option>
+                            <option value="4">Discover</option>
+                            <option value="5">Otra</option>
+                        </select>
+                        <br/>
+                    </div>
+                 </div>
+                 <div class="pagotarjeta form-group">
+                     <div class=" form-group col-sm-6">
+                         <div class="col-sm-11">
+                            <label for="4digits">Últimos 4 digitos:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control input-lg" name="4digits" id="4digits">
+                        </div>
+                     </div>
+                     <div class="form-group col-sm-6">
+                         <div class="col-sm-11">
+                            <label for="authtarjeta">Autorización:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control input-lg" name="authtarjeta" id="authtarjeta">
+                        </div>
+                     </div>
+                 </div>
+                <div hidden class="form-group transferencia" style="margin-bottom: 0">
+                    <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Datos de la transferencia:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class=" form-group col-sm-6 ">
+                        <div class="col-sm-12 ">
+                            <label for="numtransf ">Transferencia:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control input-lg " name="numtransf" id="numtransf">
+                            <br/>
+                        </div>
+                    </div>
+                     <div class=" form-group col-sm-5 ">
+                         <div class="col-sm-12 ">
+                            <label for="bancotransf">Banco:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <select class="form-control input-lg" name="bancotransf" id="bancotransf">
+                                <option value="1">Nacional</option>
+                                <option value="2">Costa Rica</option>
+                                <option value="2">BAC</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div hidden class="form-group cheque" style="margin-bottom: 0">
+
+                    <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Datos del cheque:</label>
+                        <br/>
+                        <br/>
+                    </div>
+
+                    <div class=" form-group col-sm-6 ">
+                        <div class="col-sm-12 ">
+                            <label for="chequenum ">Cheque:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control input-lg " name="chequenum" id="chequenum">
+                            <br/>
+                        </div>
+                    </div>
+                     <div class=" form-group col-sm-5 ">
+                         <div class="col-sm-12 ">
+                            <label for="bancocheque">Banco:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <select class="form-control input-lg" name="bancocheque" id="bancocheque">
+                                <option value="1">Nacional</option>
+                                <option value="2">Costa Rica</option>
+                                <option value="2">BAC</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="credito form-group">
+                     <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Datos del Cliente:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="nombreclientecred">Nombre del cliente:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-sm-10">
+                        <input disabled type="text" class="form-control input-lg" name="nombreclientecred" id="nombreclientecred">
+                        <br/>
+                    </div>
+                 </div>
+                 <div class="credito form-group">
+                     <div class=" form-group col-sm-6">
+                         <div class="col-sm-11">
+                            <label for="limitecred">Límite de Crédito:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-11">
+                            <input disabled type="text" class="form-control input-lg precio" name="limitecred" id="limitecred">
+                        </div>
+                     </div>
+                     <div class="form-group col-sm-6">
+                         <div class="col-sm-11">
+                            <label for="saldocred">Saldo Actual:</label>
+                            <br/>
+                            <br/>
+                        </div>
+                        <div class="col-sm-11">
+                            <input disabled type="text" class="form-control input-lg" name="saldocred" id="saldocred">
+                        </div>
+                     </div>
+                     <div class="hideonload failmessage errorsaldoactual">
+                        <div class="col-sm-11 alert alert-danger fade in ">
+                            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                            <strong>Error!</strong> El límite de crédito del cliente es insuficiente.
+                        </div>
+                     </div>
+                     <div class="hideonload failmessage errornocredito">
+                        <div class="col-sm-11 alert alert-danger fade in ">
+                            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                            <strong>Error!</strong> El cliente no posee línea de crédito.
+                        </div>
+                     </div>
+                 </div>
+                 <div class="totalespago form-group" >
+                     <div class="col-sm-12">
+                        <label class="tituloventa2" for="pagacon">Totales:</label>
+                        <br/>
+                        <br/>
+                    </div>
+                      <div class="form-group col-sm-6">
+                         <div class="col-sm-12">
+                            <label for="4digits">Total:</label>
+                             <br/><br/>
+                        </div>
+                         <div class="col-sm-12 totalesdata2" >
+                            <span class="precio totalpagar">10000</span>
+                        </div>
+                     </div>
+                      <div class="form-group col-sm-6">
+                            <div class="col-sm-12">
+                                <label for="4digits">Paga Con:</label>
+                                 <br/><br/>
+                            </div>
+                             <div class="col-sm-12 totalesdata" >
+                                <span class="pagaconpagar">-</span>
+                            </div>
+                        </div>
+
+                     <div class="col-sm-12"><br/></div>
+
+
+                     <div class="form-group col-sm-6">
+                         <div class="col-sm-12">
+                            <label for="4digits">Vuelto:</label>
+                             <br/><br/>
+                        </div>
+                         <div class="col-sm-12 totalesdata " >
+                            <div class="precio vueltopagar">0</div>
+                        </div>
+
+                     </div>
+                     <div class="form-group col-sm-6">
+                            <div class="col-sm-12"><br/><br/></div>
+                            <div class="col-sm-12">
+                                <button disabled  type="button" class=" btn btn-success  form-control" id="BtnRegistrarVenta" style="width: 160px">Registrar Venta</button>
+                            </div>
+                     </div>
+
+                 </div>
+            </form>
+        </div> <!-- cd-panel-content -->
+    </div> <!-- cd-panel-container -->
+</div> <!-- Panel de pagar -->
+
+<div class="cd-panel cd-panelbuscar from-left">
+		<header class="cd-panel-header">
+			<h1>Búsqueda de Producto</h1>
+        </header>
+
+        <div class="cd-panel-container">
+            <div class="cd-panel-content">
+                <div class="form-group">
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="tipobusqueda">Tipo de búsqueda:</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <select class="form-control input-lg" name="" id="tipobusqueda">
+                                <option value="1">Descripción</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="busqueda">Búsqueda:</label>
+                        </div>
+                        <div class="col-sm-9">
+                        <div>
+                        <input type="text" class="form-control input-lg" id="busqueda">
+                        </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class=" pull-right">
+                        <button  type="button" class=" btn btn-success  form-control marginBtnAdd2 " id="btnbusqueda" style="width: 160px">Buscar <span class="glyphicon glyphicon-search"> </span></button>
+                        </div>
+                    </div>
+                 </form>
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-hover" data-toggle="table" id="tablabusqueda" data-url="" data-cache="false" data-height="299">
+                                <thead>
+                                    <tr class="danger">
+                                    <th data-field="id">Código</th>
+                                    <th data-field="descripcion">Descripción</th>
+                                    <th data-field="precio">Precio</th>
+                                    <th data-field="agregar">Agregar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class=" pull-right">
+                        <button  type="button" class=" btn btn-danger  form-control marginBtnAdd2 btntest" id="btncerrarbuscar" style="width: 160px"><span class="glyphicon glyphicon-menu-left"></span> Regresar</button>
+                        </div>
+                    </div>
+
+                </form>
+                </div>
+            </div> <!-- cd-panel-content -->
+        </div> <!-- cd-panel-container -->
+	</div> <!-- Panel de Buscar -->
+
+<div class="cd-panel cd-panelcanal from-left">
+		<header class="cd-panel-header">
+			<h1>Elección de Canal</h1>
+        </header>
+        <div class="cd-panel-container">
+            <div class="cd-panel-content">
+
+                <div class="form-group">
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-12 tituloventa2 tipodecanal">
+                            Canales de Cerdo Disponibles:
+                            <br/>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group col-sm-4">
+                            <div class="col-sm-12">
+                                <label for="preciocanalkilo">Precio por Kilo ₡:</label>
+                                <br/>
+                                <br/>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control " id="preciocanalkilo">
+                            </div>
+                       </div>
+                        <div class="form-group col-sm-4">
+                            <div class="col-sm-12">
+                                <label for="pesocanalnuevo">Peso al entregar Kg:</label>
+                                <br/>
+                                <br/>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control " id="pesocanalnuevo">
+                            </div>
+                       </div>
+                        <div class="form-group col-sm-4">
+                            <div class="col-sm-12">
+                                <label for="vendidoEntOMedio">Vendido:</label>
+                                <br/>
+                                <br/>
+                            </div>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="vendidoEntOMedio" id="vendidoEntOMedio">
+                                    <option value="1">Canal Entero</option>
+                                    <option value="2">1/2 Canal</option>
+                                </select>
+                            </div>
+                       </div>
+                    </div>
+
+                 </form>
+                <form class="col-sm-12 form-horizontal" action="">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-hover" data-toggle="table" id="tablacanales" data-url="" data-cache="false" data-height="299">
+                                <thead>
+                                    <tr class="danger">
+                                    <th data-field="id"># Canal</th>
+                                    <th data-field="consecutivo">Consecutivo</th>
+                                    <th data-field="calificacion">Calificación</th>
+                                    <th data-field="peso">Peso Kg</th>
+                                    <th data-field="fierro">Fierro</th>
+                                    <th data-field="agregar">Agregar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class=" pull-right">
+                        <button  type="button" class=" btn btn-danger  form-control marginBtnAdd2 btntest" id="btncerrarcanal" style="width: 160px"><span class="glyphicon glyphicon-menu-left"></span> Regresar</button>
+                        </div>
+                    </div>
+
+                </form>
+                </div>
+            </div> <!-- cd-panel-content -->
+        </div> <!-- cd-panel-container -->
+	</div> <!-- Panel de canales -->
+
+{% endblock %}
