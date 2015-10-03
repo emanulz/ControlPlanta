@@ -37,7 +37,7 @@ class DetalleDevSerializer(serializers.ModelSerializer):
         model = DetalleDev
         fields =('id','producto','peso','colones')
 
-class DetallePagoViewSet(viewsets.ModelViewSet):
+class DetalleDevViewSet(viewsets.ModelViewSet):
 
     serializer_class = DetalleDevSerializer
     queryset = DetalleDev.objects.all()

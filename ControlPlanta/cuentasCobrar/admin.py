@@ -18,5 +18,5 @@ class DetalleCuentaAdmin(admin.ModelAdmin):
 
 @admin.register(NotaDeCredito)
 class NotaDeCredito(admin.ModelAdmin):
-    list_display = ('date','time','monto','saldoanterior','saldoactual')
-    search_fields = ('date','time','monto','saldoanterior','saldoactual')
+    list_display = ('id','date','time','monto','saldoanterior','saldoactual')
+    search_fields = ('id','date','time','monto','saldoanterior','saldoactual')

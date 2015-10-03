@@ -23,8 +23,8 @@ class Devolucion(models.Model):
 
 class DetalleDev(models.Model):
     producto=models.PositiveIntegerField(default=1 ,verbose_name='Producto')
-    peso=models.PositiveIntegerField(default=0 ,verbose_name='Peso')
-    colones=models.PositiveIntegerField(default=0 ,verbose_name='Colones')
+    peso=models.FloatField(default=0 ,verbose_name='Peso')
+    colones=models.FloatField(default=0 ,verbose_name='Colones')
     def __unicode__(self):
         return str(self.id)
     class Meta:

@@ -36,6 +36,7 @@ var saldoactcred=0;
 var vencimiento;
 var tipo;
 
+var cotizacionid=0;
 jQuery.ajaxSetup({async:false});
 
 $(document).on('ready', main);
@@ -518,6 +519,18 @@ function main () {
 
         });
 
+
+        $('#BtnCotizar').on("click",function(){
+
+            alertify.confirm('¿Desea registrar como cotización?').set('labels', {ok:'Aceptar!', cancel:'Cancelar'})
+            .set('onok',function(closeEvent,value){
+
+                RegistarCotizacion();
+
+            }).set('title','Cotización');
+
+        });
+
         $('#BtnNuevaVenta').on("click",function(){
             location.reload();
         });
@@ -580,6 +593,7 @@ function main () {
 
         $("#date").val(today).prop("disabled",true);
         $("#BtnPagar").prop("disabled",true);
+        $("#BtnCotizar").prop("disabled",true);
         $("#BtnConfirmar").prop("disabled",true);
         $("#cantidad").val(1);
         enteronaddproducto=true;
@@ -1121,6 +1135,8 @@ $("#Btnbuscarproducto").prop('disabled',true);
 $("#BtnConfirmar").hide();
 $("#BtnNoConfirmar:hidden").show();
 $("#BtnPagar").prop('disabled',false);
+$("#BtnCotizar").prop('disabled',false);
+
 }
 
 function NoConfirmarDatos(){
@@ -1135,6 +1151,7 @@ function NoConfirmarDatos(){
     $("#BtnConfirmar:hidden").show();
     $("#BtnNoConfirmar").hide();
     $("#BtnPagar").prop('disabled',true);
+    $("#BtnCotizar").prop('disabled',true);
     $('.descuentoside').html('');
 
     totaliv=ivsindesc;
@@ -1332,6 +1349,89 @@ if($("#pagacontipo").val()==2){
             });//ajax
     }//if
 }//function
+
+function RegistarCotizacion(){
+
+    guardardetalleproductocoti();
+    guardarcotizacion();
+    generarfacturaCoti();
+    Imprimir();
+    $('#maincontent').find(':input').prop('disabled', true);
+    $('#BtnPrint').prop('disabled', false);
+    $('#BtnNuevaVenta').prop('disabled', false);
+
+}
+
+
+function guardardetalleproductocoti(){
+
+    //matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer,data[0].id,usaimpuestos]);
+    event.preventDefault();
+     $.each( matrixventa, function(i){
+
+        $.ajax({
+          method: "POST",
+          url: "/api/detalleproductocotizacion/",
+          async: false,
+
+          data: JSON.stringify({
+                "producto": matrixventa[i][7],
+                "description": matrixventa[i][1],
+                "preciouni": matrixventa[i][2],
+                "cantidad": matrixventa[i][3],
+                "iv": matrixventa[i][8],
+                "total": matrixventa[i][4]
+            }),//JSON object
+              contentType:"application/json; charset=utf-8",
+              dataType:"json"
+            })
+            .fail(function(data){
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la cotizacion(detallecotizacion), por favor intente de nuevo o contacte a Emanuel al # 83021964 "+data.responseText);
+            })
+            .success(function(data){
+                detallesventa.push(data.id);
+                //console.log(detallesventa);
+            });
+    });
+
+}
+
+function guardarcotizacion(){
+
+    $.ajax({
+            method: "POST",
+            url: "/api/cotizacion/",
+            async: false,
+
+            data: JSON.stringify({
+                "client": cliente,
+                "nombrecliente": $('#cliente').val(),
+                "cashier": usuario,
+                "date": today,
+                "time": tiempoahora(),
+                "totolkilogramos": totalkg,
+                "cantidadarticulos": totalart,
+                "subtotal": subtotal,
+                "iv": totaliv,
+                "descopor": descuentoporc,
+                "desctocol": descuento,
+                "total": totalventa,
+                "detalleproductos": detallesventa
+
+            }),//JSON object
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        })
+        .fail(function (data) {
+            console.log(data.responseText);
+            alertify.alert("Hubo un problema al crear la cotizacion (crear obj cotizacion), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        })
+        .success(function (data) {
+            cotizacionid=data.id;
+        });
+
+}
 
 function guardardetalleproducto(){
 
@@ -1581,11 +1681,14 @@ function patchcuentacobrar(){
 function generarfactura(){
     var clientefactura=$.get('/api/clientes/'+cliente+'/',function(){});
     var cajerofactura=$.get('/api/cajeros/'+usuario+'/',function(){});
+
     var tipoventafact='CONTADO.';
     if($("#pagacontipo").val()==3){
         tipoventafact='CRÉDITO.';
         $('#firmacredito:hidden').show();
     }
+
+    $('#timbrado:hidden').show();
     $('.facturanumfact').html(' '+ventaid);
     $('.tipoventafact').html(' '+tipoventafact);
     $('.fechafact').html('  '+todaynorm +' '+tiempoahora());
@@ -1613,4 +1716,38 @@ function generarfactura(){
     $('.factura:hidden').show();
 }
 
+function generarfacturaCoti(){
+    var clientefactura=$.get('/api/clientes/'+cliente+'/',function(){});
+    var cajerofactura=$.get('/api/cajeros/'+usuario+'/',function(){});
+    var tipoventafact='COTIZACION.';
 
+
+    $('#timbrado').hide();
+    $('.facturanumfactleft').html('COTIZA #&nbsp&nbsp&nbsp&nbsp:&nbsp');
+
+    $('.facturanumfact').html(' '+cotizacionid);
+    $('.tipoventafact').html(' '+tipoventafact);
+    $('.fechafact').html('  '+todaynorm +' '+tiempoahora());
+    $('.clientefact').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
+    $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
+
+    $.each( matrixventa, function(i){
+        $('#tablafactura > tbody:last').append('<tr><td> ' +matrixventa[i][3]+ ' </td><td>' + matrixventa[i][1]+ '</td><td class="precio">' +matrixventa[i][4].toFixed(2)+ '</td></tr>');
+    });
+    if(descuento>0){
+        $('.descueentofactleft').html('DESCUENTO '+descuentoporc +'%');
+    }
+
+    $('.subtotalfactright').html(subtotal.toFixed(2));
+    $('.descueentofactright').html(descuento.toFixed(2));
+    $('.ivfactright').html(totaliv.toFixed(2));
+    $('.totalfactright').html(totalventa.toFixed(2));
+
+    $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+    $('.sidetotales').hide();
+    $('.factura:hidden').show();
+}

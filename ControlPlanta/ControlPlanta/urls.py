@@ -19,8 +19,9 @@ from api.views import LoteApiView
 from cajeros.views import CajeroCreate
 from canales.views import CanalViewSet, eliminarCanalView
 from clientes.views import ClientViewSet
+from cotizaciones.views import CotizacionViewSet, DetalleProductosCotiViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
-from devoluciones.views import DevolucionesView
+from devoluciones.views import DevolucionesView, DevolucionViewSet, DetalleDevViewSet
 from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet, \
     InventariosView, AlertasInventariosView
 from inventariosMP.views import InventarioResumenMPViewSet, InventarioEntradasMPViewSet, InventarioSalidasMPViewSet, \
@@ -67,6 +68,10 @@ router.register(r'materiaprima', MateriaPrimaViewSet)
 router.register(r'familiamp', FamiliaMPViewSet)
 router.register(r'reproceso', ReprocesoViewSet)
 router.register(r'notacredito', NotaDeCreditoViewSet)
+router.register(r'devolucion', DevolucionViewSet)
+router.register(r'detalledevolucion', DetalleDevViewSet)
+router.register(r'cotizacion', CotizacionViewSet)
+router.register(r'detalleproductocotizacion', DetalleProductosCotiViewSet)
 
 
 

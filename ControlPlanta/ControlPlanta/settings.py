@@ -61,6 +61,7 @@ INSTALLED_APPS = (
     'inventariosMP',
     'reprocesos',
     'devoluciones',
+    'cotizaciones',
 
 )
 
@@ -102,6 +103,7 @@ SUIT_CONFIG = {
         {'app': 'cuentascobrar', 'label': 'Cuentas por cobrar', 'icon': 'icon-hdd'},
         {'app': 'proveedores', 'label': 'Proveedores', 'icon': 'icon-list'},
         {'app': 'ventas', 'label': 'Ventas', 'icon': 'icon-play'},
+        {'app': 'cotizaciones', 'label': 'Cotizaciones', 'icon': 'icon-th-list'},
         {'app': 'devoluciones', 'label': 'Devoluciones', 'icon': 'icon-hdd'},
 
     ),

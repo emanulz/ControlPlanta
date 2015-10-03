@@ -74,11 +74,33 @@
             </table>
             </div><!-- tabla -->
 
+
         </div>
         <div class="form-group">
 
         </div>
     </form><!-- tabla de productods -->
+    <form hidden class=" formTotales form-horizontal col-sm-12"  action="">
+
+        <div class="form-group" id="montosresumen">
+                <div style="text-align: right" class=" form-group col-sm-12 ">Tolal Kg: <span class="totalKgDevolucion">0</span></div>
+                <br/>
+                <div style="text-align: right" class=" form-group col-sm-12">Nota de crédito: <span class="ncDevolucion precio">0</span></div>
+
+            </div>
+
+        <div  class="form-group" id="imprimirResumenBtn">
+            <div class=" ConfirmDevolver form-group col-sm-12 " style="text-align: right">
+                <button  type="button" class=" btn btn-success  form-control " id="BtnConfirmDevolver" style="width: 160px;">Devolver</button>
+            </div>
+            <div hidden class=" BtnEditDevolver form-group col-sm-12 " style="text-align: right">
+                <button  type="button" class=" btn btn-danger  form-control " id="BtnEditDevolver" style="width: 160px;">Editar</button>
+            </div>
+            <div hidden class=" BtnDevolver form-group col-sm-12 " style="text-align: right">
+                <button  type="button" class=" btn btn-success  form-control " id="BtnDevolver" style="width: 160px;">Devolver</button>
+            </div>
+       </div>
+    </form>
     </div><!-- main content -->
 
     <div hidden class="col-sm-3 factura" >
@@ -169,13 +191,15 @@
                     <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnPrint" style="width: 160px;">Imprimir Copia</button>
 
                 </div>
-            </div><!-- btnreimprimir -->
-            <div class="form-group " style="margin-top: 15px">
+
+
                 <div class="col-sm-12">
-                    <button  type="button" class=" btn btn-warning  form-control  btnconfirmar" id="BtnNuevaVenta" style="width: 160px;">Nueva Venta</button>
+                    <br/>
+                    <button  type="button" class=" btn btn-warning  form-control  btnAnular" id="BtnAnular" style="width: 160px;">Anular Factura</button>
 
                 </div>
-            </div><!-- btnnieva venta -->
+            </div><!-- btnreimprimir -->
+
         </div>
     </form>
     </div> <!-- Side bar FACTURA -->
@@ -242,7 +266,7 @@
             </div><!-- Total -->
             <div class="form-group " style="margin-top: 15px">
                 <div class="col-sm-12">
-                    <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnConfirmar" style="width: 160px">Confirmar</button>
+                    <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnConfirmar" style="width: 160px">Devolver</button>
                     <button  type="button" class=" btn btn-danger  form-control " id="BtnNoConfirmar" style="width: 160px">Editar Datos</button>
                     <br/><br/>
                     <button  type="button" class=" btn btn-success  form-control  btnpagar" id="BtnPagar" style="width: 160px">Pagar</button>
