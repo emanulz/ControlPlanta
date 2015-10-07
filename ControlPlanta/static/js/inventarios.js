@@ -690,9 +690,11 @@ function llenarTablaIventario(data){
     //console.log(data);
         $.each( data, function(i){
             var existencia = data[i].inventory;
+            var existenciaplanta = data[i].inventoryplanta;
+            var existenciamovil = data[i].inventory1+data[i].inventory2+data[i].inventory3;
             //console.log('TABLA '+existencia);
             $('#tablainventario > tbody:last').append('<tr><td>' + data[i].product_code + '</td><td>' + data[i].description +
-            '</td><td>' + existencia + '</td><td><button  type="button" class=" btn btn-success form-control selectrowentrada btnanchoinv " id="btnentrada"><span class="glyphicon glyphicon-plus"></span></button></td>'+
+            '</td><td>' + existencia + '</td><td>' + existenciaplanta + '</td><td>' + existenciamovil + '</td><td><button  type="button" class=" btn btn-success form-control selectrowentrada btnanchoinv " id="btnentrada"><span class="glyphicon glyphicon-plus"></span></button></td>'+
             '</td><td><button  type="button" class=" btn btn-danger form-control selectrowsalida btnanchoinv" id="btnsalida"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
             tablamatrix.push([data[i].id, data[i].product_code,data[i].description ,existencia]);
         });
@@ -717,7 +719,9 @@ function RegistarEntrada(){
 
       data: JSON.stringify({
 
-        "inventory": cantentrada
+        "inventory": cantentrada,
+        "inventoryplanta": cantentrada
+
 
         }),//JSON object
           contentType:"application/json; charset=utf-8",
@@ -768,7 +772,7 @@ function crearentrada(datos,peso,nuevopeso){
           dataType:"json"
         })
       .success(function() {
-        pacthresinvent();
+        //pacthresinvent();
         $("#tablainventario > tbody").html("");
         $.get('/api/productos/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
         alertify.alert('Entrada exitosa',"Entrada a inventario creada con exito");
@@ -793,7 +797,8 @@ function RegistarSalida() {
 
             data: JSON.stringify({
 
-                "inventory": cantsalida
+                "inventory": cantsalida,
+                "inventoryplanta": cantsalida
 
             }),//JSON object
             contentType: "application/json; charset=utf-8",
@@ -848,13 +853,13 @@ function crearsalida(datos,peso,nuevopeso){
           dataType:"json"
         })
       .success(function() {
-        pacthresinvsal();
+        //pacthresinvsal();
         $("#tablainventario > tbody").html("");
         $.get('/api/productos/?category='+$('#tipoconsulta').val(),llenarTablaIventario);
         alertify.alert('Salida exitosa',"Salida de inventario creada con exito");
         $('.cd-panelsalida').removeClass('is-visible');
         blurElement('.blurlines',0);
-        $("#filtroinv")
+        //$("#filtroinv")
 
         })
         .fail(function(data) {

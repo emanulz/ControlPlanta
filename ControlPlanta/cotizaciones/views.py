@@ -27,12 +27,12 @@ class CotizacionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cotizacion
-        fields =('id','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos')
+        fields =('id','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','movil','yadevuelto')
 
 class CotizacionViewSet(viewsets.ModelViewSet):
 
     serializer_class = CotizacionSerializer
     queryset = Cotizacion.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos')
+    filter_fields=('id','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','yadevuelto')
 

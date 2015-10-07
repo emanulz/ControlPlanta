@@ -4,6 +4,7 @@ var descuentoyaaplicado = false;
 var enteronaddproducto = false;
 var cantidad=0;
 var nuevaext;
+var nuevaextplanta;
 var matrixdetalle=[];
 var detalle=[];
 var codigobusqueda=[];
@@ -594,6 +595,7 @@ function main () {
         $("#date").val(today).prop("disabled",true);
         $("#BtnPagar").prop("disabled",true);
         $("#BtnCotizar").prop("disabled",true);
+        $("#amovil").prop("disabled",true);
         $("#BtnConfirmar").prop("disabled",true);
         $("#cantidad").val(1);
         enteronaddproducto=true;
@@ -911,8 +913,8 @@ function llenartablaProductos(data){
 
     if (data.length!==0){
         var inarray= serachmatrix(data[0].product_code);
-        var prodinventario=$.get('/api/inventarioresumen/?producto='+data[0].id,function(){});
-        var existencia=prodinventario.responseJSON[0].cantidad;
+        //var prodinventario=$.get('/api/inventarioresumen/?producto='+data[0].id,function(){});
+        var existencia=data[0].inventoryplanta;
         var montoimpuesto=((data[0].taxes_amount)/100)+1;
         var usaimpuestos=data[0].taxes;
         var ivr=0;
@@ -981,7 +983,7 @@ function llenartablaProductos(data){
                 });
             }//if check inventario
             else{
-                 alertify.alert('Bajo Inventario','No hay suficiente cantidad en inventario, la existencia actual es '+existencia+' Kg');
+                 alertify.alert('Bajo Inventario','No hay suficiente cantidad en inventario, la existencia actual EN PLANTA es '+existencia+' Kg');
             }//else check inventario no existe
 
         }//no existe en la tabla
@@ -994,7 +996,7 @@ function llenartablaProductos(data){
                 recalculartablaproductos();
             }
             else{
-                alertify.alert('Bajo Inventario','No hay suficiente cantidad en inventario, la existencia actual es '+existencia+' Kg');
+                alertify.alert('Bajo Inventario','No hay suficiente cantidad en inventario, la existencia actual EN PLANTA es '+existencia+' Kg');
             }//else check inventario ya existe
         }//ya existe en la tabla
 
@@ -1136,6 +1138,7 @@ $("#BtnConfirmar").hide();
 $("#BtnNoConfirmar:hidden").show();
 $("#BtnPagar").prop('disabled',false);
 $("#BtnCotizar").prop('disabled',false);
+$("#amovil").prop('disabled',false);
 
 }
 
@@ -1152,6 +1155,7 @@ function NoConfirmarDatos(){
     $("#BtnNoConfirmar").hide();
     $("#BtnPagar").prop('disabled',true);
     $("#BtnCotizar").prop('disabled',true);
+    $("#amovil").prop('disabled',true);
     $('.descuentoside').html('');
 
     totaliv=ivsindesc;
@@ -1354,6 +1358,9 @@ function RegistarCotizacion(){
 
     guardardetalleproductocoti();
     guardarcotizacion();
+    if( $('#amovil').val() != 0){
+    trasladarAMovil();
+    }
     generarfacturaCoti();
     Imprimir();
     $('#maincontent').find(':input').prop('disabled', true);
@@ -1362,6 +1369,83 @@ function RegistarCotizacion(){
 
 }
 
+function trasladarAMovil(){
+    var movil=$('#amovil').val();
+
+
+    $.each( matrixventa, function(i) {
+
+        var productodatos = $.get('/api/productos/' + matrixventa[i][7] + '/', function () {});
+
+        if(movil==1) {//SI ES A MOVIL 1
+
+            $.ajax({
+                method: "PATCH",
+                url: "/api/productos/" + productodatos.responseJSON.id + "/",
+
+                data: JSON.stringify({
+                    "inventoryplanta": productodatos.responseJSON.inventoryplanta-matrixventa[i][3],
+                    "inventory1": matrixventa[i][3]
+
+                }),//JSON object
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            })
+                .fail(function (data) {
+                    console.log(data.responseText);
+                    alertify.alert("Hubo un problema al crear la cotizacion (PASAR A MOVIL), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                })
+                .success(function () {
+
+                });
+        }
+        if(movil==2) {//SI ES A MOVIL 2
+
+            $.ajax({
+                method: "PATCH",
+                url: "/api/productos/" + productodatos.responseJSON.id + "/",
+
+                data: JSON.stringify({
+                    "inventoryplanta": productodatos.responseJSON.inventoryplanta-matrixventa[i][3],
+                    "inventory2": matrixventa[i][3]
+
+                }),//JSON object
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            })
+                .fail(function (data) {
+                    console.log(data.responseText);
+                    alertify.alert("Hubo un problema al crear la cotizacion (PASAR A MOVIL), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                })
+                .success(function () {
+
+                });
+        }
+
+        if(movil==3) {//SI ES A MOVIL 3
+
+            $.ajax({
+                method: "PATCH",
+                url: "/api/productos/" + productodatos.responseJSON.id + "/",
+
+                data: JSON.stringify({
+                    "inventoryplanta": productodatos.responseJSON.inventoryplanta-matrixventa[i][3],
+                    "inventory3": matrixventa[i][3]
+
+                }),//JSON object
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            })
+                .fail(function (data) {
+                    console.log(data.responseText);
+                    alertify.alert("Hubo un problema al crear la cotizacion (PASAR A MOVIL), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                })
+                .success(function () {
+
+                });
+        }
+    });
+}
 
 function guardardetalleproductocoti(){
 
@@ -1537,6 +1621,7 @@ function descontarinventarios(){
             //console.log(productodatos.responseJSON.inventory);
             //console.log(matrixventa[i][3]);
             nuevaext= productodatos.responseJSON.inventory-matrixventa[i][3];
+            nuevaextplanta= productodatos.responseJSON.inventoryplanta-matrixventa[i][3];
             //console.log(nuevaext);
             //patch al producto
             $.ajax({
@@ -1545,7 +1630,8 @@ function descontarinventarios(){
 
               data: JSON.stringify({
 
-                "inventory": nuevaext
+                "inventory": nuevaext,
+                "inventoryplanta": nuevaextplanta
 
                 }),//JSON object
                   contentType:"application/json; charset=utf-8",
@@ -1575,28 +1661,28 @@ function descontarinventarios(){
                           contentType:"application/json; charset=utf-8",
                           dataType:"json"
                         })
-                      .success(function() {
+                        .success(function() {
 
-                                var prodinventario=$.get('/api/inventarioresumen/?producto='+matrixventa[i][7],function(){});
-
-                                $.ajax({
-                                        method: "PATCH",
-                                        url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
-
-                                        data: JSON.stringify({
-
-                                            "cantidad": nuevaext
-
-                                        }),//JSON object
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json"
-                                })
-                                .success(function () {
-
-                                })
-                                .fail(function (data) {
-                                    alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-                                });
+                                //var prodinventario=$.get('/api/inventarioresumen/?producto='+matrixventa[i][7],function(){});
+                                //
+                                //$.ajax({
+                                //        method: "PATCH",
+                                //        url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
+                                //
+                                //        data: JSON.stringify({
+                                //
+                                //            "cantidad": nuevaext
+                                //
+                                //        }),//JSON object
+                                //        contentType: "application/json; charset=utf-8",
+                                //        dataType: "json"
+                                //})
+                                //.success(function () {
+                                //
+                                //})
+                                //.fail(function (data) {
+                                //    alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                                //});
 
                         })
                         .fail(function(data) {

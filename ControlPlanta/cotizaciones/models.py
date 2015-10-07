@@ -24,7 +24,8 @@ class Cotizacion(models.Model):
     desctocol=models.FloatField(verbose_name='Descuento ₡')
     total=models.FloatField(verbose_name='Total ₡')
     detalleproductos = models.ManyToManyField('DetalleProductosCoti', verbose_name='Detalle de los Productos')
-
+    movil=models.IntegerField(default=0,verbose_name='A Móvil #')
+    yadevuelto=models.BooleanField(default=False,verbose_name='Ya devuelto a inventario?')
     def __unicode__(self):
         ret=str(self.id)
         return ret
