@@ -853,6 +853,7 @@ function devolerAInventario(factura){
 
         var producto=$.get('/api/productos/'+detalleProd.responseJSON.producto+'/',function(){});
         var current=producto.responseJSON.inventory;
+        var currentplanta=producto.responseJSON.inventoryplanta;
 
         $.ajax({
             method: "PATCH",
@@ -860,7 +861,8 @@ function devolerAInventario(factura){
 
             data: JSON.stringify({
 
-            "inventory": current+cantidadSumar
+            "inventory": current+cantidadSumar,
+            "inventoryplanta": currentplanta+cantidadSumar
 
 
             }),//JSON object
@@ -877,9 +879,6 @@ function devolerAInventario(factura){
 
 
     });
-
-
-
 
 }
 
@@ -920,7 +919,7 @@ function RegistarDevolucion(){
     DevolverInventario();
 
     //crear nota de credito
-    crearNC();
+    //crearNC();
     //descontar de saldos
 
     //crear detalle devolucion
@@ -1051,6 +1050,7 @@ function DevolverInventario(){
         if(matrixDevolucion[i][7]==true){
             var producto =$.get('/api/productos/' + matrixDevolucion[i][0] + '/', function () {});
             var existencia=producto.responseJSON.inventory;
+            var existenciaplanta=producto.responseJSON.inventoryplanta;
 
              $.ajax({//patch inventario
 
@@ -1059,7 +1059,8 @@ function DevolverInventario(){
 
                 data: JSON.stringify({
 
-                "inventory": existencia+matrixDevolucion[i][5]
+                "inventory": existencia+matrixDevolucion[i][5],
+                "inventoryplanta": existenciaplanta+matrixDevolucion[i][5]
 
                 }),//JSON object
                   contentType:"application/json; charset=utf-8",
@@ -1120,17 +1121,20 @@ function crearDevObj(){
         data: JSON.stringify({
             "venta": facturaDev,
             "detalledevolucion": detallesDev,
-            "notacredito": notaCreditoID
+            "cliente":clienteDev,
+            "totalcolones":totalNCDev
+
         }),//JSON object
         contentType: "application/json; charset=utf-8",
         dataType: "json"
     })
         .fail(function (data) {
             console.log(data.responseText);
-            alertify.alert("Hubo un problema al crear la devolucion (devolucion obj), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+            alertify.alert('Error',"Hubo un problema al crear la devolucion (devolucion obj), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
         })
         .success(function (data) {
-            console.log('SUCCESS '+data.id);
+            //console.log('SUCCESS '+data.id);
+            alertify.alert("Completado","Devolución completada con éxito");
             //detallesDev.push(data.id);
            //detallepago = data.id;
         });//ajax

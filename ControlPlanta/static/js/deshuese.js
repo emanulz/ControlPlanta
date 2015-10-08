@@ -46,9 +46,20 @@ function main () {
             //calcular merma en %
             mermaporc=Math.round(((mermakg*100)/pesolote) * 1000) / 1000;
             $("#mermaporc").val(mermaporc);
+
+            var producto=$.get('/api/productos/'+matrixdetalle[rowIndex][0]+'/',function(){});
+
+            console.log(matrixdetalle[rowIndex][0]);
+            console.log(producto);
+
+            $("#corte").append(new Option(producto.responseJSON.description, producto.responseJSON.id));
+
+
             matrixdetalle.splice( rowIndex,1 );
             console.log(matrixdetalle);
             $(this).parent().parent().remove();
+
+
         });
 
             //cambios en tipo
@@ -303,7 +314,7 @@ function AgregarATabla(){
             ' Kg <button type="button" class=" removerow btn btn-danger pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td></tr>');
             //var Corteval =$('#corte').val();
             matrixdetalle.push([codigo,peso]);
-            //console.log(matrixdetalle);
+            console.log(matrixdetalle);
 
             pesodesh=Math.round((pesodesh+peso) * 1000) / 1000;
             $("#pesodesh").val(pesodesh);
@@ -597,14 +608,17 @@ function Guardarinventario(){
     $.each( matrixdetalle, function(i){
         var productoguardar=$.get('/api/productos/'+matrixdetalle[i][0]+'/',function(){});
         pesoactual=productoguardar.responseJSON.inventory;
+        pesoactualplanta=productoguardar.responseJSON.inventoryplanta;
         pesonuevo=pesoactual+matrixdetalle[i][1];
+        pesonuevoplanta=pesoactualplanta+matrixdetalle[i][1];
         $.ajax({//patch producto
           method: "PATCH",
           url: "/api/productos/"+matrixdetalle[i][0]+'/',
           async: false,
 
           data: JSON.stringify({
-            "inventory": pesonuevo
+            "inventory": pesonuevo,
+            "inventoryplanta": pesonuevoplanta
             }),//JSON object
               contentType:"application/json; charset=utf-8",
               dataType:"json"
@@ -637,26 +651,26 @@ function Guardarinventario(){
                 alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
                 })
                 .success(function(){//patch resumen inv
-                            var prodinventario=$.get('/api/inventarioresumen/?producto='+matrixdetalle[i][0],function(){});
-
-                            $.ajax({
-                                    method: "PATCH",
-                                    url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
-
-                                    data: JSON.stringify({
-
-                                        "cantidad": pesonuevo
-
-                                    }),//JSON object
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json"
-                            })
-                            .success(function () {
-
-                            })
-                            .fail(function (data) {
-                                alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-                            });
+                            //var prodinventario=$.get('/api/inventarioresumen/?producto='+matrixdetalle[i][0],function(){});
+                            //
+                            //$.ajax({
+                            //        method: "PATCH",
+                            //        url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
+                            //
+                            //        data: JSON.stringify({
+                            //
+                            //            "cantidad": pesonuevo
+                            //
+                            //        }),//JSON object
+                            //        contentType: "application/json; charset=utf-8",
+                            //        dataType: "json"
+                            //})
+                            //.success(function () {
+                            //
+                            //})
+                            //.fail(function (data) {
+                            //    alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                            //});
                 });
             });
 

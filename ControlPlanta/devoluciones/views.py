@@ -19,14 +19,14 @@ class DevolucionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Devolucion
-        fields =('id','venta','detalledevolucion','notacredito')
+        fields =('id','venta','detalledevolucion','totalcolones','cliente')
 
 class DevolucionViewSet(viewsets.ModelViewSet):
 
     serializer_class = DevolucionSerializer
     queryset = Devolucion.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','venta','detalledevolucion','notacredito')
+    filter_fields=('id','venta','detalledevolucion','totalcolones','cliente')
 
 #DETALLES DE DEV API
 

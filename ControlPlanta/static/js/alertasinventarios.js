@@ -703,6 +703,7 @@ function tiempoahora(){
 
 function llenarTablabajoIventario(data){
     tablamatrix=[];
+    console.log(data);
     //console.log(data);
         $.each( data, function(i){
             var existencia = data[i].inventory;

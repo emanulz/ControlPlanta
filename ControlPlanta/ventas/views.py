@@ -29,6 +29,12 @@ class CierreView(TemplateView):
     def dispatch(self, *args, **kwargs):
         return super(CierreView, self).dispatch(*args, **kwargs)
 
+class DevproformaView(TemplateView):
+    template_name = 'devolverProforma.html'
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(DevproformaView, self).dispatch(*args, **kwargs)
+
 #DETALLES DE PAGO API
 
 class DetallePagoSerializer(serializers.ModelSerializer):

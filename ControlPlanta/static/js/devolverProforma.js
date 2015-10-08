@@ -1,5 +1,7 @@
 //variables globales
 
+var movil = 0;
+
 var descuentoyaaplicado = false;
 var enteronaddproducto = false;
 var cantidad=0;
@@ -373,6 +375,19 @@ function main () {
              }
        });
 
+
+        $( "#cotizacionNumSel" ).change(function() {
+            var cotinum=$( "#cotizacionNumSel" ).val();
+
+            $(".factura").hide();
+            $("#tablafactura > tbody").html("");
+            $('#tablaproductos > tbody').html("");
+
+            if(cotinum!=0){
+                mostarcotizacion(cotinum);
+            }
+        });
+
         $( "#pagacontipo" ).change(function() {
             if( $("#pagacontipo").val()==1){
                 $(".cheque").hide();
@@ -549,6 +564,38 @@ function main () {
         $("#BtnConfirmar").on("click",ConfirmarDatos);
         $("#BtnNoConfirmar").on("click",NoConfirmarDatos);
 
+    $("#BtnSubmitdiacoti").on("click",function(){
+
+            $("#tablafactura > tbody").html("");
+            $('#tablaproductos > tbody').html("");
+            $(".factura").hide();
+
+            var fecha =$('#diacotizacion').val();
+            if(fecha==''){
+                alertify.alert('ERROR','Por favor seleccione una fecha válida.');
+
+            }
+            else{
+               LlenarSelectCotizacion(fecha);
+            }
+
+        });
+
+     $("#BtnDevolverAInv").on("click",function(){
+
+          alertify.confirm('¿Desea devolver los productos a inventario?').set('labels', {ok:'Aceptar!', cancel:'Cancelar'})
+            .set('onok',function(closeEvent,value){
+
+                devolverCotiAinventario();
+                alertify.alert('DEVOLUCIÓN','Devolución completa');
+                $('#maincontent').find(':input').prop('disabled', true);
+
+            }).set('title','Devolver');
+
+     });
+
+
+
 
 
 
@@ -611,6 +658,206 @@ function Imprimir(){
 
     event.preventDefault();
     $( "#factura").printArea();
+
+}
+
+function mostarcotizacion(cotinum){
+
+    $("#tablafactura > tbody").html("");
+    $('#tablaproductos > tbody').html("");
+    movil = 0;
+
+    var cotizacion = $.get('/api/cotizacion/'+cotinum+'/', function () {});
+    var clientecotizacion = $.get('/api/clientes/' + cotizacion.responseJSON.client + '/', function () {});
+    var cajerocotizacion = $.get('/api/cajeros/' + cotizacion.responseJSON.cashier + '/', function () {});
+    //console.log(cotinum);
+    var matrixdetalleproductos=cotizacion.responseJSON.detalleproductos;
+    //console.log(matrixdetalleproductos);
+
+    movil = cotizacion.responseJSON.movil;
+
+    $.each(matrixdetalleproductos, function (i) {
+
+        var detalle=$.get('/api/detalleproductocotizacion/'+matrixdetalleproductos[i]+'/', function () {});
+
+
+        //console.log(detalle.responseJSON.producto);
+        var producto=$.get('/api/productos/'+detalle.responseJSON.producto+'/', function () {});
+        //console.log(producto);
+        $('#tablaproductos > tbody:last').append('<tr><td>' + producto.responseJSON.product_code + '</td><td>' + detalle.responseJSON.description+ '</td><td class="precio">' +detalle.responseJSON.preciouni.toFixed(2) + '</td><td>' + detalle.responseJSON.cantidad + '</td>' +
+        '<td class="precio">' + detalle.responseJSON.total.toFixed(2) +'</td></tr>');
+
+        $('#tablafactura > tbody:last').append('<tr><td> ' + detalle.responseJSON.cantidad + ' </td><td>' +
+        detalle.responseJSON.description + '</td><td class="precio">' + detalle.responseJSON.total.toFixed(2) + '</td></tr>');
+
+        matrixventa.push([detalle.responseJSON.producto, detalle.responseJSON.cantidad]);
+
+    });
+    $('#timbrado').hide();
+    $('.facturanumfactleft').html('COTIZA #&nbsp&nbsp&nbsp&nbsp:&nbsp');
+
+    $('.facturanumfact').html(' ' + cotinum);
+    $('.tipoventafact').html(' ' + 'COTIZACION');
+    $('.fechafact').html('  ' + cotizacion.responseJSON.date + ' ' + cotizacion.responseJSON.time);
+    $('.clientefact').html('  ' + clientecotizacion.responseJSON.name + ' ' + clientecotizacion.responseJSON.last_name);
+    $('.cajerofact').html('  ' + cajerocotizacion.responseJSON.name + ' ' + cajerocotizacion.responseJSON.last_name);
+
+
+    if (cotizacion.responseJSON.descopor > 0) {
+            $('.descueentofactleft').html('DESCUENTO ' + venta.responseJSON.descopor + '%');
+        }
+
+    $('.subtotalfactright').html(cotizacion.responseJSON.subtotal.toFixed(2));
+    $('.descueentofactright').html(cotizacion.responseJSON.desctocol.toFixed(2));
+    $('.ivfactright').html(cotizacion.responseJSON.iv.toFixed(2));
+    $('.totalfactright').html(cotizacion.responseJSON.total.toFixed(2));
+
+    $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+
+    $(".factura:hidden").show();
+
+    if(movil==0){
+        $("#BtnDevolverAInv").prop('disabled',true);
+        $(".numdemovil").html('COTIZACIÓN SOLO GUARDADA');
+    }
+    else{
+        $("#BtnDevolverAInv").prop('disabled',false);
+        $(".numdemovil").html('COTIZACIÓN A MÓVIL');
+    }
+
+    //$.get('/api/productos/?product_code='+matrixinterna[i][0],llenartablaProductos);
+
+}
+
+function devolverCotiAinventario(){
+
+     $.each( matrixventa, function(i) {
+
+        var productodatos = $.get('/api/productos/' + matrixventa[i][0] + '/', function () {});
+
+        if(movil==1) {//SI ES A MOVIL 1
+
+            $.ajax({
+                method: "PATCH",
+                url: "/api/productos/" + productodatos.responseJSON.id + "/",
+
+                data: JSON.stringify({
+                    "inventoryplanta": productodatos.responseJSON.inventoryplanta+matrixventa[i][1],
+                    "inventory1": productodatos.responseJSON.inventory1-matrixventa[i][1]
+
+                }),//JSON object
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            })
+                .fail(function (data) {
+
+                    alertify.alert("Hubo un problema al devolver la cotizacion (PASAR DE MOVIL), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                })
+                .success(function () {
+
+                });
+        }
+        if(movil==2) {//SI ES A MOVIL 2
+
+            $.ajax({
+                method: "PATCH",
+                url: "/api/productos/" + productodatos.responseJSON.id + "/",
+
+                data: JSON.stringify({
+                    "inventoryplanta": productodatos.responseJSON.inventoryplanta+matrixventa[i][1],
+                    "inventory2": productodatos.responseJSON.inventory2-matrixventa[i][1]
+
+                }),//JSON object
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            })
+                .fail(function (data) {
+
+                    alertify.alert("Hubo un problema al devolver la devolucion (PASAR DE MOVIL), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                })
+                .success(function () {
+
+                });
+        }
+
+        if(movil==3) {//SI ES A MOVIL 3
+
+            $.ajax({
+                method: "PATCH",
+                url: "/api/productos/" + productodatos.responseJSON.id + "/",
+
+                data: JSON.stringify({
+                    "inventoryplanta": productodatos.responseJSON.inventoryplanta+matrixventa[i][1],
+                    "inventory3": productodatos.responseJSON.inventory3-matrixventa[i][1]
+
+                }),//JSON object
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            })
+                .fail(function (data) {
+
+                    alertify.alert("Hubo un problema al devolver la cotizacion (PASAR DE MOVIL), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                })
+                .success(function () {
+
+                });
+        }
+    });
+
+     $.ajax({
+        method: "PATCH",
+        url: "/api/cotizacion/" + $("#cotizacionNumSel").val() + "/",
+
+        data: JSON.stringify({
+
+            "yadevuelto": true
+
+        }),//JSON object
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+        })
+        .fail(function (data) {
+
+            alertify.alert("Hubo un problema al devolver la cotizacion (PATCH COTI YA DEVUELTA), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        })
+        .success(function () {
+
+        });
+
+}
+
+function LlenarSelectCotizacion(fecha){
+
+    var cotizaciones = $.get('/api/cotizacion/?date='+fecha+'&yadevuelto=False', function () {});
+    //console.log(cotizaciones);
+    $('#cotizacionNumSel').html('');
+    $('#cotizacionNumSel').prop('disabled',true);
+    $("#tablafactura > tbody").html("");
+    $('#tablaproductos > tbody').html("");
+    $(".factura").hide();
+
+    if(cotizaciones.responseJSON.length!=0) {
+        $('#cotizacionNumSel').append($('<option>', {
+                value: 0,
+                text: 'Elija una cotización...'
+            }));
+        $.each(cotizaciones.responseJSON, function (i) {
+            //console.log(cotizaciones.responseJSON[i].id);
+            $('#cotizacionNumSel').append($('<option>', {
+                value: cotizaciones.responseJSON[i].id,
+                text: 'Cotización # ' + cotizaciones.responseJSON[i].id
+            }));
+        });
+
+        $('#cotizacionNumSel').prop('disabled', false);
+    }
+    else{
+        alertify.alert('ERROR','No se encontraron cotizaciones para la fecha establecida, que no hayan sido ya devueltas.');
+    }
 }
 
 function checkEnableVenta(){
@@ -1501,8 +1748,7 @@ function guardarcotizacion(){
                 "descopor": descuentoporc,
                 "desctocol": descuento,
                 "total": totalventa,
-                "detalleproductos": detallesventa,
-                "movil":$("#amovil").val()
+                "detalleproductos": detallesventa
 
             }),//JSON object
             contentType: "application/json; charset=utf-8",

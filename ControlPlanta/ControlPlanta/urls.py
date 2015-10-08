@@ -29,7 +29,8 @@ from inventariosMP.views import InventarioResumenMPViewSet, InventarioEntradasMP
 from materiasPrimas.views import MateriaPrimaViewSet, FamiliaMPViewSet
 from reprocesos.views import ReprocesoViewSet, ReprocesosView
 from variablesGlobales.views import VariableGlobalViewSet
-from ventas.views import VentasView, DetallePagoViewSet, DetalleProductosViewSet, VentaViewSet, CierreView
+from ventas.views import VentasView, DetallePagoViewSet, DetalleProductosViewSet, VentaViewSet, CierreView, \
+    DevproformaView
 from lotes.views import LoteCreate, LoteViewSet, eliminarLoteView
 from frontend.views import LandingView, TrazabilidadView
 from rest_framework import routers
@@ -91,6 +92,7 @@ urlpatterns = [
     url(r'^eliminarcanal/', eliminarCanalView.as_view()),
     url(r'^eliminarlote/', eliminarLoteView.as_view()),
     url(r'^devoluciones/', DevolucionesView.as_view()),
+    url(r'^devolvercotizacion/', DevproformaView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
     url(r'backupdb/', 'frontend.views.backupdbmine', name='backup'),

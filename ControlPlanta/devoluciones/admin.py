@@ -8,8 +8,8 @@ from devoluciones.models import Devolucion, DetalleDev
 
 @admin.register(Devolucion)
 class devolucionadmin(admin.ModelAdmin):
-    list_display = ('id','venta','notacredito')
-    search_fields = ('id','venta','notacredito' )
+    list_display = ('id','venta','cliente','totalcolones')
+    search_fields = ('id','venta','totalcolones','cliente__name','cliente__last_name' )
     #filter_horizontal = ('detalledevolucion',)
 
 @admin.register(DetalleDev)

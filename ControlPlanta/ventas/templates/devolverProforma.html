@@ -6,11 +6,10 @@
 	<link rel="stylesheet" href="/static/panel/css/style.css"> <!-- Resource style -->
 	<script src="/static/panel/js/modernizr.js"></script> <!-- Modernizr -->
     <script src="/static/js/PriceFormat.js"></script>
-    <script src="/static/js/devoluciones.js"></script>
+    <script src="/static/js/devolverProforma.js"></script>
     <script src="/static/print/jquery.PrintArea.js"></script>
 
 <div class="PaddingContent blurlines" id="maincontent">
-
 
 <div class="container-fluid form-group" >
     <div class="col-sm-9" >
@@ -18,7 +17,7 @@
             {% csrf_token %}
             <div class="form-group">
                 <div class="form-group">
-                    <div class="col-sm-5 tituloventa">Devoluciones:</div>
+                    <div class="col-sm-5 tituloventa">Devolver Cotización:</div>
                 <label class="col-sm-2" for="date">Fecha:</label>
                     <div class="col-sm-4">
                       <input type="date" class="form-control " id="date">
@@ -32,24 +31,29 @@
                                 <option value="{{ request.user.id }}"></option>
                             </select>
                        </div>
-{#                        <label class="col-sm-2" for="cliente">Nombre:</label>#}
-{#                        <div class="col-sm-4">#}
-{#                            <input type="text" class="form-control" id="cliente">#}
-{#                        </div>#}
-{#                        <div class=" col-sm-1">#}
-{#                            <button type="button" id="Btnbuscarclientemain" class="btn btn-success marginTop15px2 btnbuscarcliente"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>#}
-{#                        </div>#}
-                        <label class="col-sm-2" for="cliente">Factura #:</label>
+                    <label class="col-sm-2" for="cliente">Día:</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="NumFactura">
+                            <input type="date" class="form-control" id="diacotizacion">
                         </div>
-                        <div class=" col-sm-1">
-                            <button type="button" id="BtnConfirmarFactura" class="btn btn-success marginTop15px2 BtnConfirmarFactura"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
-                        </div>
+                     <div class=" col-sm-1">
+                        <button type="button" id="BtnSubmitdiacoti" class="btn btn-success marginTop15px2 BtnSubmitdiacoti"> <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
+                    </div>
                 </div> <!-- cajero cliente y buscar-->
             </div>
         </form><!-- Fecha cajero y cliente -->
+        <form class="form-horizontal col-sm-12" action="">
+        <div class="form-group">
+            <div class="form-group col sm-12" >
+            <label class="col-sm-2" for="cantidad">Cotización #:</label>
+            <div class="col-sm-3">
+                <select disabled name="cotizacionNumSel" id="cotizacionNumSel" class="form-control">
 
+                </select>
+            </div>
+
+            </div><!-- peoductos y boton -->
+        </div>
+    </form><!-- productos y buscar -->
         <form class="form-horizontal col-sm-12" action="">
         <div class="form-group">
             <div class=" form-group col-sm-12 ">
@@ -61,10 +65,7 @@
                         <th data-field="name">P/Kg</th>
                         <th data-field="name">Cant</th>
                         <th data-field="name">Total</th>
-                        <th class="centerCol" data-field="name">Devolver</th>
-                        <th data-field="name">Kg</th>
-                        <th data-field="name">₡</th>
-                        <th class="centerCol" data-field="name">Editar</th>
+
                     </tr>
 
                 </thead>
@@ -74,40 +75,21 @@
             </table>
             </div><!-- tabla -->
 
-
         </div>
         <div class="form-group">
 
         </div>
     </form><!-- tabla de productods -->
-    <form hidden class=" formTotales form-horizontal col-sm-12"  action="">
-
-        <div class="form-group" id="montosresumen">
-                <div style="text-align: right" class=" form-group col-sm-12 ">Tolal Kg: <span class="totalKgDevolucion">0</span></div>
-                <br/>
-                <div style="text-align: right" class=" form-group col-sm-12">Dinero Devolución: <span class="ncDevolucion precio">0</span></div>
-
-            </div>
-
-        <div  class="form-group" id="imprimirResumenBtn">
-            <div class=" ConfirmDevolver form-group col-sm-12 " style="text-align: right">
-                <button  type="button" class=" btn btn-success  form-control " id="BtnConfirmDevolver" style="width: 160px;">Devolver</button>
-            </div>
-            <div hidden class=" BtnEditDevolver form-group col-sm-12 " style="text-align: right">
-                <button  type="button" class=" btn btn-danger  form-control " id="BtnEditDevolver" style="width: 160px;">Editar</button>
-            </div>
-            <div hidden class=" BtnDevolver form-group col-sm-12 " style="text-align: right">
-                <button  type="button" class=" btn btn-success  form-control " id="BtnDevolver" style="width: 160px;">Devolver</button>
-            </div>
-       </div>
-    </form>
     </div><!-- main content -->
 
     <div hidden class="col-sm-3 factura" >
         <form class="form-horizontal col-sm-12" action="" >
         <div class="form-group col-sm-12 ">
             <div class="form-group tituloventa2 ">
-                FACTURA:
+                COTIZACIÓN:
+            </div>
+            <div class="form-group numdemovil">
+
             </div>
         </div>
         <div class="form-group col-sm-12 " style="border: 1px solid #000000;border-radius: 10px" >
@@ -124,15 +106,16 @@
                     <span>
                         Cooperativa de porcicultores y productores de concentrados de Pérez Zeledón. <br/> <br/>
                     </span>
-                    <span>
+                    <div id="timbrado" >
                         Cédula Jurídica 3-004-681672 <br/>
                         Contiguo a la Fábrica de concentrados Avanzando Juntos, Pérez Zeledón. <br/>
                         Tel: 2770-5160.<br/><br/>
-                    </span>
+                    </div>
 
                 </div>
                 <div class="form-group col-sm-12" style="font-size: 10px">
-                    <span style="float: left">FACTURA #&nbsp:&nbsp </span><span class="facturanumfact">0</span><br/>
+                    <span class="facturanumfactleft" style="float: left">FACTURA #&nbsp:&nbsp </span><span class="facturanumfact">0</span><br/>
+{#                    <span class="facturanumfactleft" style="float: left">COTIZA #&nbsp&nbsp&nbsp&nbsp:&nbsp </span><span class="facturanumfact">0</span><br/>#}
                     <span style="float: left">FECHA&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="fechafact" >0</span><br/>
                     <span style="float: left">CLIENTE&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="clientefact" >0</span><br/>
                     <span style="float: left">VENDEDOR&nbsp:&nbsp</span><span class="cajerofact" >0</span><br/><br/>
@@ -163,7 +146,7 @@
                     <span style="float: left">I.V:</span><span class="ivfactright precio" style="float: right;">0</span><br/>
                     <span style="float: left;font-size: 15px">TOTAL:</span><span class="totalfactright precio" style="float: right;font-size: 15px">0</span><br/><br/><br/><br/>
                 </div>
-                <div  id="firmacredito" style="font-size: 12px; text-align: center">
+                <div hidden id="firmacredito" style="font-size: 12px; text-align: center">
                     <div></div>
                     <div></div>
                     <div>
@@ -191,15 +174,13 @@
                     <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnPrint" style="width: 160px;">Imprimir Copia</button>
 
                 </div>
-
-
+            </div><!-- btnreimprimir -->
+            <div class="form-group " style="margin-top: 15px">
                 <div class="col-sm-12">
-                    <br/>
-                    <button  type="button" class=" btn btn-warning  form-control  btnAnular" id="BtnAnular" style="width: 160px;">Anular Factura</button>
+                    <button  type="button" class=" btn btn-warning  form-control  BtnDevolverAInv" id="BtnDevolverAInv" style="width: 160px;">Devolver a Inventario</button>
 
                 </div>
-            </div><!-- btnreimprimir -->
-
+            </div><!-- btnnieva venta -->
         </div>
     </form>
     </div> <!-- Side bar FACTURA -->
@@ -266,10 +247,19 @@
             </div><!-- Total -->
             <div class="form-group " style="margin-top: 15px">
                 <div class="col-sm-12">
-                    <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnConfirmar" style="width: 160px">Devolver</button>
+                    <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnConfirmar" style="width: 160px">Confirmar</button>
                     <button  type="button" class=" btn btn-danger  form-control " id="BtnNoConfirmar" style="width: 160px">Editar Datos</button>
                     <br/><br/>
                     <button  type="button" class=" btn btn-success  form-control  btnpagar" id="BtnPagar" style="width: 160px">Pagar</button>
+                    <br/><br/>
+                    <button  type="button" class=" btn btn-success  form-control  btncotizar" id="BtnCotizar" style="width: 160px">Cotización</button>
+                    <br/><br/>
+                    <select disabled class="form-control" name="amovil" id="amovil" style="width: 160px">
+                        <option value="0">Solo Guardar</option>
+                        <option value="1">Móvil 1</option>
+                        <option value="2">Móvil 2</option>
+                        <option value="3">Móvil 3</option>
+                    </select>
                 </div>
             </div><!-- btnconfirmar -->
         </div>
