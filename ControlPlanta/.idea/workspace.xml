@@ -38,121 +38,102 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ventas.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/ventas.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.0" vertical-offset="25002" max-vertical-offset="28918">
-              <caret line="1559" column="33" selection-start-line="1559" selection-start-column="33" selection-end-line="1559" selection-end-column="33" />
-              <folding>
-                <element signature="n#!!block;n#guardardetallepago#0" expanded="false" />
-                <element signature="n#!!block;n#trasladarAMovil#0" expanded="false" />
-                <element signature="n#!!block;n#guardardetalleproducto#0" expanded="false" />
-                <element signature="e#61032#61411#0" expanded="false" />
-                <element signature="e#61447#61664#0" expanded="false" />
-                <element signature="e#61699#64161#0" expanded="false" />
-                <element signature="e#62599#63893#0" expanded="false" />
-                <element signature="e#64256#64627#0" expanded="false" />
-                <element signature="e#64663#64905#0" expanded="false" />
-                <element signature="e#64940#66153#0" expanded="false" />
-                <element signature="n#!!block;n#generarfactura#0" expanded="false" />
-                <element signature="n#!!block;n#generarfacturaCoti#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="inventarios.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inventarios/templates/inventarios.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.464286" vertical-offset="418" max-vertical-offset="12122">
-              <caret line="33" column="69" selection-start-line="33" selection-start-column="69" selection-end-line="33" selection-end-column="69" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="inventarios.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/static/js/inventarios.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33228347" vertical-offset="11132" max-vertical-offset="25935">
-              <caret line="763" column="9" selection-start-line="763" selection-start-column="9" selection-end-line="763" selection-end-column="9" />
-              <folding>
-                <element signature="e#17993#18533#0" expanded="false" />
-                <element signature="e#18582#19146#0" expanded="false" />
-                <element signature="e#19214#20627#0" expanded="false" />
-                <element signature="e#20712#21047#0" expanded="false" />
-                <element signature="e#21109#21653#0" expanded="false" />
-                <element signature="e#22541#22883#0" expanded="false" />
-                <element signature="e#22948#23498#0" expanded="false" />
-                <element signature="e#23559#24101#0" expanded="false" />
-                <element signature="n#!!block;n#Imprimir#0" expanded="false" />
-                <element signature="n#!!block;n#tiempoahora#0" expanded="false" />
-                <element signature="n#!!block;n#blurElement#0" expanded="false" />
-                <element signature="n#!!block;n#RegistarEntrada#0" expanded="false" />
-                <element signature="e#28466#29796#0" expanded="false" />
-                <element signature="n#!!block;n#crearentrada#0" expanded="false" />
-                <element signature="e#29873#30376#0" expanded="false" />
-                <element signature="n#!!block;n#RegistarSalida#0" expanded="false" />
-                <element signature="e#31306#32869#0" expanded="false" />
-                <element signature="n#!!block;n#crearsalida#0" expanded="false" />
-                <element signature="n#!!block;n#pacthresinvsal#0" expanded="false" />
-                <element signature="n#!!block;n#pacthresinvent#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base2.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.0" vertical-offset="1458" max-vertical-offset="2869">
-              <caret line="90" column="52" selection-start-line="90" selection-start-column="52" selection-end-line="90" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="devolverProforma.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/devolverProforma.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="44.25926" vertical-offset="15179" max-vertical-offset="38209">
-              <caret line="736" column="9" selection-start-line="736" selection-start-column="9" selection-end-line="736" selection-end-column="9" />
-              <folding>
-                <element signature="n#!!block;n#LlenarSelectCotizacion#0" expanded="false" />
-                <element signature="n#!!block;n#checkEnableVenta#0" expanded="false" />
-                <element signature="n#!!block;n#blurElement#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inventarios/models.py">
+        <entry file="file://$PROJECT_DIR$/ventas/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="674" max-vertical-offset="1805">
-              <caret line="57" column="15" selection-start-line="57" selection-start-column="15" selection-end-line="57" selection-end-column="15" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="admin.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inventarios/admin.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="95" max-vertical-offset="798">
-              <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="209" max-vertical-offset="2090">
+              <caret line="29" column="11" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="11" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/inventarios/views.py">
+        <entry file="file://$PROJECT_DIR$/ventas/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="1653">
-              <caret line="67" column="24" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="953" max-vertical-offset="1710">
+              <caret line="73" column="245" selection-start-line="73" selection-start-column="237" selection-end-line="73" selection-end-column="245" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="devoluciones.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/js/devoluciones.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.83779526" vertical-offset="16625" max-vertical-offset="20102">
+              <caret line="1303" column="4" selection-start-line="1303" selection-start-column="4" selection-end-line="1303" selection-end-column="4" />
               <folding>
-                <element signature="e#0#35#0" expanded="true" />
+                <element signature="n#!!block;n#AnularFactura#0" expanded="false" />
+                <element signature="n#!!block;n#anularfactura#0" expanded="false" />
+                <element signature="n#!!block;n#devolerAInventario#0" expanded="false" />
+                <element signature="n#!!block;n#quitarDeListaPend#0" expanded="false" />
+                <element signature="n#!!block;n#RegistarDevolucion#0" expanded="false" />
+                <element signature="n#!!block;n#crearNC#0" expanded="false" />
+                <element signature="n#!!block;n#crearObjNC#0" expanded="false" />
+                <element signature="n#!!block;n#quitarNCdeFactura#0" expanded="false" />
+                <element signature="n#!!block;n#patchDatosNC#0" expanded="false" />
+                <element signature="n#!!block;n#crearDetalleDev#0" expanded="false" />
+                <element signature="n#!!block;n#crearDevObj#0" expanded="false" />
+                <element signature="e#40346#40610#0" expanded="false" />
+                <element signature="e#40653#40904#0" expanded="false" />
+                <element signature="n#!!block;n#CargarFactura#0" expanded="false" />
+                <element signature="n#!!block;n#checkEnableVenta#0" expanded="false" />
+                <element signature="n#!!block;n#blurElement#0" expanded="false" />
+                <element signature="n#!!block;n#vuelto#0" expanded="false" />
+                <element signature="n#!!block;n#BuscarCliente#0" expanded="false" />
+                <element signature="n#!!block;n#recalculartablaproductos#0" expanded="false" />
+                <element signature="n#!!block;n#getProducto#0" expanded="false" />
+                <element signature="n#!!block;n#getcanales#0" expanded="false" />
+                <element signature="n#!!block;n#llenartablacanales#0" expanded="false" />
+                <element signature="n#!!block;n#BuscarProducto#0" expanded="false" />
+                <element signature="n#!!block;n#llenarTablaBusqueda#0" expanded="false" />
+                <element signature="n#!!block;n#llenarTablaBusquedaCliente#0" expanded="false" />
+                <element signature="n#!!block;n#agregarcanalatabla#0" expanded="false" />
+                <element signature="n#!!block;n#llenartablaProductos#0" expanded="false" />
+                <element signature="n#!!block;n#determinprice#0" expanded="false" />
+                <element signature="n#!!block;n#serachmatrix#0" expanded="false" />
+                <element signature="n#!!block;n#Aplicardescuento#0" expanded="false" />
+                <element signature="n#!!block;n#NoConfirmarDatos#0" expanded="false" />
+                <element signature="n#!!block;n#tiempoahora#0" expanded="false" />
+                <element signature="n#!!block;n#guardardetallepago#0" expanded="false" />
+                <element signature="n#!!block;n#guardardetalleproducto#0" expanded="false" />
+                <element signature="n#!!block;n#descontarinventarios#0" expanded="false" />
+                <element signature="n#!!block;n#guardarventa#0" expanded="false" />
+                <element signature="n#!!block;n#patchcuentacobrar#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="devoluciones.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/devoluciones/templates/devoluciones.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-13.428572" vertical-offset="5039" max-vertical-offset="15466">
+              <caret line="285" column="114" selection-start-line="285" selection-start-column="100" selection-end-line="285" selection-end-column="114" />
+              <folding>
+                <element signature="e#4299#4324#0#HTML" expanded="true" />
+                <element signature="e#4826#4851#0#HTML" expanded="true" />
+                <element signature="e#11086#11139#0#HTML" expanded="true" />
+                <element signature="e#11190#11231#0#HTML" expanded="true" />
+                <element signature="e#11283#11326#0#HTML" expanded="true" />
+                <element signature="e#11531#11557#0#HTML" expanded="true" />
+                <element signature="e#11960#11983#0#HTML" expanded="true" />
+                <element signature="e#12011#12030#0#HTML" expanded="true" />
+                <element signature="e#12138#12157#0#HTML" expanded="true" />
+                <element signature="e#12285#12304#0#HTML" expanded="true" />
+                <element signature="e#12421#12440#0#HTML" expanded="true" />
+                <element signature="e#12644#12679#0#HTML" expanded="true" />
+                <element signature="e#12709#12732#0#HTML" expanded="true" />
+                <element signature="e#13114#13137#0#HTML" expanded="true" />
+                <element signature="e#13629#13652#0#HTML" expanded="true" />
+                <element signature="e#13793#13828#0#HTML" expanded="true" />
+                <element signature="e#13881#13917#0#HTML" expanded="true" />
+                <element signature="e#14006#14049#0#HTML" expanded="true" />
+                <element signature="e#14379#14422#0#HTML" expanded="true" />
+                <element signature="e#14928#14952#0#HTML" expanded="true" />
+                <element signature="e#15110#15131#0#HTML" expanded="true" />
+                <element signature="e#15302#18342#0#HTML" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -167,7 +148,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/cuentasCobrar/views.py" />
-        <option value="$PROJECT_DIR$/ventas/models.py" />
         <option value="$PROJECT_DIR$/static/css/cdnTables.css" />
         <option value="$PROJECT_DIR$/static/js/cdnTable.js" />
         <option value="$PROJECT_DIR$/static/js/cdnTable2.js" />
@@ -194,14 +174,11 @@
         <option value="$PROJECT_DIR$/ControlPlanta/settings.py" />
         <option value="$PROJECT_DIR$/cotizaciones/models.py" />
         <option value="$PROJECT_DIR$/cotizaciones/views.py" />
-        <option value="$PROJECT_DIR$/ventas/views.py" />
         <option value="$PROJECT_DIR$/ControlPlanta/urls.py" />
         <option value="$PROJECT_DIR$/ventas/templates/devolverProforma.html" />
-        <option value="$PROJECT_DIR$/devoluciones/templates/devoluciones.html" />
         <option value="$PROJECT_DIR$/devoluciones/models.py" />
         <option value="$PROJECT_DIR$/devoluciones/admin.py" />
         <option value="$PROJECT_DIR$/devoluciones/views.py" />
-        <option value="$PROJECT_DIR$/static/js/devoluciones.js" />
         <option value="$PROJECT_DIR$/static/js/deshuese.js" />
         <option value="$PROJECT_DIR$/static/js/alertasinventarios.js" />
         <option value="$PROJECT_DIR$/productos/models.py" />
@@ -217,6 +194,10 @@
         <option value="$PROJECT_DIR$/inventarios/templates/inventarios.html" />
         <option value="$PROJECT_DIR$/canales/templates/canalcreate.html" />
         <option value="$PROJECT_DIR$/static/js/canales.js" />
+        <option value="$PROJECT_DIR$/ventas/models.py" />
+        <option value="$PROJECT_DIR$/ventas/views.py" />
+        <option value="$PROJECT_DIR$/devoluciones/templates/devoluciones.html" />
+        <option value="$PROJECT_DIR$/static/js/devoluciones.js" />
       </list>
     </option>
   </component>
@@ -314,6 +295,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="ventas" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ControlPlanta" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -346,7 +341,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="frontend" />
+              <option name="myItemId" value="devoluciones" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -360,39 +355,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="frontend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canales" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ControlPlanta" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="canales" />
+              <option name="myItemId" value="devoluciones" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -809,20 +772,20 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22310969" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22523962" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2542373" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32911393" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3521289" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -842,9 +805,9 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18956336" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3299435" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -868,7 +831,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="63" />
+      <option name="time" value="65" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1013,14 +976,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ventas/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="617" max-vertical-offset="2033">
-          <caret line="55" column="52" selection-start-line="31" selection-start-column="4" selection-end-line="55" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cotizaciones/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
@@ -1047,14 +1002,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="95" max-vertical-offset="836">
           <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ventas/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1710">
-          <caret line="31" column="21" selection-start-line="31" selection-start-column="6" selection-end-line="31" selection-end-column="21" />
           <folding />
         </state>
       </provider>
@@ -1099,20 +1046,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/devoluciones/templates/devoluciones.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="722" max-vertical-offset="15105">
-          <caret line="87" column="94" selection-start-line="87" selection-start-column="94" selection-end-line="87" selection-end-column="94" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/devoluciones/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="20" max-vertical-offset="950">
           <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding>
-            <element signature="e#0#57#0" expanded="true" />
+            <element signature="e#0#57#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1121,7 +1060,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1139,7 +1077,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.16888888" vertical-offset="133" max-vertical-offset="1026">
           <caret line="13" column="15" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1187,56 +1124,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/devoluciones.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.042296074" vertical-offset="15190" max-vertical-offset="16796">
-          <caret line="819" column="0" selection-start-line="819" selection-start-column="0" selection-end-line="819" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#AnularFactura#0" expanded="false" />
-            <element signature="n#!!block;n#anularfactura#0" expanded="false" />
-            <element signature="n#!!block;n#devolerAInventario#0" expanded="false" />
-            <element signature="n#!!block;n#quitarDeListaPend#0" expanded="false" />
-            <element signature="n#!!block;n#RegistarDevolucion#0" expanded="false" />
-            <element signature="n#!!block;n#crearNC#0" expanded="false" />
-            <element signature="n#!!block;n#crearObjNC#0" expanded="false" />
-            <element signature="n#!!block;n#quitarNCdeFactura#0" expanded="false" />
-            <element signature="n#!!block;n#patchDatosNC#0" expanded="false" />
-            <element signature="n#!!block;n#DevolverInventario#0" expanded="false" />
-            <element signature="n#!!block;n#crearDetalleDev#0" expanded="false" />
-            <element signature="n#!!block;n#crearDevObj#0" expanded="false" />
-            <element signature="n#!!block;n#CargarFactura#0" expanded="false" />
-            <element signature="n#!!block;n#Imprimir#0" expanded="false" />
-            <element signature="n#!!block;n#checkEnableVenta#0" expanded="false" />
-            <element signature="n#!!block;n#blurElement#0" expanded="false" />
-            <element signature="n#!!block;n#getcliente#0" expanded="false" />
-            <element signature="n#!!block;n#vuelto#0" expanded="false" />
-            <element signature="n#!!block;n#BuscarCliente#0" expanded="false" />
-            <element signature="n#!!block;n#recalculartablaproductos#0" expanded="false" />
-            <element signature="n#!!block;n#getProducto#0" expanded="false" />
-            <element signature="n#!!block;n#getcanales#0" expanded="false" />
-            <element signature="n#!!block;n#llenartablacanales#0" expanded="false" />
-            <element signature="n#!!block;n#BuscarProducto#0" expanded="false" />
-            <element signature="n#!!block;n#llenarTablaBusqueda#0" expanded="false" />
-            <element signature="n#!!block;n#llenarTablaBusquedaCliente#0" expanded="false" />
-            <element signature="n#!!block;n#agregarcanalatabla#0" expanded="false" />
-            <element signature="n#!!block;n#llenartablaProductos#0" expanded="false" />
-            <element signature="n#!!block;n#determinprice#0" expanded="false" />
-            <element signature="n#!!block;n#serachmatrix#0" expanded="false" />
-            <element signature="n#!!block;n#Aplicardescuento#0" expanded="false" />
-            <element signature="n#!!block;n#ConfirmarDatos#0" expanded="false" />
-            <element signature="n#!!block;n#NoConfirmarDatos#0" expanded="false" />
-            <element signature="n#!!block;n#tiempoahora#0" expanded="false" />
-            <element signature="n#!!block;n#RegistarVenta#0" expanded="false" />
-            <element signature="n#!!block;n#guardardetallepago#0" expanded="false" />
-            <element signature="n#!!block;n#guardardetalleproducto#0" expanded="false" />
-            <element signature="n#!!block;n#descontarinventarios#0" expanded="false" />
-            <element signature="n#!!block;n#guardarventa#0" expanded="false" />
-            <element signature="n#!!block;n#patchcuentacobrar#0" expanded="false" />
-            <element signature="n#!!block;n#generarfactura#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ventas/templates/ventas.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.071429" vertical-offset="5339" max-vertical-offset="15447">
@@ -1250,7 +1137,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="1653">
           <caret line="67" column="24" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="38" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1273,7 +1160,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.0" vertical-offset="1458" max-vertical-offset="2869">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1458" max-vertical-offset="2869">
           <caret line="90" column="52" selection-start-line="90" selection-start-column="52" selection-end-line="90" selection-end-column="52" />
           <folding />
         </state>
@@ -1281,7 +1168,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/devolverProforma.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="44.25926" vertical-offset="15179" max-vertical-offset="38209">
+        <state vertical-scroll-proportion="0.0" vertical-offset="15179" max-vertical-offset="38209">
           <caret line="736" column="9" selection-start-line="736" selection-start-column="9" selection-end-line="736" selection-end-column="9" />
           <folding>
             <element signature="n#!!block;n#LlenarSelectCotizacion#0" expanded="false" />
@@ -1293,7 +1180,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/ventas.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.0" vertical-offset="25002" max-vertical-offset="28918">
+        <state vertical-scroll-proportion="0.0" vertical-offset="25002" max-vertical-offset="28918">
           <caret line="1559" column="33" selection-start-line="1559" selection-start-column="33" selection-end-line="1559" selection-end-column="33" />
           <folding>
             <element signature="n#!!block;n#guardardetallepago#0" expanded="false" />
@@ -1316,7 +1203,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.42222223" vertical-offset="0" max-vertical-offset="675">
           <caret line="15" column="4" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1324,13 +1210,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.20556414" vertical-offset="532" max-vertical-offset="1805">
           <caret line="35" column="80" selection-start-line="35" selection-start-column="71" selection-end-line="35" selection-end-column="80" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/inventarios/templates/inventarios.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.464286" vertical-offset="418" max-vertical-offset="12122">
+        <state vertical-scroll-proportion="0.0" vertical-offset="627" max-vertical-offset="12122">
           <caret line="33" column="69" selection-start-line="33" selection-start-column="69" selection-end-line="33" selection-end-column="69" />
           <folding />
         </state>
@@ -1338,7 +1223,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/inventarios.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33228347" vertical-offset="11132" max-vertical-offset="25935">
+        <state vertical-scroll-proportion="0.0" vertical-offset="11132" max-vertical-offset="25935">
           <caret line="763" column="9" selection-start-line="763" selection-start-column="9" selection-end-line="763" selection-end-column="9" />
           <folding>
             <element signature="e#17993#18533#0" expanded="false" />
@@ -1361,6 +1246,99 @@
             <element signature="n#!!block;n#crearsalida#0" expanded="false" />
             <element signature="n#!!block;n#pacthresinvsal#0" expanded="false" />
             <element signature="n#!!block;n#pacthresinvent#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ventas/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="209" max-vertical-offset="2090">
+          <caret line="29" column="11" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ventas/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="953" max-vertical-offset="1710">
+          <caret line="73" column="245" selection-start-line="73" selection-start-column="237" selection-end-line="73" selection-end-column="245" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/devoluciones/templates/devoluciones.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.428572" vertical-offset="5039" max-vertical-offset="15466">
+          <caret line="285" column="114" selection-start-line="285" selection-start-column="100" selection-end-line="285" selection-end-column="114" />
+          <folding>
+            <element signature="e#4299#4324#0#HTML" expanded="true" />
+            <element signature="e#4826#4851#0#HTML" expanded="true" />
+            <element signature="e#11086#11139#0#HTML" expanded="true" />
+            <element signature="e#11190#11231#0#HTML" expanded="true" />
+            <element signature="e#11283#11326#0#HTML" expanded="true" />
+            <element signature="e#11531#11557#0#HTML" expanded="true" />
+            <element signature="e#11960#11983#0#HTML" expanded="true" />
+            <element signature="e#12011#12030#0#HTML" expanded="true" />
+            <element signature="e#12138#12157#0#HTML" expanded="true" />
+            <element signature="e#12285#12304#0#HTML" expanded="true" />
+            <element signature="e#12421#12440#0#HTML" expanded="true" />
+            <element signature="e#12644#12679#0#HTML" expanded="true" />
+            <element signature="e#12709#12732#0#HTML" expanded="true" />
+            <element signature="e#13114#13137#0#HTML" expanded="true" />
+            <element signature="e#13629#13652#0#HTML" expanded="true" />
+            <element signature="e#13793#13828#0#HTML" expanded="true" />
+            <element signature="e#13881#13917#0#HTML" expanded="true" />
+            <element signature="e#14006#14049#0#HTML" expanded="true" />
+            <element signature="e#14379#14422#0#HTML" expanded="true" />
+            <element signature="e#14928#14952#0#HTML" expanded="true" />
+            <element signature="e#15110#15131#0#HTML" expanded="true" />
+            <element signature="e#15302#18342#0#HTML" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/devoluciones.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.83779526" vertical-offset="16625" max-vertical-offset="20102">
+          <caret line="1303" column="4" selection-start-line="1303" selection-start-column="4" selection-end-line="1303" selection-end-column="4" />
+          <folding>
+            <element signature="n#!!block;n#AnularFactura#0" expanded="false" />
+            <element signature="n#!!block;n#anularfactura#0" expanded="false" />
+            <element signature="n#!!block;n#devolerAInventario#0" expanded="false" />
+            <element signature="n#!!block;n#quitarDeListaPend#0" expanded="false" />
+            <element signature="n#!!block;n#RegistarDevolucion#0" expanded="false" />
+            <element signature="n#!!block;n#crearNC#0" expanded="false" />
+            <element signature="n#!!block;n#crearObjNC#0" expanded="false" />
+            <element signature="n#!!block;n#quitarNCdeFactura#0" expanded="false" />
+            <element signature="n#!!block;n#patchDatosNC#0" expanded="false" />
+            <element signature="n#!!block;n#crearDetalleDev#0" expanded="false" />
+            <element signature="n#!!block;n#crearDevObj#0" expanded="false" />
+            <element signature="e#40346#40610#0" expanded="false" />
+            <element signature="e#40653#40904#0" expanded="false" />
+            <element signature="n#!!block;n#CargarFactura#0" expanded="false" />
+            <element signature="n#!!block;n#checkEnableVenta#0" expanded="false" />
+            <element signature="n#!!block;n#blurElement#0" expanded="false" />
+            <element signature="n#!!block;n#vuelto#0" expanded="false" />
+            <element signature="n#!!block;n#BuscarCliente#0" expanded="false" />
+            <element signature="n#!!block;n#recalculartablaproductos#0" expanded="false" />
+            <element signature="n#!!block;n#getProducto#0" expanded="false" />
+            <element signature="n#!!block;n#getcanales#0" expanded="false" />
+            <element signature="n#!!block;n#llenartablacanales#0" expanded="false" />
+            <element signature="n#!!block;n#BuscarProducto#0" expanded="false" />
+            <element signature="n#!!block;n#llenarTablaBusqueda#0" expanded="false" />
+            <element signature="n#!!block;n#llenarTablaBusquedaCliente#0" expanded="false" />
+            <element signature="n#!!block;n#agregarcanalatabla#0" expanded="false" />
+            <element signature="n#!!block;n#llenartablaProductos#0" expanded="false" />
+            <element signature="n#!!block;n#determinprice#0" expanded="false" />
+            <element signature="n#!!block;n#serachmatrix#0" expanded="false" />
+            <element signature="n#!!block;n#Aplicardescuento#0" expanded="false" />
+            <element signature="n#!!block;n#NoConfirmarDatos#0" expanded="false" />
+            <element signature="n#!!block;n#tiempoahora#0" expanded="false" />
+            <element signature="n#!!block;n#guardardetallepago#0" expanded="false" />
+            <element signature="n#!!block;n#guardardetalleproducto#0" expanded="false" />
+            <element signature="n#!!block;n#descontarinventarios#0" expanded="false" />
+            <element signature="n#!!block;n#guardarventa#0" expanded="false" />
+            <element signature="n#!!block;n#patchcuentacobrar#0" expanded="false" />
           </folding>
         </state>
       </provider>

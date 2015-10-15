@@ -204,6 +204,95 @@
     </form>
     </div> <!-- Side bar FACTURA -->
     <div hidden class="col-sm-9 factura"></div>
+    <div hidden class="col-sm-3 recibo" >
+        <form class="form-horizontal col-sm-12" action="" >
+        <div class="form-group col-sm-12 ">
+            <div class="form-group tituloventa2 ">
+                RECIBO DEVOLUCION:
+            </div>
+        </div>
+        <div class="form-group col-sm-12 " style="border: 1px solid #000000;border-radius: 10px" >
+            <div class="form-group" id="recibo" style="margin-left: 5px; margin-top: 5px">
+                <div class="col-sm-12 encabezado" style="font-size: 12px; text-align: center" >
+                    <span>
+                        PLANTA EMPACADORA DE CARNE <br/>
+                        COOPEAVANZANDO JUNTOS RL. <br/> <br/>
+                    </span>
+                    <figure style="text-align: center">
+                        <img src="/media/img/logo-empacadora80.png" alt="logo empacadora"/>
+                        <br/> <br/>
+                    </figure>
+                    <span>
+                        Cooperativa de porcicultores y productores de concentrados de Pérez Zeledón. <br/> <br/>
+                    </span>
+
+
+                </div>
+                <div class="form-group col-sm-12" style="font-size: 10px">
+                    <span style="float: left">DEVOL #&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp </span><span class="devnum">0</span><br/>
+                    <span style="float: left">FECHA&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="fechadev" >0</span><br/>
+                    <span style="float: left">CLIENTE&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="clientedev" >0</span><br/>
+                    <span style="float: left">VENDEDOR&nbsp:&nbsp</span><span class="cajerodev" >0</span><br/><br/>
+                    <span>--------------------------------------------------------------------<br/></span>
+                    <span style="float: left;font-size: 12px">RECIBO POR&nbsp </span><span style="font-size: 12px" class="tipoventadev">DEVOLUCIÓN</span><br/>
+                    <span>--------------------------------------------------------------------<br/></span>
+                </div>
+                <div class=" form-group col-sm-12 ">
+                <table class="table table-bordered table-hover" data-toggle="table" id="tablafacturadev" data-url="" data-cache="false" data-height="299" style="font-size: 10px">
+                    <thead>
+                        <tr class="danger">
+                            <th data-field="id">Cant</th>
+                            <th data-field="name">Descripción</th>
+                            <th data-field="name">Precio</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                </div><!-- tabla -->
+
+                <div class="form-group col-sm-12" style="font-size: 10px">
+                    <span>--------------------------------------------------------------------<br/><br/></span>
+
+                    <span style="float: left;font-size: 15px">TOTAL:</span><span class="totalfactrightdev precio" style="float: right;font-size: 15px">0</span><br/><br/><br/><br/>
+                </div>
+                <div  id="firmadev" style="font-size: 12px; text-align: center">
+                    <div></div>
+                    <div></div>
+                    <div>
+                        <span>__________________________________________________<br/><br/></span>
+                        Firma del Cliente y cédula.<br/><br/><br/>
+                    </div>
+
+                </div>
+
+                <div style="font-size: 10px; text-align: center">
+
+                    <span>
+                        Cantidades expresadas en Kg. Total con I.V incluido. <br/>
+                        <span>--------------------------------------------------------------------<br/></span>
+                        Autorizado mediante Resolución No.11-97 y No.13-97 de la D.G.D.T del 12-08-97, publicado en Gaceta No.171 del 05-09-97.<br/>
+                    </span>
+
+                </div>
+            </div><!-- cuerpo factura-->
+
+
+
+            <div class="form-group " style="margin-top: 15px">
+                <div class="col-sm-12">
+                    <button  type="button" class=" btn btn-success  form-control  btnconfirmar" id="BtnPrintrecibo" style="width: 160px;">Imprimir Copia</button>
+
+                </div>
+
+
+            </div><!-- btnreimprimir -->
+
+        </div>
+    </form>
+    </div> <!-- Side bar RECIBO DEVOLUCION -->
     <div hidden class="col-sm-3 sidetotales" >
         <form class="form-horizontal col-sm-12" action="">
         <div class="col-sm-1"></div>

@@ -28,6 +28,9 @@ class Venta(models.Model):
     datosdelpago = models.ForeignKey('DetallesPago', verbose_name='Detalle de Pago')
     saldo=models.FloatField(default=0,verbose_name='Saldo Crédito ₡')
     anulada=models.BooleanField(default=0, verbose_name='Factura anulada?')
+    devuelto=models.BooleanField(default=0, verbose_name='Con devolución?')
+    connotacredito=models.BooleanField(default=0, verbose_name='Con nota crédito?')
+    conabono=models.BooleanField(default=0, verbose_name='Con abono?')
 
     def __unicode__(self):
         ret=str(self.id)

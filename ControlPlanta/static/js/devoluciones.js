@@ -8,6 +8,7 @@ var totalNCDev=0;
 var facturaDev=0;
 var clienteDev=0;
 var detallesDev=[];
+var devid=0;
 
 var liquidarFacturaNC=false;
 var montoNCAplicar=0;
@@ -790,6 +791,7 @@ function main () {
         $("#nombrecliente").val('Cliente Contado').prop("disabled",true);
 
         $("#BtnPrint").on("click",Imprimir);
+        $("#BtnPrintrecibo").on("click",ImprimirRecibo);
 
     }//main
 
@@ -798,23 +800,31 @@ function AnularFactura(factura){
 
     var facturaPend=$.get('/api/venta/'+factura+'/',function(){});
     var detallepago=$.get('/api/detallepago/'+facturaPend.responseJSON.datosdelpago+'/',function(){});
-    console.log(detallepago);
+    //console.log(detallepago);
 
-
-    if (detallepago.responseJSON.tipopago==3){
-        //si es de credito quitarla de la lista de pendiente
-        quitarDeListaPend(facturaDev,clienteDev);
-        //descontar el saldo
-        //descontar de lista credito
-
-        //sumar a inventario
+    if(facturaPend.responseJSON.anulada==true){
+        alertify.alert('ERROR','La factura ya aparece como anulada, no se puede anular')
     }
-    else{
+    else {
+        if(facturaPend.responseJSON.devuelto==true ||facturaPend.responseJSON.connotacredito||facturaPend.responseJSON.conabono){
+            alertify.alert('ERROR','La factura ya aparece con devoluciones, notas de credito o abonos, no se puede anular, ya que esto afectaría las cuentas o inventarios.')
+        }
+        else {
+            if (detallepago.responseJSON.tipopago == 3) {
+                //si es de credito quitarla de la lista de pendiente
+                quitarDeListaPend(facturaDev, clienteDev);
+                //descontar el saldo
+                //descontar de lista credito
 
-        anularfactura (facturaDev);
-        //sumar al inventario
+                //sumar a inventario
+            }
+            else {
+
+                anularfactura(facturaDev);
+                //sumar al inventario
+            }
+        }
     }
-
 }
 
 function anularfactura (factura){
@@ -914,23 +924,32 @@ function quitarDeListaPend(factura,cliente){
 }
 
 function RegistarDevolucion(){
+    var facturaPend=$.get('/api/venta/'+facturaDev+'/',function(){});
 
+    if(facturaPend.responseJSON.anulada==true){
+        alertify.alert('ERROR','La factura se muestra como anulada, no se puede devolver producto de una factura anulada.')
+    }
     //devolver a inventarios
-    DevolverInventario();
+    else {
 
-    //crear nota de credito
-    //crearNC();
-    //descontar de saldos
+        DevolverInventario();
 
-    //crear detalle devolucion
-    crearDetalleDev();
-    //crear devolucion obj
+        //crear nota de credito
+        //crearNC();
+        //descontar de saldos
 
-    crearDevObj();
+        //crear detalle devolucion
+        crearDetalleDev();
+        //crear devolucion obj
+
+        crearDevObj();
+
+        //generar recibo de devolucion
+        GenerarReciboDEv();
 
 
-    //imprimir recibo de nota credito
-    //ImprimirReciboNC(notaCreditoID,clienteDev);
+
+    }
 }
 
 function crearNC(){
@@ -1133,10 +1152,30 @@ function crearDevObj(){
             alertify.alert('Error',"Hubo un problema al crear la devolucion (devolucion obj), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
         })
         .success(function (data) {
-            //console.log('SUCCESS '+data.id);
-            alertify.alert("Completado","Devolución completada con éxito");
-            //detallesDev.push(data.id);
-           //detallepago = data.id;
+                devid=data.id;
+
+                $.ajax({
+                method: "PATCH",
+                url: "/api/venta/"+facturaDev+"/",
+                async: false,
+
+                data: JSON.stringify({
+                    "devuelto": true
+
+                }),//JSON object
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            })
+                .fail(function (data) {
+                    console.log(data.responseText);
+                    alertify.alert('Error',"Hubo un problema al crear la devolucion (PATCH VENTA CON DEV), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                })
+                .success(function (data) {
+                    //console.log('SUCCESS '+data.id);
+                    alertify.alert("Completado","Devolución completada con éxito");
+                    //detallesDev.push(data.id);
+                   //detallepago = data.id;
+                });//ajax
         });//ajax
 }
 
@@ -1192,7 +1231,7 @@ function CargarFactura(factura){
 
 
             //id, codigo,preciounitario,cantidad,total,kgdevueltos,dinerodevuelto,si se devuelve o no
-            matrixDevolucion.push([detalleint.responseJSON.producto,producto.responseJSON.product_code,detalleint.responseJSON.preciouni,detalleint.responseJSON.cantidad,detalleint.responseJSON.total,0,0,false]);
+            matrixDevolucion.push([detalleint.responseJSON.producto,producto.responseJSON.product_code,detalleint.responseJSON.preciouni,detalleint.responseJSON.cantidad,detalleint.responseJSON.total,0,0,false,producto.responseJSON.description]);
 
         });
         if (venta.responseJSON.descopor > 0) {
@@ -1217,10 +1256,66 @@ function CargarFactura(factura){
     }//else
 }
 
+function GenerarReciboDEv(){
+
+    $("#tablafacturadev > tbody").html("");
+
+
+    $(".recibo").hide();
+
+
+        var clientefactura = $.get('/api/clientes/' + clienteDev + '/', function () {});
+        var cajerofactura = $.get('/api/cajeros/' + usuario + '/', function () {});
+        //var detallepago=$.get('/api/detallepago/'+venta.responseJSON.datosdelpago+'/',function(){});
+
+        //clienteDev=clientefactura.responseJSON.id;
+
+
+
+        $('.devnum').html(' ' + devid);
+        $('.fechadev').html('  ' + today);
+        $('.clientedev').html('  ' + clientefactura.responseJSON.name + ' ' + clientefactura.responseJSON.last_name);
+        $('.cajerodev').html('  ' + cajerofactura.responseJSON.name + ' ' + cajerofactura.responseJSON.last_name);
+
+        $.each(matrixDevolucion, function (i) {
+
+        if(matrixDevolucion[i][7]==true) {
+
+            $('#tablafacturadev > tbody:last').append('<tr><td> ' + matrixDevolucion[i][5] + ' </td><td>' +
+            matrixDevolucion[i][8] + '</td><td class="precio">' + matrixDevolucion[i][6].toFixed(2) + '</td></tr>');
+
+        }
+        });
+
+
+        $('.totalfactrightdev').html(totalNCDev.toFixed(2));
+
+        $('.precio').priceFormat({
+            prefix: '₡ ',
+            centsSeparator: ',',
+            thousandsSeparator: '.'
+        });
+        $(".factura").hide();
+        $(".recibo:hidden").show();
+        //$('.sidetotales').hide();
+        //('.factura:hidden').show();
+        $('#maincontent').find(':input').prop('disabled', true);
+        $('#BtnPrintrecibo').prop('disabled',false);
+    
+        ImprimirRecibo();
+
+
+}
+
 function Imprimir(){
 
     event.preventDefault();
     $( "#factura").printArea();
+}
+
+function ImprimirRecibo(){
+    event.preventDefault();
+    $( "#recibo").printArea();
 }
 
 function checkEnableVenta(){
