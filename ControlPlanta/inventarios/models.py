@@ -34,6 +34,7 @@ class ResumenInventario(models.Model):
         verbose_name_plural='1. Resumen de Inventario'
 
 class EntradasInventario(models.Model):
+    ainventario=models.CharField(default='Planta',max_length=255,verbose_name='A que inventario fue:')
     tipo=models.ForeignKey('TiposEntradas',verbose_name='Tipo de entrada')
     datos=models.CharField(max_length=255,verbose_name='Datos de la entrada')
     producto=models.ForeignKey(Producto,verbose_name='Corte')
@@ -60,6 +61,7 @@ class TiposEntradas(models.Model):
         verbose_name_plural='3. Tipos de entradas Inventario'
 
 class SalidasInventario(models.Model):
+    ainventario=models.CharField(default='Planta',max_length=255,verbose_name='A que inventario fue:')
     tipo=models.ForeignKey('TiposSalidas',verbose_name='Tipo de salida')
     datos=models.CharField(max_length=255,verbose_name='Datos de la salida')
     producto=models.ForeignKey(Producto,verbose_name='Corte')

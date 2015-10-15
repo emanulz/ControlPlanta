@@ -11,6 +11,7 @@ class Producto(models.Model):
     category = models.ForeignKey('FamiliaDelProducto', default=1,verbose_name='Familia')
     inventory= models.FloatField(default=0,verbose_name='Existencia en Inventario')
     inventoryplanta= models.FloatField(default=0,verbose_name='Existencia en Planta')
+    inventorypv=models.FloatField(default=0,verbose_name='Existencia en Punto de Venta')
     inventory1=models.FloatField(default=0,verbose_name='Existencia en Movil 1')
     inventory2=models.FloatField(default=0,verbose_name='Existencia en Movil 2')
     inventory3=models.FloatField(default=0,verbose_name='Existencia en Movil 3')

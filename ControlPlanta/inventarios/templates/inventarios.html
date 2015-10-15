@@ -44,7 +44,8 @@
                             <select class="form-control" name="tipoconsulta" id="tipoconsulta">
                                 <option value="1">Cerdo</option>
                                 <option value="2">Res</option>
-                                <option value="3">Pollo</option>
+                                <option disabled value="3">Pollo</option>
+                                <option value="6">Embutidos</option>
                             </select>
                        </div>
                     <label class="col-sm-2" for="filtroinv">Filtro:</label>
@@ -68,6 +69,7 @@
                         <th data-field="name">Total Kg</th>
                         <th data-field="name">En Planta Kg</th>
                         <th data-field="name">En Móviles Kg</th>
+                        <th data-field="name">En P.Venta Kg</th>
                         <th data-field="name">Entrada</th>
                         <th data-field="name">Salida</th>
                     </tr>
@@ -180,6 +182,24 @@
                         </div>
                    </div><!-- codigo y descripcion -->
                     <div class="form-group">
+
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                <label for="aqueinvetario">A Inventario:</label>
+                                <br/>
+                                <br/>
+                                </div>
+                                <div class="col-sm-12">
+                                    <select class="form-control" name="aqueinvetario" id="aqueinvetario">
+                                        <option value="1">Inventario Planta</option>
+                                        <option value="2">Punto de Venta</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                   </div><!-- a que inventario va -->
+                    <div class="form-group">
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <div class="col-sm-12">
@@ -291,6 +311,26 @@
                             <input disabled type="text" class="form-control" id="descprodsalida" placeholder="Descripción del producto">
                         </div>
                    </div><!-- codigo y descripcion -->
+
+                   <div class="form-group">
+
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                <label for="aqueinvetariosal">A Inventario:</label>
+                                <br/>
+                                <br/>
+                                </div>
+                                <div class="col-sm-12">
+                                    <select class="form-control" name="aqueinvetariosal" id="aqueinvetariosal">
+                                        <option value="1">Inventario Planta</option>
+                                        <option value="2">Punto de Venta</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                   </div><!-- a que inventario va -->
+
                     <div class="form-group">
                         <div class="col-sm-5">
                             <div class="form-group">

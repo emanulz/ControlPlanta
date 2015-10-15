@@ -666,6 +666,7 @@ function mostarcotizacion(cotinum){
     $("#tablafactura > tbody").html("");
     $('#tablaproductos > tbody').html("");
     movil = 0;
+    matrixventa=[];
 
     var cotizacion = $.get('/api/cotizacion/'+cotinum+'/', function () {});
     var clientecotizacion = $.get('/api/clientes/' + cotizacion.responseJSON.client + '/', function () {});

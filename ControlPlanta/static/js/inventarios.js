@@ -1,6 +1,8 @@
 //variables globales
 var tablamatrix=[];
 var existenciaactual;
+var existenciaactualplanta;
+var existenciaactualpv;
 var today;
 var now;
 var usuario;
@@ -456,7 +458,9 @@ function main () {
         $("#codprodentrada").val(tablamatrix[rowIndex][1]);
         $("#descprodentrada").val(tablamatrix[rowIndex][2]);
         existenciaactual=tablamatrix[rowIndex][3];
-        $("#extactual").val(tablamatrix[rowIndex][3]);
+        existenciaactualplanta=tablamatrix[rowIndex][4];
+        existenciaactualpv=tablamatrix[rowIndex][6];
+        $("#extactual").val(tablamatrix[rowIndex][4]);
         identrada=tablamatrix[rowIndex][0];
         $('.cd-panelentrada').addClass('is-visible');
         blurElement('.blurlines',3);
@@ -470,7 +474,9 @@ function main () {
         $("#codprodsalida").val(tablamatrix[rowIndex][1]);
         $("#descprodsalida").val(tablamatrix[rowIndex][2]);
         existenciaactual=tablamatrix[rowIndex][3];
-        $("#extactualsalida").val(tablamatrix[rowIndex][3]);
+        existenciaactualplanta=tablamatrix[rowIndex][4];
+        existenciaactualpv=tablamatrix[rowIndex][6];
+        $("#extactualsalida").val(tablamatrix[rowIndex][4]);
         idsalida=tablamatrix[rowIndex][0];
         $('.cd-panelsalida').addClass('is-visible');
         blurElement('.blurlines',3);
@@ -505,6 +511,54 @@ function main () {
             $(".compradev").hide();
             $(".tomafisica").hide();
             tipoentrada=1;
+        }
+    });
+
+    //cambio a que inventario
+
+    $("#aqueinvetario").change(function() {
+
+        cantentrada=0;
+
+        $( "#tomaf").val('');
+        $("#btntomaf").prop('disabled',true);
+
+        $( "#entcompras").val('');
+        $( "#factcompdev").val('');
+        $("#btnconfcompdev").prop('disabled',true);
+
+        $( "#produccionsum").val('');
+        $("#btnconfprod").prop('disabled',true);
+
+
+        if($( "#aqueinvetario" ).val()==1){
+            $("#extactual").val(existenciaactualplanta);
+        }
+        if($( "#aqueinvetario" ).val()==2){
+            $("#extactual").val(existenciaactualpv);
+        }
+    });
+
+    $("#aqueinvetariosal").change(function() {
+
+        cantsalida=0;
+
+        $( "#tomafsal").val('');
+        $("#btntomafsal").prop('disabled',true);
+
+        $( "#salventas").val('');
+        $( "#factsalventas").val('');
+        $("#btnconfventa").prop('disabled',true);
+
+        $( "#salidageneral").val('');
+        $("#btnconfsalgen").prop('disabled',true);
+
+
+        if($( "#aqueinvetariosal" ).val()==1){
+            $("#extactualsalida").val(existenciaactualplanta);
+        }
+        if($( "#aqueinvetariosal" ).val()==2){
+            $("#extactualsalida").val(existenciaactualpv);
         }
     });
 
@@ -569,7 +623,12 @@ function main () {
         //console.log(!aaa);
         if(!aaa){
             $("#btnconfcompdev").prop('disabled',false);
-            cantentrada=aa+existenciaactual;
+            if($('#aqueinvetario').val()==1){
+             cantentrada=aa+existenciaactualplanta;
+            }
+            if($('#aqueinvetario').val()==2){
+             cantentrada=aa+existenciaactualpv;
+            }
         }
         else{
             $("#btnconfcompdev").prop('disabled',true);
@@ -583,7 +642,12 @@ function main () {
         //console.log(!aaa);
         if(!aaa){
             $("#btnconfprod").prop('disabled',false);
-            cantentrada=aa+existenciaactual;
+            if($('#aqueinvetario').val()==1){
+             cantentrada=aa+existenciaactualplanta;
+            }
+            if($('#aqueinvetario').val()==2){
+             cantentrada=aa+existenciaactualpv;
+            }
         }
         else{
             $("#btnconfprod").prop('disabled',true);
@@ -618,7 +682,14 @@ function main () {
         //console.log(!aaa);
         if(!aaa){
             $("#btnconfsalgen").prop('disabled',false);
-            cantsalida=existenciaactual-aa;
+
+            if($('#aqueinvetariosal').val()==1){
+             cantsalida=existenciaactualplanta-aa;
+            }
+            if($('#aqueinvetariosal').val()==2){
+             cantsalida=existenciaactualpv-aa;
+            }
+
         }
         else{
             $("#btnconfsalgen").prop('disabled',true);
@@ -632,7 +703,12 @@ function main () {
         //console.log(!aaa);
         if(!aaa){
             $("#btnconfventa").prop('disabled',false);
-            cantsalida=existenciaactual-aa;
+            if($('#aqueinvetariosal').val()==1){
+             cantsalida=existenciaactualplanta-aa;
+            }
+            if($('#aqueinvetariosal').val()==2){
+             cantsalida=existenciaactualpv-aa;
+            }
         }
         else{
             $("#btnconfventa").prop('disabled',true);
@@ -689,18 +765,18 @@ function llenarTablaIventario(data){
     tablamatrix=[];
     //console.log(data);
         $.each( data, function(i){
-            var existencia = data[i].inventory;
+
             var existenciaplanta = data[i].inventoryplanta;
             var existenciamovil = data[i].inventory1+data[i].inventory2+data[i].inventory3;
+            var existenciapv=data[i].inventorypv;
+            var existencia = existenciaplanta+existenciamovil+existenciapv;
             //console.log('TABLA '+existencia);
             $('#tablainventario > tbody:last').append('<tr><td>' + data[i].product_code + '</td><td>' + data[i].description +
-            '</td><td>' + existencia + '</td><td>' + existenciaplanta + '</td><td>' + existenciamovil + '</td><td><button  type="button" class=" btn btn-success form-control selectrowentrada btnanchoinv " id="btnentrada"><span class="glyphicon glyphicon-plus"></span></button></td>'+
+            '</td><td>' + existencia + '</td><td>' + existenciaplanta + '</td><td>' + existenciamovil + '</td><td>' + existenciapv + '</td><td><button  type="button" class=" btn btn-success form-control selectrowentrada btnanchoinv " id="btnentrada"><span class="glyphicon glyphicon-plus"></span></button></td>'+
             '</td><td><button  type="button" class=" btn btn-danger form-control selectrowsalida btnanchoinv" id="btnsalida"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
-            tablamatrix.push([data[i].id, data[i].product_code,data[i].description ,existencia]);
+            tablamatrix.push([data[i].id, data[i].product_code,data[i].description ,existencia,existenciaplanta,existenciamovil,existenciapv]);
         });
 }
-
-
 
 function blurElement(element, size){
             var filterVal = 'blur('+size+'px)';
@@ -713,52 +789,91 @@ function blurElement(element, size){
 }
 
 function RegistarEntrada(){
-    $.ajax({
-      method: "PATCH",
-      url: "/api/productos/"+identrada+"/",
+    if($('#aqueinvetario').val()==1){
+        $.ajax({
+              method: "PATCH",
+              url: "/api/productos/"+identrada+"/",
 
-      data: JSON.stringify({
-
-        "inventory": cantentrada,
-        "inventoryplanta": cantentrada
+              data: JSON.stringify({
 
 
-        }),//JSON object
-          contentType:"application/json; charset=utf-8",
-          dataType:"json"
-        })
-      .success(function() {
+                "inventoryplanta": cantentrada
+
+
+                }),//JSON object
+                  contentType:"application/json; charset=utf-8",
+                  dataType:"json"
+                })
+        .success(function() {
                 if (tipoentrada==3){
 
-                    crearentrada('Entrada por toma Física',0,cantentrada);
+                    crearentrada('Entrada por toma Física',0,cantentrada,'Planta');
                 }
                 if (tipoentrada==2){
 
-                    crearentrada('Entrada por compra de producto Factura # '+$("#factcompdev").val(),cantentrada-existenciaactual,0);
+                    crearentrada('Entrada por compra de producto Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualplanta,0,'Planta');
                 }
                 if (tipoentrada==4){
 
-                    crearentrada('Entrada por devolución Factura # '+$("#factcompdev").val(),cantentrada-existenciaactual,0);
+                    crearentrada('Entrada por devolución Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualplanta,0,'Planta');
                 }
                 if (tipoentrada==1){
 
-                    crearentrada('Entrada por Producción ',cantentrada-existenciaactual,0);
+                    crearentrada('Entrada por Producción ',cantentrada-existenciaactualplanta,0,'Planta');
                 }
         })
         .fail(function(data) {
-            alertify.alert("Hubo un problema al crear la entrada, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                alertify.alert("Hubo un problema al crear la entradav (CREAR OBJ ENTRADA PLANTA), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
         });
+    }
+    if($('#aqueinvetario').val()==2){
+        $.ajax({
+              method: "PATCH",
+              url: "/api/productos/"+identrada+"/",
+
+              data: JSON.stringify({
+
+
+                "inventorypv": cantentrada
+
+
+                }),//JSON object
+                  contentType:"application/json; charset=utf-8",
+                  dataType:"json"
+                })
+        .success(function() {
+                if (tipoentrada==3){
+
+                    crearentrada('Entrada por toma Física',0,cantentrada,'Punto de Venta');
+                }
+                if (tipoentrada==2){
+
+                    crearentrada('Entrada por compra de producto Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualpv,0,'Punto de Venta');
+                }
+                if (tipoentrada==4){
+
+                    crearentrada('Entrada por devolución Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualpv,0,'Punto de Venta');
+                }
+                if (tipoentrada==1){
+
+                    crearentrada('Entrada por Producción ',cantentrada-existenciaactualpv,0,'Punto de Venta');
+                }
+        })
+        .fail(function(data) {
+                alertify.alert("Hubo un problema al crear la entrada(CREAR OBJ ENTRADA PV), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        });
+    }
 
 }
 
-
-function crearentrada(datos,peso,nuevopeso){
+function crearentrada(datos,peso,nuevopeso,aqueinventario){
 
     $.ajax({
       method: "POST",
       url: "/api/inventarioentrada/",
 
       data: JSON.stringify({
+            "ainventario": aqueinventario,
             "tipo": tipoentrada,
             "datos": datos,
             "producto": identrada,
@@ -791,55 +906,98 @@ function RegistarSalida() {
     alertify.alert("Error","La cantidad de producto que desea descontar es mayor a la existencia actual, ingrese una nueva cantidad o realice una entrada de inventario.");
     }
     else {
-        $.ajax({
-            method: "PATCH",
-            url: "/api/productos/" + idsalida + "/",
 
-            data: JSON.stringify({
+        if($('#aqueinvetariosal').val()==1) {
 
-                "inventory": cantsalida,
-                "inventoryplanta": cantsalida
+            $.ajax({
+                method: "PATCH",
+                url: "/api/productos/" + idsalida + "/",
 
-            }),//JSON object
-            contentType: "application/json; charset=utf-8",
-            dataType: "json"
-        })
-            .success(function () {
-                if (tiposalida == 3) {
+                data: JSON.stringify({
 
-                    crearsalida('Salida por toma Física', 0, cantsalida);
-                }
-                if (tiposalida == 2) {
+                    "inventoryplanta": cantsalida
 
-                    crearsalida('Salida por desecho de producto', (existenciaactual - cantsalida), 0);
-                }
-                if (tiposalida == 4) {
-
-                    crearsalida('Salida por Producto vencido', (existenciaactual - cantsalida), 0);
-                }
-                if (tiposalida == 1) {
-
-                    crearsalida('Salida por venta, Factura # ' + $("#factsalventas").val(), existenciaactual - cantsalida, 0);
-                }
-                if (tiposalida == 5) {
-
-                    crearsalida('Salida por Reproceso ', existenciaactual - cantsalida, 0);
-                }
+                }),//JSON object
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
             })
-            .fail(function (data) {
-                alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-            });
+            .success(function () {
+                    if (tiposalida == 3) {
 
+                        crearsalida('Salida por toma Física', 0, cantsalida);
+                    }
+                    if (tiposalida == 2) {
+
+                        crearsalida('Salida por desecho de producto', (existenciaactualplanta - cantsalida), 0, 'Planta');
+                    }
+                    if (tiposalida == 4) {
+
+                        crearsalida('Salida por Producto vencido', (existenciaactualplanta - cantsalida), 0, 'Planta');
+                    }
+                    if (tiposalida == 1) {
+
+                        crearsalida('Salida por venta, Factura # ' + $("#factsalventas").val(), existenciaactualplanta - cantsalida, 0, 'Planta');
+                    }
+                    if (tiposalida == 5) {
+
+                        crearsalida('Salida por Reproceso ', existenciaactualplanta - cantsalida, 0, 'Planta');
+                    }
+                })
+            .fail(function (data) {
+                    alertify.alert("Hubo un problema al crear la salida(MOD INVENTARIOS PLANTA), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                });
+        }//if del inventario planta
+        if($('#aqueinvetariosal').val()==2) {
+
+            $.ajax({
+                method: "PATCH",
+                url: "/api/productos/" + idsalida + "/",
+
+                data: JSON.stringify({
+
+                    "inventorypv": cantsalida
+
+                }),//JSON object
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            })
+            .success(function () {
+                    if (tiposalida == 3) {
+
+                        crearsalida('Salida por toma Física', 0, cantsalida);
+                    }
+                    if (tiposalida == 2) {
+
+                        crearsalida('Salida por desecho de producto', (existenciaactualpv - cantsalida), 0, 'Punto de Venta');
+                    }
+                    if (tiposalida == 4) {
+
+                        crearsalida('Salida por Producto vencido', (existenciaactualpv - cantsalida), 0, 'Punto de Venta');
+                    }
+                    if (tiposalida == 1) {
+
+                        crearsalida('Salida por venta, Factura # ' + $("#factsalventas").val(), existenciaactualpv - cantsalida, 0, 'Punto de Venta');
+                    }
+                    if (tiposalida == 5) {
+
+                        crearsalida('Salida por Reproceso ', existenciaactualpv - cantsalida, 0, 'Punto de Venta');
+                    }
+                })
+            .fail(function (data) {
+                    alertify.alert("Hubo un problema al crear la salida(MOD INVENTARIOS PV), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                });
+        }//if del inventario punto de venta
     }//else
 }//function
 
-function crearsalida(datos,peso,nuevopeso){
+function crearsalida(datos,peso,nuevopeso,aqueinventario){
 
     $.ajax({
       method: "POST",
       url: "/api/inventariosalida/",
 
       data: JSON.stringify({
+            "ainventario": aqueinventario,
             "tipo": tiposalida,
             "datos": datos,
             "producto": idsalida,
@@ -866,6 +1024,7 @@ function crearsalida(datos,peso,nuevopeso){
         alertify.alert("Hubo un problema al crear la salida, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
         });
 }
+
 function pacthresinvsal(){
     var prodinventario=$.get('/api/inventarioresumen/?producto='+idsalida,function(){});
 

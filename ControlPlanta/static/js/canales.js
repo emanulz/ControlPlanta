@@ -9,5 +9,11 @@ function main () {
     $('.date').val(today);
     $('.disablecheckbox').prop("disabled",true);
 
+    $(".tipocanal option[value='3']").prop('disabled',true);
+    $(".tipocanal option[value='4']").remove();
+    $(".tipocanal option[value='5']").remove();
+    $(".tipocanal option[value='6']").remove();
+
+
 }
 
