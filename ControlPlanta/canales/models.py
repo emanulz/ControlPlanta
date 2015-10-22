@@ -12,6 +12,7 @@ class Canal(models.Model):
     consecutive=models.PositiveIntegerField(verbose_name='Consecutivo Matadero')
     weight=models.FloatField(verbose_name='Peso del canal Kg')
     qualification=models.CharField(max_length=255,choices=((u'AA', u'AA'), (u'A', u'A'), (u'B', u'B'), (u'C', u'C') , (u'D', u'D') , (u'E', u'E')),verbose_name='Clasificación')
+    preciokilo=models.FloatField(default=0,verbose_name='Precio del canal por kilogramo')
     fierro=models.ForeignKey(Proveedor, verbose_name='# de Fierro')
     isonlote=models.BooleanField(default=False,verbose_name='Pertenece a lote?')
     vendido=models.BooleanField(default=False,verbose_name='vendido entero?')

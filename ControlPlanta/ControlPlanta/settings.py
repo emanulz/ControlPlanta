@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'reprocesos',
     'devoluciones',
     'cotizaciones',
+    'gastos',
 
 )
 
@@ -105,6 +106,7 @@ SUIT_CONFIG = {
         {'app': 'ventas', 'label': 'Ventas', 'icon': 'icon-play'},
         {'app': 'cotizaciones', 'label': 'Cotizaciones', 'icon': 'icon-th-list'},
         {'app': 'devoluciones', 'label': 'Devoluciones', 'icon': 'icon-hdd'},
+        {'app': 'gastos', 'label': 'Gastos', 'icon': 'icon-qrcode'},
 
     ),
 

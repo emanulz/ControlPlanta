@@ -1,5 +1,7 @@
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
+from django.core.serializers import json
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, render_to_response
 
 # Create your views here.
@@ -15,6 +17,17 @@ from ventas.models import DetallesPago, DetalleProductos, Venta
 def Ventasform(request):
     lotes = Lote.objects.filter(date=datetime.today(),isondeshuese=False)
     return render_to_response('creardeshuese.html', {'lotes': lotes}, context_instance=RequestContext(request))
+
+
+@login_required(login_url='/admin/login/')
+def ventafilterform(request,date1,date2):
+    canales = Venta.objects.filter(date__range=[date1, date2])
+
+    # data = serializers.serialize('json', Venta.objects.filter(date__range=["2015-08-14", "2015-08-30"]))
+    # return HttpResponse(data, mimetype="application/json")
+
+    # print canales
+    return HttpResponse(canales)
 
 
 class VentasView(TemplateView):

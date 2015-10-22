@@ -7,7 +7,7 @@ from canales.models import Canal
 
 @admin.register(Canal)
 class canaladmin(admin.ModelAdmin):
-    list_display = ('id', 'date', 'consecutive', 'weight', 'qualification', 'fierronum','tipo','isonlote','vendido')
+    list_display = ('id', 'date', 'consecutive', 'weight', 'qualification','preciokilo', 'fierronum','tipo','isonlote','vendido')
     search_fields = ('date', 'consecutive', 'fierro', 'isonlote','tipo')
 
 
