@@ -83,15 +83,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="reporte.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="reporte.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/reporte.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.52125984" vertical-offset="11829" max-vertical-offset="27987">
+            <state vertical-scroll-proportion="-12.259259" vertical-offset="11829" max-vertical-offset="27987">
               <caret line="689" column="49" selection-start-line="689" selection-start-column="49" selection-end-line="689" selection-end-column="49" />
               <folding>
                 <element signature="n#!!block;n#GenerarReporteVentas#0" expanded="false" />
                 <element signature="n#!!block;n#llenartablacierre#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base2.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.42658424" vertical-offset="2232" max-vertical-offset="3021">
+              <caret line="132" column="17" selection-start-line="132" selection-start-column="17" selection-end-line="132" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -177,7 +187,6 @@
         <option value="$PROJECT_DIR$/ventas/views.py" />
         <option value="$PROJECT_DIR$/ControlPlanta/settings.py" />
         <option value="$PROJECT_DIR$/reportes/views.py" />
-        <option value="$PROJECT_DIR$/frontend/templates/base2.html" />
         <option value="$PROJECT_DIR$/gastos/filters.py" />
         <option value="$PROJECT_DIR$/canales/filters.py" />
         <option value="$PROJECT_DIR$/canales/views.py" />
@@ -185,6 +194,7 @@
         <option value="$PROJECT_DIR$/gastos/views.py" />
         <option value="$PROJECT_DIR$/ControlPlanta/urls.py" />
         <option value="$PROJECT_DIR$/static/js/reporte.js" />
+        <option value="$PROJECT_DIR$/frontend/templates/base2.html" />
       </list>
     </option>
   </component>
@@ -295,7 +305,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="gastos" />
+              <option name="myItemId" value="frontend" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -309,7 +319,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="canales" />
+              <option name="myItemId" value="frontend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1031,6 +1045,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="71.67857" vertical-offset="2007" max-vertical-offset="2641">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1046,6 +1061,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1102,14 +1118,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8874074" vertical-offset="636" max-vertical-offset="3971">
           <caret line="65" column="15" selection-start-line="65" selection-start-column="15" selection-end-line="65" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2797527" vertical-offset="2232" max-vertical-offset="3021">
-          <caret line="127" column="41" selection-start-line="127" selection-start-column="41" selection-end-line="127" selection-end-column="41" />
           <folding />
         </state>
       </provider>
@@ -1247,12 +1255,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/reporte.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52125984" vertical-offset="11829" max-vertical-offset="27987">
+        <state vertical-scroll-proportion="-12.259259" vertical-offset="11829" max-vertical-offset="27987">
           <caret line="689" column="49" selection-start-line="689" selection-start-column="49" selection-end-line="689" selection-end-column="49" />
           <folding>
             <element signature="n#!!block;n#GenerarReporteVentas#0" expanded="false" />
             <element signature="n#!!block;n#llenartablacierre#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/templates/base2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42658424" vertical-offset="2232" max-vertical-offset="3021">
+          <caret line="132" column="17" selection-start-line="132" selection-start-column="17" selection-end-line="132" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
