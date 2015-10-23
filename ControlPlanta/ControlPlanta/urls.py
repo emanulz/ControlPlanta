@@ -22,11 +22,13 @@ from clientes.views import ClientViewSet
 from cotizaciones.views import CotizacionViewSet, DetalleProductosCotiViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
 from devoluciones.views import DevolucionesView, DevolucionViewSet, DetalleDevViewSet
+from gastos.views import GastoViewSet, TipoGastoViewSet
 from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet, \
     InventariosView, AlertasInventariosView
 from inventariosMP.views import InventarioResumenMPViewSet, InventarioEntradasMPViewSet, InventarioSalidasMPViewSet, \
     InventariosmpView
 from materiasPrimas.views import MateriaPrimaViewSet, FamiliaMPViewSet
+from reportes.views import ReportesView
 from reprocesos.views import ReprocesoViewSet, ReprocesosView
 from variablesGlobales.views import VariableGlobalViewSet
 from ventas.views import VentasView, DetallePagoViewSet, DetalleProductosViewSet, VentaViewSet, CierreView, \
@@ -73,6 +75,8 @@ router.register(r'devolucion', DevolucionViewSet)
 router.register(r'detalledevolucion', DetalleDevViewSet)
 router.register(r'cotizacion', CotizacionViewSet)
 router.register(r'detalleproductocotizacion', DetalleProductosCotiViewSet)
+router.register(r'gasto', GastoViewSet)
+router.register(r'tipogasto', TipoGastoViewSet)
 
 
 
@@ -93,6 +97,7 @@ urlpatterns = [
     url(r'^eliminarlote/', eliminarLoteView.as_view()),
     url(r'^devoluciones/', DevolucionesView.as_view()),
     url(r'^devolvercotizacion/', DevproformaView.as_view()),
+    url(r'^reportes/', ReportesView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
     url(r'addgasto/', 'gastos.views.gastoform', name='canales'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
@@ -100,7 +105,6 @@ urlpatterns = [
     url(r'adddeshuese/', 'deshueses.views.deshueseform', name='deshueses'),
     url(r'^getcanal/(?P<id>\d+)$', 'lotes.views.cargar_canal', name='cargar_canal'),
     url(r'^totallotes/', 'lotes.views.totallotes', name='totallotes'),
-    url(r'^filtroventa/', 'ventas.views.ventafilterform', name='ventafilter'),
     url(r'^productoscerdo/', 'productos.views.ProdDeCerdo', name='productoscerdo'),
     url(r'^lotes/', LoteApiView,name='lotes'),
     url(r'^api/', include(router.urls)),

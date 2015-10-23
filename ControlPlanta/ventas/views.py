@@ -5,11 +5,14 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, render_to_response
 
 # Create your views here.
+from django.core import serializers
+from django.http import JsonResponse
 from django.template import RequestContext
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from rest_framework import serializers,viewsets
 from lotes.models import Lote
+from ventas.filters import VentaFilter
 from ventas.models import DetallesPago, DetalleProductos, Venta
 
 
@@ -18,16 +21,6 @@ def Ventasform(request):
     lotes = Lote.objects.filter(date=datetime.today(),isondeshuese=False)
     return render_to_response('creardeshuese.html', {'lotes': lotes}, context_instance=RequestContext(request))
 
-
-@login_required(login_url='/admin/login/')
-def ventafilterform(request,date1,date2):
-    canales = Venta.objects.filter(date__range=[date1, date2])
-
-    # data = serializers.serialize('json', Venta.objects.filter(date__range=["2015-08-14", "2015-08-30"]))
-    # return HttpResponse(data, mimetype="application/json")
-
-    # print canales
-    return HttpResponse(canales)
 
 
 class VentasView(TemplateView):
@@ -91,7 +84,8 @@ class VentaViewSet(viewsets.ModelViewSet):
     serializer_class = VentaSerializer
     queryset = Venta.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago','saldo','anulada','devuelto','connotacredito','conabono')
+    filter_class = VentaFilter
+    #filter_fields=('id','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago','saldo','anulada','devuelto','connotacredito','conabono')
 
 
 

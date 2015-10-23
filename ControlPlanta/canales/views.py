@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
+from canales.filters import CanalFilter
 from canales.forms import CanalFormView
 
 # Create your views here.
@@ -49,4 +50,4 @@ class CanalViewSet(viewsets.ModelViewSet):
     serializer_class = CanalSerializer
     queryset = Canal.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','date','consecutive','weight','qualification','preciokilo','fierro','isonlote','vendido','mediovendido','tipo')
+    filter_class=CanalFilter
