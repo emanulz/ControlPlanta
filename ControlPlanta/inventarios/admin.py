@@ -11,15 +11,11 @@ from productos.models import Producto
 #     search_fields = ('id', 'lote', 'vencimiento')
 
 
-@admin.register(ResumenInventario)
-class ResumenInvAdmin(admin.ModelAdmin):
-    list_display = ('id', 'producto', 'cantidad', )
-    search_fields = ('id', 'producto', 'cantidad')
 
 @admin.register(EntradasInventario)
 class EntradasInvAdmin(admin.ModelAdmin):
-    list_display = ('id','ainventario','tipo','datos','producto', 'peso','nuevopeso','date','time','usuario' )
-    search_fields = ('id','ainventario','tipo__nombre','datos' ,'producto__description', 'peso','date','time','usuario__name')
+    list_display = ('id','ainventario','tipo','producto','pesoanterior', 'peso','nuevopeso','date','time' )
+    search_fields = ('id','ainventario','tipo__nombre' ,'producto__description', 'peso','date','time')
 
 @admin.register(TiposEntradas)
 class TiposEntradasAdmin(admin.ModelAdmin):
@@ -28,8 +24,8 @@ class TiposEntradasAdmin(admin.ModelAdmin):
 
 @admin.register(SalidasInventario)
 class SalidasInvAdmin(admin.ModelAdmin):
-    list_display = ('id','ainventario','tipo','datos','producto', 'peso','nuevopeso','date','time','usuario' )
-    search_fields = ('id','ainventario','tipo__nombre','datos', 'producto__description', 'peso','date','time','usuario__name')
+    list_display = ('id','ainventario','tipo','producto', 'pesoanterior','peso','nuevopeso','date','time' )
+    search_fields = ('id','ainventario','tipo__nombre', 'producto__description', 'peso','date','time')
 
 @admin.register(TiposSalidas)
 class TiposSalidasAdmin(admin.ModelAdmin):

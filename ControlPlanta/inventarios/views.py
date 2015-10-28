@@ -58,25 +58,25 @@ class InventarioEntradasSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EntradasInventario
-        fields =('id','ainventario','tipo','datos','producto', 'peso','nuevopeso','date','time','usuario' )
+        fields =('id','ainventario','tipo','datos','producto','pesoanterior', 'peso','nuevopeso','date','time','usuario' )
 
 class InventarioEntradasViewSet(viewsets.ModelViewSet):
 
     serializer_class = InventarioEntradasSerializer
     queryset = EntradasInventario.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','ainventario','tipo','datos','producto', 'peso','date','time','usuario' )
+    filter_fields=('id','ainventario','tipo','datos','producto','pesoanterior', 'peso','date','time','usuario' )
 
 #SALIDAS INVENTARIO API
 class InventarioSalidasSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SalidasInventario
-        fields =('id','ainventario','tipo','datos','producto', 'peso','nuevopeso','date','time','usuario' )
+        fields =('id','ainventario','tipo','datos','producto', 'pesoanterior','peso','nuevopeso','date','time','usuario' )
 
 class InventarioSalidasViewSet(viewsets.ModelViewSet):
 
     serializer_class = InventarioSalidasSerializer
     queryset = SalidasInventario.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','ainventario','tipo','datos','producto', 'peso','date','time','usuario' )
+    filter_fields=('id','ainventario','tipo','datos','producto', 'pesoanterior','peso','date','time','usuario' )

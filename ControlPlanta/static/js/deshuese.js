@@ -637,8 +637,9 @@ function Guardarinventario(){
                     "tipo": 1,
                     "datos": "Entrada por producción del lote "+lote,
                     "producto": matrixdetalle[i][0],
+                    "pesoanterior": pesoactualplanta,
                     "peso": matrixdetalle[i][1],
-                    "nuevopeso": pesonuevo,
+                    "nuevopeso": pesonuevoplanta,
                     "date": today,
                     "time": tiempoahora(),
                     "usuario": 1

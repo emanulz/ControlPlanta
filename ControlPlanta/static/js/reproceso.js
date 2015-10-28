@@ -716,7 +716,7 @@ function llenarTablaBusqueda(data){
         $.each( data, function(i){
             codigobusqueda.push(data[i].product_code);
             $('#tablabusqueda > tbody:last').append('<tr><td>' + data[i].product_code + '</td><td>' + data[i].description +
-            '</td><td>' + data[i].inventory + '</td><td><button  type="button" class=" btn btn-success form-control selectrow " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
+            '</td><td>' + data[i].inventoryplanta + '</td><td><button  type="button" class=" btn btn-success form-control selectrow " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
         });
 }
 
@@ -737,8 +737,8 @@ function llenarTablaCortesProductos(data){
             inarray= serachmatrixProdCreados(data[0].product_code);
         }//corte o producto end
 
-        var prodinventario=$.get('/api/inventarioresumen/?producto='+data[0].id,function(){});
-        var existencia=prodinventario.responseJSON[0].cantidad;
+        //var prodinventario=$.get('/api/inventarioresumen/?producto='+data[0].id,function(){});
+        var existencia=data[0].inventoryplanta;
         cantidad=parseFloat(cantidad);
         if(existencia>cantidad||corteOProducto==false){
             if(inarray==-1){//no existe en la tabla
@@ -852,13 +852,13 @@ function crearReproceso(){
     //patch inv en productos salidas
     patchSalidasInvProducto();
     //patch res inv
-    patchSalidasResumenInv();
+    //patchSalidasResumenInv();
     //crear entradas
     crearEntradasInv();
     //patch inv en productos entradas
     patchEntradasInvProducto();
     //patch res inv
-    patchEntradasResumenInv();
+    //patchEntradasResumenInv();
     //crear reproceso
     crearElemReproceso();
     $('#maincontent').find(':input').prop('disabled', true);
@@ -876,6 +876,8 @@ function crearSalidasInv(){
     event.preventDefault();
      $.each( matrixCortesUsados, function(i){
 
+        var producto=$.get('/api/productos/'+matrixCortesUsados[i][4]+'/',function(){});
+
         $.ajax({
           method: "POST",
           url: "/api/inventariosalida/",
@@ -885,8 +887,9 @@ function crearSalidasInv(){
                 "tipo": 5,
                 "datos": 'Salida por reproceso.',
                 "producto": matrixCortesUsados[i][4],
+                "pesoanterior": producto.responseJSON.inventoryplanta,
                 "peso": matrixCortesUsados[i][3],
-                "nuevopeso": matrixCortesUsados[i][2]-matrixCortesUsados[i][3],
+                "nuevopeso": producto.responseJSON.inventoryplanta-matrixCortesUsados[i][3],
                 "date":today,
                 "time": tiempoahora(),
                 "usuario":usuario
@@ -909,13 +912,16 @@ function patchSalidasInvProducto(){
     //matrixCortesUsados.push([data[0].product_code, data[0].description,existencia ,cantidad,data[0].id]);
     event.preventDefault();
      $.each( matrixCortesUsados, function(i){
-        $.ajax({
+
+         var producto=$.get('/api/productos/'+matrixCortesUsados[i][4]+'/',function(){});
+
+         $.ajax({
               method: "PATCH",
               url: "/api/productos/"+matrixCortesUsados[i][4]+"/",
 
               data: JSON.stringify({
 
-                "inventory": matrixCortesUsados[i][2]-matrixCortesUsados[i][3]
+                "inventoryplanta": producto.responseJSON.inventoryplanta-matrixCortesUsados[i][3]
 
                 }),//JSON object
                   contentType:"application/json; charset=utf-8",
@@ -932,33 +938,6 @@ function patchSalidasInvProducto(){
     });
 }
 
-function patchSalidasResumenInv(){
-    //matrixCortesUsados.push([data[0].product_code, data[0].description,existencia ,cantidad,data[0].id]);
-     event.preventDefault();
-     $.each( matrixCortesUsados, function(i){
-        var InvRes=$.get('/api/inventarioresumen/?producto='+matrixCortesUsados[i][4],function(){});
-        $.ajax({
-              method: "PATCH",
-              url: "/api/inventarioresumen/"+InvRes.responseJSON[0].id+"/",
-
-              data: JSON.stringify({
-
-                "cantidad": matrixCortesUsados[i][2]-matrixCortesUsados[i][3]
-
-                }),//JSON object
-                  contentType:"application/json; charset=utf-8",
-                  dataType:"json"
-            })
-            .fail(function (data) {
-                console.log(data.responseText);
-                alertify.alert("Error","Hubo un problema al crear el reproceso, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-            })
-            .success(function () {
-                //detallesventa.push(data.id);
-                //console.log(detallesventa);
-            });
-    });
-}
 
 // FUNCIONES DE ENTRADA
 
@@ -966,6 +945,8 @@ function crearEntradasInv(){
     //matrixCortesUsados.push([data[0].product_code, data[0].description,existencia ,cantidad,data[0].id]);
     event.preventDefault();
      $.each( matrixProductosCreados, function(i){
+
+        var producto=$.get('/api/productos/'+matrixProductosCreados[i][4]+'/',function(){});
 
         $.ajax({
           method: "POST",
@@ -976,8 +957,9 @@ function crearEntradasInv(){
                 "tipo": 5,
                 "datos": 'Entrada por reproceso.',
                 "producto": matrixProductosCreados[i][4],
+                "pesoanterior": producto.responseJSON.inventoryplanta,
                 "peso": matrixProductosCreados[i][3],
-                "nuevopeso": matrixProductosCreados[i][2]+matrixProductosCreados[i][3],
+                "nuevopeso": producto.responseJSON.inventoryplanta+matrixProductosCreados[i][3],
                 "date":today,
                 "time": tiempoahora(),
                 "usuario":usuario
@@ -1000,13 +982,14 @@ function patchEntradasInvProducto(){
     //matrixCortesUsados.push([data[0].product_code, data[0].description,existencia ,cantidad,data[0].id]);
     event.preventDefault();
      $.each( matrixProductosCreados, function(i){
-        $.ajax({
+        var producto=$.get('/api/productos/'+matrixProductosCreados[i][4]+'/',function(){});
+         $.ajax({
               method: "PATCH",
               url: "/api/productos/"+matrixProductosCreados[i][4]+"/",
 
               data: JSON.stringify({
 
-                "inventory": matrixProductosCreados[i][2]+matrixProductosCreados[i][3]
+                "inventoryplanta": producto.responseJSON.inventoryplanta+matrixProductosCreados[i][3]
 
                 }),//JSON object
                   contentType:"application/json; charset=utf-8",
@@ -1023,33 +1006,7 @@ function patchEntradasInvProducto(){
     });
 }
 
-function patchEntradasResumenInv(){
-    //matrixCortesUsados.push([data[0].product_code, data[0].description,existencia ,cantidad,data[0].id]);
-     event.preventDefault();
-     $.each( matrixProductosCreados, function(i){
-        var InvRes=$.get('/api/inventarioresumen/?producto='+matrixProductosCreados[i][4],function(){});
-        $.ajax({
-              method: "PATCH",
-              url: "/api/inventarioresumen/"+InvRes.responseJSON[0].id+"/",
 
-              data: JSON.stringify({
-
-                "cantidad": matrixProductosCreados[i][2]+matrixProductosCreados[i][3]
-
-                }),//JSON object
-                  contentType:"application/json; charset=utf-8",
-                  dataType:"json"
-            })
-            .fail(function (data) {
-                console.log(data.responseText);
-                alertify.alert("Error","Hubo un problema al crear el reproceso, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-            })
-            .success(function () {
-                //detallesventa.push(data.id);
-                //console.log(detallesventa);
-            });
-    });
-}
 
 function crearElemReproceso(){
 

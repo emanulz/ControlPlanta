@@ -9,7 +9,7 @@ class Producto(models.Model):
     bar_code= models.PositiveIntegerField(verbose_name='Código de barras', blank=True, null=True ,unique=True)
     description = models.CharField(max_length=255, verbose_name='Descripción')
     category = models.ForeignKey('FamiliaDelProducto', default=1,verbose_name='Familia')
-    inventory= models.FloatField(default=0,verbose_name='Existencia en Inventario')
+    inventory= models.FloatField(default=0,verbose_name='Num de ref (dejar en cero)')
     inventoryplanta= models.FloatField(default=0,verbose_name='Existencia en Planta')
     inventorypv=models.FloatField(default=0,verbose_name='Existencia en Punto de Venta')
     inventory1=models.FloatField(default=0,verbose_name='Existencia en Movil 1')

@@ -856,8 +856,13 @@ function llenarTablaBusqueda(data){
     console.log(data);
         $.each( data, function(i){
             codigobusqueda.push(data[i].product_code);
-            $('#tablabusqueda > tbody:last').append('<tr><td>' + data[i].product_code + '</td><td>' + data[i].description +
-            '</td><td>' + data[i].price1 + '</td><td><button  type="button" class=" btn btn-success form-control selectrow " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
+            $('#tablabusqueda > tbody:last').append('<tr><td>' + data[i].product_code + '</td><td>' + data[i].description +'</td><td>' + data[i].inventoryplanta +
+            '</td><td class="precio" >' + data[i].cost.toFixed(2) + '</td><td><button  type="button" class=" btn btn-success form-control selectrow " id="btnelegir"><span class="glyphicon glyphicon-plus"></span></button></td></tr>');
+        });
+        $('.precio').priceFormat({
+            prefix: '₡ ',
+            centsSeparator: ',',
+            thousandsSeparator: '.'
         });
 }
 

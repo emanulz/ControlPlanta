@@ -1091,6 +1091,33 @@ function DevolverInventario(){
                 })
                 .success(function () {
 
+                     $.ajax({//crear entrada por produccion
+                          method: "POST",
+                          url: "/api/inventarioentrada/",
+                          async: false,
+
+                          data: JSON.stringify({
+                            "tipo": 4,
+                            "datos": "Entrada por devolucion de producto",
+                            "producto": matrixDevolucion[i][0],
+                            "pesoanterior": existenciaplanta,
+                            "peso": matrixDevolucion[i][5],
+                            "nuevopeso": existenciaplanta+matrixDevolucion[i][5],
+                            "date": today,
+                            "time": tiempoahora(),
+                            "usuario": usuario
+                            }),//JSON object
+                              contentType:"application/json; charset=utf-8",
+                              dataType:"json"
+                    })
+                    .fail(function(data){
+                        console.log(data.responseText);
+                        alertify.alert("Hubo un problema al crear la devolucion (CREAR ENTRADA INVENTARIO), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+                    })
+                    .success(function() {//patch resumen inv
+
+                    });
+
                  });
         }
 
@@ -1104,18 +1131,18 @@ function crearDetalleDev(){
         if (matrixDevolucion[i][7] == true) {
 
             $.ajax({
-                method: "POST",
-                url: "/api/detalledevolucion/",
-                async: false,
+                    method: "POST",
+                    url: "/api/detalledevolucion/",
+                    async: false,
 
-                data: JSON.stringify({
-                    "producto": matrixDevolucion[i][0],
-                    "peso": matrixDevolucion[i][5],
-                    "colones": parseFloat(matrixDevolucion[i][6])
-                }),//JSON object
-                contentType: "application/json; charset=utf-8",
-                dataType: "json"
-            })
+                    data: JSON.stringify({
+                        "producto": matrixDevolucion[i][0],
+                        "peso": matrixDevolucion[i][5],
+                        "colones": parseFloat(matrixDevolucion[i][6])
+                    }),//JSON object
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                })
                 .fail(function (data) {
                     console.log(data.responseText);
                     alertify.alert("Hubo un problema al crear la devolucion (detalle dev), por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
@@ -1124,6 +1151,7 @@ function crearDetalleDev(){
                     //console.log(data.id);
                     detallesDev.push(data.id);
                    // detallepago = data.id;
+
                 });//ajax
 
         }

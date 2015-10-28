@@ -10,10 +10,12 @@ var usuario;
 var identrada;
 var cantentrada;
 var tipoentrada=3;
+var productoantesent;
 //Variables salida
 var idsalida;
 var cantsalida;
 var tiposalida=3;
+var productoantessal;
 
 var enteronaddproducto = false;
 var cantidad=0;
@@ -455,6 +457,22 @@ function main () {
         event.preventDefault();
         var row=$(this).closest("tr");
         var rowIndex = row.index();
+
+        $("#aqueinvetario").val(1);
+
+
+        $("#tomaf").val('');
+        $("#entcompras").val('');
+        $("#factcompdev").val('');
+        $("#produccionsum").val('');
+
+
+        $("#btntomaf").prop('disabled',true);
+        $("#btnconfprod").prop('disabled',true);
+        $("#btnconfcompdev").prop('disabled',true);
+
+
+
         $("#codprodentrada").val(tablamatrix[rowIndex][1]);
         $("#descprodentrada").val(tablamatrix[rowIndex][2]);
         existenciaactual=tablamatrix[rowIndex][3];
@@ -471,6 +489,20 @@ function main () {
         event.preventDefault();
         var row=$(this).closest("tr");
         var rowIndex = row.index();
+
+        $("#aqueinvetariosal").val(1);
+
+
+        $("#tomafsal").val('');
+        $("#salidageneral").val('');
+        $("#salventas").val('');
+        $("#factsalventas").val('');
+
+
+        $("#btntomafsal").prop('disabled',true);
+        $("#btnconfsalgen").prop('disabled',true);
+        $("#btnconfventa").prop('disabled',true);
+
         $("#codprodsalida").val(tablamatrix[rowIndex][1]);
         $("#descprodsalida").val(tablamatrix[rowIndex][2]);
         existenciaactual=tablamatrix[rowIndex][3];
@@ -789,6 +821,7 @@ function blurElement(element, size){
 }
 
 function RegistarEntrada(){
+    productoantesent=$.get('/api/productos/'+identrada+'/',function(){});
     if($('#aqueinvetario').val()==1){
         $.ajax({
               method: "PATCH",
@@ -811,15 +844,15 @@ function RegistarEntrada(){
                 }
                 if (tipoentrada==2){
 
-                    crearentrada('Entrada por compra de producto Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualplanta,0,'Planta');
+                    crearentrada('Entrada por compra de producto Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualplanta,cantentrada,'Planta');
                 }
                 if (tipoentrada==4){
 
-                    crearentrada('Entrada por devolución Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualplanta,0,'Planta');
+                    crearentrada('Entrada por devolución Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualplanta,cantentrada,'Planta');
                 }
                 if (tipoentrada==1){
 
-                    crearentrada('Entrada por Producción ',cantentrada-existenciaactualplanta,0,'Planta');
+                    crearentrada('Entrada por Producción ',cantentrada-existenciaactualplanta,cantentrada,'Planta');
                 }
         })
         .fail(function(data) {
@@ -848,15 +881,15 @@ function RegistarEntrada(){
                 }
                 if (tipoentrada==2){
 
-                    crearentrada('Entrada por compra de producto Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualpv,0,'Punto de Venta');
+                    crearentrada('Entrada por compra de producto Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualpv,cantentrada,'Punto de Venta');
                 }
                 if (tipoentrada==4){
 
-                    crearentrada('Entrada por devolución Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualpv,0,'Punto de Venta');
+                    crearentrada('Entrada por devolución Factura # '+$("#factcompdev").val(),cantentrada-existenciaactualpv,cantentrada,'Punto de Venta');
                 }
                 if (tipoentrada==1){
 
-                    crearentrada('Entrada por Producción ',cantentrada-existenciaactualpv,0,'Punto de Venta');
+                    crearentrada('Entrada por Producción ',cantentrada-existenciaactualpv,cantentrada,'Punto de Venta');
                 }
         })
         .fail(function(data) {
@@ -868,6 +901,19 @@ function RegistarEntrada(){
 
 function crearentrada(datos,peso,nuevopeso,aqueinventario){
 
+
+    var pesoanterior;
+
+    if(aqueinventario=='Planta'){
+        pesoanterior=productoantesent.responseJSON.inventoryplanta;
+        console.log(pesoanterior);
+    }
+    if(aqueinventario=='Punto de Venta'){
+        pesoanterior=productoantesent.responseJSON.inventorypv;
+        console.log(pesoanterior);
+    }
+    //console.log(productoantesent);
+    //console.log(pesoanterior);
     $.ajax({
       method: "POST",
       url: "/api/inventarioentrada/",
@@ -877,6 +923,7 @@ function crearentrada(datos,peso,nuevopeso,aqueinventario){
             "tipo": tipoentrada,
             "datos": datos,
             "producto": identrada,
+            "pesoanterior": pesoanterior,
             "peso": peso,
             "nuevopeso": nuevopeso,
             "date": today,
@@ -906,7 +953,7 @@ function RegistarSalida() {
     alertify.alert("Error","La cantidad de producto que desea descontar es mayor a la existencia actual, ingrese una nueva cantidad o realice una entrada de inventario.");
     }
     else {
-
+        productoantessal=$.get('/api/productos/'+idsalida+'/',function(){});
         if($('#aqueinvetariosal').val()==1) {
 
             $.ajax({
@@ -928,19 +975,19 @@ function RegistarSalida() {
                     }
                     if (tiposalida == 2) {
 
-                        crearsalida('Salida por desecho de producto', (existenciaactualplanta - cantsalida), 0, 'Planta');
+                        crearsalida('Salida por desecho de producto', (existenciaactualplanta - cantsalida), cantsalida, 'Planta');
                     }
                     if (tiposalida == 4) {
 
-                        crearsalida('Salida por Producto vencido', (existenciaactualplanta - cantsalida), 0, 'Planta');
+                        crearsalida('Salida por Producto vencido', (existenciaactualplanta - cantsalida), cantsalida, 'Planta');
                     }
                     if (tiposalida == 1) {
 
-                        crearsalida('Salida por venta, Factura # ' + $("#factsalventas").val(), existenciaactualplanta - cantsalida, 0, 'Planta');
+                        crearsalida('Salida por venta, Factura # ' + $("#factsalventas").val(), existenciaactualplanta - cantsalida, cantsalida, 'Planta');
                     }
                     if (tiposalida == 5) {
 
-                        crearsalida('Salida por Reproceso ', existenciaactualplanta - cantsalida, 0, 'Planta');
+                        crearsalida('Salida por Reproceso ', existenciaactualplanta - cantsalida, cantsalida, 'Planta');
                     }
                 })
             .fail(function (data) {
@@ -968,19 +1015,19 @@ function RegistarSalida() {
                     }
                     if (tiposalida == 2) {
 
-                        crearsalida('Salida por desecho de producto', (existenciaactualpv - cantsalida), 0, 'Punto de Venta');
+                        crearsalida('Salida por desecho de producto', (existenciaactualpv - cantsalida), cantsalida, 'Punto de Venta');
                     }
                     if (tiposalida == 4) {
 
-                        crearsalida('Salida por Producto vencido', (existenciaactualpv - cantsalida), 0, 'Punto de Venta');
+                        crearsalida('Salida por Producto vencido', (existenciaactualpv - cantsalida), cantsalida, 'Punto de Venta');
                     }
                     if (tiposalida == 1) {
 
-                        crearsalida('Salida por venta, Factura # ' + $("#factsalventas").val(), existenciaactualpv - cantsalida, 0, 'Punto de Venta');
+                        crearsalida('Salida por venta, Factura # ' + $("#factsalventas").val(), existenciaactualpv - cantsalida, cantsalida, 'Punto de Venta');
                     }
                     if (tiposalida == 5) {
 
-                        crearsalida('Salida por Reproceso ', existenciaactualpv - cantsalida, 0, 'Punto de Venta');
+                        crearsalida('Salida por Reproceso ', existenciaactualpv - cantsalida, cantsalida, 'Punto de Venta');
                     }
                 })
             .fail(function (data) {
@@ -992,6 +1039,16 @@ function RegistarSalida() {
 
 function crearsalida(datos,peso,nuevopeso,aqueinventario){
 
+
+    var pesoanterior;
+    if(aqueinventario=='Planta'){
+        pesoanterior=productoantessal.responseJSON.inventoryplanta;
+
+    }
+    if(aqueinventario=='Punto de Venta'){
+        pesoanterior=productoantessal.responseJSON.inventorypv;
+    }
+    console.log(pesoanterior);
     $.ajax({
       method: "POST",
       url: "/api/inventariosalida/",
@@ -1001,6 +1058,7 @@ function crearsalida(datos,peso,nuevopeso,aqueinventario){
             "tipo": tiposalida,
             "datos": datos,
             "producto": idsalida,
+            "pesoanterior": pesoanterior,
             "peso": peso,
             "nuevopeso": nuevopeso,
             "date": today,

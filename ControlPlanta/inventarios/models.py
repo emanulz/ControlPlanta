@@ -38,8 +38,9 @@ class EntradasInventario(models.Model):
     tipo=models.ForeignKey('TiposEntradas',verbose_name='Tipo de entrada')
     datos=models.CharField(max_length=255,verbose_name='Datos de la entrada')
     producto=models.ForeignKey(Producto,verbose_name='Corte')
+    pesoanterior=models.FloatField(default=0,verbose_name='Peso anterior Kg')
     peso=models.FloatField(verbose_name='Cantidad Kilogramos')
-    nuevopeso=models.FloatField(verbose_name='Cantidad Kilogramos nueva')
+    nuevopeso=models.FloatField(verbose_name='Nuevo Peso Kg')
     date=models.DateField(verbose_name='Fecha' )
     time=models.TimeField(verbose_name='Hora' )
     usuario=models.ForeignKey(Cajero,verbose_name='usuario')
@@ -49,7 +50,7 @@ class EntradasInventario(models.Model):
     class Meta:
         ordering=['id']
         verbose_name='Entrada en Inventario'
-        verbose_name_plural='2. Entradas en Inventario'
+        verbose_name_plural='1. Entradas en Inventario'
 
 class TiposEntradas(models.Model):
     nombre=models.CharField(max_length=255,verbose_name='Nombre del tipo de entrada')
@@ -58,15 +59,16 @@ class TiposEntradas(models.Model):
     class Meta:
         ordering=['id']
         verbose_name='Tipo de entrada Inventario'
-        verbose_name_plural='3. Tipos de entradas Inventario'
+        verbose_name_plural='2. Tipos de entradas Inventario'
 
 class SalidasInventario(models.Model):
     ainventario=models.CharField(default='Planta',max_length=255,verbose_name='A que inventario fue:')
     tipo=models.ForeignKey('TiposSalidas',verbose_name='Tipo de salida')
     datos=models.CharField(max_length=255,verbose_name='Datos de la salida')
     producto=models.ForeignKey(Producto,verbose_name='Corte')
+    pesoanterior=models.FloatField(default=0,verbose_name='Peso anterior Kg')
     peso=models.FloatField(verbose_name='Cantidad Kilogramos')
-    nuevopeso=models.FloatField(verbose_name='Cantidad Kilogramos nueva')
+    nuevopeso=models.FloatField(verbose_name='Nuevo Peso Kg')
     date=models.DateField(verbose_name='Fecha' )
     time=models.TimeField(verbose_name='Hora' )
     usuario=models.ForeignKey(Cajero,verbose_name='Usuario')
@@ -77,7 +79,7 @@ class SalidasInventario(models.Model):
     class Meta:
         ordering=['id']
         verbose_name='Salida en Inventario'
-        verbose_name_plural='4. Salidas en Inventario'
+        verbose_name_plural='3. Salidas en Inventario'
 
 class TiposSalidas(models.Model):
     nombre=models.CharField(max_length=255,verbose_name='Nombre del tipo de salida')
@@ -86,4 +88,4 @@ class TiposSalidas(models.Model):
     class Meta:
         ordering=['id']
         verbose_name='Tipo de salida Inventario'
-        verbose_name_plural='5. Tipos de salidas Inventario'
+        verbose_name_plural='4. Tipos de salidas Inventario'
