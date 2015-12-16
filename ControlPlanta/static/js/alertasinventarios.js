@@ -4,6 +4,7 @@ var existenciaactual;
 var today;
 var now;
 var usuario;
+var tipoconsultaVal=1;
 //Variables entrada
 var identrada;
 var cantentrada;
@@ -434,9 +435,11 @@ function main () {
         $("#filtroinv").val('');
         $("#tablainventario > tbody").html("");
         if($( "#tipoconsulta").val()==1){
+            tipoconsultaVal=1;
             $.get('/api/productos/',llenarTablabajoIventario);
         }
         if($( "#tipoconsulta").val()==2){
+            tipoconsultaVal=2;
             $.get('/api/materiaprima/',llenarTablabajoIventario);
         }
     });
@@ -706,7 +709,14 @@ function llenarTablabajoIventario(data){
     console.log(data);
     //console.log(data);
         $.each( data, function(i){
-            var existencia = data[i].inventory;
+            var existencia=0;
+            if (tipoconsultaVal==1){
+                existencia = data[i].inventoryplanta;
+            }
+            if (tipoconsultaVal==2){
+                existencia = data[i].inventory;
+            }
+
             var minimo=data[i].minimum;
             //console.log('TABLA '+existencia);
             if(existencia<=minimo) {
