@@ -12,10 +12,11 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 2.7.9 virtualenv at /Volumes/DATOS/Avanzando_Juntos/ControlPlanta/venv" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="miniplataforma" />
     <orderEntry type="module" module-name="django-avanzado" />
+    <orderEntry type="module" module-name="RepuestosRYM" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

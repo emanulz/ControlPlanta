@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ControlPlanta.iml" filepath="$PROJECT_DIR$/.idea/ControlPlanta.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../RepuestosRYM/RepuestosRYM/.idea/RepuestosRYM.iml" filepath="$PROJECT_DIR$/../../../../RepuestosRYM/RepuestosRYM/.idea/RepuestosRYM.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../django-avanzado/.idea/django-avanzado.iml" filepath="$PROJECT_DIR$/../../django-avanzado/.idea/django-avanzado.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../miniplataforma/.idea/miniplataforma.iml" filepath="$PROJECT_DIR$/../../miniplataforma/.idea/miniplataforma.iml" />
     </modules>
