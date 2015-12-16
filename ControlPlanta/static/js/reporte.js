@@ -533,7 +533,7 @@ function main () {
         $( "#reporteventas").printArea();
         $( ".tituloreporteventas").hide();
     });
-    
+
     $("#BtnImprimirreporteventasdesglose").on("click",function(){
         event.preventDefault();
 
