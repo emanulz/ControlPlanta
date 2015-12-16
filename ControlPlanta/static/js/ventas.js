@@ -17,6 +17,8 @@ var detallepago=0;
 var vueltoguardar=0;
 var efectivoguardar=0;
 var cliente=1;
+var clienteContadoNombre=0;
+var clienteContadoNombreVal='';
 var usuario=1;
 var descuento=0;
 var descuentoporc=0;
@@ -230,6 +232,8 @@ function main () {
             var codigo = codigobusquedacliente[rowIndex][0];
             var nombre = codigobusquedacliente[rowIndex][1];
             var apellido = codigobusquedacliente[rowIndex][2];
+            clienteContadoNombre=0;
+            clienteContadoNombreVal='';
             cliente=codigobusquedacliente[rowIndex][3];
             $("#tablabusquedacliente > tbody").html("");
             $('#codigocliente').val(codigo);
@@ -485,6 +489,8 @@ function main () {
             $("#nombrecliente").val('Cliente Contado');
             var a = $("#codigocliente").val();
             var cliente2=$.get('/api/clientes/?code='+a,function(){});
+            clienteContadoNombre=0;
+            clienteContadoNombreVal='';
             cliente=cliente2.responseJSON[0].id;
             //console.log(cliente);
 
@@ -503,6 +509,8 @@ function main () {
          $("#btnconfirmarclientecontado").on("click",function(){
             if($("#nombreclientecontado").val()!==''){
                 $("#cliente").val($("#nombreclientecontado").val());
+                clienteContadoNombre=1;
+                clienteContadoNombreVal=$("#nombreclientecontado").val();
                 $('.cd-panelbuscarcliente').removeClass('is-visible');
                 blurElement('.blurlines',0);
                 cliente=1;
@@ -1890,7 +1898,17 @@ function patchcuentacobrar(){
 }
 
 function generarfactura(){
-    var clientefactura=$.get('/api/clientes/'+cliente+'/',function(){});
+
+    if (clienteContadoNombre==0){
+        var clientefactura=$.get('/api/clientes/'+cliente+'/',function(){});
+        $('.clientefact').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
+    }
+    if (clienteContadoNombre==1){
+
+        $('.clientefact').html(clienteContadoNombreVal);
+    }
+
+
     var cajerofactura=$.get('/api/cajeros/'+usuario+'/',function(){});
 
     var tipoventafact='CONTADO.';
@@ -1903,7 +1921,6 @@ function generarfactura(){
     $('.facturanumfact').html(' '+ventaid);
     $('.tipoventafact').html(' '+tipoventafact);
     $('.fechafact').html('  '+todaynorm +' '+tiempoahora());
-    $('.clientefact').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
     $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
 
     $.each( matrixventa, function(i){

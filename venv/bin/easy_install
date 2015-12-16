@@ -1,4 +1,4 @@
-#!/Volumes/DATOS/Avanzando_Juntos/ControlPlanta/venv/bin/python2.7
+#!/Volumes/DATOS/Avanzando_Juntos/ControlPlanta/venv/bin/python
 
 # -*- coding: utf-8 -*-
 import re

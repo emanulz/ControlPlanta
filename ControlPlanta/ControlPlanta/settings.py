@@ -14,7 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os, socket
 
 
-if socket.gethostname().startswith('Mac'):
+if socket.gethostname().startswith('iMac'):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 else:
     BASE_DIR = os.path.realpath(os.path.dirname(__file__))
@@ -146,7 +146,7 @@ TEMPLATES = [
     },
 ]
 
-if socket.gethostname().startswith('Mac'):
+if socket.gethostname().startswith('iMac'):
 
     WSGI_APPLICATION = 'ControlPlanta.wsgi.application'
 else:
@@ -155,7 +155,7 @@ else:
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-if socket.gethostname().startswith('Mac'):
+if socket.gethostname().startswith('iMac'):
 
     DATABASES = {
         'default': {
