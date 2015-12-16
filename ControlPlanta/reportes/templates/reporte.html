@@ -26,6 +26,7 @@
                         <select class="form-control" name="tiporeporte" id="tiporeporte">
                             <option value="1">Ventas</option>
                             <option value="2">Gastos</option>
+                            <option value="3">Desglose de ventas</option>
                         </select>
                    </div>
 
@@ -99,6 +100,110 @@
         </div>
 
     </form><!-- Reporte Ventas -->
+        <form hidden class="form-horizontal col-sm-12 reporteventasdesglose" action="" id="reporteventasdesglose">
+        <div class="form-group">
+
+            <div hidden class=" form-group col-sm-12 tituloreporteventasdesglose">
+               <span class="tituloventa">REPORTE DE VENTAS</span>
+                <br/><br/>
+                <span>Desde: </span> <span class="fechainicialimp"></span> <br/><br/>
+                <span>Hasta: </span> <span class="fechafinalimp"></span>
+            </div>
+
+            <div  class=" form-group col-sm-12">
+               <span class="tituloventa2">VENTAS CONTADO:</span>
+            </div>
+
+            <div class=" form-group col-sm-12 ">
+            <table class="table table-bordered table-hover" data-toggle="table" id="tablareporteventascontado" data-url="" data-cache="false" data-height="299">
+                <thead>
+                    <tr class="danger">
+                        <th data-field="id"># Fact</th>
+                        <th data-field="cliente">Cliente</th>
+                        <th data-field="fecha">Fecha</th>
+                        <th data-field="subtotal">Subtotal</th>
+                        <th data-field="iv">IV</th>
+                        <th data-field="descuento">Descuento</th>
+                        <th data-field="total">Total</th>
+                        <th data-field="estado">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <div class="col-sm-12">
+
+            </div>
+            </div><!-- tabla -->
+
+            <div class="form-group">
+            <div class="col-sm-12" style="text-align: right">
+                <label for="pesolote">Total de ventas contado:</label>
+                <div>
+                    <br/>
+                    <span class="sidePanelData totalventascontado price">₡ 0</span>
+                </div>
+            </div>
+            </div><!-- total de kilogramos-->
+            <div class="form-group" style="text-align: right">
+                <div class="col-sm-12">
+                    <label for="totalart">Total en iv contado:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalivventascontado price">₡ 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div  class=" form-group col-sm-12">
+               <span class="tituloventa2">VENTAS CRÉDITO:</span>
+            </div>
+
+            <div class=" form-group col-sm-12 ">
+            <table class="table table-bordered table-hover" data-toggle="table" id="tablareporteventascredito" data-url="" data-cache="false" data-height="299">
+                <thead>
+                    <tr class="danger">
+                        <th data-field="id"># Fact</th>
+                        <th data-field="cliente">Cliente</th>
+                        <th data-field="fecha">Fecha</th>
+                        <th data-field="subtotal">Subtotal</th>
+                        <th data-field="iv">IV</th>
+                        <th data-field="descuento">Descuento</th>
+                        <th data-field="total">Total</th>
+                        <th data-field="estado">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <div class="col-sm-12">
+
+            </div>
+            </div><!-- tabla -->
+            <div class="form-group">
+            <div class="col-sm-12" style="text-align: right">
+                <label for="pesolote">Total de ventas crédito:</label>
+                <div>
+                    <br/>
+                    <span class="sidePanelData totalventascredito price">₡ 0</span>
+                </div>
+            </div>
+            </div><!-- total de kilogramos-->
+            <div class="form-group" style="text-align: right">
+                <div class="col-sm-12">
+                    <label for="totalart">Total en iv crédito:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalivventascredito price">₡ 0</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </form><!-- Reporte Ventas desglose -->
         <form hidden class="form-horizontal col-sm-12 reportegastos" action="" id="reportegastos">
         <div class="form-group">
 
@@ -179,6 +284,58 @@
         </div>
     </form>
     </div> <!-- Side bar Reporte Ventas -->
+    <div hidden class="col-sm-3 sidetotalesventadesglose" >
+        <form class="form-horizontal col-sm-12" action="">
+        <div class="col-sm-1"></div>
+        <div class="form-group col-sm-11 ">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="pesolote">Total de ventas Contado:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalventascontado price">₡ 0</span>
+                    </div>
+                </div>
+            </div><!-- total de kilogramos-->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="totalart">Total en iv Contado:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalivventascontado price">₡ 0</span>
+                    </div>
+                </div>
+            </div><!-- Total de artículos -->
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="pesolote">Total de ventas Crédito:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalventascredito price">₡ 0</span>
+                    </div>
+                </div>
+            </div><!-- total de kilogramos-->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label for="totalart">Total en iv Crédito:</label>
+                    <div>
+                        <br/>
+                        <span class="sidePanelData totalivventascredito price">₡ 0</span>
+                    </div>
+                </div>
+            </div><!-- Total de artículos -->
+
+
+            <div class="form-group " style="margin-top: 15px">
+                <div class="col-sm-12">
+                    <button type="button" class=" btn btn-success  form-control  BtnImprimirreporteventasdesglose" id="BtnImprimirreporteventasdesglose" style="width: 160px">Imprimir Reporte</button>
+
+                </div>
+            </div><!-- btnconfirmar -->
+        </div>
+    </form>
+    </div> <!-- Side bar Reporte Ventas desglose -->
     <div hidden class="col-sm-3 sidetotalesgastos" >
         <form class="form-horizontal col-sm-12" action="">
         <div class="col-sm-1"></div>

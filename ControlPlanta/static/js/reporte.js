@@ -4,6 +4,11 @@
 var totalreporteventas=0;
 var ivreporteventas=0;
 
+var totalreporteventascontado=0;
+var ivreporteventascontado=0;
+var totalreporteventascredito=0;
+var ivreporteventascredito=0;
+
 var totalreportegastos=0;
 
 
@@ -510,6 +515,9 @@ function main () {
                 if($("#tiporeporte").val()==2){
                     GenerarReporteGastos();
                 }
+                if($("#tiporeporte").val()==3){
+                    GenerarReporteVentasDesglose();
+                }
 
             }
             else{
@@ -524,6 +532,14 @@ function main () {
         $( ".tituloreporteventas:hidden").show();
         $( "#reporteventas").printArea();
         $( ".tituloreporteventas").hide();
+    });
+    
+    $("#BtnImprimirreporteventasdesglose").on("click",function(){
+        event.preventDefault();
+
+        $( ".tituloreporteventasdesglose:hidden").show();
+        $( "#reporteventasdesglose").printArea();
+        $( ".tituloreporteventasdesglose").hide();
     });
 
     $("#BtnImprimirreportegastos").on("click",function(){
@@ -640,6 +656,93 @@ function GenerarReporteVentas(){
 
 }
 
+function GenerarReporteVentasDesglose(){
+
+    $(".reporteventas").hide();
+    $(".sidetotalesventa").hide();
+
+    $("#tablareporteventascontado > tbody").html("");
+    $("#tablareporteventascredito > tbody").html("");
+    totalreporteventascontado=0;
+    ivreporteventascontado=0;
+    totalreporteventascredito=0;
+    ivreporteventascredito=0;
+
+
+    $(".fechainicialimp").html($("#fechainicial").val());
+    $(".fechafinalimp").html($("#fechafinal").val());
+
+    var ventasrango=$.get('/api/venta/?min_date='+$("#fechainicial").val()+'&&max_date='+$("#fechafinal").val(),function(){});
+    $.each( ventasrango.responseJSON, function(i){
+    //console.log(ventasrango.responseJSON[i].id)
+    var estado;
+
+
+    var tipoventaget=$.get('/api/detallepago/'+ventasrango.responseJSON[i].datosdelpago+'/',function(){});
+    var tipoventa=tipoventaget.responseJSON.tipopago;
+
+    if(tipoventa==3){
+
+        if (ventasrango.responseJSON[i].anulada==true){
+        estado='Anulada';
+
+        }
+        else{
+            estado=' ';
+
+            totalreporteventascredito=totalreporteventascredito+ventasrango.responseJSON[i].total;
+            ivreporteventascredito=ivreporteventascredito+ventasrango.responseJSON[i].iv;
+        }
+
+
+        $('#tablareporteventascredito > tbody:last').append('<tr><td>' + ventasrango.responseJSON[i].id + '</td><td>' + ventasrango.responseJSON[i].nombrecliente  +
+        '</td><td>' + ventasrango.responseJSON[i].date + '</td><td class="price">' + ventasrango.responseJSON[i].subtotal.toFixed(2) +
+        '</td><td class="price">' + ventasrango.responseJSON[i].iv.toFixed(2) +'</td><td class="price">' + ventasrango.responseJSON[i].desctocol.toFixed(2) +
+        '</td><td class="price">' + ventasrango.responseJSON[i].total.toFixed(2) +'</td><td class="'+estado+'">' + estado + '</td></tr>');
+
+    }
+    else{
+
+        if (ventasrango.responseJSON[i].anulada==true){
+        estado='Anulada';
+
+        }
+        else{
+            estado=' ';
+
+            totalreporteventascontado=totalreporteventascontado+ventasrango.responseJSON[i].total;
+            ivreporteventascontado=ivreporteventascontado+ventasrango.responseJSON[i].iv;
+        }
+
+        $('#tablareporteventascontado > tbody:last').append('<tr><td>' + ventasrango.responseJSON[i].id + '</td><td>' + ventasrango.responseJSON[i].nombrecliente  +
+        '</td><td>' + ventasrango.responseJSON[i].date + '</td><td class="price">' + ventasrango.responseJSON[i].subtotal.toFixed(2) +
+        '</td><td class="price">' + ventasrango.responseJSON[i].iv.toFixed(2) +'</td><td class="price">' + ventasrango.responseJSON[i].desctocol.toFixed(2) +
+        '</td><td class="price">' + ventasrango.responseJSON[i].total.toFixed(2) +'</td><td class="'+estado+'">' + estado + '</td></tr>');
+
+
+    }
+
+
+    });
+
+    $(".reporteventasdesglose:hidden").show();
+    $(".sidetotalesventadesglose:hidden").show();
+
+    $(".totalventascontado").html(totalreporteventascontado.toFixed(2));
+    $(".totalivventascontado").html(ivreporteventascontado.toFixed(2));
+
+    $(".totalventascredito").html(totalreporteventascredito.toFixed(2));
+    $(".totalivventascredito").html(ivreporteventascredito.toFixed(2));
+
+    $('.price').priceFormat({
+                prefix: '₡ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+        });
+
+
+
+}
 
 function GenerarReporteGastos(){
 
