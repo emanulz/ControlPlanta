@@ -36,6 +36,7 @@ var todaynorm;
 var creditoaprobado=false;
 var saldoantcred=0;
 var saldoactcred=0;
+var variablePruebaGIT=0;
 
 var vencimiento;
 var tipo;
