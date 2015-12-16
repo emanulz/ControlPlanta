@@ -19,6 +19,8 @@ var efectivoguardar=0;
 var cliente=1;
 var clienteContadoNombre=0;
 var clienteContadoNombreVal='';
+var preciomodificado=0;
+var preciomodificadomonto=0;
 var usuario=1;
 var descuento=0;
 var descuentoporc=0;
@@ -220,6 +222,25 @@ function main () {
             $('#producto').val(codigo);
             $('.cd-panelbuscar').removeClass('is-visible');
             blurElement('.blurlines',0);
+
+        });
+
+
+
+        //changepricerow
+
+        $('html').on('click','.changepricerow', function () {
+            event.preventDefault();
+            var row=$(this).closest("tr");
+            var rowIndex = row.index();
+
+
+            alertify.prompt('Ingrese el nuevo precio por KG' , 'Precio nuevo').set('type','number').set('onok', function(evnt,value){
+                matrixventa[rowIndex][2]=parseFloat(value);
+                matrixventa[rowIndex][12]=1;
+                recalculartablaproductos();
+                console.log(matrixventa);
+            });
 
         });
 
@@ -794,8 +815,13 @@ function recalculartablaproductos(){
             agregarcanalatabla(matrixinterna[i][10],matrixinterna[i][9],matrixinterna[i][2],matrixinterna[i][3],matrixinterna[i][11]);
         }
         else{
+
+            preciomodificado=matrixinterna[i][12];
+            console.log(matrixinterna[i][12]);
+            preciomodificadomonto=matrixinterna[i][2];
+
             cantidad=matrixinterna[i][3];
-             $.get('/api/productos/?product_code='+matrixinterna[i][0],llenartablaProductos);
+            $.get('/api/productos/?product_code='+matrixinterna[i][0],llenartablaProductos);
         }
     });
 
@@ -896,17 +922,17 @@ function agregarcanalatabla(id,tipo,precio,peso,enteroOmedio) {
     }
 
     if(tipo==1){// canal de cerdo
-        $('#tablaproductos > tbody:last').append('<tr><td>' + 4001 + '</td><td>' + description+' Cerdo id# '+id+'</td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+4001+'>' + peso + '</td>' +
+        $('#tablaproductos > tbody:last').append('<tr><td>' + 4001 + '</td><td>' + description+' Cerdo id# '+id+'</td><td> <button disabled  type="button" class=" btn btn-warning changepricerow" id="btnchangeprice"><span class="glyphicon glyphicon-euro"></span></button></td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+4001+'>' + peso + '</td>' +
         '<td>'+'E'+'</td><td class="precio total'+4001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
         var codCanalCerdo=$.get('/api/productos/?product_code=4001',function(){});
-        matrixventa.push([4001, description+' Cerdo id# '+id,precio ,peso,pricesubr, canalivr,pricetotr,codCanalCerdo.responseJSON[0].id,false,1,id,enteroOmedio]);//los dos ultimos son si es canal y tipo y el id
+        matrixventa.push([4001, description+' Cerdo id# '+id,precio ,peso,pricesubr, canalivr,pricetotr,codCanalCerdo.responseJSON[0].id,false,1,id,enteroOmedio,0]);//los dos ultimos son si es canal y tipo y el id
 
     }
     if(tipo==2){//canal de res
-        $('#tablaproductos > tbody:last').append('<tr><td>' + 5001 + '</td><td>' + description+' Res id# '+id+'</td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+5001+'>' + peso + '</td>' +
+        $('#tablaproductos > tbody:last').append('<tr><td>' + 5001 + '</td><td>' + description+' Res id# '+id+'</td><td> <button disabled type="button" class=" btn btn-warning changepricerow" id="btnchangeprice"><span class="glyphicon glyphicon-euro"></span></button></td><td class="precio">' +price.toFixed(2) + '</td><td class=cant'+5001+'>' + peso + '</td>' +
         '<td>'+'E'+'</td><td class="precio total'+5001+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
         var codCanalRes=$.get('/api/productos/?product_code=5001',function(){});
-        matrixventa.push([5001, description+' Res id# '+id,precio ,peso,pricesubr,canalivr,pricetotr,codCanalRes.responseJSON[0].id,false,2,id,enteroOmedio]);//los dos ultimos son si es canal y tipo y el id
+        matrixventa.push([5001, description+' Res id# '+id,precio ,peso,pricesubr,canalivr,pricetotr,codCanalRes.responseJSON[0].id,false,2,id,enteroOmedio,0]);//los dos ultimos son si es canal y tipo y el id
 
     }
     var totalkg2=parseFloat(totalkg);
@@ -961,7 +987,13 @@ function llenartablaProductos(data){
 
         if(inarray==-1){//no existe en la tabla
             if (existencia>=cantidad || data[0].ventaneg==true ){
-                var pricetouse=determinprice(data);
+
+                if(preciomodificado==0) {
+                    var pricetouse = determinprice(data);
+                }
+                if(preciomodificado==1) {
+                    var pricetouse = preciomodificadomonto;
+                }
                 //var cantidad =parseFloat($('#cantidad').val());
                 var impentabla;
                 var pricesub=(pricetouse*cantidad);
@@ -994,10 +1026,10 @@ function llenartablaProductos(data){
 
 
 
-                $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td class="precio">' +pricetouse.toFixed(2) + '</td><td class=cant'+data[0].product_code+'>' + cantidad + '</td>' +
+                $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td> <button  type="button" class=" btn btn-warning changepricerow" id="btnchangeprice"><span class="glyphicon glyphicon-euro"></span></button></td><td class="precio">' +pricetouse.toFixed(2) + '</td><td class=cant'+data[0].product_code+'>' + cantidad + '</td>' +
                 '<td>'+impentabla+'</td><td class="precio total'+data[0].product_code+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
 
-                matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer,data[0].id,usaimpuestos,0,0]);//los dos ultimos son si es canal y el id
+                matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer,data[0].id,usaimpuestos,0,0,0,preciomodificado]);//los tres ultimos son si es canal , el id y si se modifico precio
 
                 $('#cantidad').val(1);
                 totalkg2=parseFloat(totalkg);
@@ -1018,6 +1050,9 @@ function llenartablaProductos(data){
                     centsSeparator: ',',
                     thousandsSeparator: '.'
                 });
+
+                preciomodificado=0;
+                preciomodificadomonto=0;
             }//if check inventario
             else{
                 if(cliente==2){
