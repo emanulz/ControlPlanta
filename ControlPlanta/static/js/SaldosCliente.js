@@ -1336,7 +1336,7 @@ function CargarFactura(factura){
     $.each( matrixproductos, function(i){
         var detalleint=$.get('/api/detalleproducto/'+matrixproductos[i]+'/',function(){});
         //var producto=$.get('/api/productos/'+detalleint.responseJSON.producto+'/',function(){});
-        $('#tablafactura > tbody:last').append('<tr><td> ' +detalleint.responseJSON.cantidad+ ' </td><td>' + detalleint.responseJSON.description+ '</td><td class="precio">' +detalleint.responseJSON.total.toFixed(2)+ '</td></tr>');
+        $('#tablafactura > tbody:last').append('<tr><td> ' +detalleint.responseJSON.cantidad+ ' </td><td>' + detalleint.responseJSON.description+ '</td><td class="precio">' +detalleint.responseJSON.preciouni.toFixed(2)+ '</td><td class="precio">' +detalleint.responseJSON.total.toFixed(2)+ '</td></tr>');
     });
     if(venta.responseJSON.descopor>0){
         $('.descueentofactleft').html('DESCUENTO '+venta.responseJSON.descopor +'%');

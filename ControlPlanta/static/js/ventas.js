@@ -1960,7 +1960,7 @@ function generarfactura(){
     $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
 
     $.each( matrixventa, function(i){
-        $('#tablafactura > tbody:last').append('<tr><td> ' +matrixventa[i][3]+ ' </td><td>' + matrixventa[i][1]+ '</td><td class="precio">' +matrixventa[i][4].toFixed(2)+ '</td></tr>');
+        $('#tablafactura > tbody:last').append('<tr><td> ' +matrixventa[i][3]+ ' </td><td>' + matrixventa[i][1]+ '</td><td class="precio">' +matrixventa[i][2].toFixed(2)+ '</td><td class="precio">' +matrixventa[i][4].toFixed(2)+ '</td></tr>');
     });
     if(descuento>0){
         $('.descueentofactleft').html('DESCUENTO '+descuentoporc +'%');
