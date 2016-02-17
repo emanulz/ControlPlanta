@@ -1247,7 +1247,7 @@ function CargarFactura(factura){
             });
             //var producto=$.get('/api/productos/'+detalleint.responseJSON.producto+'/',function(){});
             $('#tablafactura > tbody:last').append('<tr><td> ' + detalleint.responseJSON.cantidad + ' </td><td>' +
-            detalleint.responseJSON.description + '</td><td class="precio">' + detalleint.responseJSON.total.toFixed(2) + '</td></tr>');
+            detalleint.responseJSON.description + '</td><td class="precio">' + detalleint.responseJSON.preciouni.toFixed(2) + '</td><td class="precio">' + detalleint.responseJSON.total.toFixed(2) + '</td></tr>');
 
             var producto=$.get('/api/productos/'+detalleint.responseJSON.producto+'/');
 

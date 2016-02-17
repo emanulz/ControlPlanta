@@ -689,7 +689,7 @@ function mostarcotizacion(cotinum){
         '<td class="precio">' + detalle.responseJSON.total.toFixed(2) +'</td></tr>');
 
         $('#tablafactura > tbody:last').append('<tr><td> ' + detalle.responseJSON.cantidad + ' </td><td>' +
-        detalle.responseJSON.description + '</td><td class="precio">' + detalle.responseJSON.total.toFixed(2) + '</td></tr>');
+        detalle.responseJSON.description + '</td><td class="precio">' + detalle.responseJSON.preciouni.toFixed(2) + '</td><td class="precio">' + detalle.responseJSON.total.toFixed(2) + '</td></tr>');
 
         matrixventa.push([detalle.responseJSON.producto, detalle.responseJSON.cantidad]);
 
