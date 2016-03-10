@@ -549,6 +549,8 @@ function llenartablacierre(){
 
     $.each( ventasdia.responseJSON, function(i){
 
+        var nomcliente=$.get('/api/venta/'+ventasdia.responseJSON[i].facturas[0]+'/');
+
         if(ventasdia.responseJSON[i].tipopago==1){
             tipopagocierre='EFECTIVO';
         }
@@ -565,10 +567,14 @@ function llenartablacierre(){
             tipopagocierre='CHEQUE';
         }
 
-        $('#tablacierre > tbody:last').append('<tr><td>' + ventasdia.responseJSON[i].id + '</td><td>' + ventasdia.responseJSON[i].facturas +
+        $('#tablacierre > tbody:last').append('<tr><td>' + ventasdia.responseJSON[i].id + '</td><td>' + ventasdia.responseJSON[i].date +
+            '</td><td>' + nomcliente.responseJSON.nombrecliente +
+            '</td><td>' + ventasdia.responseJSON[i].facturas +
             '</td><td>' + tipopagocierre + '</td><td class="price">' +  ventasdia.responseJSON[i].montocol.toFixed(2) + '</td></tr>');
 
-        $('#tablaimpcierre > tbody:last').append('<tr><td> ' +ventasdia.responseJSON[i].id+ ' </td><td> ' +ventasdia.responseJSON[i].facturas+ ' </td>' +
+        $('#tablaimpcierre > tbody:last').append('<tr><td> ' +ventasdia.responseJSON[i].id+ ' </td><td>' + ventasdia.responseJSON[i].date +
+            '</td><td>' + nomcliente.responseJSON.nombrecliente +
+            '</td><td> ' +ventasdia.responseJSON[i].facturas+ ' </td>' +
         '<td class="price">' +ventasdia.responseJSON[i].montocol.toFixed(2)+ '</td></tr>');
 
 
@@ -621,10 +627,10 @@ function llenartablacierre(){
 
 function imprimircierre(){
 
-        $('.sidetotales').hide();
-        $('.factura:hidden').show();
+        //$('.sidetotales').hide();
+        //$('.factura:hidden').show();
         Imprimir();
-        $('#maincontent').find(':input').prop('disabled', true);
+        //$('#maincontent').find(':input').prop('disabled', true);
         $('#BtnPrint').prop('disabled', false);
         $('#BtnNuevoCierre').prop('disabled', false);
 }
