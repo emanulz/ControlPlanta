@@ -539,9 +539,11 @@ function llenartablacierre(){
     creditocierre=0;
     chequecierre=0;
     transferenciacierre=0;
-    var fechacierre=$('#fechacierre').val();
+    var fechainicial=$('#fechainicial').val();
+    var fechafinal=$('#fechafinal').val();
     //console.log(fechacierre);
-    var ventasdia=$.get('/api/abonoscobrar/?date='+fechacierre,function(){});
+    //var ventasdia=$.get('/api/abonoscobrar/?date='+fechacierre,function(){});
+    var ventasdia=$.get('/api/abonoscobrar/?min_date='+$("#fechainicial").val()+'&&max_date='+$("#fechafinal").val(),function(){});
     //console.log(ventasdia);
     var tipopagocierre;
 
@@ -599,7 +601,7 @@ function llenartablacierre(){
         $('.totalventascierre').html(totalcierre.toFixed(2));
         //$('.totalivcierre').html(ivcierre.toFixed(2));
         //imprimir
-        $('.fechaimpcierre').html('FECHA: '+fechacierre);
+        $('.fechaimpcierre').html('Desde el '+fechainicial+' hasta el '+fechafinal);
         $('.efectivoimprimir').html(contadocierre.toFixed(2));
         $('.tarjetaimprimir').html(tarjetacierre.toFixed(2));
         //$('.creditoimprimir').html(creditocierre.toFixed(2));

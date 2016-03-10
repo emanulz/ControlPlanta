@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from rest_framework import serializers,viewsets
+
+from cuentasCobrar.filters import AbonoFilter
 from cuentasCobrar.models import Abono,DetalleCuenta, NotaDeCredito
 
 # Create your views here.
@@ -45,7 +47,8 @@ class AbonosViewSet(viewsets.ModelViewSet):
     serializer_class = AbonosSerializer
     queryset = Abono.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','date', 'time', 'detalle','facturas' ,'moneda','montocol','montodolar','tipopago','tipotarjeta','digitos','autorizacion','transfnum','bancotransf', 'chequenum','bancocheque','saldoant', 'saldoactual')
+    filter_class = AbonoFilter
+    #filter_fields=('id','date', 'time', 'detalle','facturas' ,'moneda','montocol','montodolar','tipopago','tipotarjeta','digitos','autorizacion','transfnum','bancotransf', 'chequenum','bancocheque','saldoant', 'saldoactual')
 
 class DetalleCuentaSerializer(serializers.ModelSerializer):
 
