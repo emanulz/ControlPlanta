@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c566a9ac-abab-44a6-9d6c-4faf25d6b3cf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cuentasCobrar/templates/SaldosCliente.html" afterPath="$PROJECT_DIR$/cuentasCobrar/templates/SaldosCliente.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cuentasCobrar/templates/cuentasCobrar.html" afterPath="$PROJECT_DIR$/cuentasCobrar/templates/cuentasCobrar.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/devoluciones/templates/devoluciones.html" afterPath="$PROJECT_DIR$/devoluciones/templates/devoluciones.html" />
@@ -45,7 +44,7 @@
         <entry file="file://$PROJECT_DIR$/ventas/templates/ventas.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="177">
-              <caret line="185" column="78" selection-start-line="185" selection-start-column="46" selection-end-line="185" selection-end-column="78" />
+              <caret line="185" column="59" selection-start-line="185" selection-start-column="59" selection-end-line="185" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -109,11 +108,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="devoluciones.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="devoluciones.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/devoluciones/templates/devoluciones.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="157" column="36" selection-start-line="157" selection-start-column="36" selection-end-line="157" selection-end-column="36" />
+            <state relative-caret-position="300">
+              <caret line="160" column="78" selection-start-line="160" selection-start-column="46" selection-end-line="160" selection-end-column="78" />
               <folding>
                 <element signature="e#8516#8535#0#HTML" expanded="true" />
               </folding>
@@ -133,11 +132,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cuentasCobrar.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="cuentasCobrar.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cuentasCobrar/templates/cuentasCobrar.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="174" column="78" selection-start-line="174" selection-start-column="78" selection-end-line="174" selection-end-column="78" />
+            <state relative-caret-position="75">
+              <caret line="167" column="27" selection-start-line="167" selection-start-column="27" selection-end-line="167" selection-end-column="27" />
               <folding>
                 <element signature="e#9516#9535#0#HTML" expanded="true" />
               </folding>
@@ -220,10 +219,10 @@
         <option value="$PROJECT_DIR$/static/js/cuentasCobrar.js" />
         <option value="$PROJECT_DIR$/static/js/SaldosCliente.js" />
         <option value="$PROJECT_DIR$/static/js/devoluciones.js" />
-        <option value="$PROJECT_DIR$/ventas/templates/ventas.html" />
         <option value="$PROJECT_DIR$/devoluciones/templates/devoluciones.html" />
-        <option value="$PROJECT_DIR$/cuentasCobrar/templates/cuentasCobrar.html" />
         <option value="$PROJECT_DIR$/cuentasCobrar/templates/SaldosCliente.html" />
+        <option value="$PROJECT_DIR$/ventas/templates/ventas.html" />
+        <option value="$PROJECT_DIR$/cuentasCobrar/templates/cuentasCobrar.html" />
       </list>
     </option>
   </component>
@@ -723,9 +722,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="2" y="23" width="1807" height="936" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21699716" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21699716" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299435" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2542373" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1140,30 +1139,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ventas/templates/ventas.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="185" column="78" selection-start-line="185" selection-start-column="46" selection-end-line="185" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cuentasCobrar/templates/cuentasCobrar.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="174" column="78" selection-start-line="174" selection-start-column="78" selection-end-line="174" selection-end-column="78" />
-          <folding>
-            <element signature="e#9516#9535#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cuentasCobrar/templates/SaldosCliente.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="173" column="78" selection-start-line="173" selection-start-column="78" selection-end-line="173" selection-end-column="78" />
           <folding>
             <element signature="e#9511#9530#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ventas/templates/ventas.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="185" column="59" selection-start-line="185" selection-start-column="59" selection-end-line="185" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/devoluciones/templates/devoluciones.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="160" column="78" selection-start-line="160" selection-start-column="46" selection-end-line="160" selection-end-column="78" />
+          <folding>
+            <element signature="e#8516#8535#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1184,12 +1183,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/devoluciones/templates/devoluciones.html">
+    <entry file="file://$PROJECT_DIR$/cuentasCobrar/templates/cuentasCobrar.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="157" column="36" selection-start-line="157" selection-start-column="36" selection-end-line="157" selection-end-column="36" />
+        <state relative-caret-position="75">
+          <caret line="167" column="27" selection-start-line="167" selection-start-column="27" selection-end-line="167" selection-end-column="27" />
           <folding>
-            <element signature="e#8516#8535#0#HTML" expanded="true" />
+            <element signature="e#9516#9535#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
