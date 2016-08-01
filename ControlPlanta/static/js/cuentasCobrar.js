@@ -1264,6 +1264,7 @@ function CargarFactura(factura,cliente2,usuario2){
 
     $('.subtotalfactright').html(venta.responseJSON.subtotal.toFixed(2));
     $('.descueentofactright').html(venta.responseJSON.desctocol.toFixed(2));
+    $('.cnpfactright').html(venta.responseJSON.cpnval);
     $('.ivfactright').html(venta.responseJSON.iv.toFixed(2));
     $('.totalfactright').html(venta.responseJSON.total.toFixed(2));
 

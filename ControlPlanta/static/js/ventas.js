@@ -1212,6 +1212,7 @@ if (descuentoyaaplicado==false){
 }
 
 $(".removerow").prop('disabled',true);
+$("#cnp_orders").prop('disabled',true);
 $("#cantidad").prop('disabled',true);
 $("#producto").prop('disabled',true);
 $("#Btnbuscarclientemain").prop('disabled',true);
@@ -1227,6 +1228,7 @@ $("#amovil").prop('disabled',false);
 function NoConfirmarDatos(){
 
     $("#descuento").prop('disabled',true).val('');
+    $("#cnp_orders").prop('disabled',false);
     $("#btndescuento").prop('disabled',true);
     $(".removerow").prop('disabled',false);
     $("#cantidad").prop('disabled',false);
@@ -1869,6 +1871,13 @@ function guardarventa(){
     if($("#pagacontipo").val()==3){
         saldoguardar=totalventa;
     }
+    
+    var cnp_orders=$('#cnp_orders').val();
+
+    if (cnp_orders==''){
+        cnp_orders='-'
+    }
+
     $.ajax({
             method: "POST",
             url: "/api/venta/",
@@ -1889,7 +1898,8 @@ function guardarventa(){
                 "total": totalventa,
                 "detalleproductos": detallesventa,
                 "datosdelpago": detallepago,
-                "saldo": saldoguardar
+                "saldo": saldoguardar,
+                "cpnval": cnp_orders
             }),//JSON object
             contentType: "application/json; charset=utf-8",
             dataType: "json"
@@ -1969,6 +1979,7 @@ function generarfactura(){
     $('.subtotalfactright').html(subtotal.toFixed(2));
     $('.descueentofactright').html(descuento.toFixed(2));
     $('.ivfactright').html(totaliv.toFixed(2));
+    $('.cnpfactright').html($('#cnp_orders').val());
     $('.totalfactright').html(totalventa.toFixed(2));
 
     $('.precio').priceFormat({

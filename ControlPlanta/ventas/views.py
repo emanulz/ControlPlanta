@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.template import RequestContext
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
-from rest_framework import serializers,viewsets
+from rest_framework import serializers, viewsets
 from lotes.models import Lote
 from ventas.filters import VentaFilter
 from ventas.models import DetallesPago, DetalleProductos, Venta
@@ -77,7 +77,7 @@ class VentaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Venta
-        fields =('id','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago','saldo','anulada','devuelto','connotacredito','conabono')
+        fields =('id','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago','saldo','anulada','devuelto','connotacredito','conabono', 'cpnval')
 
 class VentaViewSet(viewsets.ModelViewSet):
 

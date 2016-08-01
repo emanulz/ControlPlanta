@@ -29,19 +29,21 @@ class Producto(models.Model):
     taxes = models.BooleanField(default=0, verbose_name='Impuestos?')
     taxes_amount = models.FloatField(default=0, blank=True, verbose_name='% Impuestos')
 
-
     def __unicode__(self):
         return self.description
+
     class Meta:
-        ordering=['id']
-        verbose_name='Producto'
-        verbose_name_plural='1. Productos'
+        ordering = ['id']
+        verbose_name = 'Producto'
+        verbose_name_plural = '1. Productos'
+
 
 class FamiliaDelProducto(models.Model):
     name = models.CharField(max_length=255, verbose_name='nombre de la familia',unique=True)
 
     def __unicode__(self):
         return self.name
+
     class Meta:
         verbose_name='Familia'
         verbose_name_plural='2. Familias'

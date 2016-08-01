@@ -31,6 +31,7 @@ class Venta(models.Model):
     devuelto=models.BooleanField(default=0, verbose_name='Con devolución?')
     connotacredito=models.BooleanField(default=0, verbose_name='Con nota crédito?')
     conabono=models.BooleanField(default=0, verbose_name='Con abono?')
+    cpnval=models.CharField(max_length=255, default=0, verbose_name='Ordenes de compra del CNP')
 
     def __unicode__(self):
         ret=str(self.id)
