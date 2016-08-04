@@ -647,6 +647,45 @@ function main () {
                 event.preventDefault();
             }
         });
+    
+    
+        //PANEL DE Reimprimir
+
+        $('.BtnReimprimir').on('click', function(event){
+            event.preventDefault();
+
+            $('.cd-panelreimprimir').addClass('is-visible');
+            blurElement('.blurlines',2);
+        });
+        $('.cd-panelreimprimir').on('click', function(event){
+            if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+                $('.cd-panelreimprimir').removeClass('is-visible');
+
+                blurElement('.blurlines',0);
+                event.preventDefault();
+            }
+        });
+
+
+        $('#BtnReimprimirAbono').on('click', function(event){
+
+            event.preventDefault();
+            reimprimirabono();
+
+        });
+
+        $('#numabonoreimp').on('keypress', function (event) {
+
+            if(event.which === 13){
+                event.preventDefault();
+                reimprimirabono();
+             }
+        });
+
+
+
+
+
 
         //PANEL DE BUSCAR CLIENTE
 
@@ -694,6 +733,36 @@ function ImprimirNC(){
 function tiempoahora(){
     var dt = new Date();
     return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+}
+
+
+function reimprimirabono(){
+
+    var id = $('#numabonoreimp').val();
+
+
+    if (id == ''){
+        alertify.alert("Por favor ingrese un número de abono");
+    }
+    else{
+
+        var Abono=$.get('/api/abonoscobrar/'+id+'/',function(){});
+
+       if (Abono.status == 404){
+            alertify.alert("No se encontró el número de Abono");
+       }
+        if (Abono.status == 200){
+
+            cliente = $.get('/api/saldocobrar/?abonos='+id,function(){});
+
+            ImprimirReciboAbono(id,cliente.responseJSON[0].cliente)
+
+       }
+
+
+    }
+
+
 }
 
 function llenarDatosNC(factura,cliente){
