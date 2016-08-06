@@ -518,6 +518,9 @@ function main () {
                 if($("#tiporeporte").val()==3){
                     GenerarReporteVentasDesglose();
                 }
+                if($("#tiporeporte").val()==4){
+                    GenerarReporteVentasExcel();
+                }
 
             }
             else{
@@ -653,6 +656,30 @@ function GenerarReporteVentas(){
         });
 
 
+
+}
+
+function GenerarReporteVentasExcel() {
+
+    $.get('/xlsreport/',function(){});
+
+        // $.ajax({
+        //   method: "POST",
+        //   url: "/xlsreport/",
+        //   async: false,
+        //
+        //   data:{
+        //     "date_ini": $("#fechainicial").val(),
+        //     "date_end": $("#fechafinal").val()
+        //     }
+        //     })
+        //     .success(function (data) {
+        //         console.log(data);
+        //     })
+        //     .fail(function(data){
+        //     console.log(data.responseText);
+        //     alertify.alert("Hubo un problema al crear el reporte, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
+        //     });//ajax
 
 }
 

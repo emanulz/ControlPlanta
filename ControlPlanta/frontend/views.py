@@ -31,15 +31,18 @@ def backupdbmine(request):
     if request.is_ajax():
         if socket.gethostname().startswith('Mac'):
             os.system(BASE_DIR+'/dbbackup/backupdb.command')
-            return JsonResponse({'status': 'success','system':'MAC','dir':BASE_DIR})
+            return JsonResponse({'status': 'success', 'system': 'MAC', 'dir': BASE_DIR})
         else:
             os.system(BASE_DIR+'/dbbackup/backupdb.bat')
-            return JsonResponse({'status': 'Success','system':'Windows','dir':BASE_DIR})
+            return JsonResponse({'status': 'Success', 'system': 'Windows', 'dir': BASE_DIR})
     else:
         raise Http404
 
 
 def xls_report(request):
+
+    # date_ini = request.POST['date_ini']
+    # date_end = request.POST['date_end']
 
     response = HttpResponse(content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
@@ -64,7 +67,7 @@ def write_to_excel():
     })
 
     header = workbook.add_format({
-        'bg_color': '#F7F7F7',
+        'bg_color': '#59ff59',
         'color': 'black',
         'align': 'center',
         'valign': 'top',
@@ -80,6 +83,13 @@ def write_to_excel():
     title_text = u"{0}".format("Reporte de Ventas detallado por articulo y factura")
     worksheet_s.merge_range('A1:H1', title_text, title)
 
+    worksheet_s.write(2, 0, 'Fecha', cell_center)
+    worksheet_s.write(3, 0, 'Del :', cell_center)
+    worksheet_s.write(4, 0, 'Al :', cell_center)
+
+    # worksheet_s.write(3, 1, date_ini, header)
+    # worksheet_s.write(4, 1, date_end, header)
+
     worksheet_s.write(6, 0, 'No Factura', header)
     worksheet_s.write(6, 1, "Fecha", header)
     worksheet_s.write(6, 2, "Código", header)
@@ -89,9 +99,11 @@ def write_to_excel():
     worksheet_s.write(6, 6, "Precio Unitario", header)
     worksheet_s.write(6, 7, "Total", header)
 
-    ventas = Venta.objects.all()
+    ventas = Venta.objects.filter(anulada=False)
 
     control = 0
+    cant_tot = 0
+    total = 0
 
     for data in ventas:
 
@@ -110,7 +122,18 @@ def write_to_excel():
             worksheet_s.write(row, 6, detalle.preciouni, cell_center)
             worksheet_s.write(row, 7, detalle.total, cell_center)
 
+            cant_tot += detalle.cantidad
+            total += detalle.total
             control += 1
+
+    worksheet_s.write(control + 7 + 1, 0, 'Totales', header)
+    worksheet_s.write(control + 7 + 1, 1, '', header)
+    worksheet_s.write(control + 7 + 1, 2, '', header)
+    worksheet_s.write(control + 7 + 1, 3, '', header)
+    worksheet_s.write(control + 7 + 1, 4, '', header)
+    worksheet_s.write(control + 7 + 1, 5, cant_tot, header)
+    worksheet_s.write(control + 7 + 1, 6, '', header)
+    worksheet_s.write(control + 7 + 1, 7, total, header)
 
     worksheet_s.set_column('B:B', 9)
     worksheet_s.set_column('C:C', 7)
