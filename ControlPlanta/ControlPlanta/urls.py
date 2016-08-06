@@ -41,7 +41,7 @@ from proveedores.views import ProveedorViewSet
 from cajeros.views import CajeroViewSet
 from cuentasCobrar.views import AbonosViewSet,DetalleCuentaViewSet, cuentasCobrarView, NotaDeCreditoViewSet, \
      recuperacionView, reporteCuentasCobrarView, saldosClienteView
-
+from frontend.views import xls_report
 # Routers provide an easy way of automatically determining the URL conf.
 
 router = routers.DefaultRouter()
@@ -109,5 +109,6 @@ urlpatterns = [
     url(r'^lotes/', LoteApiView,name='lotes'),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'xlsreport/', xls_report, name='xls_report'),
     url(r'^', LandingView.as_view()),
 ]
