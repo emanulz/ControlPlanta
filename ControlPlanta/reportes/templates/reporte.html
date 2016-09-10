@@ -22,12 +22,13 @@
                 </div> <!-- Fecha y titulo -->
                 <div class="form-group">
                     <label class="col-sm-2" for="tiporeporte">Tipo de Reporte:</label>
-                    <div class="col-sm-3">
-                        <select class="form-control" name="tiporeporte" id="tiporeporte">
+                    <div class="col-sm-5">
+                        <select class="form-control" name="tiporeporte" id="tiporeporte" style="width: 92%">
                             <option value="1">Ventas</option>
                             <option value="2">Gastos</option>
                             <option value="3">Desglose de ventas</option>
-{#                            <option value="4">Ventas detallado Excel</option>#}
+                            <option value="4">Ventas detallado por artículo</option>
+                            <option value="5">Ventas resumen por artículo</option>
                         </select>
                    </div>
 
@@ -48,6 +49,25 @@
 {#                        <a  href="/xlsreport/" type="button" id="AGenerarReporte" class="btn btn-success marginTop15px2">Generar<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a>#}
 {#                    </div>#}
                 </div> <!-- cajero cliente y buscar-->
+
+                <div hidden class="form-group familias">
+                    <label class="col-sm-2" for="familia">Familia:</label>
+                    <div class="col-sm-3">
+                      <select class="form-control" name="familia" id="familia">
+                            <option value="0">Todas</option>
+                        </select>
+                   </div>
+                     <label class="col-sm-2" for="subfamilia">Sub-Familia:</label>
+                    <div class="col-sm-3">
+                       <select disabled class="form-control" name="subfamilia" id="subfamilia">
+                            <option value="0">Todas</option>
+                        </select>
+                   </div>
+{#                     <div hidden class=" col-sm-1">#}
+{#                        <a  href="/xlsreport/" type="button" id="AGenerarReporte" class="btn btn-success marginTop15px2">Generar<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a>#}
+{#                    </div>#}
+                </div> <!-- cajero cliente y buscar-->
+
             </div>
         </form><!-- Fecha cajero y cliente -->
         <form hidden class="form-horizontal col-sm-12 reporteventas" action="" id="reporteventas">

@@ -36,7 +36,7 @@ from ventas.views import VentasView, DetallePagoViewSet, DetalleProductosViewSet
 from lotes.views import LoteCreate, LoteViewSet, eliminarLoteView
 from frontend.views import LandingView, TrazabilidadView
 from rest_framework import routers
-from productos.views import ProductViewSet, FamiliaViewSet
+from productos.views import ProductViewSet, FamiliaViewSet, SubFamiliaViewSet
 from proveedores.views import ProveedorViewSet
 from cajeros.views import CajeroViewSet
 from cuentasCobrar.views import AbonosViewSet,DetalleCuentaViewSet, cuentasCobrarView, NotaDeCreditoViewSet, \
@@ -49,6 +49,7 @@ router.register(r'canales', CanalViewSet)
 router.register(r'proveedores', ProveedorViewSet)
 router.register(r'productos', ProductViewSet)
 router.register(r'familias', FamiliaViewSet)
+router.register(r'subfamilias', SubFamiliaViewSet)
 router.register(r'deshuese', DeshueseViewSet)
 router.register(r'detalledeshuese', DetalleDeshueseViewSet)
 router.register(r'lotes', LoteViewSet)

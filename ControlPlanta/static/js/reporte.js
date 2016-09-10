@@ -65,6 +65,9 @@ function main () {
 
         $.ajaxSetup({
 		beforeSend: function(xhr, settings) {
+		    if(settings.type == "GET"){
+				xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
+			}
 			if(settings.type == "POST"){
 				xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
 			}
@@ -553,8 +556,60 @@ function main () {
         $( ".tituloreportegastos").hide();
     });
 
+    $("#tiporeporte").on("change",function(){
+
+        if ( $("#tiporeporte").val() == 5){
+
+            $(".familias:hidden").show();
+        }
+
+        if ( $("#tiporeporte").val() == 4){
+
+            $(".familias:hidden").show();
+        }
+
+        else{
+             $(".familias").hide();
+        }
+    });
+
+    $("#familia").on("change",function(){
+
+        if ( $("#familia").val() == 0){
+
+            $("#subfamilia").val(0);
+
+            $("#subfamilia").prop("disabled", true);
+        }
+        else{
+             $("#subfamilia").prop("disabled", false);
+
+            $.get('/api/subfamilias/?category='+$("#familia").val(),function(data){
+
+                $('#subfamilia').html('');
+                $('#subfamilia').append('<option value="0">Todos</option>');
+
+                $.each(data, function(i){
+
+                    $('#subfamilia').append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
+
+                });
+             });
+
+        }
+
+    });
 
 
+    $.get('/api/familias/',function(data){
+
+        $.each(data, function(i){
+
+             $('#familia').append('<option value="'+data[i].id+'">'+data[i].name+'</option>')
+
+        });
+
+    });
 
 
 
@@ -661,25 +716,8 @@ function GenerarReporteVentas(){
 
 function GenerarReporteVentasExcel() {
 
-    $.get('/xlsreport/',function(){});
 
-        // $.ajax({
-        //   method: "POST",
-        //   url: "/xlsreport/",
-        //   async: false,
-        //
-        //   data:{
-        //     "date_ini": $("#fechainicial").val(),
-        //     "date_end": $("#fechafinal").val()
-        //     }
-        //     })
-        //     .success(function (data) {
-        //         console.log(data);
-        //     })
-        //     .fail(function(data){
-        //     console.log(data.responseText);
-        //     alertify.alert("Hubo un problema al crear el reporte, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-        //     });//ajax
+    window.location.href = ("/xlsreport/?date_ini="+$('#fechainicial').val()+"&date_end="+$('#fechafinal').val()+"&family="+$('#familia').val()+"&subfamily="+$('#subfamilia').val());
 
 }
 

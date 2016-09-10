@@ -6,7 +6,7 @@ from django.shortcuts import render
 # Serializers define the API representation.
 from rest_framework import serializers, viewsets
 from productos.filters import ProductFilter
-from productos.models import Producto, FamiliaDelProducto
+from productos.models import Producto, FamiliaDelProducto, SubFamiliaDelProducto
 
 
 def ProdDeCerdo(request):
@@ -40,7 +40,7 @@ class FamiliaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FamiliaDelProducto
-        fields =('id','name')
+        fields = ('id', 'name')
 
 
 # ViewroductSets define the view behavior.
@@ -48,4 +48,20 @@ class FamiliaViewSet(viewsets.ModelViewSet):
 
     serializer_class = FamiliaSerializer
     queryset = FamiliaDelProducto.objects.all()
+    lookup_field = 'id'
+
+
+class SubFamiliaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SubFamiliaDelProducto
+        fields = ('id', 'name', 'category')
+
+
+# ViewroductSets define the view behavior.
+class SubFamiliaViewSet(viewsets.ModelViewSet):
+
+    serializer_class = SubFamiliaSerializer
+    queryset = SubFamiliaDelProducto.objects.all()
+    filter_fields = ('id', 'name', 'category')
     lookup_field = 'id'

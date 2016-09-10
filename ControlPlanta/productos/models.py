@@ -9,6 +9,7 @@ class Producto(models.Model):
     bar_code= models.PositiveIntegerField(verbose_name='Código de barras', blank=True, null=True ,unique=True)
     description = models.CharField(max_length=255, verbose_name='Descripción')
     category = models.ForeignKey('FamiliaDelProducto', default=1,verbose_name='Familia')
+    subcategory = models.ForeignKey('SubFamiliaDelProducto', verbose_name='Familia', null=True, blank=True)
     inventory= models.FloatField(default=0,verbose_name='Num de ref (dejar en cero)')
     inventoryplanta= models.FloatField(default=0,verbose_name='Existencia en Planta')
     inventorypv=models.FloatField(default=0,verbose_name='Existencia en Punto de Venta')
@@ -45,6 +46,20 @@ class FamiliaDelProducto(models.Model):
         return self.name
 
     class Meta:
-        verbose_name='Familia'
-        verbose_name_plural='2. Familias'
-        ordering=['id']
+        verbose_name = 'Familia'
+        verbose_name_plural = '2. Familias'
+        ordering = ['id']
+
+
+class SubFamiliaDelProducto(models.Model):
+
+    name = models.CharField(max_length=255, verbose_name='nombre de la Sub-familia', unique=True)
+    category = models.ForeignKey('FamiliaDelProducto', default=1, verbose_name='Familia')
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Sub-Familia'
+        verbose_name_plural = '3. Sub-Familias'
+        ordering = ['id']

@@ -43,12 +43,13 @@ class Venta(models.Model):
         verbose_name_plural = '1. Ventas'
 
 class DetalleProductos(models.Model):
-    producto=models.ForeignKey(Producto,verbose_name='Producto')
-    description=models.CharField(max_length=255,verbose_name='Descripción', blank=True)
-    preciouni=models.FloatField(verbose_name='Precio Unitario ₡')
-    cantidad=models.FloatField(verbose_name='Cantidad')
-    iv=models.BooleanField(verbose_name='Usa Impuestos?')
-    total=models.FloatField(verbose_name='Precio Total ₡')
+
+    producto = models.ForeignKey(Producto,verbose_name='Producto')
+    description = models.CharField(max_length=255,verbose_name='Descripción', blank=True)
+    preciouni = models.FloatField(verbose_name='Precio Unitario ₡')
+    cantidad = models.FloatField(verbose_name='Cantidad')
+    iv = models.BooleanField(verbose_name='Usa Impuestos?')
+    total = models.FloatField(verbose_name='Precio Total ₡')
 
     def __unicode__(self):
         ret=str(self.id)

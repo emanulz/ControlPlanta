@@ -2,8 +2,9 @@
 
 from django.db import models
 
-# Create your models here.
+
 class Gasto(models.Model):
+
     amount=models.FloatField(default=0,verbose_name='Monto del gasto')
     date=models.DateField(blank=True,verbose_name='Fecha del Gasto')
     tipo=models.ForeignKey('TipoGasto',default=1,verbose_name='Tipo de Gasto')
@@ -17,7 +18,9 @@ class Gasto(models.Model):
         verbose_name='Gasto'
         verbose_name_plural='1. Gastos'
 
+
 class TipoGasto(models.Model):
+
     name=models.CharField(max_length=255,verbose_name='Nombre del Tipo')
     def __unicode__(self):
         return self.name

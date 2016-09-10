@@ -4,6 +4,9 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404
+
+
+import datetime
 import os
 import socket
 import StringIO
@@ -41,17 +44,20 @@ def backupdbmine(request):
 
 def xls_report(request):
 
-    # date_ini = request.POST['date_ini']
-    # date_end = request.POST['date_end']
+    date_ini = request.GET['date_ini']
+    date_end = request.GET['date_end']
+
+    family = request.GET['family']
+    subfamily = request.GET['subfamily']
 
     response = HttpResponse(content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
-    xlsx_data = write_to_excel()
+    xlsx_data = write_to_excel(date_ini, date_end, family, subfamily)
     response.write(xlsx_data)
     return response
 
 
-def write_to_excel():
+def write_to_excel(date_ini, date_end, family, subfamily):
 
     output = StringIO.StringIO()
     workbook = xlsxwriter.Workbook(output)
@@ -87,8 +93,11 @@ def write_to_excel():
     worksheet_s.write(3, 0, 'Del :', cell_center)
     worksheet_s.write(4, 0, 'Al :', cell_center)
 
-    # worksheet_s.write(3, 1, date_ini, header)
-    # worksheet_s.write(4, 1, date_end, header)
+    formated_date1 = datetime.datetime.strptime(date_ini, "%Y-%m-%d").date()
+    formated_date2 = datetime.datetime.strptime(date_end, "%Y-%m-%d").date()
+
+    worksheet_s.write(3, 1, formated_date1.strftime('%d/%m/%Y'), header)
+    worksheet_s.write(4, 1, formated_date2.strftime('%d/%m/%Y'), header)
 
     worksheet_s.write(6, 0, 'No Factura', header)
     worksheet_s.write(6, 1, "Fecha", header)
@@ -99,7 +108,7 @@ def write_to_excel():
     worksheet_s.write(6, 6, "Precio Unitario", header)
     worksheet_s.write(6, 7, "Total", header)
 
-    ventas = Venta.objects.filter(anulada=False)
+    ventas = Venta.objects.filter(anulada=False, date__range=[date_ini, date_end])
 
     control = 0
     cant_tot = 0
@@ -107,7 +116,19 @@ def write_to_excel():
 
     for data in ventas:
 
-        detalleprod = data.detalleproductos.all()
+        detalleprod = []
+
+        if family == "0":
+
+            detalleprod = data.detalleproductos.all()
+
+        if family != "0" and subfamily == "0":
+
+            detalleprod = data.detalleproductos.filter(producto__category=family)
+
+        if family != "0" and subfamily != "0":
+
+            detalleprod = data.detalleproductos.filter(producto__category=family, producto__subcategory=subfamily)
 
         for detalle in detalleprod:
 
@@ -137,7 +158,7 @@ def write_to_excel():
 
     worksheet_s.set_column('B:B', 9)
     worksheet_s.set_column('C:C', 7)
-    worksheet_s.set_column('D:D', 19)
+    worksheet_s.set_column('D:D', 25)
     worksheet_s.set_column('G:G', 12)
     worksheet_s.set_column('H:H', 13)
 
@@ -145,6 +166,7 @@ def write_to_excel():
     xlsx_data = output.getvalue()
     # xlsx_data contains the Excel file
     return xlsx_data
+
 
 
 
