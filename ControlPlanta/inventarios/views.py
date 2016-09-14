@@ -58,7 +58,7 @@ class InventarioEntradasSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EntradasInventario
-        fields =('id','ainventario','tipo','datos','producto','pesoanterior', 'peso','nuevopeso','date','time','usuario' )
+        fields =('id','ainventario','tipo','datos','producto','pesoanterior', 'peso','nuevopeso','date','time','usuario', 'razon' )
 
 class InventarioEntradasViewSet(viewsets.ModelViewSet):
 
@@ -72,7 +72,7 @@ class InventarioSalidasSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SalidasInventario
-        fields =('id','ainventario','tipo','datos','producto', 'pesoanterior','peso','nuevopeso','date','time','usuario' )
+        fields =('id','ainventario','tipo','datos','producto', 'pesoanterior','peso','nuevopeso','date','time','usuario', 'razon' )
 
 class InventarioSalidasViewSet(viewsets.ModelViewSet):
 

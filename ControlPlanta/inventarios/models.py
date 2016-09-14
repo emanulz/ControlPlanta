@@ -43,7 +43,9 @@ class EntradasInventario(models.Model):
     nuevopeso=models.FloatField(verbose_name='Nuevo Peso Kg')
     date=models.DateField(verbose_name='Fecha' )
     time=models.TimeField(verbose_name='Hora' )
-    usuario=models.ForeignKey(Cajero,verbose_name='usuario')
+    usuario=models.ForeignKey(Cajero, verbose_name='usuario')
+    razon = models.CharField(max_length=100, default='', blank=True, null=True)
+
     def __unicode__(self):
         ret = str(self.id)
         return self.tipo.nombre+' #'+ret
@@ -72,6 +74,7 @@ class SalidasInventario(models.Model):
     date=models.DateField(verbose_name='Fecha' )
     time=models.TimeField(verbose_name='Hora' )
     usuario=models.ForeignKey(Cajero,verbose_name='Usuario')
+    razon = models.CharField(max_length=100, default='', blank=True, null=True)
 
     def __unicode__(self):
         ret = str(self.id)

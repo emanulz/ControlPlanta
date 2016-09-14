@@ -524,6 +524,16 @@ function main () {
                 if($("#tiporeporte").val()==4){
                     GenerarReporteVentasExcel();
                 }
+                if($("#tiporeporte").val()==5){
+                    GenerarReporteVentasExcelResumen();
+                }
+                if($("#tiporeporte").val()==6){
+                    GenerarReporteVentasExcelFamilia();
+                }
+                if($("#tiporeporte").val()==7){
+                    GenerarReporteVentasExcelCliente()
+                }
+
 
             }
             else{
@@ -558,6 +568,8 @@ function main () {
 
     $("#tiporeporte").on("change",function(){
 
+        $(".familias").hide();
+
         if ( $("#tiporeporte").val() == 5){
 
             $(".familias:hidden").show();
@@ -568,9 +580,16 @@ function main () {
             $(".familias:hidden").show();
         }
 
-        else{
-             $(".familias").hide();
+        if ( $("#tiporeporte").val() == 6){
+
+            $(".familias:hidden").show();
         }
+
+        if ( $("#tiporeporte").val() == 7){
+
+            $(".familias:hidden").show();
+        }
+
     });
 
     $("#familia").on("change",function(){
@@ -718,6 +737,25 @@ function GenerarReporteVentasExcel() {
 
 
     window.location.href = ("/xlsreport/?date_ini="+$('#fechainicial').val()+"&date_end="+$('#fechafinal').val()+"&family="+$('#familia').val()+"&subfamily="+$('#subfamilia').val());
+
+}
+
+function GenerarReporteVentasExcelResumen() {
+
+
+    window.location.href = ("/xlsreportresumen/?date_ini="+$('#fechainicial').val()+"&date_end="+$('#fechafinal').val()+"&family="+$('#familia').val()+"&subfamily="+$('#subfamilia').val());
+
+}
+
+function GenerarReporteVentasExcelFamilia() {
+
+     window.location.href = ("/xlsreportfamily/?date_ini="+$('#fechainicial').val()+"&date_end="+$('#fechafinal').val()+"&family="+$('#familia').val()+"&subfamily="+$('#subfamilia').val());
+
+}
+
+function GenerarReporteVentasExcelCliente() {
+
+     window.location.href = ("/xlsreportclient/?date_ini="+$('#fechainicial').val()+"&date_end="+$('#fechafinal').val()+"&family="+$('#familia').val()+"&subfamily="+$('#subfamilia').val());
 
 }
 

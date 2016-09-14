@@ -685,7 +685,10 @@ function mostarcotizacion(cotinum){
         //console.log(detalle.responseJSON.producto);
         var producto=$.get('/api/productos/'+detalle.responseJSON.producto+'/', function () {});
         //console.log(producto);
-        $('#tablaproductos > tbody:last').append('<tr><td>' + producto.responseJSON.product_code + '</td><td>' + detalle.responseJSON.description+ '</td><td class="precio">' +detalle.responseJSON.preciouni.toFixed(2) + '</td><td>' + detalle.responseJSON.cantidad + '</td>' +
+        $('#tablaproductos > tbody:last').append('<tr><td>' + producto.responseJSON.product_code + '</td>' +
+        '<td>' + detalle.responseJSON.description+ '</td><td class="precio">' +detalle.responseJSON.preciouni.toFixed(2) + '</td>' +
+        '<td>' + detalle.responseJSON.cantidad + '</td>' +
+        '<td style="padding: 0" ><input value="'+detalle.responseJSON.cantidad+'" type="number" class="form-control '+ producto.responseJSON.product_code +'"></td>' +
         '<td class="precio">' + detalle.responseJSON.total.toFixed(2) +'</td></tr>');
 
         $('#tablafactura > tbody:last').append('<tr><td> ' + detalle.responseJSON.cantidad + ' </td><td>' +

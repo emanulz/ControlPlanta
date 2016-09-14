@@ -34,7 +34,7 @@ class Venta(models.Model):
     cpnval=models.CharField(max_length=255, default=0, verbose_name='Ordenes de compra del CNP')
 
     def __unicode__(self):
-        ret=str(self.id)
+        ret = str(self.id)
         return ret
 
     class Meta:

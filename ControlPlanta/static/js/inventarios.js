@@ -928,7 +928,8 @@ function crearentrada(datos,peso,nuevopeso,aqueinventario){
             "nuevopeso": nuevopeso,
             "date": today,
             "time": tiempoahora(),
-            "usuario": usuario
+            "usuario": usuario,
+            "razon" : $('#notaent').val()
         }),//JSON object
           contentType:"application/json; charset=utf-8",
           dataType:"json"
@@ -1063,7 +1064,8 @@ function crearsalida(datos,peso,nuevopeso,aqueinventario){
             "nuevopeso": nuevopeso,
             "date": today,
             "time": tiempoahora(),
-            "usuario": usuario
+            "usuario": usuario,
+            "razon" : $('#notasal').val()
         }),//JSON object
           contentType:"application/json; charset=utf-8",
           dataType:"json"
