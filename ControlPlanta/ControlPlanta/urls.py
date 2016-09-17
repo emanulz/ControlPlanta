@@ -81,8 +81,9 @@ router.register(r'gasto', GastoViewSet)
 router.register(r'tipogasto', TipoGastoViewSet)
 
 
-
 urlpatterns = [
+
+    url(r'^$', LandingView.as_view()),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^trazabilidad/', TrazabilidadView.as_view()),
     url(r'^ventas/', VentasView.as_view()),
@@ -116,6 +117,4 @@ urlpatterns = [
     url(r'xlsreportfamily/', xls_resumen_familia, name='xls_resumen_familia'),
     url(r'xlsreportclient/', xls_resumen_cliente, name='xls_resumen_cliente'),
     url(r'xlsreportgastos/', xls_gastos, name='xls_gastos'),
-
-    url(r'^', LandingView.as_view()),
 ]

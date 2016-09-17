@@ -851,26 +851,27 @@ def write_to_excel_gastos(date_ini, date_end):
     worksheet_s.write(6, 7, "Unidad", header)
     worksheet_s.write(6, 8, "Descripción", header)
 
-    gastos = Gasto.objects.filter(date__range=[date_ini, date_end])
+    gasto2 = Gasto.objects.all()
+    gastos = gasto2.filter(date__range=[date_ini, date_end])
 
     control = 0
     total = 0
 
-    for data in gastos:
+    for gasto in gastos:
 
         row = control+7
 
-        worksheet_s.write(row, 0, data.date.strftime('%d/%m/%Y'), cell_center)
-        worksheet_s.write(row, 1, data.code, cell_center)
-        worksheet_s.write(row, 2, '', cell_center)
-        worksheet_s.write(row, 3, data.factura, cell_center)
-        worksheet_s.write(row, 4, '', cell_center)
-        worksheet_s.write(row, 5, data.amount, cell_center)
-        worksheet_s.write(row, 6, data.cantidad, cell_center)
-        worksheet_s.write(row, 7, '', cell_center)
-        worksheet_s.write(row, 8, data.description, cell_center)
+        worksheet_s.write(row, 0, gasto.date.strftime('%d/%m/%Y'), cell_center)
+        worksheet_s.write(row, 1, gasto.code, cell_center)
+        worksheet_s.write(row, 2, gasto.proveedor.name + ' ' + gasto.proveedor.lastname, cell_center)
+        worksheet_s.write(row, 3, gasto.factura, cell_center)
+        worksheet_s.write(row, 4, gasto.tipo.name, cell_center)
+        worksheet_s.write(row, 5, gasto.amount, cell_center)
+        worksheet_s.write(row, 6, gasto.cantidad, cell_center)
+        worksheet_s.write(row, 7, gasto.unidad.name, cell_center)
+        worksheet_s.write(row, 8, gasto.description, cell_center)
 
-        total += data.amount
+        total += gasto.amount
         control += 1
 
     worksheet_s.write(control + 7 + 1, 0, 'Totales', header)
