@@ -16,13 +16,14 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from api.views import LoteApiView
+from django.contrib.auth.decorators import login_required
 from cajeros.views import CajeroCreate
 from canales.views import CanalViewSet, eliminarCanalView
 from clientes.views import ClientViewSet
 from cotizaciones.views import CotizacionViewSet, DetalleProductosCotiViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
 from devoluciones.views import DevolucionesView, DevolucionViewSet, DetalleDevViewSet
-from gastos.views import GastoViewSet, TipoGastoViewSet
+from gastos.views import GastoViewSet, TipoGastoViewSet, GastoCreate
 from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet, \
     InventariosView, AlertasInventariosView
 from inventariosMP.views import InventarioResumenMPViewSet, InventarioEntradasMPViewSet, InventarioSalidasMPViewSet, \
@@ -41,7 +42,7 @@ from proveedores.views import ProveedorViewSet
 from cajeros.views import CajeroViewSet
 from cuentasCobrar.views import AbonosViewSet,DetalleCuentaViewSet, cuentasCobrarView, NotaDeCreditoViewSet, \
      recuperacionView, reporteCuentasCobrarView, saldosClienteView
-from frontend.views import xls_report, xls_resumen_articulo, xls_resumen_familia, xls_resumen_cliente
+from frontend.views import xls_report, xls_resumen_articulo, xls_resumen_familia, xls_resumen_cliente, xls_gastos
 # Routers provide an easy way of automatically determining the URL conf.
 
 router = routers.DefaultRouter()
@@ -100,7 +101,7 @@ urlpatterns = [
     url(r'^devolvercotizacion/', DevproformaView.as_view()),
     url(r'^reportes/', ReportesView.as_view()),
     url(r'addcanal/', 'canales.views.canalform', name='canales'),
-    url(r'addgasto/', 'gastos.views.gastoform', name='canales'),
+    url(r'addgasto/', login_required(GastoCreate.as_view()), name='GastoCreate'),
     url(r'addlote/', 'lotes.views.loteform', name='lotes'),
     url(r'backupdb/', 'frontend.views.backupdbmine', name='backup'),
     url(r'adddeshuese/', 'deshueses.views.deshueseform', name='deshueses'),
@@ -114,5 +115,7 @@ urlpatterns = [
     url(r'xlsreportresumen/', xls_resumen_articulo, name='xls_resumen_articulo'),
     url(r'xlsreportfamily/', xls_resumen_familia, name='xls_resumen_familia'),
     url(r'xlsreportclient/', xls_resumen_cliente, name='xls_resumen_cliente'),
+    url(r'xlsreportgastos/', xls_gastos, name='xls_gastos'),
+
     url(r'^', LandingView.as_view()),
 ]

@@ -531,7 +531,11 @@ function main () {
                     GenerarReporteVentasExcelFamilia();
                 }
                 if($("#tiporeporte").val()==7){
-                    GenerarReporteVentasExcelCliente()
+                    GenerarReporteVentasExcelCliente();
+                }
+
+                if($("#tiporeporte").val()==8){
+                    GenerarReporteGastosExcel();
                 }
 
 
@@ -756,6 +760,13 @@ function GenerarReporteVentasExcelFamilia() {
 function GenerarReporteVentasExcelCliente() {
 
      window.location.href = ("/xlsreportclient/?date_ini="+$('#fechainicial').val()+"&date_end="+$('#fechafinal').val()+"&family="+$('#familia').val()+"&subfamily="+$('#subfamilia').val());
+
+}
+
+function GenerarReporteGastosExcel() {
+
+        console.log('entró');
+        window.location.href = ("/xlsreportgastos/?date_ini="+$('#fechainicial').val()+"&date_end="+$('#fechafinal').val())
 
 }
 

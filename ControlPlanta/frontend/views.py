@@ -16,6 +16,7 @@ from django.http import HttpResponse
 
 from ventas.models import Venta, DetalleProductos
 from productos.models import FamiliaDelProducto, SubFamiliaDelProducto
+from gastos.models import Gasto
 
 # Create your views here.
 from django.views.generic import TemplateView
@@ -779,6 +780,118 @@ def write_to_excel_resumen_cliente(date_ini, date_end, family, subfamily):
     worksheet_s.set_column('E:E', 15)
     worksheet_s.set_column('G:G', 15)
     worksheet_s.set_column('H:H', 15)
+
+    workbook.close()
+    xlsx_data = output.getvalue()
+    # xlsx_data contains the Excel file
+    return xlsx_data
+
+
+def xls_gastos(request):
+
+    date_ini = request.GET['date_ini']
+    date_end = request.GET['date_end']
+
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=Reporte_gastos.xlsx'
+    xlsx_data = write_to_excel_gastos(date_ini, date_end)
+    response.write(xlsx_data)
+    return response
+
+
+def write_to_excel_gastos(date_ini, date_end):
+
+    output = StringIO.StringIO()
+    workbook = xlsxwriter.Workbook(output)
+
+    # Here we will adding the code to add data
+    worksheet_s = workbook.add_worksheet("Reporte de gastos")
+
+    title = workbook.add_format({
+        'bold': True,
+        'font_size': 14,
+        'align': 'center',
+        'valign': 'vcenter'
+    })
+
+    header = workbook.add_format({
+        'bg_color': '#59ff59',
+        'color': 'black',
+        'align': 'center',
+        'valign': 'top',
+        'border': 1
+    })
+
+    cell_center = workbook.add_format({
+
+        'align': 'center',
+
+    })
+
+    title_text = u"{0}".format("Reporte de Gastos")
+    worksheet_s.merge_range('A1:H1', title_text, title)
+
+    worksheet_s.write(2, 0, 'Fecha', cell_center)
+    worksheet_s.write(3, 0, 'Del :', cell_center)
+    worksheet_s.write(4, 0, 'Al :', cell_center)
+
+    formated_date1 = datetime.datetime.strptime(date_ini, "%Y-%m-%d").date()
+    formated_date2 = datetime.datetime.strptime(date_end, "%Y-%m-%d").date()
+
+    worksheet_s.write(3, 1, formated_date1.strftime('%d/%m/%Y'), header)
+    worksheet_s.write(4, 1, formated_date2.strftime('%d/%m/%Y'), header)
+
+    worksheet_s.write(6, 0, "Fecha", header)
+    worksheet_s.write(6, 1, "Código", header)
+    worksheet_s.write(6, 2, "Proveedor", header)
+    worksheet_s.write(6, 3, "Factuta", header)
+    worksheet_s.write(6, 4, "Tipo", header)
+    worksheet_s.write(6, 5, "Monto", header)
+    worksheet_s.write(6, 6, "Cantidad", header)
+    worksheet_s.write(6, 7, "Unidad", header)
+    worksheet_s.write(6, 8, "Descripción", header)
+
+    gastos = Gasto.objects.filter(date__range=[date_ini, date_end])
+
+    control = 0
+    total = 0
+
+    for data in gastos:
+
+        row = control+7
+
+        worksheet_s.write(row, 0, data.date.strftime('%d/%m/%Y'), cell_center)
+        worksheet_s.write(row, 1, data.code, cell_center)
+        worksheet_s.write(row, 2, '', cell_center)
+        worksheet_s.write(row, 3, data.factura, cell_center)
+        worksheet_s.write(row, 4, '', cell_center)
+        worksheet_s.write(row, 5, data.amount, cell_center)
+        worksheet_s.write(row, 6, data.cantidad, cell_center)
+        worksheet_s.write(row, 7, '', cell_center)
+        worksheet_s.write(row, 8, data.description, cell_center)
+
+        total += data.amount
+        control += 1
+
+    worksheet_s.write(control + 7 + 1, 0, 'Totales', header)
+    worksheet_s.write(control + 7 + 1, 1, '', header)
+    worksheet_s.write(control + 7 + 1, 2, '', header)
+    worksheet_s.write(control + 7 + 1, 3, '', header)
+    worksheet_s.write(control + 7 + 1, 4, '', header)
+    worksheet_s.write(control + 7 + 1, 5, total, header)
+    worksheet_s.write(control + 7 + 1, 6, '', header)
+    worksheet_s.write(control + 7 + 1, 7, '', header)
+    worksheet_s.write(control + 7 + 1, 8, '', header)
+
+    worksheet_s.set_column('A:A', 15)
+    worksheet_s.set_column('B:B', 15)
+    worksheet_s.set_column('C:C', 20)
+    worksheet_s.set_column('D:D', 15)
+    worksheet_s.set_column('E:E', 25)
+    worksheet_s.set_column('F:F', 20)
+    worksheet_s.set_column('G:G', 15)
+    worksheet_s.set_column('H:H', 15)
+    worksheet_s.set_column('I:I', 25)
 
     workbook.close()
     xlsx_data = output.getvalue()
