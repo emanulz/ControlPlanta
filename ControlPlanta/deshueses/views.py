@@ -12,16 +12,17 @@ from productos.models import Producto, FamiliaDelProducto
 
 @login_required(login_url='/admin/login/')
 def deshueseform(request):
-    lotes = Lote.objects.filter(date=datetime.today(),isondeshuese=False)
+    lotes = Lote.objects.filter(date=datetime.today(), isondeshuese=False)
     return render_to_response('creardeshuese.html', {'lotes': lotes}, context_instance=RequestContext(request))
 
-##API
+# API
+
 
 class DeshueseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Deshuese
-        fields =('id','lote','pesototal','mermakg','mermapor','detalle',)
+        fields = ('id', 'tipo', 'lote', 'peso_lote', 'date', 'ref_text', 'pesototal', 'mermakg', 'mermapor', 'detalle',)
 
 
 # ViewroductSets define the view behavior.
@@ -30,14 +31,14 @@ class DeshueseViewSet(viewsets.ModelViewSet):
     serializer_class = DeshueseSerializer
     queryset = Deshuese.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','lote')
+    filter_fields = ('id', 'lote', 'date')
 
 
 class DetalleDeshueseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DetalleDeshuese
-        fields =('id','producto','peso','lote')
+        fields = ('id', 'producto', 'peso', 'lote')
 
 
 # ViewroductSets define the view behavior.
@@ -46,4 +47,4 @@ class DetalleDeshueseViewSet(viewsets.ModelViewSet):
     serializer_class = DetalleDeshueseSerializer
     queryset = DetalleDeshuese.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','lote')
+    filter_fields = ('id', 'lote')

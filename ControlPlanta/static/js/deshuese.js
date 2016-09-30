@@ -11,6 +11,7 @@ var tipo;
 var pesoactual;
 var pesonuevo;
 var today;
+var costo_lote = 0;
 
 jQuery.ajaxSetup({async:false});
 
@@ -52,7 +53,7 @@ function main () {
             console.log(matrixdetalle[rowIndex][0]);
             console.log(producto);
 
-            $("#corte").append(new Option(producto.responseJSON.description, producto.responseJSON.id));
+            $("#corte").append(new Option(producto.responseJSON.product_code+ ' - ' +producto.responseJSON.description, producto.responseJSON.id));
 
 
             matrixdetalle.splice( rowIndex,1 );
@@ -141,6 +142,8 @@ function main () {
         $("#BtnNoConfirmar").on("click",NoConfirmarDatos);
         $("#BtnCrear").on("click",guardarDetalle);
 
+        $("#BtnPrint").on("click",Imprimir);
+
 
 
         //llenado de espacios e inicializacion
@@ -159,8 +162,18 @@ function main () {
         $("#BtnConfirmar").prop("disabled",true);
         $("#BtnAdd").prop("disabled",true);
 
+    // cargar_comprobante(23);
+
 
     //eventos iniciales:
+
+         $("#corte").select2({
+            theme: "bootstrap",
+            placeholder:"Seleccione...",
+            width: '100%',
+            allowClear: true,
+            language: "es"
+        });
 
 
         $.get('/api/lotes/?tipo=1&isondeshuese=False', llenarlotes);
@@ -182,6 +195,8 @@ function main () {
         vencimiento = (year)+"-"+(month)+"-"+(day) ;
         today = (year2)+"-"+(month2)+"-"+(day) ;
         //console.log(vencimiento);
+        $("#lote_date").val(today).prop("disabled",true);
+
 
     }//main
 
@@ -189,6 +204,7 @@ function main () {
 function LoteListo(){
 
     if ($("#lote").val()!=="vacio"){
+
         event.preventDefault();
         $("#lote").prop("disabled",true);
         $("#codigo").prop("disabled",false);
@@ -258,8 +274,9 @@ function llenarlotes(data){
 function llenarproductos(data){
 
     $('#corte').html('');
+    $("#corte").append(new Option('', ''));
     $.each( data, function(index){
-        $("#corte").append(new Option(data[index].description, data[index].id));
+        $("#corte").append(new Option(data[index].product_code + ' - ' + data[index].description, data[index].id));
 
     });
 
@@ -313,7 +330,7 @@ function AgregarATabla(){
             $('#tabla > tbody:last').append('<tr><th scope="row"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></th><td>'+$('#corte option:selected').text()+'</td><td>'+$('#peso').val()+
             ' Kg <button type="button" class=" removerow btn btn-danger pull-right"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td></tr>');
             //var Corteval =$('#corte').val();
-            matrixdetalle.push([codigo,peso]);
+            matrixdetalle.push([codigo,peso,0,0,0]);
             console.log(matrixdetalle);
 
             pesodesh=Math.round((pesodesh+peso) * 1000) / 1000;
@@ -349,6 +366,8 @@ function ConfirmarDatos(){
     $("#BtnConfirmar").hide();
     $("#BtnNoConfirmar:hidden").show();
 
+    Calcular_costos();
+
 }
 
 function NoConfirmarDatos(){
@@ -369,7 +388,7 @@ function guardarDetalle() {
 
     event.preventDefault();
     var lote =$("#lote").val();
-    var control=matrixdetalle.length;
+    // var control=matrixdetalle.length;
     //console.log(lote);
 
     $.each( matrixdetalle, function(i){
@@ -392,48 +411,12 @@ function guardarDetalle() {
             alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
             })
             .success(function(data){
-               // console.log(data);
+                detalle.push(data.id);
             });
 
-        //$.ajax({
-        //  method: "POST",
-        //  url: "/api/inventariototal/",
-        //  async: false,
-        //
-        //  data: JSON.stringify({
-        //    "producto": matrixdetalle[i][0],
-        //    "peso": matrixdetalle[i][1],
-        //    "lote": lote,
-        //    "vencimiento": vencimiento,
-        //    "tipo":tipo
-        //
-        //    }),//JSON object
-        //      contentType:"application/json; charset=utf-8",
-        //      dataType:"json"
-        //    })
-        //    .fail(function(data){
-        //    //console.log(data.responseText);
-        //    alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-        //    })
-        //    .success(function(data){
-        //        //console.log(data);
-        //    });
-
-
-        if(i==(control-1)){
-            //console.log(control);
-            //console.log(i);
-
-            $.get('/api/detalledeshuese/?lote='+lote, function (data) {
-                $.each( data, function(index){
-                    detalle.push(data[index].id);
-               });
-               // console.log(detalle);
-                guardarDeshuese();
-            });
-
-            }//if
     });
+
+    guardarDeshuese();
 
 
     //guardarDeshuese();
@@ -467,7 +450,12 @@ function guardarDeshuese() {
       async: false,
 
       data: JSON.stringify({
+
+        "tipo": $("#tipo" ).val(),
         "lote": lote,
+        "peso_lote": pesolote,
+        "date": $('#lote_date').val(),
+        "ref_text": $('#lote_txt').val(),
         "pesototal": pesodesh,
         "mermakg": mermakg,
         "mermapor": mermaporc,
@@ -483,10 +471,60 @@ function guardarDeshuese() {
     .success(function(data){
             //console.log(data);
             patchlote();
+            cargar_comprobante(data.id);
+            Imprimir();
             
         });
 
 }//Guardar Deshuese
+
+function Imprimir(){
+
+    event.preventDefault();
+    $( "#factura").printArea();
+}
+
+function cargar_comprobante(id){
+
+     $.get('/api/deshuese/'+id+'/', function(data){
+
+         $('.deshuesenumfact').text(data.id);
+         $('.tipodeshuesefact').text(data.tipo);
+         $('.fechadeshuesefact').text(data.date);
+
+         $('.pesolotefact').text(data.ref_text);
+         $('.pesodeshpact').text(data.peso_lote);
+         $('.mermakgfact').text(data.mermakg+' Kg');
+         $('.mermaporfact').text(data.mermapor+'%');
+
+         $('.notasdeshfact').text(data.ref_text);
+
+
+         $.get('/api/lotes/'+data.lote+'/', function(data){
+            $('.lotedeshuesefact').text(data.lotenum);
+         });
+
+         $.each( data.detalle, function(i){
+
+            $.get('/api/detalledeshuese/'+data.detalle[i]+'/', function(data){
+
+                var producto = $.get('/api/productos/'+data.producto+'/',function(){});
+
+                $('#tablafactura > tbody:last').append('<tr>' +
+                '<td>' + producto.responseJSON.product_code + '</td>'+
+                '<td>' + producto.responseJSON.description + '</td>'+
+                '<td>' + data.peso + '</td>'+
+                '</tr>');
+            });
+
+         });
+
+     });
+
+    $('.factura').show();
+    $('.sidebardesh').hide();
+
+}
 
 function errorhandle (data){
 
@@ -539,6 +577,7 @@ function errorhandle (data){
 
 
 }
+
 function errorclean(){
 
     $(".hideonload").hide();
@@ -589,7 +628,8 @@ event.preventDefault();
         })
 
       .success(function() {
-        Guardarinventario();
+        Calcular_costos();
+
         $("#BtnCrear").prop("disabled",true);
         $("#BtnNoConfirmar").prop("disabled",true);
         $(".succesmessage:hidden").show("slow");
@@ -598,6 +638,68 @@ event.preventDefault();
         //$("#BtnCrear").prop("disabled",true);
         $(".failmessage:hidden").show("slow");
         });
+
+
+}
+
+function Calcular_costos() {
+
+    Calc_costo_lote();
+    var venta_potencial = 0;
+    var venta_pot_tot = 0;
+    var porc_dist = 0;
+    var cost_pot = 0;
+    var cost_final = 0;
+
+    $.each( matrixdetalle, function(i){
+
+
+        var producto = $.get('/api/productos/'+matrixdetalle[i][0]+'/',function(){});
+
+        venta_potencial = matrixdetalle[i][1]*producto.responseJSON.price1;
+
+        matrixdetalle[i][2] = venta_potencial;
+
+        venta_pot_tot = venta_pot_tot+venta_potencial;
+
+
+    });
+
+     console.log('venta pot tot = '+venta_pot_tot);
+
+    $.each( matrixdetalle, function(i){
+
+        porc_dist = (matrixdetalle[i][2]/venta_pot_tot);
+        cost_pot = porc_dist*costo_lote;
+        cost_final = cost_pot/matrixdetalle[i][1];
+        matrixdetalle[i][3]=cost_final;
+
+        console.log('venta pot = '+matrixdetalle[i][2]);
+        console.log('porc dist = '+porc_dist);
+        console.log('costo pot = '+cost_pot);
+        console.log('costo final = '+matrixdetalle[i][3]);
+
+    });
+
+    Guardarinventario();
+}
+
+function Calc_costo_lote(){
+
+    costo_lote = 0;
+
+    var lotenum =parseInt($("#lote").val());
+
+    $.get('/api/lotes/'+lotenum+'/',function(data){
+
+        $.each( data.canales, function(i){
+
+            var canal = $.get('/api/canales/'+data.canales[i]+'/',function(){});
+
+            costo_lote = costo_lote+(canal.responseJSON.preciokilo*canal.responseJSON.weight)
+
+        });
+    });
 
 
 }
@@ -611,6 +713,7 @@ function Guardarinventario(){
         pesoactualplanta=productoguardar.responseJSON.inventoryplanta;
         pesonuevo=pesoactual+matrixdetalle[i][1];
         pesonuevoplanta=pesoactualplanta+matrixdetalle[i][1];
+
         $.ajax({//patch producto
           method: "PATCH",
           url: "/api/productos/"+matrixdetalle[i][0]+'/',
@@ -618,7 +721,9 @@ function Guardarinventario(){
 
           data: JSON.stringify({
             "inventory": pesonuevo,
-            "inventoryplanta": pesonuevoplanta
+            "inventoryplanta": pesonuevoplanta,
+            "cost" : matrixdetalle[i][3],
+            "last_cost_change" : today
             }),//JSON object
               contentType:"application/json; charset=utf-8",
               dataType:"json"
@@ -681,6 +786,7 @@ function Guardarinventario(){
     //patch resumen inv
 
 }
+
 function tiempoahora(){
     var dt = new Date();
     return dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();

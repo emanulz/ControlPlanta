@@ -11,7 +11,7 @@ class Lote(models.Model):
 
     lotenum=models.CharField(max_length=255,verbose_name='# de Lote', unique=True)
     tipo=models.ForeignKey(FamiliaDelProducto,verbose_name='Tipo de Carne')
-    fierro=models.ManyToManyField(Proveedor,verbose_name='Fierros')
+    fierro=models.ManyToManyField(Proveedor,verbose_name='Proveedores')
     canalesqty=models.PositiveIntegerField(verbose_name='Cantidad de canales')
     canales=models.ManyToManyField(Canal,verbose_name='Canales',blank=False)
     totalweight=models.FloatField(default=0, verbose_name='Peso total del lote Kg')

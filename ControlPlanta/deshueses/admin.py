@@ -5,7 +5,7 @@ from deshueses.models import Deshuese, DetalleDeshuese
 
 @admin.register(Deshuese)
 class Deshueseadmin(admin.ModelAdmin):
-    list_display = ('id', 'lote', 'pesototal', 'pesototallote', 'mermakg','mermapor' )
+    list_display = ('id', 'lote', 'date', 'pesototal', 'pesototallote', 'mermakg', 'mermapor' )
     search_fields = ('id', 'lote')
     filter_horizontal = ('detalle',)
 
