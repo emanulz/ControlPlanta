@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c566a9ac-abab-44a6-9d6c-4faf25d6b3cf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/deshueses/templates/creardeshuese.html" afterPath="$PROJECT_DIR$/deshueses/templates/creardeshuese.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/productos/models.py" afterPath="$PROJECT_DIR$/productos/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/productos/views.py" afterPath="$PROJECT_DIR$/productos/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/deshuese.js" afterPath="$PROJECT_DIR$/static/js/deshuese.js" />
     </list>
     <ignored path="ControlPlanta.iws" />
@@ -40,7 +42,7 @@
       <file leaf-file-name="creardeshuese.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/deshueses/templates/creardeshuese.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
+            <state relative-caret-position="2955">
               <caret line="197" column="104" selection-start-line="197" selection-start-column="96" selection-end-line="197" selection-end-column="104" />
               <folding>
                 <element signature="e#8832#8853#0#HTML" expanded="true" />
@@ -55,7 +57,7 @@
       <file leaf-file-name="ventas.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/ventas.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
+            <state relative-caret-position="8505">
               <caret line="567" column="11" selection-start-line="565" selection-start-column="8" selection-end-line="567" selection-end-column="11" />
               <folding />
             </state>
@@ -65,8 +67,8 @@
       <file leaf-file-name="deshuese.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/js/deshuese.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3742">
-              <caret line="386" column="4" selection-start-line="386" selection-start-column="4" selection-end-line="386" selection-end-column="4" />
+            <state relative-caret-position="458">
+              <caret line="96" column="37" selection-start-line="96" selection-start-column="23" selection-end-line="96" selection-end-column="37" />
               <folding>
                 <element signature="n#!!block;n#guardarDeshuese#0" expanded="false" />
                 <element signature="n#!!block;n#Imprimir#0" expanded="false" />
@@ -80,8 +82,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/productos/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="20" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="20" />
+            <state relative-caret-position="270">
+              <caret line="20" column="9" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -91,7 +93,7 @@
         <entry file="file://$PROJECT_DIR$/productos/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="285">
-              <caret line="27" column="81" selection-start-line="27" selection-start-column="81" selection-end-line="27" selection-end-column="81" />
+              <caret line="27" column="69" selection-start-line="27" selection-start-column="69" selection-end-line="27" selection-end-column="69" />
               <folding />
             </state>
           </provider>
@@ -180,9 +182,9 @@
         <option value="$PROJECT_DIR$/deshueses/views.py" />
         <option value="$PROJECT_DIR$/deshueses/models.py" />
         <option value="$PROJECT_DIR$/frontend/templates/base2.html" />
+        <option value="$PROJECT_DIR$/deshueses/templates/creardeshuese.html" />
         <option value="$PROJECT_DIR$/productos/models.py" />
         <option value="$PROJECT_DIR$/productos/views.py" />
-        <option value="$PROJECT_DIR$/deshueses/templates/creardeshuese.html" />
         <option value="$PROJECT_DIR$/static/js/deshuese.js" />
       </list>
     </option>
@@ -250,20 +252,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope">
-        <subPane subId="Problems" />
-        <subPane subId="Changed Files" />
-        <subPane subId="Default" />
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -326,6 +314,20 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="productos" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+      <pane id="Scope">
+        <subPane subId="Problems" />
+        <subPane subId="Changed Files" />
+        <subPane subId="Default" />
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -728,16 +730,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28966987" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29286474" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299435" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2542373" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299435" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28316832" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28316832" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1004,7 +1006,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="26" column="61" selection-start-line="26" selection-start-column="61" selection-end-line="26" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1027,9 +1028,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding>
-            <element signature="e#25#53#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1037,7 +1035,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="666">
           <caret line="537" column="48" selection-start-line="537" selection-start-column="48" selection-end-line="537" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1065,7 +1062,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1104,7 +1100,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="61" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1112,7 +1107,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1120,7 +1114,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1128,23 +1121,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="42" column="23" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/productos/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="20" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/productos/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="27" column="81" selection-start-line="27" selection-start-column="81" selection-end-line="27" selection-end-column="81" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1166,7 +1142,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/ventas.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
+        <state relative-caret-position="8505">
           <caret line="567" column="11" selection-start-line="565" selection-start-column="8" selection-end-line="567" selection-end-column="11" />
           <folding />
         </state>
@@ -1174,7 +1150,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/deshueses/templates/creardeshuese.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
+        <state relative-caret-position="2955">
           <caret line="197" column="104" selection-start-line="197" selection-start-column="96" selection-end-line="197" selection-end-column="104" />
           <folding>
             <element signature="e#8832#8853#0#HTML" expanded="true" />
@@ -1185,10 +1161,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/productos/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="27" column="69" selection-start-line="27" selection-start-column="69" selection-end-line="27" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/productos/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="20" column="9" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/deshuese.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3742">
-          <caret line="386" column="4" selection-start-line="386" selection-start-column="4" selection-end-line="386" selection-end-column="4" />
+        <state relative-caret-position="458">
+          <caret line="96" column="37" selection-start-line="96" selection-start-column="23" selection-end-line="96" selection-end-column="37" />
           <folding>
             <element signature="n#!!block;n#guardarDeshuese#0" expanded="false" />
             <element signature="n#!!block;n#Imprimir#0" expanded="false" />

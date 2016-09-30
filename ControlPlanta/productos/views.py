@@ -25,7 +25,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Producto
         fields =('id','product_code','bar_code','description','inventory','inventorypv','inventoryplanta','inventory1',
-                 'inventory2','inventory3','minimum','cost', 'last_cost_change', 'autoprice','utility1','utility2','utility3','price1',
+                 'inventory2','inventory3','minimum','cost', 'cost2', 'last_cost_change', 'autoprice','utility1','utility2','utility3','price1',
                  'price2','price3','ventaneg','fractioned','taxes', 'taxes_amount', 'category')
 
 

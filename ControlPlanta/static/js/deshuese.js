@@ -384,7 +384,7 @@ function ConfirmarDatos(){
     $("#BtnCrear").prop("disabled",false);
     $("#BtnConfirmar").hide();
     $("#BtnNoConfirmar:hidden").show();
-    
+
 }
 
 function NoConfirmarDatos(){
@@ -688,7 +688,7 @@ function Calcular_costos() {
 
         var producto = $.get('/api/productos/'+matrixdetalle[i][0]+'/',function(){});
 
-        venta_potencial = matrixdetalle[i][1]*producto.responseJSON.price1;
+        venta_potencial = matrixdetalle[i][1]*producto.responseJSON.cost;
 
         matrixdetalle[i][2] = venta_potencial;
 
@@ -757,7 +757,7 @@ function Guardarinventario(){
           data: JSON.stringify({
             "inventory": pesonuevo,
             "inventoryplanta": pesonuevoplanta,
-            "cost" : matrixdetalle[i][3],
+            "cost2" : matrixdetalle[i][3],
             "last_cost_change" : today
             }),//JSON object
               contentType:"application/json; charset=utf-8",
