@@ -144,6 +144,16 @@ function main () {
 
         $("#BtnPrint").on("click",Imprimir);
 
+        $("#Btn_cargar_desh").on("click",function () {
+
+            cargar_comprobante($("#cargar_deshuese").val())
+
+        });
+
+        $('#BtnNuevo').on("click",function(){
+            location.reload();
+        });
+
 
 
         //llenado de espacios e inicializacion
@@ -205,7 +215,12 @@ function LoteListo(){
 
     if ($("#lote").val()!=="vacio"){
 
+
         event.preventDefault();
+
+        $("#cargar_deshuese").prop("disabled",true);
+        $("#Btn_cargar_desh").prop("disabled",true);
+
         $("#lote").prop("disabled",true);
         $("#codigo").prop("disabled",false);
         $("#corte").prop("disabled",false);
@@ -234,6 +249,10 @@ function LoteListo(){
 }
  function Lotequit(){
     event.preventDefault();
+
+    $("#cargar_deshuese").prop("disabled",false);
+    $("#Btn_cargar_desh").prop("disabled",false);
+
     $("#lote").prop("disabled",false);
     $("#codigo").prop("disabled",true);
     $("#corte").prop("disabled",true);
@@ -365,9 +384,7 @@ function ConfirmarDatos(){
     $("#BtnCrear").prop("disabled",false);
     $("#BtnConfirmar").hide();
     $("#BtnNoConfirmar:hidden").show();
-
-    Calcular_costos();
-
+    
 }
 
 function NoConfirmarDatos(){
@@ -486,43 +503,60 @@ function Imprimir(){
 
 function cargar_comprobante(id){
 
-     $.get('/api/deshuese/'+id+'/', function(data){
 
-         $('.deshuesenumfact').text(data.id);
-         $('.tipodeshuesefact').text(data.tipo);
-         $('.fechadeshuesefact').text(data.date);
+    if(id!=''){
 
-         $('.pesolotefact').text(data.ref_text);
-         $('.pesodeshpact').text(data.peso_lote);
-         $('.mermakgfact').text(data.mermakg+' Kg');
-         $('.mermaporfact').text(data.mermapor+'%');
+     $.get('/api/deshuese/?id='+id, function(data){
 
-         $('.notasdeshfact').text(data.ref_text);
+         console.log(data);
 
+         if(data.length>0){
 
-         $.get('/api/lotes/'+data.lote+'/', function(data){
-            $('.lotedeshuesefact').text(data.lotenum);
-         });
+            $('.deshuesenumfact').text(data[0].id);
+             $('.tipodeshuesefact').text(data[0].tipo);
+             $('.fechadeshuesefact').text(data[0].date);
 
-         $.each( data.detalle, function(i){
+             $('.pesolotefact').text(data[0].ref_text);
+             $('.pesodeshpact').text(data[0].peso_lote);
+             $('.mermakgfact').text(data[0].mermakg+' Kg');
+             $('.mermaporfact').text(data[0].mermapor+'%');
 
-            $.get('/api/detalledeshuese/'+data.detalle[i]+'/', function(data){
+             $('.notasdeshfact').text(data[0].ref_text);
 
-                var producto = $.get('/api/productos/'+data.producto+'/',function(){});
+             $.get('/api/lotes/'+data[0].lote+'/', function(data){
+                $('.lotedeshuesefact').text(data.lotenum);
+             });
 
-                $('#tablafactura > tbody:last').append('<tr>' +
-                '<td>' + producto.responseJSON.product_code + '</td>'+
-                '<td>' + producto.responseJSON.description + '</td>'+
-                '<td>' + data.peso + '</td>'+
-                '</tr>');
-            });
+             $.each( data[0].detalle, function(i){
 
-         });
+                $.get('/api/detalledeshuese/'+data[0].detalle[i]+'/', function(data){
+
+                    var producto = $.get('/api/productos/'+data.producto+'/',function(){});
+
+                    $('#tablafactura > tbody:last').append('<tr>' +
+                    '<td>' + producto.responseJSON.product_code + '</td>'+
+                    '<td>' + producto.responseJSON.description + '</td>'+
+                    '<td>' + data.peso + '</td>'+
+                    '</tr>');
+                });
+
+             });
+
+            $('.factura').show();
+            $('.sidebardesh').hide();
+
+         }//IF exists
+         else{
+             alertify.alert('Error', 'No existe el deshuese consultado.')
+         }
 
      });
 
-    $('.factura').show();
-    $('.sidebardesh').hide();
+
+     }
+     else{
+        alertify.alert('Error', 'El campo de deshuese no puede estar vacío!')
+    }
 
 }
 
@@ -630,12 +664,10 @@ event.preventDefault();
       .success(function() {
         Calcular_costos();
 
-        $("#BtnCrear").prop("disabled",true);
-        $("#BtnNoConfirmar").prop("disabled",true);
-        $(".succesmessage:hidden").show("slow");
         })
         .fail(function() {
         //$("#BtnCrear").prop("disabled",true);
+        alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
         $(".failmessage:hidden").show("slow");
         });
 
@@ -705,14 +737,17 @@ function Calc_costo_lote(){
 }
 
 function Guardarinventario(){
+
     var lote =parseInt($("#lote").val());
     //each
     $.each( matrixdetalle, function(i){
+
         var productoguardar=$.get('/api/productos/'+matrixdetalle[i][0]+'/',function(){});
+
         pesoactual=productoguardar.responseJSON.inventory;
-        pesoactualplanta=productoguardar.responseJSON.inventoryplanta;
+        var pesoactualplanta=productoguardar.responseJSON.inventoryplanta;
         pesonuevo=pesoactual+matrixdetalle[i][1];
-        pesonuevoplanta=pesoactualplanta+matrixdetalle[i][1];
+        var pesonuevoplanta=pesoactualplanta+matrixdetalle[i][1];
 
         $.ajax({//patch producto
           method: "PATCH",
@@ -756,27 +791,10 @@ function Guardarinventario(){
                 console.log(data.responseText);
                 alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
                 })
-                .success(function(){//patch resumen inv
-                            //var prodinventario=$.get('/api/inventarioresumen/?producto='+matrixdetalle[i][0],function(){});
-                            //
-                            //$.ajax({
-                            //        method: "PATCH",
-                            //        url: "/api/inventarioresumen/" + prodinventario.responseJSON[0].id + "/",
-                            //
-                            //        data: JSON.stringify({
-                            //
-                            //            "cantidad": pesonuevo
-                            //
-                            //        }),//JSON object
-                            //        contentType: "application/json; charset=utf-8",
-                            //        dataType: "json"
-                            //})
-                            //.success(function () {
-                            //
-                            //})
-                            //.fail(function (data) {
-                            //    alertify.alert("Hubo un problema al crear el deshuese, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
-                            //});
+                .success(function(){
+                    $("#BtnCrear").prop("disabled",true);
+                    $("#BtnNoConfirmar").prop("disabled",true);
+                    $(".succesmessage:hidden").show("slow");
                 });
             });
 
