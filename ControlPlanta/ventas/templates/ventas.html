@@ -28,22 +28,38 @@
     <div class="col-sm-9" >
         <form class="form-horizontal col-sm-12" action="">
             {% csrf_token %}
+
             <div class="form-group">
-                <div class="form-group">
+
+                 <div class="form-group">
                     <div class="col-sm-5 tituloventa">Factura de venta:</div>
+
+                </div> <!-- Fecha y titulo -->
+
+                <div class="form-group">
+
                 <label class="col-sm-2" for="date">Fecha:</label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                       <input type="date" class="form-control " id="date">
+                   </div>
+
+                <label class="col-sm-2" for="cajero">Cajero:</label>
+                    <div class="col-sm-4">
+                        <select disabled class="form-control" name="cajero" id="cajero">
+                            <option value="{{ request.user.id }}"></option>
+                        </select>
                    </div>
 
                 </div> <!-- Fecha y titulo -->
                  <div class="form-group">
-                    <label class="col-sm-2" for="cajero">Cajero:</label>
-                        <div class="col-sm-3">
-                            <select disabled class="form-control" name="cajero" id="cajero">
-                                <option value="{{ request.user.id }}"></option>
-                            </select>
-                       </div>
+
+                    <label class="col-sm-2" for="cajero">Vendedor:</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" name="vendedor" id="vendedor">
+
+                        </select>
+                   </div>
+
                     <label class="col-sm-2" for="cliente">Nombre:</label>
                         <div class="col-sm-4">
                             <input type="text" class="form-control" id="cliente">
@@ -160,7 +176,7 @@
 {#                    <span class="facturanumfactleft" style="float: left">COTIZA #&nbsp&nbsp&nbsp&nbsp:&nbsp </span><span class="facturanumfact">0</span><br/>#}
                     <span style="float: left">FECHA&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="fechafact" >0</span><br/>
                     <span style="float: left">CLIENTE&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="clientefact" >0</span><br/>
-                    <span style="float: left">VENDEDOR&nbsp:&nbsp</span><span class="cajerofact" >0</span><br/><br/>
+                    <span style="float: left">CAJERO&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:&nbsp</span><span class="cajerofact" >0</span><br/><br/>
                     <span>--------------------------------------------------------------------<br/></span>
                     <span style="float: left;font-size: 12px">FACTURA DE&nbsp </span><span style="font-size: 12px" class="tipoventafact">0</span><br/>
                     <span>--------------------------------------------------------------------<br/></span>

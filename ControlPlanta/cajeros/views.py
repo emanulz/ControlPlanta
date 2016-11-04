@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView
 from rest_framework import serializers, viewsets
-from cajeros.models import Cajero
+from cajeros.models import Cajero, Vendedor
 from django.contrib.auth.decorators import login_required
 
 
@@ -37,3 +37,19 @@ class CajeroViewSet(viewsets.ModelViewSet):
     queryset = Cajero.objects.all()
     lookup_field = 'id'
     filter_fields=('id','name','last_name','identification','user')
+
+
+class VendedorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Vendedor
+        fields = ('id', 'name', 'last_name', 'identification')
+
+
+class VendedorViewSet(viewsets.ModelViewSet):
+
+    serializer_class = VendedorSerializer
+    queryset = Vendedor.objects.all()
+    lookup_field = 'id'
+    filter_fields = ('id', 'name', 'last_name', 'identification')

@@ -3,7 +3,7 @@ from django.db import models
 
 
 # Create your models here.
-from cajeros.models import Cajero
+from cajeros.models import Cajero, Vendedor
 from clientes.models import Cliente
 
 from productos.models import Producto
@@ -15,6 +15,7 @@ class Venta(models.Model):
     client = models.ForeignKey(Cliente, verbose_name='Cliente')
     nombrecliente=models.CharField(max_length=255,verbose_name='Nombre en Factura')
     cashier = models.ForeignKey(Cajero, verbose_name='Cajeros')
+    vendedor = models.ForeignKey(Vendedor, null=True, verbose_name='Vendedor')
     date=models.DateField(verbose_name='Fecha')
     time=models.TimeField(verbose_name='Hora de la venta')
     totolkilogramos=models.FloatField(verbose_name='Total Kg')

@@ -7,5 +7,7 @@ class VentaFilter(django_filters.FilterSet):
     #product_code=django_filters.CharFilter(lookup_type='icontains')
     class Meta:
         model=Venta
-        fields=('id','client','nombrecliente','cashier','date','time','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago','saldo','anulada','devuelto','connotacredito','conabono', 'cpnval','min_date','max_date')
+        fields=('id','client','nombrecliente','cashier', 'vendedor', 'date','time','totolkilogramos','cantidadarticulos'
+                ,'subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago','saldo','anulada',
+                'devuelto','connotacredito','conabono', 'cpnval','min_date','max_date')
 

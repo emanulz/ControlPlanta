@@ -39,7 +39,7 @@ from frontend.views import LandingView, TrazabilidadView
 from rest_framework import routers
 from productos.views import ProductViewSet, FamiliaViewSet, SubFamiliaViewSet
 from proveedores.views import ProveedorViewSet
-from cajeros.views import CajeroViewSet
+from cajeros.views import CajeroViewSet, VendedorViewSet
 from cuentasCobrar.views import AbonosViewSet,DetalleCuentaViewSet, cuentasCobrarView, NotaDeCreditoViewSet, \
      recuperacionView, reporteCuentasCobrarView, saldosClienteView
 from frontend.views import xls_report, xls_resumen_articulo, xls_resumen_familia, xls_resumen_cliente, xls_gastos
@@ -57,6 +57,7 @@ router.register(r'lotes', LoteViewSet)
 router.register(r'inventariototal', InventarioTotalViewSet)
 router.register(r'clientes', ClientViewSet)
 router.register(r'cajeros', CajeroViewSet)
+router.register(r'vendedores', VendedorViewSet)
 router.register(r'inventarioresumen', InventarioResumenViewSet)
 router.register(r'inventarioentrada', InventarioEntradasViewSet)
 router.register(r'inventariosalida', InventarioSalidasViewSet)

@@ -603,6 +603,16 @@ function main () {
         $('#cajero').html('<option value="'+data[0].user+'">'+data[0].name+' '+data[0].last_name+'</option>');
         usuario=data[0].user;
     });
+
+    //set vendedor options
+
+    $.get('/api/vendedores/',function(data){
+        $.each( data, function(i){
+            $('#vendedor').append('<option value="'+data[i].id+'">'+data[i].name+' '+data[i].last_name+'</option>');
+        });
+
+    });
+
     //valor vencimiento
 
         var now = new Date();
@@ -1887,6 +1897,7 @@ function guardarventa(){
                 "client": cliente,
                 "nombrecliente": $('#cliente').val(),
                 "cashier": usuario,
+                "vendedor": $('#vendedor').val(),
                 "date": today,
                 "time": tiempoahora(),
                 "totolkilogramos": totalkg,
