@@ -633,7 +633,7 @@ function main () {
 
     //valores iniciales
 
-        $("#date").val(today).prop("disabled",true);
+        $("#date").val(today).prop("disabled",false);
         $("#BtnPagar").prop("disabled",true);
         $("#BtnCotizar").prop("disabled",true);
         $("#amovil").prop("disabled",true);
@@ -1232,6 +1232,7 @@ $("#BtnNoConfirmar:hidden").show();
 $("#BtnPagar").prop('disabled',false);
 $("#BtnCotizar").prop('disabled',false);
 $("#amovil").prop('disabled',false);
+$("#date").prop("disabled",true);
 
 }
 
@@ -1251,6 +1252,7 @@ function NoConfirmarDatos(){
     $("#BtnCotizar").prop('disabled',true);
     $("#amovil").prop('disabled',true);
     $('.descuentoside').html('');
+    $("#date").prop("disabled",false);
 
     totaliv=ivsindesc;
     descuento=0;
