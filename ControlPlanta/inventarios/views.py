@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
+from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
+from django.shortcuts import redirect
 from rest_framework import serializers, viewsets
 from inventarios.models import InventarioTotal, ResumenInventario, EntradasInventario, SalidasInventario
-
+from productos.models import Producto
 # Create your views here.
 
 #INVENTARIOS TEMPLATE VIEW
@@ -17,11 +19,36 @@ class InventariosView(TemplateView):
     def dispatch(self, *args, **kwargs):
         return super(InventariosView, self).dispatch(*args, **kwargs)
 
+
 class AlertasInventariosView(TemplateView):
     template_name = 'alertasinventarios.html'
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(AlertasInventariosView, self).dispatch(*args, **kwargs)
+
+
+def inventory_to_zero(request):
+
+    if request.method == 'GET':
+        return render_to_response('inventarioACero.html', RequestContext(request, {}))
+
+    if request.method == 'POST':
+
+        productos = Producto.objects.all()
+
+        for producto in productos:
+            producto.inventory = 0
+            producto.inventoryplanta = 0
+            producto.inventorypv = 0
+            producto.inventory1 = 0
+            producto.inventory2 = 0
+            producto.inventory3 = 0
+
+            producto.save()
+            
+        return JsonResponse({'status': True})
+
+
 
 #INVENTARIO TOTAL API
 class InventarioTotalSerializer(serializers.ModelSerializer):

@@ -24,8 +24,8 @@ from cotizaciones.views import CotizacionViewSet, DetalleProductosCotiViewSet
 from deshueses.views import DeshueseViewSet, DetalleDeshueseViewSet
 from devoluciones.views import DevolucionesView, DevolucionViewSet, DetalleDevViewSet
 from gastos.views import GastoViewSet, TipoGastoViewSet, GastoCreate
-from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,InventarioSalidasViewSet, \
-    InventariosView, AlertasInventariosView
+from inventarios.views import InventarioTotalViewSet,InventarioResumenViewSet,InventarioEntradasViewSet,\
+    InventarioSalidasViewSet, InventariosView, AlertasInventariosView, inventory_to_zero
 from inventariosMP.views import InventarioResumenMPViewSet, InventarioEntradasMPViewSet, InventarioSalidasMPViewSet, \
     InventariosmpView
 from materiasPrimas.views import MateriaPrimaViewSet, FamiliaMPViewSet
@@ -90,6 +90,7 @@ urlpatterns = [
     url(r'^ventas/', VentasView.as_view()),
     url(r'^cierrediario/', CierreView.as_view()),
     url(r'^inventarios/', InventariosView.as_view()),
+    url(r'^inventariosacero/', inventory_to_zero),
     url(r'^alertas/', AlertasInventariosView.as_view()),
     url(r'^inventariosmp/', InventariosmpView.as_view()),
     url(r'^cuentascobrar/', cuentasCobrarView.as_view()),
