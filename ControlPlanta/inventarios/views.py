@@ -45,7 +45,7 @@ def inventory_to_zero(request):
             producto.inventory3 = 0
 
             producto.save()
-            
+
         return JsonResponse({'status': True})
 
 

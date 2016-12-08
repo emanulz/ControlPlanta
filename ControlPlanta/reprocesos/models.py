@@ -11,6 +11,7 @@ class Reproceso(models.Model):
     cortesusadoskg=models.FloatField(default=1,verbose_name='Cantidad de cortes Usados Kg')
     prodcreados=models.PositiveIntegerField(default=1,verbose_name='Cantidad de productos creados')
     prodcreadoskg=models.FloatField(default=1,verbose_name='Cantidad de productos creados Kg')
+    notas = models.CharField(max_length=255, blank=True, null=True, verbose_name='Notas')
 
     def __unicode__(self):
         ret = str(self.id)

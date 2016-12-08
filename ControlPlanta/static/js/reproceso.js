@@ -681,7 +681,7 @@ function main () {
 
     //valores iniciales
 
-        $("#date").val(today).prop("disabled",true);
+        $("#date").val(today).prop("disabled",false);
         $("#BtnPagar").prop("disabled",true);
         $("#BtnConfirmar").prop("disabled",true);
 
@@ -1023,7 +1023,8 @@ function crearElemReproceso(){
                 "cortesusados": totalCortes,
                 "cortesusadoskg": totalCortesKg,
                 "prodcreados": totalProdCreados,
-                "prodcreadoskg":totalProdCreadosKg
+                "prodcreadoskg":totalProdCreadosKg,
+                "notas": $('#notes-area').val()
             }),//JSON object
               contentType:"application/json; charset=utf-8",
               dataType:"json"

@@ -1624,7 +1624,7 @@ function guardarcotizacion(){
                 "client": cliente,
                 "nombrecliente": $('#cliente').val(),
                 "cashier": usuario,
-                "date": today,
+                "date": $('#date').val(),
                 "time": tiempoahora(),
                 "totolkilogramos": totalkg,
                 "cantidadarticulos": totalart,
@@ -1735,7 +1735,7 @@ function descontarinventarios(){
                             "producto": matrixventa[i][7],
                             "peso": matrixventa[i][3],
                             "nuevopeso": 0,
-                            "date": today,
+                            "date": $('#date').val(),
                             "time": tiempoahora(),
                             "usuario": usuario
                         }),//JSON object
@@ -1789,7 +1789,7 @@ function descontarinventarios(){
                             "producto": matrixventa[i][7],
                             "peso": matrixventa[i][3],
                             "nuevopeso": nuevaext,
-                            "date": today,
+                            "date": $('#date').val(),
                             "time": tiempoahora(),
                             "usuario": usuario
                         }),//JSON object
@@ -1857,7 +1857,7 @@ function descontarinventarios(){
                             "producto": matrixventa[i][7],
                             "peso": matrixventa[i][3],
                             "nuevopeso": nuevaext,
-                            "date": today,
+                            "date": $('#date').val(),
                             "time": tiempoahora(),
                             "usuario": usuario
                         }),//JSON object
@@ -1900,7 +1900,7 @@ function guardarventa(){
                 "nombrecliente": $('#cliente').val(),
                 "cashier": usuario,
                 "vendedor": $('#vendedor').val(),
-                "date": today,
+                "date": $('#date').val(),
                 "time": tiempoahora(),
                 "totolkilogramos": totalkg,
                 "cantidadarticulos": totalart,
@@ -1976,10 +1976,13 @@ function generarfactura(){
         $('#firmacredito:hidden').show();
     }
 
+    var thisdate = $('#date').val();
+    thisdate = $.format.date( Date.parse(thisdate), "dd-MM-yyyy");
+
     $('#timbrado:hidden').show();
     $('.facturanumfact').html(' '+ventaid);
     $('.tipoventafact').html(' '+tipoventafact);
-    $('.fechafact').html('  '+todaynorm +' '+tiempoahora());
+    $('.fechafact').html('  '+thisdate +' '+tiempoahora());
     $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
 
     $.each( matrixventa, function(i){
@@ -2009,13 +2012,16 @@ function generarfacturaCoti(){
     var cajerofactura=$.get('/api/cajeros/'+usuario+'/',function(){});
     var tipoventafact='COTIZACION.';
 
+     var thisdate = $('#date').val();
+    thisdate = $.format.date( Date.parse(thisdate), "dd-MM-yyyy");
+
 
     $('#timbrado').hide();
     $('.facturanumfactleft').html('COTIZA #&nbsp&nbsp&nbsp&nbsp:&nbsp');
 
     $('.facturanumfact').html(' '+cotizacionid);
     $('.tipoventafact').html(' '+tipoventafact);
-    $('.fechafact').html('  '+todaynorm +' '+tiempoahora());
+    $('.fechafact').html('  '+thisdate +' '+tiempoahora());
     $('.clientefact').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
     $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
 
@@ -2025,6 +2031,8 @@ function generarfacturaCoti(){
     if(descuento>0){
         $('.descueentofactleft').html('DESCUENTO '+descuentoporc +'%');
     }
+
+
 
     $('.subtotalfactright').html(subtotal.toFixed(2));
     $('.descueentofactright').html(descuento.toFixed(2));

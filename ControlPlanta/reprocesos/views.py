@@ -20,11 +20,11 @@ class ReprocesoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reproceso
-        fields =('id','entrada','salida','cortesusados','cortesusadoskg','prodcreados','prodcreadoskg')
+        fields =('id','entrada','salida','cortesusados','cortesusadoskg','prodcreados','prodcreadoskg', 'notas')
 
 class ReprocesoViewSet(viewsets.ModelViewSet):
 
     serializer_class = ReprocesoSerializer
     queryset = Reproceso.objects.all()
     lookup_field = 'id'
-    filter_fields=('id','entrada','salida','cortesusados','cortesusadoskg','prodcreados','prodcreadoskg')
+    filter_fields=('id','entrada','salida','cortesusados','cortesusadoskg','prodcreados','prodcreadoskg', 'notas')
