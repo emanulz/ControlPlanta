@@ -1875,7 +1875,7 @@ function descontarinventarios(){
            }// else de caso cliente
         }//else de no es canal
     });//each
-    
+
 }
 
 function guardarventa(){
@@ -1883,7 +1883,7 @@ function guardarventa(){
     if($("#pagacontipo").val()==3){
         saldoguardar=totalventa;
     }
-    
+
     var cnp_orders=$('#cnp_orders').val();
 
     if (cnp_orders==''){
@@ -1976,14 +1976,16 @@ function generarfactura(){
         $('#firmacredito:hidden').show();
     }
 
-    var thisdate = $('#date').val();
-    thisdate = $.format.date( Date.parse(thisdate), "dd-MM-yyyy");
+    var thisdate = $("#date").val();
+    thisdate = thisdate.split('-')
+    var dateToShow = thisdate[2]+'/'+thisdate[1]+'/'+thisdate[0]
 
     $('#timbrado:hidden').show();
     $('.facturanumfact').html(' '+ventaid);
     $('.tipoventafact').html(' '+tipoventafact);
-    $('.fechafact').html('  '+thisdate +' '+tiempoahora());
+    $('.fechafact').html('  '+dateToShow +' '+tiempoahora());
     $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
+    $('.vendedorfact').html($("#vendedor :selected").text());
 
     $.each( matrixventa, function(i){
         $('#tablafactura > tbody:last').append('<tr><td> ' +matrixventa[i][3]+ ' </td><td>' + matrixventa[i][1]+ '</td><td class="precio">' +matrixventa[i][2].toFixed(2)+ '</td><td class="precio">' +matrixventa[i][4].toFixed(2)+ '</td></tr>');
