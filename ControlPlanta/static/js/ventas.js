@@ -1978,7 +1978,7 @@ function generarfactura(){
 
     var thisdate = $("#date").val();
     thisdate = thisdate.split('-')
-    var dateToShow = thisdate[2]+'/'+thisdate[1]+'/'+thisdate[0]
+    var dateToShow = thisdate[2]+'/'+thisdate[1]+'/'+thisdate[0];
 
     $('#timbrado:hidden').show();
     $('.facturanumfact').html(' '+ventaid);
@@ -2014,8 +2014,9 @@ function generarfacturaCoti(){
     var cajerofactura=$.get('/api/cajeros/'+usuario+'/',function(){});
     var tipoventafact='COTIZACION.';
 
-     var thisdate = $('#date').val();
-    thisdate = $.format.date( Date.parse(thisdate), "dd-MM-yyyy");
+    var thisdate = $("#date").val();
+    thisdate = thisdate.split('-');
+    var dateToShow = thisdate[2]+'/'+thisdate[1]+'/'+thisdate[0];
 
 
     $('#timbrado').hide();
@@ -2023,7 +2024,7 @@ function generarfacturaCoti(){
 
     $('.facturanumfact').html(' '+cotizacionid);
     $('.tipoventafact').html(' '+tipoventafact);
-    $('.fechafact').html('  '+thisdate +' '+tiempoahora());
+    $('.fechafact').html('  '+dateToShow +' '+tiempoahora());
     $('.clientefact').html('  '+clientefactura.responseJSON.name+' '+clientefactura.responseJSON.last_name);
     $('.cajerofact').html('  '+cajerofactura.responseJSON.name+' '+cajerofactura.responseJSON.last_name);
 

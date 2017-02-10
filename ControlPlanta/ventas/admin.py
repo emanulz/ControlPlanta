@@ -15,7 +15,7 @@ class ventaadmin(admin.ModelAdmin):
 @admin.register(DetalleProductos)
 class DetalleProductosAdmin(admin.ModelAdmin):
     list_display = ('id','producto','description','preciouni','cantidad','useiv','total',)
-    search_fields = ('producto','preciouni','cantidad')
+    search_fields = ('id', 'producto__id','preciouni','cantidad')
 
     def useiv(self, obj):
         return obj.iv
@@ -27,7 +27,7 @@ class DetalleProductosAdmin(admin.ModelAdmin):
 @admin.register(DetallesPago)
 class DetallesPagoAdmin(admin.ModelAdmin):
     list_display = ('id','tipopago','montoefectivo','vuelto','tarjeta','digitos','autorizacion')
-    search_fields = ('tipopago','tarjeta','digitos','autorizacion')
+    search_fields = ('id', 'tipopago','tarjeta','digitos','autorizacion')
 
 @admin.register(TiposPago)
 class TiposPagoAdmin(admin.ModelAdmin):
