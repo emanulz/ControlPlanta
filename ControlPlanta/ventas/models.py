@@ -11,6 +11,7 @@ from productos.models import Producto
 
 class Venta(models.Model):
 
+
     #ticketnum  = models.PositiveIntegerField(unique=True,verbose_name='Factura #')
     client = models.ForeignKey(Cliente, verbose_name='Cliente')
     nombrecliente=models.CharField(max_length=255,verbose_name='Nombre en Factura')
@@ -32,7 +33,7 @@ class Venta(models.Model):
     devuelto=models.BooleanField(default=0, verbose_name='Con devolución?')
     connotacredito=models.BooleanField(default=0, verbose_name='Con nota crédito?')
     conabono=models.BooleanField(default=0, verbose_name='Con abono?')
-    cpnval=models.CharField(max_length=255, default=0, verbose_name='Ordenes de compra del CNP')
+    cpnval=models.TextField(max_length=255, default=0, verbose_name='Ordenes de compra del CNP')
 
     def __unicode__(self):
         ret = str(self.id)
@@ -42,6 +43,7 @@ class Venta(models.Model):
         ordering = ['id']
         verbose_name = 'Venta'
         verbose_name_plural = '1. Ventas'
+
 
 class DetalleProductos(models.Model):
 
