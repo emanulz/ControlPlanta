@@ -22,7 +22,7 @@ class DeshueseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Deshuese
-        fields = ('id', 'tipo', 'lote', 'peso_lote', 'date', 'ref_text', 'pesototal', 'mermakg', 'mermapor', 'detalle',)
+        fields = ('id', 'tipo', 'lote', 'peso_lote', 'date', 'ref_text', 'pesototal', 'mermakg', 'desechokg', 'mermapor', 'detalle',)
 
 
 # ViewroductSets define the view behavior.

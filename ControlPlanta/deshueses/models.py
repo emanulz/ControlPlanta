@@ -14,8 +14,9 @@ class Deshuese(models.Model):
     lote = models.ForeignKey(Lote, default=1, verbose_name='Número de Lote')
     peso_lote = models.FloatField(null=True, verbose_name='Peso del Lote')
     pesototal = models.FloatField(default=0, verbose_name='Peso total')
-    mermakg = models.FloatField(verbose_name='Merma en Kg', blank=True, null=True ,)
-    mermapor = models.FloatField(verbose_name='Merma en %', blank=True, null=True ,)
+    mermakg = models.FloatField(verbose_name='Merma en Kg', blank=True, null=True)
+    desechokg = models.FloatField(verbose_name='Desecho en Kg', default=0, blank=True, null=True)
+    mermapor = models.FloatField(verbose_name='Merma en %', blank=True, null=True)
     ref_text = models.CharField(max_length=110, null=True, blank=True, verbose_name='Texto referencia')
     detalle = models.ManyToManyField('DetalleDeshuese',verbose_name='Detalle',blank=False)
 

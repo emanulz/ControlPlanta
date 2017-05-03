@@ -12,6 +12,7 @@ var pesoactual;
 var pesonuevo;
 var today;
 var costo_lote = 0;
+var desechokg = 0;
 
 jQuery.ajaxSetup({async:false});
 
@@ -115,6 +116,18 @@ function main () {
         $( "#lote" ).change(function() {
             var a =$( "#lote").val();
             $.get('/api/lotes/?id='+a,SetPesoLote);
+        });
+
+
+        $("#desecholote").on('change', function () {
+
+            desechokg = $("#desecholote").val();
+            mermakg=Math.round((pesolote-pesodesh-desechokg) * 1000) / 1000;
+            $("#mermakg").val(mermakg);
+            //calcular merma en %
+            mermaporc=Math.round(((mermakg*100)/pesolote) * 1000) / 1000;
+            $("#mermaporc").val(mermaporc);
+
         });
 
 
@@ -355,7 +368,7 @@ function AgregarATabla(){
             pesodesh=Math.round((pesodesh+peso) * 1000) / 1000;
             $("#pesodesh").val(pesodesh);
             //calcular merma en KG
-            mermakg=Math.round((pesolote-pesodesh) * 1000) / 1000;
+            mermakg=Math.round((pesolote-pesodesh-desechokg) * 1000) / 1000;
             $("#mermakg").val(mermakg);
             //calcular merma en %
             mermaporc=Math.round(((mermakg*100)/pesolote) * 1000) / 1000;
@@ -475,6 +488,7 @@ function guardarDeshuese() {
         "ref_text": $('#lote_txt').val(),
         "pesototal": pesodesh,
         "mermakg": mermakg,
+        "desechokg": desechokg,
         "mermapor": mermaporc,
         "detalle": detalle
         }),//JSON object
@@ -516,9 +530,11 @@ function cargar_comprobante(id){
              $('.tipodeshuesefact').text(data[0].tipo);
              $('.fechadeshuesefact').text(data[0].date);
 
-             $('.pesolotefact').text(data[0].ref_text);
-             $('.pesodeshpact').text(data[0].peso_lote);
+             $('.pesolotefact').text(data[0].peso_lote);
+             $('.pesodeshpact').text(data[0].pesototal);
              $('.mermakgfact').text(data[0].mermakg+' Kg');
+             $('.desechokgfact').text(data[0].desechokg+' Kg');
+
              $('.mermaporfact').text(data[0].mermapor+'%');
 
              $('.notasdeshfact').text(data[0].ref_text);
