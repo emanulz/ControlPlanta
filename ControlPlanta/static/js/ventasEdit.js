@@ -731,7 +731,7 @@ function showSaleData(sale){
 
     if(!editableSale){
 
-        //$('#maincontent').find(':input').prop('disabled', true);
+        $('#maincontent').find(':input').prop('disabled', true);
 
     }
 

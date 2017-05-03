@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c566a9ac-abab-44a6-9d6c-4faf25d6b3cf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/deshueses/admin.py" afterPath="$PROJECT_DIR$/deshueses/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/deshueses/models.py" afterPath="$PROJECT_DIR$/deshueses/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/deshueses/templates/creardeshuese.html" afterPath="$PROJECT_DIR$/deshueses/templates/creardeshuese.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/deshueses/views.py" afterPath="$PROJECT_DIR$/deshueses/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/deshuese.js" afterPath="$PROJECT_DIR$/static/js/deshuese.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/ventasEdit.js" afterPath="$PROJECT_DIR$/static/js/ventasEdit.js" />
     </list>
     <ignored path="ControlPlanta.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,16 +53,15 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ventasEdit.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="ventasEdit.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/static/js/ventasEdit.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="11895">
-                  <caret line="2131" column="0" selection-start-line="2131" selection-start-column="0" selection-end-line="2131" selection-end-column="0" />
+                <state relative-caret-position="469">
+                  <caret line="821" column="29" selection-start-line="821" selection-start-column="29" selection-end-line="821" selection-end-column="29" />
                   <folding>
                     <element signature="n#!!block;n#checkIfSale#0" expanded="false" />
                     <element signature="n#!!block;n#loadSaleData#0" expanded="false" />
                     <element signature="n#!!block;n#getUrlParameter#0" expanded="false" />
-                    <element signature="n#!!block;n#showSaleData#0" expanded="false" />
                     <element signature="n#!!block;n#loadSaleProducts#0" expanded="false" />
                     <element signature="n#!!block;n#llenartablaProductosLoaded#0" expanded="false" />
                     <element signature="n#!!block;n#Imprimir#0" expanded="false" />
@@ -90,10 +85,10 @@
                     <element signature="n#!!block;n#ConfirmarDatos#0" expanded="false" />
                     <element signature="n#!!block;n#NoConfirmarDatos#0" expanded="false" />
                     <element signature="n#!!block;n#tiempoahora#0" expanded="false" />
-                    <element signature="e#52123#53052#0" expanded="false" />
-                    <element signature="e#53092#54344#0" expanded="false" />
-                    <element signature="e#55447#56444#0" expanded="false" />
-                    <element signature="e#56483#57480#0" expanded="false" />
+                    <element signature="e#52121#53050#0" expanded="false" />
+                    <element signature="e#53090#54342#0" expanded="false" />
+                    <element signature="e#55445#56442#0" expanded="false" />
+                    <element signature="e#56481#57478#0" expanded="false" />
                     <element signature="n#!!block;n#RegistarCotizacion#0" expanded="false" />
                     <element signature="n#!!block;n#trasladarAMovil#0" expanded="false" />
                     <element signature="n#!!block;n#trasladarAPv#0" expanded="false" />
@@ -103,7 +98,7 @@
                     <element signature="n#!!block;n#descontarinventarios#0" expanded="false" />
                     <element signature="n#!!block;n#generarfactura#0" expanded="false" />
                     <element signature="n#!!block;n#generarfacturaCoti#0" expanded="false" />
-                    <marker date="1493771968000" expanded="true" signature="36379:36416" ph="..." />
+                    <marker date="1493774489000" expanded="true" signature="36377:36414" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -124,7 +119,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="deshuese.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="deshuese.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/static/js/deshuese.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="229">
@@ -214,11 +209,11 @@
                     <element signature="n#!!block;n#NoConfirmarDatos#0" expanded="false" />
                     <element signature="n#!!block;n#tiempoahora#0" expanded="false" />
                     <element signature="n#!!block;n#guardardetallepago#0" expanded="false" />
-                    <element signature="e#52123#53052#0" expanded="false" />
-                    <element signature="e#53092#54344#0" expanded="false" />
-                    <element signature="e#54383#55408#0" expanded="false" />
-                    <element signature="e#55447#56444#0" expanded="false" />
-                    <element signature="e#56496#57094#0" expanded="false" />
+                    <element signature="e#52121#53050#0" expanded="false" />
+                    <element signature="e#53090#54342#0" expanded="false" />
+                    <element signature="e#54381#55406#0" expanded="false" />
+                    <element signature="e#55445#56442#0" expanded="false" />
+                    <element signature="e#56494#57092#0" expanded="false" />
                     <element signature="n#!!block;n#RegistarCotizacion#0" expanded="false" />
                     <element signature="n#!!block;n#trasladarAMovil#0" expanded="false" />
                     <element signature="n#!!block;n#trasladarAPv#0" expanded="false" />
@@ -230,7 +225,7 @@
                     <element signature="n#!!block;n#patchcuentacobrar#0" expanded="false" />
                     <element signature="n#!!block;n#generarfactura#0" expanded="false" />
                     <element signature="n#!!block;n#generarfacturaCoti#0" expanded="false" />
-                    <marker date="1493771968000" expanded="true" signature="36379:36416" ph="..." />
+                    <marker date="1493774489000" expanded="true" signature="36377:36414" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -310,13 +305,13 @@
         <option value="$PROJECT_DIR$/ControlPlanta/urls.py" />
         <option value="$PROJECT_DIR$/static/myAdmin/editarVenta.js" />
         <option value="$PROJECT_DIR$/ventas/templates/ventasEdit.html" />
-        <option value="$PROJECT_DIR$/static/js/ventasEdit.js" />
         <option value="$PROJECT_DIR$/cuentasCobrar/admin.py" />
         <option value="$PROJECT_DIR$/deshueses/models.py" />
         <option value="$PROJECT_DIR$/deshueses/views.py" />
         <option value="$PROJECT_DIR$/deshueses/admin.py" />
         <option value="$PROJECT_DIR$/deshueses/templates/creardeshuese.html" />
         <option value="$PROJECT_DIR$/static/js/deshuese.js" />
+        <option value="$PROJECT_DIR$/static/js/ventasEdit.js" />
       </list>
     </option>
   </component>
@@ -1235,56 +1230,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/ventasEdit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11895">
-          <caret line="2131" column="0" selection-start-line="2131" selection-start-column="0" selection-end-line="2131" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!block;n#checkIfSale#0" expanded="false" />
-            <element signature="n#!!block;n#loadSaleData#0" expanded="false" />
-            <element signature="n#!!block;n#getUrlParameter#0" expanded="false" />
-            <element signature="n#!!block;n#showSaleData#0" expanded="false" />
-            <element signature="n#!!block;n#loadSaleProducts#0" expanded="false" />
-            <element signature="n#!!block;n#llenartablaProductosLoaded#0" expanded="false" />
-            <element signature="n#!!block;n#Imprimir#0" expanded="false" />
-            <element signature="n#!!block;n#checkEnableVenta#0" expanded="false" />
-            <element signature="n#!!block;n#blurElement#0" expanded="false" />
-            <element signature="n#!!block;n#getcliente#0" expanded="false" />
-            <element signature="n#!!block;n#vuelto#0" expanded="false" />
-            <element signature="n#!!block;n#BuscarCliente#0" expanded="false" />
-            <element signature="n#!!block;n#recalculartablaproductos#0" expanded="false" />
-            <element signature="n#!!block;n#getProducto#0" expanded="false" />
-            <element signature="n#!!block;n#getcanales#0" expanded="false" />
-            <element signature="n#!!block;n#llenartablacanales#0" expanded="false" />
-            <element signature="n#!!block;n#BuscarProducto#0" expanded="false" />
-            <element signature="n#!!block;n#llenarTablaBusqueda#0" expanded="false" />
-            <element signature="n#!!block;n#llenarTablaBusquedaCliente#0" expanded="false" />
-            <element signature="n#!!block;n#agregarcanalatabla#0" expanded="false" />
-            <element signature="n#!!block;n#llenartablaProductos#0" expanded="false" />
-            <element signature="n#!!block;n#determinprice#0" expanded="false" />
-            <element signature="n#!!block;n#serachmatrix#0" expanded="false" />
-            <element signature="n#!!block;n#Aplicardescuento#0" expanded="false" />
-            <element signature="n#!!block;n#ConfirmarDatos#0" expanded="false" />
-            <element signature="n#!!block;n#NoConfirmarDatos#0" expanded="false" />
-            <element signature="n#!!block;n#tiempoahora#0" expanded="false" />
-            <element signature="e#52123#53052#0" expanded="false" />
-            <element signature="e#53092#54344#0" expanded="false" />
-            <element signature="e#55447#56444#0" expanded="false" />
-            <element signature="e#56483#57480#0" expanded="false" />
-            <element signature="n#!!block;n#RegistarCotizacion#0" expanded="false" />
-            <element signature="n#!!block;n#trasladarAMovil#0" expanded="false" />
-            <element signature="n#!!block;n#trasladarAPv#0" expanded="false" />
-            <element signature="n#!!block;n#guardardetalleproductocoti#0" expanded="false" />
-            <element signature="n#!!block;n#guardarcotizacion#0" expanded="false" />
-            <element signature="n#!!block;n#guardardetalleproducto#0" expanded="false" />
-            <element signature="n#!!block;n#descontarinventarios#0" expanded="false" />
-            <element signature="n#!!block;n#generarfactura#0" expanded="false" />
-            <element signature="n#!!block;n#generarfacturaCoti#0" expanded="false" />
-            <marker date="1493771968000" expanded="true" signature="36379:36416" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ventas/templates/ventasEdit.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="445">
@@ -1338,6 +1283,55 @@
         <state relative-caret-position="229">
           <caret line="528" column="51" selection-start-line="528" selection-start-column="51" selection-end-line="528" selection-end-column="51" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/ventasEdit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="821" column="29" selection-start-line="821" selection-start-column="29" selection-end-line="821" selection-end-column="29" />
+          <folding>
+            <element signature="n#!!block;n#checkIfSale#0" expanded="false" />
+            <element signature="n#!!block;n#loadSaleData#0" expanded="false" />
+            <element signature="n#!!block;n#getUrlParameter#0" expanded="false" />
+            <element signature="n#!!block;n#loadSaleProducts#0" expanded="false" />
+            <element signature="n#!!block;n#llenartablaProductosLoaded#0" expanded="false" />
+            <element signature="n#!!block;n#Imprimir#0" expanded="false" />
+            <element signature="n#!!block;n#checkEnableVenta#0" expanded="false" />
+            <element signature="n#!!block;n#blurElement#0" expanded="false" />
+            <element signature="n#!!block;n#getcliente#0" expanded="false" />
+            <element signature="n#!!block;n#vuelto#0" expanded="false" />
+            <element signature="n#!!block;n#BuscarCliente#0" expanded="false" />
+            <element signature="n#!!block;n#recalculartablaproductos#0" expanded="false" />
+            <element signature="n#!!block;n#getProducto#0" expanded="false" />
+            <element signature="n#!!block;n#getcanales#0" expanded="false" />
+            <element signature="n#!!block;n#llenartablacanales#0" expanded="false" />
+            <element signature="n#!!block;n#BuscarProducto#0" expanded="false" />
+            <element signature="n#!!block;n#llenarTablaBusqueda#0" expanded="false" />
+            <element signature="n#!!block;n#llenarTablaBusquedaCliente#0" expanded="false" />
+            <element signature="n#!!block;n#agregarcanalatabla#0" expanded="false" />
+            <element signature="n#!!block;n#llenartablaProductos#0" expanded="false" />
+            <element signature="n#!!block;n#determinprice#0" expanded="false" />
+            <element signature="n#!!block;n#serachmatrix#0" expanded="false" />
+            <element signature="n#!!block;n#Aplicardescuento#0" expanded="false" />
+            <element signature="n#!!block;n#ConfirmarDatos#0" expanded="false" />
+            <element signature="n#!!block;n#NoConfirmarDatos#0" expanded="false" />
+            <element signature="n#!!block;n#tiempoahora#0" expanded="false" />
+            <element signature="e#52121#53050#0" expanded="false" />
+            <element signature="e#53090#54342#0" expanded="false" />
+            <element signature="e#55445#56442#0" expanded="false" />
+            <element signature="e#56481#57478#0" expanded="false" />
+            <element signature="n#!!block;n#RegistarCotizacion#0" expanded="false" />
+            <element signature="n#!!block;n#trasladarAMovil#0" expanded="false" />
+            <element signature="n#!!block;n#trasladarAPv#0" expanded="false" />
+            <element signature="n#!!block;n#guardardetalleproductocoti#0" expanded="false" />
+            <element signature="n#!!block;n#guardarcotizacion#0" expanded="false" />
+            <element signature="n#!!block;n#guardardetalleproducto#0" expanded="false" />
+            <element signature="n#!!block;n#descontarinventarios#0" expanded="false" />
+            <element signature="n#!!block;n#generarfactura#0" expanded="false" />
+            <element signature="n#!!block;n#generarfacturaCoti#0" expanded="false" />
+            <marker date="1493774489000" expanded="true" signature="36377:36414" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
