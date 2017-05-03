@@ -33,7 +33,7 @@ from reportes.views import ReportesView
 from reprocesos.views import ReprocesoViewSet, ReprocesosView
 from variablesGlobales.views import VariableGlobalViewSet
 from ventas.views import VentasView, DetallePagoViewSet, DetalleProductosViewSet, VentaViewSet, CierreView, \
-    DevproformaView
+    DevproformaView, VentasEditView
 from lotes.views import LoteCreate, LoteViewSet, eliminarLoteView
 from frontend.views import LandingView, TrazabilidadView
 from rest_framework import routers
@@ -88,6 +88,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^trazabilidad/', TrazabilidadView.as_view()),
     url(r'^ventas/', VentasView.as_view()),
+    url(r'^editarventa/', VentasEditView.as_view()),
     url(r'^cierrediario/', CierreView.as_view()),
     url(r'^inventarios/', InventariosView.as_view()),
     url(r'^inventariosacero/', inventory_to_zero),

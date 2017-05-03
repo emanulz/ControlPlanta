@@ -13,7 +13,7 @@ class AbonosAdmin(admin.ModelAdmin):
 @admin.register(DetalleCuenta)
 class DetalleCuentaAdmin(admin.ModelAdmin):
     list_display = ('id','cliente','total')
-    search_fields = ('id','cliente','total')
+    search_fields = ('id','cliente__name','total')
     filter_horizontal = ('pending', 'abonos')
 
 @admin.register(NotaDeCredito)

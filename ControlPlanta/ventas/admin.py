@@ -5,12 +5,21 @@ from models import Venta, DetalleProductos, DetallesPago, TiposPago, Tipostarjet
 
 @admin.register(Venta)
 class ventaadmin(admin.ModelAdmin):
-    #list_display =('id','')
-    list_display = ('id','client','nombrecliente','total','date','cashier')
-    #list_display = ('id', 'ticketnum','client','nombrecliente','cashier','date','totolkilogramos','cantidadarticulos','subtotal','iv','descopor','desctocol','total','detalleproductos','datosdelpago')
-    # list_filter = ('name','identification')
+
+    def buttonEdit(self, obj):
+        return '<input id="%s" type="button" class="buttonEdit btn btn-info" value="Editar">' % obj.id
+
+    buttonEdit.short_description = 'Editar'
+    buttonEdit.allow_tags = True
+
+    list_display = ('id', 'buttonEdit', 'nombrecliente', 'total', 'date')
     search_fields = ('id','client__name','client__last_name','cashier__name','date' )
     filter_horizontal = ('detalleproductos',)
+
+    class Media:
+
+        js = ("../static/myAdmin/editarVenta.js",
+              )
 
 @admin.register(DetalleProductos)
 class DetalleProductosAdmin(admin.ModelAdmin):

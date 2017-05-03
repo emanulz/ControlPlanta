@@ -40,6 +40,9 @@ var saldoantcred=0;
 var saldoactcred=0;
 var variablePruebaGIT=0;
 
+var ventaAEditar = 0;
+var detallesPagoAnt = 0;
+
 var vencimiento;
 var tipo;
 
@@ -50,7 +53,6 @@ $(document).on('ready', main);
 
 function main () {
 //console.log($('#cajero').val());
-
 
         $.ajaxSetup({
 		beforeSend: function(xhr, settings) {
@@ -74,11 +76,15 @@ function main () {
             $('.ivpagar').html(totaliv.toFixed(2));
             $('.descuentopagar').html(descuento.toFixed(2));
             $('.totalpagar').html(totalventa.toFixed(2));
+            $("#pagacontipo").trigger('change');
             $('.precio').priceFormat({
+
             prefix: '₡ ',
             centsSeparator: ',',
             thousandsSeparator: '.'
             });
+
+
 
             $('.cd-panelpagar').addClass('is-visible');
             blurElement('.blurlines',2);
@@ -87,14 +93,7 @@ function main () {
             if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
                 $('.cd-panelpagar').removeClass('is-visible');
                 blurElement('.blurlines',0);
-                $("#pagacontipo").val(1);
-                $(".pagotarjeta").hide();
-                $(".credito").hide();
-                $(".pagoefectivo:hidden").show();
-                $("#montoefectivo").val(0);
-                vuelto();
-                $(".pagaconpagar").html('₡ 0,00');
-                $(".vueltopagar").html('₡ 0,00');
+
                 event.preventDefault();
             }
         });
@@ -444,16 +443,17 @@ function main () {
                     creditoaprobado=false;
                 }
                 else{
-                    $("#saldocred").val('₡'+saldos.responseJSON[0].total.toFixed(2));
+                    console.log(ventaAEditar);
+                    $("#saldocred").val('₡'+(saldos.responseJSON[0].total-ventaAEditar.total).toFixed(2));
 
-                    if((saldos.responseJSON[0].total+totalventa)>cliente2.responseJSON.credit_limit){
+                    if((saldos.responseJSON[0].total+totalventa-ventaAEditar.total)>cliente2.responseJSON.credit_limit){
                         $('.errorsaldoactual:hidden').show();
                         creditoaprobado=false;
                     }
                     else{
                         creditoaprobado=true;
-                        saldoantcred=saldos.responseJSON[0].total;
-                        saldoactcred=saldos.responseJSON[0].total+totalventa;
+                        saldoantcred=saldos.responseJSON[0].total-ventaAEditar.total;
+                        saldoactcred=saldos.responseJSON[0].total+totalventa-ventaAEditar.total;
                     }
                     if(cliente2.responseJSON.credit==false){
                         $('.errorsaldoactual').hide();
@@ -638,8 +638,235 @@ function main () {
 
         $("#BtnPrint").on("click",Imprimir);
 
+        checkIfSale();
 
     }//main
+
+function checkIfSale(){
+
+    var id =  getUrlParameter('id');
+    if(id){
+        loadSaleData(id);
+    }
+
+}
+
+function loadSaleData(id) {
+
+    $.get('/api/venta/'+id, function(data){
+
+    })
+    .then(function (data) {
+
+        console.log(data);
+        ventaAEditar = data;
+        showSaleData(data);
+
+
+    }).fail(function () {
+        alertify.alert('Error', 'La factura a editar no existe o hubo un error al cargarla, por favor seleccione una factura válida, o intente de nuevo.')
+    });
+
+}
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+function showSaleData(sale){
+
+    cliente = sale.client;
+    $('#cliente').val(sale.nombrecliente);
+    $('#vendedor').val(sale.vendedor);
+    $('#date').val(sale.date);
+
+    totalkg = sale.totolkilogramos;
+    $('.totalkg').html(totalkg+ ' Kg');
+
+    totalart = sale.cantidadarticulos;
+    $('.totalart').html(totalart);
+
+    subtotal = sale.subtotal;
+    $('.subtotal').html(subtotal.toFixed(2));
+
+    totaliv = sale.iv;
+     $('.totaliv').html(totaliv.toFixed(2));
+
+    descuentoporc = sale.descopor;
+     $('#descuento').val(descuentoporc);
+
+    descuento = sale.desctocol;
+     $('.descuento').html(descuento.toFixed(2));
+
+    totalventa = sale.total;
+    $('.totalventa').html(totalventa.toFixed(2));
+
+    $('#cnp_orders').val(sale.cpnval);
+
+    //por editar
+    // detallesventa = sale.detalleproductos;
+    //
+    // detallepago = sale.datosdelpago;
+
+     $('.precio').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+     });
+
+    loadSaleProducts(sale.detalleproductos);
+
+    var editableSale = checkEditable(sale);
+
+    if(!editableSale){
+
+        //$('#maincontent').find(':input').prop('disabled', true);
+
+    }
+
+}
+
+function loadSaleProducts(details){
+
+
+    details.forEach(function(detail){
+        $.get(' /api/detalleproducto/'+detail, function(data){
+
+        })
+        .then(function (detaildata) {
+
+            // GET DEL PRODUCTO
+            $.get(' /api/productos/'+detaildata.producto, function(data){
+
+            }).then(function(product){
+
+                 llenartablaProductosLoaded(detaildata, product);
+
+            }).fail(function () {
+            alertify.alert('Error', 'Error al cargar un producto de la factura, por favor refresque la página e ' +
+                                    'intente de nuevo.')
+            });
+
+        }).fail(function () {
+            alertify.alert('Error', 'Error al cargar un detalle de la factura, por favor refresque la página e' +
+                                    'intente de nuevo.')
+        });
+    });
+
+    //console.log(matrixventa);
+
+}
+
+function llenartablaProductosLoaded(data, product){
+
+    //   console.log(data);
+    //   console.log(product);
+
+    if (data.length!==0){
+
+        var product_code = product.product_code;
+        var impentabla = data.iv ? 'G':'E';
+
+        var ivr = data.iv ? data.total*(product.taxes_amount/100) : 0;
+        var pricer = data.iv ? data.total*(1+(product.taxes_amount/100)) : data.total;
+
+
+        $('#tablaproductos > tbody:last').append(
+            '<tr>' +
+            '<td>' + product_code + '</td>' +
+            '<td>' + data.description+ '</td>' +
+            '<td> <button  type="button" class=" btn btn-warning changepricerow" id="btnchangeprice"><span class="glyphicon glyphicon-euro"></span></button></td>' +
+            '<td class="precio">' +data.preciouni.toFixed(2) + '</td>' +
+            '<td class=cant'+product_code+'>' + data.cantidad + '</td>' +
+            '<td>'+impentabla+'</td>' +
+            '<td class="precio total'+product_code+'">' + data.total.toFixed(2) +'</td>'+'' +
+            '<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+
+        matrixventa.push([product_code, data.description, data.preciouni, data.cantidad, data.total, ivr, pricer,
+                          product.id, data.iv, 0, 0, 0, 0]);
+        //los tres ultimos son si es canal , el id y si se modifico precio
+
+
+        $("#BtnConfirmar").prop("disabled",false);
+
+        //formato de campos de precios
+        $('.precio').priceFormat({
+            prefix: '₡ ',
+            centsSeparator: ',',
+            thousandsSeparator: '.'
+        });
+
+        preciomodificado=0;
+        preciomodificadomonto=0;
+
+    }
+    else{
+         alertify.alert('Error de código','El código de producto no es válido!');
+    }
+}
+
+function checkEditable(sale){
+
+    var detallePago;
+    var getDataStatus = true;
+
+    console.log(sale);
+    $.get(' /api/detallepago/'+sale.datosdelpago, function(data){
+
+        }).then(function(payDetail){
+
+            detallePago = payDetail;
+            detallesPagoAnt = payDetail;
+            console.log(detallePago);
+            $('#pagacontipo').val(detallePago.tipopago).change();
+            $('#pagacontipo').prop('disabled',true)
+
+        }).fail(function () {
+        getDataStatus = false;
+            alertify.alert('Error', 'Error al cargar los detalles del pago, por favor refresque la página e ' +
+                                    'intente de nuevo.')
+    });
+
+    if(!getDataStatus){
+        return false;
+    }
+
+    if(detallePago.tipopago == 3 && sale.conabono){
+
+        alertify.alert('Error', 'La factura es de crédito y ya posee abonos, factura no editable.');
+        return false;
+    }
+
+    if(detallePago.tipopago == 3 && sale.connotacredito){
+
+        alertify.alert('Error', 'La factura es de crédito y ya posee notas de crédito, factura no editable.');
+        return false;
+    }
+
+    if(detallePago.tipopago != 3 && sale.date != today){
+
+        alertify.alert('Error', 'La factura es de contado pero de una fecha diferente de hoy, factura no editable.');
+        return false;
+    }
+
+    console.log(detallePago);
+
+    return true;
+
+}
+
+
 
 function Imprimir(){
 
@@ -820,7 +1047,7 @@ function recalculartablaproductos(){
         else{
 
             preciomodificado=matrixinterna[i][12];
-            console.log(matrixinterna[i][12]);
+            //console.log(matrixinterna[i][12]);
             preciomodificadomonto=matrixinterna[i][2];
 
             cantidad=matrixinterna[i][3];
@@ -988,7 +1215,7 @@ function llenartablaProductos(data){
 
 
         if(inarray==-1){//no existe en la tabla
-            if (existencia>=cantidad || data[0].ventaneg==true ){
+            if (true){
 
                 if(preciomodificado==0) {
                     var pricetouse = determinprice(data);
@@ -1028,11 +1255,18 @@ function llenartablaProductos(data){
 
 
 
-                $('#tablaproductos > tbody:last').append('<tr><td>' + data[0].product_code + '</td><td>' + data[0].description+ '</td><td> <button  type="button" class=" btn btn-warning changepricerow" id="btnchangeprice"><span class="glyphicon glyphicon-euro"></span></button></td><td class="precio">' +pricetouse.toFixed(2) + '</td><td class=cant'+data[0].product_code+'>' + cantidad + '</td>' +
-                '<td>'+impentabla+'</td><td class="precio total'+data[0].product_code+'">' + pricesubr.toFixed(2) +'</td>'+'<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
+                $('#tablaproductos > tbody:last').append(
+                    '<tr>' +
+                    '<td>' + data[0].product_code + '</td>' +
+                    '<td>' + data[0].description+ '</td>' +
+                    '<td> <button  type="button" class=" btn btn-warning changepricerow" id="btnchangeprice"><span class="glyphicon glyphicon-euro"></span></button></td>' +
+                    '<td class="precio">' +pricetouse.toFixed(2) + '</td>' +
+                    '<td class=cant'+data[0].product_code+'>' + cantidad + '</td>' +
+                    '<td>'+impentabla+'</td><td class="precio total'+data[0].product_code+'">' + pricesubr.toFixed(2) +'</td>'+'' +
+                    '<td> <button  type="button" class=" btn btn-danger removerow" id="btnelegir"><span class="glyphicon glyphicon-minus"></span></button></td></tr>');
 
                 matrixventa.push([data[0].product_code, data[0].description,pricetouse ,cantidad,pricesubr,ivr,pricer,data[0].id,usaimpuestos,0,0,0,preciomodificado]);//los tres ultimos son si es canal , el id y si se modifico precio
-
+                //console.log(matrixventa);
                 $('#cantidad').val(1);
                 totalkg2=parseFloat(totalkg);
                 //console.log(totalkg);
@@ -1056,32 +1290,14 @@ function llenartablaProductos(data){
                 preciomodificado=0;
                 preciomodificadomonto=0;
             }//if check inventario
-            else{
-                if(cliente==2){
-                 alertify.alert('Bajo Inventario','No hay suficiente cantidad en inventario, la existencia actual EN PUNTO DE VENTA es '+existencia+' Kg');
-                }
-                else{
-                 alertify.alert('Bajo Inventario','No hay suficiente cantidad en inventario, la existencia actual EN PLANTA es '+existencia+' Kg');
-                }
-            }//else check inventario no existe
+
 
         }//no existe en la tabla
 
         else{//ya existe en la tabla
             var descontar=cantidad+matrixventa[inarray][3];
-            //console.log(data);
-            if (existencia>=descontar || data[0].ventaneg==true ){
-                matrixventa[inarray][3]=descontar;
-                recalculartablaproductos();
-            }
-            else{
-                if(cliente==2){
-                 alertify.alert('Bajo Inventario','No hay suficiente cantidad en inventario, la existencia actual EN PUNTO DE VENTA es '+existencia+' Kg');
-                }
-                else{
-                 alertify.alert('Bajo Inventario','No hay suficiente cantidad en inventario, la existencia actual EN PLANTA es '+existencia+' Kg');
-                }
-            }//else check inventario ya existe
+            matrixventa[inarray][3]=descontar;
+            recalculartablaproductos();
         }//ya existe en la tabla
 
     }
@@ -1270,7 +1486,7 @@ function RegistarVenta(){
     guardardetallepago();
     guardardetalleproducto();
     guardarventa();
-    descontarinventarios();
+    //descontarinventarios();
     generarfactura();
     Imprimir();
     $('.cd-panelpagar').removeClass('is-visible');
@@ -1283,7 +1499,7 @@ function RegistarVenta(){
 
 function guardardetallepago(){
 
-if($("#pagacontipo").val()==1){
+    if($("#pagacontipo").val()==1){
     $.ajax({
           method: "POST",
           url: "/api/detallepago/",
@@ -1305,7 +1521,7 @@ if($("#pagacontipo").val()==1){
               dataType:"json"
             })
             .fail(function(data){
-            console.log(data.responseText);
+
             alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
             })
             .success(function(data){
@@ -1314,7 +1530,7 @@ if($("#pagacontipo").val()==1){
             });//ajax
     }//if
 
-if($("#pagacontipo").val()==2){
+    if($("#pagacontipo").val()==2){
     //console.log('TARJETA');
     if($("#4digits").val()==''||$("#authtarjeta").val()==''){
         alertify.alert('Error','Por Favor Complete los espacios en de los ultimos 4 digitos de la tarjeta y autorización.');
@@ -1341,7 +1557,7 @@ if($("#pagacontipo").val()==2){
                   dataType:"json"
                 })
                 .fail(function(data){
-                console.log(data.responseText);
+
                 alertify.alert("Hubo un problema al crear la venta, por favor intente de nuevo o contacte a Emanuel al # 83021964 " + data.responseText);
                 })
                 .success(function(data){
@@ -1882,17 +2098,11 @@ function guardarventa(){
     }
 
     $.ajax({
-            method: "POST",
-            url: "/api/venta/",
+            method: "PATCH",
+            url: "/api/venta/"+ventaAEditar.id,
             async: false,
 
             data: JSON.stringify({
-                "client": cliente,
-                "nombrecliente": $('#cliente').val(),
-                "cashier": usuario,
-                "vendedor": $('#vendedor').val(),
-                "date": $('#date').val(),
-                "time": tiempoahora(),
                 "totolkilogramos": totalkg,
                 "cantidadarticulos": totalart,
                 "subtotal": subtotal,
@@ -1922,16 +2132,16 @@ function guardarventa(){
 
 function patchcuentacobrar(){
     var detallecuenta = $.get('/api/saldocobrar/?cliente='+cliente,function(){});
-    var matrixpendign=detallecuenta.responseJSON[0].pending;
-    var saldonuevo=detallecuenta.responseJSON[0].total+totalventa;
-    matrixpendign.push(ventaid);
+
+    var saldonuevo=detallecuenta.responseJSON[0].total+totalventa-ventaAEditar.total;
+
      $.ajax({
       method: "PATCH",
       url: "/api/saldocobrar/"+detallecuenta.responseJSON[0].id+"/",
 
       data: JSON.stringify({
-        "total": saldonuevo,
-        "pending": matrixpendign
+        "total": saldonuevo
+
 
         }),//JSON object
           contentType:"application/json; charset=utf-8",
