@@ -36,7 +36,7 @@ class DetalleProductosAdmin(admin.ModelAdmin):
 @admin.register(DetallesPago)
 class DetallesPagoAdmin(admin.ModelAdmin):
     list_display = ('id','tipopago','montoefectivo','vuelto','tarjeta','digitos','autorizacion')
-    search_fields = ('id', 'tipopago','tarjeta','digitos','autorizacion')
+    search_fields = ('id',)
 
 @admin.register(TiposPago)
 class TiposPagoAdmin(admin.ModelAdmin):
