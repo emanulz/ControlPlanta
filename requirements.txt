@@ -1,4 +1,4 @@
-Django==1.8.6
+Django==2.2.24
 django-better-filter-widget==0.3
 django-dbbackup==2.0.5a0
 django-filter==0.10.0
